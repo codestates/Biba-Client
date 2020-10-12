@@ -1,6 +1,6 @@
 ---
 name: Task card
-about: Task card 생성 시 사용되는 templete 입니다
+about: Task card 생성 시 사용되는 template 입니다
 title: ''
 labels: ''
 assignees: ''
