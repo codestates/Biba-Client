@@ -1,5 +1,5 @@
 import { SET_SIGNIN } from '../actions';
-import { SetSignInAction } from '../actions';
+import { SetSigninAction } from '../actions';
 
 export interface User {
   userInfo: {
@@ -7,20 +7,22 @@ export interface User {
     username: string;
   };
   isLogin: boolean;
+  token: string;
 }
 
-export const init: User = {
+const init: User = {
   userInfo: {
     id: '',
     username: '',
   },
   isLogin: false,
+  token: '',
 };
 
-export const signinReducer = (state = init, action: SetSignInAction): User => {
+export const signinReducer = (state = init, action: SetSigninAction): User => {
   switch (action.type) {
     case SET_SIGNIN:
-      return { ...state, isLogin: action.boolean };
+      return { ...state, isLogin: action.state, token: action.token };
 
     default:
       return state;
