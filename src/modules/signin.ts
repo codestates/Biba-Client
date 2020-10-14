@@ -5,7 +5,7 @@ export interface User {
     id: string;
     username: string;
   };
-  isLogin: boolean;
+  isSignin: boolean;
   token: string;
 }
 
@@ -14,12 +14,13 @@ const init: User = {
     id: '',
     username: '',
   },
-  isLogin: false,
+  isSignin: false,
   token: '',
 };
 
 interface SetSigninAction {
   type: typeof SET_SIGNIN;
+  data: { id: string; username: string };
   state: boolean;
   token: string;
 }
@@ -27,15 +28,27 @@ interface SetSigninAction {
 export const signinReducer = (state = init, action: SetSigninAction): User => {
   switch (action.type) {
     case SET_SIGNIN:
-      return { ...state, isLogin: action.state, token: action.token };
+      return {
+        ...state,
+        userInfo: action.data,
+        isSignin: action.state,
+        token: action.token,
+      };
 
     default:
       return state;
   }
 };
 
-export const setSignin = (state: boolean, token: string): SetSigninAction => ({
+export const setSignin = (
+  data: { id: string; username: string },
+  state: boolean,
+  token: string,
+): SetSigninAction => ({
   type: SET_SIGNIN,
+  data,
   state,
   token,
 });
+
+export type SigninAction = ReturnType<typeof setSignin>;
