@@ -2,7 +2,7 @@
   "editor.formatOnSave": false,
   "[javascript]": {
     "editor.formatOnSave": true
-},
+  },
   "editor.codeActionsOnSave": {
   // For ESLint
     "source.fixAll.eslint": true
