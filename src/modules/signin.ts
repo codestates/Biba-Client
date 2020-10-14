@@ -1,5 +1,4 @@
-import { SET_SIGNIN } from '../actions';
-import { SetSigninAction } from '../actions';
+const SET_SIGNIN = 'SET_SIGNIN' as const;
 
 export interface User {
   userInfo: {
@@ -19,6 +18,12 @@ const init: User = {
   token: '',
 };
 
+interface SetSigninAction {
+  type: typeof SET_SIGNIN;
+  state: boolean;
+  token: string;
+}
+
 export const signinReducer = (state = init, action: SetSigninAction): User => {
   switch (action.type) {
     case SET_SIGNIN:
@@ -28,3 +33,9 @@ export const signinReducer = (state = init, action: SetSigninAction): User => {
       return state;
   }
 };
+
+export const setSignin = (state: boolean, token: string): SetSigninAction => ({
+  type: SET_SIGNIN,
+  state,
+  token,
+});
