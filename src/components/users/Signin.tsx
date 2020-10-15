@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
-import { UserState } from '../../modules/signin';
+import { UserState, SetSigninAction } from '../../modules/signin';
 
 import axios from 'axios';
 
-export const Signin = (props: any): JSX.Element => {
-  // 임시 any
+export interface Props {
+  userData: {
+    id: number;
+    username: string;
+  };
+  isSignin: boolean;
+  token: string;
+  setSignin: (
+    data: { id: number; username: string },
+    state: boolean,
+    token: string,
+  ) => SetSigninAction;
+}
+
+export const Signin = ({ setSignin }: Props): JSX.Element => {
   const [inputValues, setInputValues] = useState({
     email: '',
     password: '',
@@ -27,13 +40,10 @@ export const Signin = (props: any): JSX.Element => {
         if (res.status === 200) {
           const { id, username } = res.data.userData;
           const { token } = res.data;
-          props.setSignin({ id: id, username: username }, true, token);
+          setSignin({ id: id, username: username }, true, token);
         }
       })
       .catch(() => alert('입력한 정보를 다시 한번 확인해주세요.'));
-    // console.log(props);
-    // props.setSignin({ id: 1, username: 'test' }, true, 'test token');
-    // console.log(setSignin({ id: 1, username: 'test' }, true, 'test token'));
   };
 
   return (
@@ -51,7 +61,7 @@ export const Signin = (props: any): JSX.Element => {
           placeholder='이메일을 입력해주세요.'
         ></input>
         <input
-          type='text'
+          type='password'
           name='password'
           onChange={handleOnChange}
           placeholder='비밀번호를 입력해주세요.'

@@ -13,7 +13,7 @@ import { Home } from './components/page/Home';
 
 const store = configureStore();
 
-const App: React.FC = () => {
+const App = (): JSX.Element => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
