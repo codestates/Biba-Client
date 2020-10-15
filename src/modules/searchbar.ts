@@ -1,5 +1,4 @@
-import { SET_SEARCHBAR } from '../actions';
-import { SetSearchBar } from '../actions';
+const SET_SEARCHBAR = 'SET_SEARCHBAR' as const;
 
 export interface SearchBar {
   iconDisplay: boolean;
@@ -10,6 +9,12 @@ const init: SearchBar = {
   iconDisplay: true,
   barDisplay: false,
 };
+
+interface SetSearchBar {
+  type: typeof SET_SEARCHBAR;
+  iconState: boolean;
+  barState: boolean;
+}
 
 export const searchBarReducer = (
   state = init,
@@ -27,3 +32,14 @@ export const searchBarReducer = (
       return state;
   }
 };
+
+export const setSearchBar = (
+  iconState: boolean,
+  barState: boolean,
+): SetSearchBar => ({
+  type: SET_SEARCHBAR,
+  iconState,
+  barState,
+});
+
+export type SearchBarAction = ReturnType<typeof setSearchBar>;

@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import Search from '../containers/Search';
-
-import { RootState } from '../../reducers';
+import { RootState } from '../../modules';
 
 export const Nav: React.FC = (props) => {
   const dispatch = useDispatch();
