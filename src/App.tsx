@@ -2,20 +2,27 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import { Provider } from 'react-redux';
-import { store } from './Store';
-import { theme } from './styles/theme';
+import configureStore from './Store';
 import { ThemeProvider } from 'styled-components';
+import { theme } from './styles/theme';
 
-import Signin from './components/signin/Signin';
+import Signin from './containers/Signin';
+import { Signup } from './components/users/Signup';
+
 import { TodayBeerList } from './components/list/TodayBeerList';
+
+const store = configureStore();
 
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <Switch>
-          <Route path='/'>
+          <Route path='/signin'>
             <Signin />
+          </Route>
+          <Route path='/signup'>
+            <Signup />
           </Route>
           <Route path='/'>
             <TodayBeerList />
