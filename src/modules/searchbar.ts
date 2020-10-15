@@ -41,3 +41,5 @@ export const setSearchBar = (
   iconState,
   barState,
 });
+
+export type SearchBarAction = ReturnType<typeof setSearchBar>;
