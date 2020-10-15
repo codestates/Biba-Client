@@ -18,7 +18,7 @@ const init: UserState = {
   token: '',
 };
 
-export interface SetSigninAction {
+interface SetSigninAction {
   type: typeof SET_SIGNIN;
   data: { id: number; username: string };
   state: boolean;

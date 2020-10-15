@@ -1,23 +1,10 @@
 import React, { useState } from 'react';
-import { UserState, SetSigninAction } from '../../modules/signin';
+import { UserState } from '../../modules/signin';
+import { SigninProps } from '../../containers/Signin';
 
 import axios from 'axios';
 
-export interface Props {
-  userData: {
-    id: number;
-    username: string;
-  };
-  isSignin: boolean;
-  token: string;
-  setSignin: (
-    data: { id: number; username: string },
-    state: boolean,
-    token: string,
-  ) => SetSigninAction;
-}
-
-export const Signin = ({ setSignin }: Props): JSX.Element => {
+export const Signin = ({ setSignin }: SigninProps): JSX.Element => {
   const [inputValues, setInputValues] = useState({
     email: '',
     password: '',
