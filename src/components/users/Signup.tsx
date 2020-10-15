@@ -89,6 +89,11 @@ const SignupArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  border: 2px solid #545454;
+
+  width: 65em;
+  padding: 1em 0 2em 0;
 `;
 
 const Title = styled.div`

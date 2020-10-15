@@ -14,12 +14,12 @@ export const Nav = ({
   const syncBtns = (): void => {
     isSignin
       ? setSignin({ id: 0, username: '' }, false, '')
-      : setSignin({ id: 100, username: 'test' }, true, 'test token');
+      : setSignin({ id: 100, username: 'USER1' }, true, 'test token');
     isSignin ? setSearchBar(true, false) : setSearchBar(false, true);
   };
   return (
     <Container>
-      <NavBar className='navBar'>
+      <NavBar className='navBar' onClick={() => console.log('link to home')}>
         <Logo src='fakeLogo.jpg' alt='this is fake logo' />
         <SearchBarArea className='searchBarArea'>
           <div>
@@ -42,9 +42,11 @@ export const Nav = ({
           </div>
         </SearchBarArea>
         <BtnArea className='btnArea'>
-          <div>{`${userData.username}님이 로그인하셨습니다.`}</div>
+          <div>{`${
+            isSignin ? userData.username : `stranger`
+          }님이 로그인하셨습니다.`}</div>
           <div>
-            isSignin ?
+            &nbsp; test
             <Input
               type='checkbox'
               id='isSignin'
@@ -53,8 +55,8 @@ export const Nav = ({
               onChange={() => console.log('isSignin')}
             ></Input>
           </div>
-          <button>{isSignin ? `회원가입` : `마이페이지`}</button>
-          <button>{isSignin ? `로그아웃` : `로그인`}</button>
+          <NavBtn>{isSignin ? `회원가입` : `마이페이지`}</NavBtn>
+          <NavBtn>{isSignin ? `로그아웃` : `로그인`}</NavBtn>
         </BtnArea>
       </NavBar>
     </Container>
@@ -75,6 +77,7 @@ const NavBar = styled.div`
 
   width: 65em;
   margin: 2em;
+  padding: 0.3em;
 `;
 
 const Logo = styled.img`
@@ -103,6 +106,10 @@ const BtnArea = styled.div`
   width: 35vw;
   height: 3em;
   border: 1px solid black;
+`;
+
+const NavBtn = styled.button`
+  margin: 0 0.3em 0 0;
 `;
 
 const Input = styled.input`
