@@ -6,7 +6,8 @@ export const GlobalStyle = createGlobalStyle`
 
   html,
   body {
-    overflow: hidden;
+    margin: 0
+    padding: 0
   }
 
   * {

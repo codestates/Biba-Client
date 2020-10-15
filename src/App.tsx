@@ -9,7 +9,7 @@ import { theme } from './styles/theme';
 import Signin from './containers/Signin';
 import { Signup } from './components/users/Signup';
 
-import { TodayBeerList } from './components/list/TodayBeerList';
+import { Home } from './components/page/Home';
 
 const store = configureStore();
 
@@ -25,7 +25,7 @@ const App: React.FC = () => {
             <Signup />
           </Route>
           <Route path='/'>
-            <TodayBeerList />
+            <Home />
           </Route>
         </Switch>
       </Provider>
