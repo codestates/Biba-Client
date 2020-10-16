@@ -4,11 +4,12 @@ import { Dispatch } from 'redux';
 
 import { RootState } from '../modules';
 import { setSignin } from '../modules/signin';
+import { setSearchBar } from '../modules/searchbar';
 
-import { Signin } from '../components/users/Signin';
+import { Nav } from '../components/nav/Nav';
 
 const mapStateToProps = (state: RootState) => {
-  return { ...state.signin };
+  return { ...state.searchBar, ...state.signin };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -18,10 +19,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       state: boolean,
       token: string,
     ) => dispatch(setSignin(data, state, token)),
+    setSearchBar: (iconState: boolean, barState: boolean) =>
+      dispatch(setSearchBar(iconState, barState)),
   };
 };
 
-export type SigninProps = ReturnType<typeof mapStateToProps> &
+export type NavProps = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Signin));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav));
