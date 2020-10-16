@@ -10,7 +10,7 @@ import { SigninContainerWithRouter } from './containers/Signin';
 import { SignupContainerWithRouter } from './containers/Signup';
 import { NavContainerWithRouter } from './containers/Nav';
 
-import { Home } from './components/page/Home';
+import Home from './components/page/Home';
 
 const store = configureStore();
 
