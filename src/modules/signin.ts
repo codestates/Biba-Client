@@ -47,7 +47,7 @@ export const setSignin = (
   data: { id: number; username: string },
   state: boolean,
   token: string,
-): SetSigninAction | void => ({
+): SetSigninAction => ({
   type: SET_SIGNIN,
   data,
   state,

@@ -1,22 +1,18 @@
 import React from 'react';
-import { NavProps } from '../../containers/Nav';
-
 import styled from 'styled-components';
 
+import { NavProps } from '../../containers/Nav';
+
 export const Nav = ({
-  isSignin,
-  userData,
   setSignin,
+  setSearchBar,
+  userData,
+  isSignin,
+  token,
   iconDisplay,
   barDisplay,
-  setSearchBar,
+  syncBtns,
 }: NavProps): JSX.Element => {
-  const syncBtns = (): void => {
-    isSignin
-      ? setSignin({ id: 0, username: '' }, false, '')
-      : setSignin({ id: 100, username: 'USER1' }, true, 'test token');
-    isSignin ? setSearchBar(true, false) : setSearchBar(false, true);
-  };
   return (
     <Container>
       <NavBar className='navBar' onClick={() => console.log('link to home')}>
