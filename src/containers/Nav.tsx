@@ -6,9 +6,9 @@ import { RootState } from '../modules';
 import { Nav } from '../components/nav/Nav';
 
 export interface NavProps {
-  setSignin: (
+  setLogin: (
     userData: { id: number; username: string },
-    isSignin: boolean,
+    isLogin: boolean,
     token: string,
   ) => void;
   setSearchBar: (iconState: boolean, barState: boolean) => void;
@@ -17,15 +17,15 @@ export interface NavProps {
     username: string;
   };
   syncBtns(): void;
-  isSignin: boolean;
+  isLogin: boolean;
   token: string;
   iconDisplay: boolean;
   barDisplay: boolean;
 }
 
 export const NavContainer = (): JSX.Element => {
-  const { userData, isSignin, token } = useSelector(
-    (state: RootState) => state.signin,
+  const { userData, isLogin, token } = useSelector(
+    (state: RootState) => state.login,
   );
   const { iconDisplay, barDisplay } = useSelector(
     (state: RootState) => state.searchBar,
@@ -33,12 +33,12 @@ export const NavContainer = (): JSX.Element => {
 
   const dispatch = useDispatch();
 
-  const setSignin = (
+  const setLogin = (
     userData: { id: number; username: string },
-    isSignin: boolean,
+    isLogin: boolean,
     token: string,
   ): void => {
-    dispatch({ type: 'SET_SIGNIN', userData, isSignin, token });
+    dispatch({ type: 'SET_LOGIN', userData, isLogin, token });
   };
 
   const setSearchBar = (iconState: boolean, barState: boolean): void => {
@@ -46,18 +46,18 @@ export const NavContainer = (): JSX.Element => {
   };
 
   const syncBtns = (): void => {
-    isSignin
-      ? setSignin({ id: 0, username: '' }, false, '')
-      : setSignin({ id: 100, username: 'USER1' }, true, 'test token');
-    isSignin ? setSearchBar(true, false) : setSearchBar(false, true);
+    isLogin
+      ? setLogin({ id: 0, username: '' }, false, '')
+      : setLogin({ id: 100, username: 'USER1' }, true, 'test token');
+    isLogin ? setSearchBar(true, false) : setSearchBar(false, true);
   };
 
   return (
     <Nav
-      setSignin={setSignin}
+      setLogin={setLogin}
       setSearchBar={setSearchBar}
       userData={userData}
-      isSignin={isSignin}
+      isLogin={isLogin}
       token={token}
       iconDisplay={iconDisplay}
       barDisplay={barDisplay}

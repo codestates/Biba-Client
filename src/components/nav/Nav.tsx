@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { NavProps } from '../../containers/Nav';
 
 export const Nav = ({
-  setSignin,
+  setLogin,
   setSearchBar,
   userData,
-  isSignin,
+  isLogin,
   token,
   iconDisplay,
   barDisplay,
@@ -39,20 +39,20 @@ export const Nav = ({
         </SearchBarArea>
         <BtnArea className='btnArea'>
           <div>{`${
-            isSignin ? userData.username : `stranger`
+            isLogin ? userData.username : `stranger`
           }님이 로그인하셨습니다.`}</div>
           <div>
             &nbsp; test
             <Input
               type='checkbox'
-              id='isSignin'
-              checked={isSignin}
+              id='isLogin'
+              checked={isLogin}
               onClick={syncBtns}
-              onChange={() => console.log('isSignin')}
+              onChange={() => console.log('isLogin')}
             ></Input>
           </div>
-          <NavBtn>{isSignin ? `회원가입` : `마이페이지`}</NavBtn>
-          <NavBtn>{isSignin ? `로그아웃` : `로그인`}</NavBtn>
+          <NavBtn>{isLogin ? `회원가입` : `마이페이지`}</NavBtn>
+          <NavBtn>{isLogin ? `로그아웃` : `로그인`}</NavBtn>
         </BtnArea>
       </NavBar>
     </Container>

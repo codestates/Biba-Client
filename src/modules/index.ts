@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { signinReducer } from './signin';
+import { loginReducer } from './login';
 import { searchBarReducer } from './searchbar';
 import { getBeerReducer } from './getbeer';
 
 export const rootReducer = combineReducers({
-  signin: signinReducer,
+  login: loginReducer,
   searchBar: searchBarReducer,
   getBeer: getBeerReducer,
 });
