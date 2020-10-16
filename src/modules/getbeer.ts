@@ -1,6 +1,3 @@
-import Axios from 'axios';
-import { Dispatch } from 'redux';
-
 export const BEER_LOADING = 'BEER_LOADING';
 export const BEER_FAIL = 'BEER_FAIL';
 export const BEER_SUCCESS = 'BEER_SUCCESS';
@@ -39,14 +36,13 @@ const defaultState: DefaultStateI = {
   beers: [],
 };
 
-export const getBeerAction = async (dispatch: Dispatch<BeerDispatchTypes>) => {
-  try {
-    dispatch({ type: BEER_LOADING });
-    const res = await Axios.get('https://biba.com/beer/list-all');
-    dispatch({ type: BEER_SUCCESS, payload: res.data });
-  } catch (e) {
-    dispatch({ type: BEER_FAIL });
-  }
+export const getBeerAction = (beers: BeerT[]): BeerSuccess => {
+  return {
+    type: BEER_SUCCESS,
+    payload: {
+      beers: beers,
+    },
+  };
 };
 
 export const getBeerReducer = (
@@ -71,4 +67,3 @@ export const getBeerReducer = (
       return state;
   }
 };
-//axios.post<interface>(url)

@@ -1,13 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const Beer: React.FC = () => {
+export interface BeerProps {
+  key: number;
+  name: string;
+  image: string;
+  rate: number;
+}
+
+function Beer({ name, image, rate }: BeerProps): JSX.Element {
   return (
     <BeerImage>
-      <Text>Beer</Text>
+      <Text>{name}</Text>
+      <Text>{image}</Text>
+      <Text>{rate}</Text>
     </BeerImage>
   );
-};
+}
 
 const BeerImage = styled.div`
   height: 30vh;
@@ -22,3 +31,5 @@ const Text = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
+
+export default Beer;

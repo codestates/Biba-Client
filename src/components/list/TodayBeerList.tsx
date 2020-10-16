@@ -1,22 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Beer } from './Beer';
+import Beer from './Beer';
 import { BeerT } from '../../modules/getbeer';
 
 interface Props {
   beers: BeerT[];
-  getBeer: () => void;
 }
 
 function TodayBeerList({ beers }: Props): JSX.Element {
   const todayBeerList = beers.map((beer) => (
     <Beer
       key={beer.id}
-      // isloading={isloading}
-      // name={beer.beer_name}
-      // image={beer.beer_img}
-      // rate={beer.rate}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
     />
   ));
   return <BeerList>{todayBeerList}</BeerList>;
