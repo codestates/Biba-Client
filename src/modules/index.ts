@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { loginReducer } from './login';
+import { loginReducer } from './user';
 import { searchBarReducer } from './searchbar';
 import { getBeerReducer } from './getbeer';
 

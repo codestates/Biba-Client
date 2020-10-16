@@ -12,11 +12,19 @@ export const Nav = ({
   iconDisplay,
   barDisplay,
   syncBtns,
+  handleClickLogo,
 }: NavProps): JSX.Element => {
   return (
     <Container>
-      <NavBar className='navBar' onClick={() => console.log('link to home')}>
-        <Logo src='fakeLogo.jpg' alt='this is fake logo' />
+      <NavBar className='navBar'>
+        <Logo
+          src='fakeLogo.jpg'
+          alt='this is fake logo'
+          onClick={() => {
+            console.log('link to /');
+            return handleClickLogo();
+          }}
+        />
         <SearchBarArea className='searchBarArea'>
           <div>
             iconDisplay

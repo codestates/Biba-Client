@@ -1,4 +1,5 @@
 import React from 'react';
+import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -21,16 +22,16 @@ export interface NavProps {
   token: string;
   iconDisplay: boolean;
   barDisplay: boolean;
+  handleClickLogo(): void;
 }
 
-export const NavContainer = (): JSX.Element => {
+export const NavContainer = (props: RouterProps): JSX.Element => {
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
   const { iconDisplay, barDisplay } = useSelector(
     (state: RootState) => state.searchBar,
   );
-
   const dispatch = useDispatch();
 
   const setLogin = (
@@ -40,9 +41,12 @@ export const NavContainer = (): JSX.Element => {
   ): void => {
     dispatch({ type: 'SET_LOGIN', userData, isLogin, token });
   };
-
   const setSearchBar = (iconState: boolean, barState: boolean): void => {
     dispatch({ type: 'SET_SEARCHBAR', iconState, barState });
+  };
+
+  const handleClickLogo = (): void => {
+    props.history.push('/');
   };
 
   const syncBtns = (): void => {
@@ -62,6 +66,7 @@ export const NavContainer = (): JSX.Element => {
       iconDisplay={iconDisplay}
       barDisplay={barDisplay}
       syncBtns={syncBtns}
+      handleClickLogo={handleClickLogo}
     />
   );
 };

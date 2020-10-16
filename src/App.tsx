@@ -18,7 +18,11 @@ const App = (): JSX.Element => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <Route path='/' component={NavContainerWithRouter} />
+        <Route
+          path={['/login', '/signup']}
+          component={NavContainerWithRouter}
+        />
+        <Route exact path='/' component={NavContainerWithRouter} />
         <Switch>
           <Route path='/login' component={LoginContainerWithRouter} />
           <Route path='/signup' component={SignupContainerWithRouter} />

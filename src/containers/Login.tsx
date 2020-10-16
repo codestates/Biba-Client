@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { Login } from '../components/users/Login';
-import { UserState } from '../modules/login';
+import { UserState } from '../modules/user';
 
 export interface LoginProps {
   setLogin: (
