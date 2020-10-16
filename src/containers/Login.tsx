@@ -23,7 +23,7 @@ const LoginContainer = (): JSX.Element => {
     isLogin: boolean,
     token: string,
   ) => {
-    dispatch(setLogin(userData, isLogin, token));
+    dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
   };
 
   const [inputValues, setInputValues] = useState({

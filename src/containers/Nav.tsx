@@ -39,10 +39,10 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     isLogin: boolean,
     token: string,
   ): void => {
-    dispatch({ type: 'SET_LOGIN', userData, isLogin, token });
+    dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
   };
-  const setSearchBar = (iconState: boolean, barState: boolean): void => {
-    dispatch({ type: 'SET_SEARCHBAR', iconState, barState });
+  const setSearchBar = (iconDisplay: boolean, barDisplay: boolean): void => {
+    dispatch({ type: 'SET_SEARCHBAR', iconDisplay, barDisplay });
   };
 
   const handleClickLogo = (): void => {
