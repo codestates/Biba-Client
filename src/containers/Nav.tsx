@@ -1,30 +1,69 @@
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Dispatch } from 'redux';
 
 import { RootState } from '../modules';
-import { setSignin } from '../modules/signin';
-import { setSearchBar } from '../modules/searchbar';
-
 import { Nav } from '../components/nav/Nav';
 
-const mapStateToProps = (state: RootState) => {
-  return { ...state.searchBar, ...state.signin };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    setSignin: (
-      data: { id: number; username: string },
-      state: boolean,
-      token: string,
-    ) => dispatch(setSignin(data, state, token)),
-    setSearchBar: (iconState: boolean, barState: boolean) =>
-      dispatch(setSearchBar(iconState, barState)),
+export interface NavProps {
+  setSignin: (
+    userData: { id: number; username: string },
+    isSignin: boolean,
+    token: string,
+  ) => void;
+  setSearchBar: (iconState: boolean, barState: boolean) => void;
+  userData: {
+    id: number;
+    username: string;
   };
+  syncBtns(): void;
+  isSignin: boolean;
+  token: string;
+  iconDisplay: boolean;
+  barDisplay: boolean;
+}
+
+export const NavContainer = (): JSX.Element => {
+  const { userData, isSignin, token } = useSelector(
+    (state: RootState) => state.signin,
+  );
+  const { iconDisplay, barDisplay } = useSelector(
+    (state: RootState) => state.searchBar,
+  );
+
+  const dispatch = useDispatch();
+
+  const setSignin = (
+    userData: { id: number; username: string },
+    isSignin: boolean,
+    token: string,
+  ): void => {
+    dispatch({ type: 'SET_SIGNIN', userData, isSignin, token });
+  };
+
+  const setSearchBar = (iconState: boolean, barState: boolean): void => {
+    dispatch({ type: 'SET_SEARCHBAR', iconState, barState });
+  };
+
+  const syncBtns = (): void => {
+    isSignin
+      ? setSignin({ id: 0, username: '' }, false, '')
+      : setSignin({ id: 100, username: 'USER1' }, true, 'test token');
+    isSignin ? setSearchBar(true, false) : setSearchBar(false, true);
+  };
+
+  return (
+    <Nav
+      setSignin={setSignin}
+      setSearchBar={setSearchBar}
+      userData={userData}
+      isSignin={isSignin}
+      token={token}
+      iconDisplay={iconDisplay}
+      barDisplay={barDisplay}
+      syncBtns={syncBtns}
+    />
+  );
 };
 
-export type NavProps = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav));
+export const NavContainerWithRouter = withRouter(NavContainer); // nav도 router 필요한지 체크 필요

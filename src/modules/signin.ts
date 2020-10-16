@@ -18,10 +18,10 @@ const init: UserState = {
   token: '',
 };
 
-interface SetSigninAction {
+export interface SetSigninAction {
   type: typeof SET_SIGNIN;
-  data: { id: number; username: string };
-  state: boolean;
+  userData: { id: number; username: string };
+  isSignin: boolean;
   token: string;
 }
 
@@ -33,8 +33,8 @@ export const signinReducer = (
     case SET_SIGNIN:
       return {
         ...state,
-        userData: action.data,
-        isSignin: action.state,
+        userData: action.userData,
+        isSignin: action.isSignin,
         token: action.token,
       };
 
@@ -44,13 +44,13 @@ export const signinReducer = (
 };
 
 export const setSignin = (
-  data: { id: number; username: string },
-  state: boolean,
+  userData: { id: number; username: string },
+  isSignin: boolean,
   token: string,
 ): SetSigninAction => ({
   type: SET_SIGNIN,
-  data,
-  state,
+  userData,
+  isSignin,
   token,
 });
 

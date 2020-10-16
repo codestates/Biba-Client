@@ -1,11 +1,11 @@
 const SET_SEARCHBAR = 'SET_SEARCHBAR' as const;
 
-export interface SearchBar {
+export interface SearchBarState {
   iconDisplay: boolean;
   barDisplay: boolean;
 }
 
-const init: SearchBar = {
+const init: SearchBarState = {
   iconDisplay: true,
   barDisplay: false,
 };
@@ -19,7 +19,7 @@ interface SetSearchBar {
 export const searchBarReducer = (
   state = init,
   action: SetSearchBar,
-): SearchBar => {
+): SearchBarState => {
   switch (action.type) {
     case SET_SEARCHBAR:
       return {
