@@ -1,12 +1,8 @@
-import React, { useEffect } from 'react';
-import Axios from 'axios';
-import { TodayBeerList } from '../list/TodayBeerList';
+import React from 'react';
+import TodayBeerListContainer from '../../containers/TodayBeerListContainer';
 
-//get beer list from server
-// useEffect(() => {
-//   Axios.get('').then((res) => console.log(res));
-// }, []);
+function Home(): JSX.Element {
+  return <TodayBeerListContainer />;
+}
 
-export const Home: React.FC = () => {
-  return <TodayBeerList />;
-};
+export default Home;

@@ -10,7 +10,7 @@ import Signin from './containers/Signin';
 import Nav from './containers/Nav';
 import { Signup } from './components/users/Signup';
 
-import { Home } from './components/page/Home';
+import Home from './components/page/Home';
 
 const store = configureStore();
 
