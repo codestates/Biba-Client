@@ -18,7 +18,7 @@ const init: UserState = {
   token: '',
 };
 
-interface SetSigninAction {
+export interface SetSigninAction {
   type: typeof SET_SIGNIN;
   data: { id: number; username: string };
   state: boolean;
@@ -47,7 +47,7 @@ export const setSignin = (
   data: { id: number; username: string },
   state: boolean,
   token: string,
-): SetSigninAction => ({
+): SetSigninAction | void => ({
   type: SET_SIGNIN,
   data,
   state,

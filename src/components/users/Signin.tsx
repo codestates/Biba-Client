@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { UserState } from '../../modules/signin';
-import { SigninProps } from '../../containers/Signin';
-
 import axios from 'axios';
+
+import { setSignin, UserState } from '../../modules/signin';
+
+interface SigninProps {
+  setSignin: (
+    userData: { id: number; username: string },
+    isSignin: boolean,
+    token: string,
+  ) => ReturnType<typeof setSignin>;
+}
 
 export const Signin = ({ setSignin }: SigninProps): JSX.Element => {
   const [inputValues, setInputValues] = useState({

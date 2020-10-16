@@ -6,7 +6,7 @@ import configureStore from './Store';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 
-import Signin from './containers/Signin';
+import { SigninContainer } from './containers/Signin';
 import Nav from './containers/Nav';
 import { Signup } from './components/users/Signup';
 
@@ -20,7 +20,7 @@ const App = (): JSX.Element => {
       <Provider store={store}>
         <Route path='/' component={Nav} />
         <Switch>
-          <Route path='/signin' component={Signin} />
+          <Route path='/signin' component={SigninContainer} />
           <Route path='/signup' component={Signup} />
           <Route exact path='/' component={Home} />
         </Switch>

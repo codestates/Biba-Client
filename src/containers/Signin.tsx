@@ -1,27 +1,18 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { Dispatch } from 'redux';
-
-import { RootState } from '../modules';
-import { setSignin } from '../modules/signin';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Signin } from '../components/users/Signin';
 
-const mapStateToProps = (state: RootState) => {
-  return { ...state.signin };
-};
+export const SigninContainer = (): JSX.Element => {
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    setSignin: (
-      data: { id: number; username: string },
-      state: boolean,
-      token: string,
-    ) => dispatch(setSignin(data, state, token)),
+  const setSignin = (
+    userData: { id: number; username: string },
+    isSignin: boolean,
+    token: string,
+  ) => {
+    dispatch(setSignin(userData, isSignin, token));
   };
+
+  return <Signin setSignin={setSignin} />;
 };
-
-export type SigninProps = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Signin));
