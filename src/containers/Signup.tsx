@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import { Signup } from '../components/users/Signup';
-import { checkInput } from '../components/users/utils';
+import { Signup } from '../components/user/Signup';
+import { checkInput } from '../components/user/utils';
 
 export interface SignupProps {
   mapInputList(): JSX.Element[];

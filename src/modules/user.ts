@@ -1,14 +1,18 @@
 const SET_LOGINSTATE = 'SET_LOGINSTATE' as const;
-const SET_LOGOUT = 'SET_LOGOUT' as const;
+const SET_LOGOUTSTATE = 'SET_LOGOUTSTATE' as const;
 const SET_PROFILE = 'SET_PROFILE' as const;
-const CHANGE_USERNAME = 'CHANGE_USERNAME' as const;
-const CHANGE_PASSWORD = 'CHANGE_PASSWORD' as const;
 const CHANGE_PROFILE = 'CHANGE_PROFILE' as const;
 const DELETE_PROFILE = 'DELETE_PROFILE' as const;
+const CHANGE_USERNAME = 'CHANGE_USERNAME' as const;
+const CHANGE_PASSWORD = 'CHANGE_PASSWORD' as const;
 
 interface User {
   id: number;
   username: string;
+}
+
+export interface UserProfile {
+  profile: string;
 }
 
 export interface UserState {
@@ -18,10 +22,6 @@ export interface UserState {
   token: string;
 }
 
-export interface UserProfile {
-  profile: string;
-}
-
 export interface UserDetail extends User, UserProfile {
   // mypage에 뿌려지는 정보 전체, 로그인 시 dispatch 여부 결정
   email: string;
@@ -29,7 +29,7 @@ export interface UserDetail extends User, UserProfile {
 
 // 이하로 action interface + init + action
 export interface StateAction extends UserState {
-  type: typeof SET_LOGINSTATE;
+  type: typeof SET_LOGINSTATE | typeof SET_LOGOUTSTATE;
 }
 const loginInit: UserState = {
   userData: {
@@ -45,6 +45,16 @@ export const setLogin = (
   token: string,
 ): StateAction => ({
   type: SET_LOGINSTATE,
+  userData,
+  isLogin,
+  token,
+});
+export const setLogout = (
+  userData: { id: number; username: string },
+  isLogin: boolean,
+  token: string,
+): StateAction => ({
+  type: SET_LOGOUTSTATE,
   userData,
   isLogin,
   token,
@@ -66,6 +76,7 @@ export const changeProfile = (profile: string): ProfileAction => ({
   profile,
 });
 export const deleteProfile = (profile: string): ProfileAction => ({
+  // profile === default로 변환(삭제)
   type: DELETE_PROFILE,
   profile,
 });
@@ -82,6 +93,12 @@ export const loginReducer = (
         userData: action.userData,
         isLogin: action.isLogin,
         token: action.token,
+      };
+
+    case SET_LOGOUTSTATE:
+      return {
+        ...state,
+        ...loginInit,
       };
 
     default:
@@ -104,6 +121,11 @@ export const profileReducer = (
       return {
         ...state,
         profile: action.profile,
+      };
+
+    case DELETE_PROFILE:
+      return {
+        ...state,
       };
 
     default:

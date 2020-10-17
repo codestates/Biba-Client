@@ -4,15 +4,16 @@ import styled from 'styled-components';
 import { NavProps } from '../../containers/Nav';
 
 export const Nav = ({
-  setLogin,
-  setSearchBar,
   userData,
   isLogin,
   token,
   iconDisplay,
   barDisplay,
-  syncBtns,
   handleClickLogo,
+  handleClickLogin,
+  handleClickLogout,
+  handleClickSignup,
+  handleClickMypage,
 }: NavProps): JSX.Element => {
   return (
     <Container>
@@ -46,21 +47,26 @@ export const Nav = ({
           </div>
         </SearchBarArea>
         <BtnArea className='btnArea'>
-          <div>{`${
-            isLogin ? userData.username : `stranger`
-          }님이 로그인하셨습니다.`}</div>
           <div>
-            &nbsp; test
-            <Input
-              type='checkbox'
-              id='isLogin'
-              checked={isLogin}
-              onClick={syncBtns}
-              onChange={() => console.log('isLogin')}
-            ></Input>
+            {isLogin
+              ? `${userData.username}님이 로그인하셨습니다.`
+              : `로그인해주세요.`}
+            &nbsp; &nbsp;
           </div>
-          <NavBtn>{isLogin ? `회원가입` : `마이페이지`}</NavBtn>
-          <NavBtn>{isLogin ? `로그아웃` : `로그인`}</NavBtn>
+          <NavBtn
+            onClick={() => {
+              isLogin ? handleClickMypage() : handleClickSignup();
+            }}
+          >
+            {isLogin ? `마이페이지` : `회원가입`}
+          </NavBtn>
+          <NavBtn
+            onClick={() => {
+              isLogin ? handleClickLogout() : handleClickLogin();
+            }}
+          >
+            {isLogin ? `로그아웃` : `로그인`}
+          </NavBtn>
         </BtnArea>
       </NavBar>
     </Container>

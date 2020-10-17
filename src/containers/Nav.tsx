@@ -7,22 +7,19 @@ import { RootState } from '../modules';
 import { Nav } from '../components/nav/Nav';
 
 export interface NavProps {
-  setLogin: (
-    userData: { id: number; username: string },
-    isLogin: boolean,
-    token: string,
-  ) => void;
-  setSearchBar: (iconState: boolean, barState: boolean) => void;
   userData: {
     id: number;
     username: string;
   };
-  syncBtns(): void;
   isLogin: boolean;
   token: string;
   iconDisplay: boolean;
   barDisplay: boolean;
   handleClickLogo(): void;
+  handleClickLogin(): void;
+  handleClickLogout(): void;
+  handleClickSignup(): void;
+  handleClickMypage(): void;
 }
 
 export const NavContainer = (props: RouterProps): JSX.Element => {
@@ -34,39 +31,34 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   );
   const dispatch = useDispatch();
 
-  const setLogin = (
-    userData: { id: number; username: string },
-    isLogin: boolean,
-    token: string,
-  ): void => {
-    dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
-  };
-  const setSearchBar = (iconDisplay: boolean, barDisplay: boolean): void => {
-    dispatch({ type: 'SET_SEARCHBAR', iconDisplay, barDisplay });
-  };
-
   const handleClickLogo = (): void => {
     props.history.push('/');
   };
-
-  const syncBtns = (): void => {
-    isLogin
-      ? setLogin({ id: 0, username: '' }, false, '')
-      : setLogin({ id: 100, username: 'USER1' }, true, 'test token');
-    isLogin ? setSearchBar(true, false) : setSearchBar(false, true);
+  const handleClickLogin = (): void => {
+    props.history.push('/login');
+  };
+  const handleClickLogout = (): void => {
+    console.log('logout');
+  };
+  const handleClickSignup = (): void => {
+    props.history.push('/signup');
+  };
+  const handleClickMypage = (): void => {
+    props.history.push('/mypage');
   };
 
   return (
     <Nav
-      setLogin={setLogin}
-      setSearchBar={setSearchBar}
       userData={userData}
       isLogin={isLogin}
       token={token}
       iconDisplay={iconDisplay}
       barDisplay={barDisplay}
-      syncBtns={syncBtns}
       handleClickLogo={handleClickLogo}
+      handleClickLogin={handleClickLogin}
+      handleClickLogout={handleClickLogout}
+      handleClickSignup={handleClickSignup}
+      handleClickMypage={handleClickMypage}
     />
   );
 };
