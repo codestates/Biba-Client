@@ -6,9 +6,10 @@ const DELETE_PROFILE = 'DELETE_PROFILE' as const;
 const CHANGE_USERNAME = 'CHANGE_USERNAME' as const;
 const CHANGE_PASSWORD = 'CHANGE_PASSWORD' as const;
 
-interface User {
+export interface User {
   id: number;
   username: string;
+  email: string;
 }
 
 export interface UserProfile {
@@ -22,38 +23,34 @@ export interface UserState {
   token: string;
 }
 
-export interface UserDetail extends User, UserProfile {
-  // mypage에 뿌려지는 정보 전체, 로그인 시 dispatch 여부 결정
-  email: string;
-}
-
 // 이하로 action interface + init + action
-export interface StateAction extends UserState {
+export interface UserStateAction extends UserState {
   type: typeof SET_LOGINSTATE | typeof SET_LOGOUTSTATE;
 }
 const loginInit: UserState = {
   userData: {
     id: 0,
     username: '',
+    email: '',
   },
   isLogin: false,
   token: '',
 };
 export const setLogin = (
-  userData: { id: number; username: string },
+  userData: User,
   isLogin: boolean,
   token: string,
-): StateAction => ({
+): UserStateAction => ({
   type: SET_LOGINSTATE,
   userData,
   isLogin,
   token,
 });
 export const setLogout = (
-  userData: { id: number; username: string },
+  userData: User,
   isLogin: boolean,
   token: string,
-): StateAction => ({
+): UserStateAction => ({
   type: SET_LOGOUTSTATE,
   userData,
   isLogin,
@@ -64,7 +61,7 @@ export interface ProfileAction extends UserProfile {
   type: typeof SET_PROFILE | typeof CHANGE_PROFILE | typeof DELETE_PROFILE;
 }
 const profileInit: UserProfile = {
-  profile: 'no profile',
+  profile: 'empty',
 };
 export const setProfile = (profile: string): ProfileAction => ({
   // login 했을 때 프로필 사진 받아서 저장하기
@@ -84,7 +81,7 @@ export const deleteProfile = (profile: string): ProfileAction => ({
 // ============ 이하로 reducers
 export const loginReducer = (
   state = loginInit,
-  action: StateAction,
+  action: UserStateAction,
 ): UserState => {
   switch (action.type) {
     case SET_LOGINSTATE:
@@ -126,6 +123,7 @@ export const profileReducer = (
     case DELETE_PROFILE:
       return {
         ...state,
+        profile: 'empty',
       };
 
     default:

@@ -15,6 +15,7 @@ export interface NavProps {
   token: string;
   iconDisplay: boolean;
   barDisplay: boolean;
+  logout(): void;
   handleClickLogo(): void;
   handleClickLogin(): void;
   handleClickLogout(): void;
@@ -30,6 +31,21 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     (state: RootState) => state.searchBar,
   );
   const dispatch = useDispatch();
+  const setLogout = () => {
+    dispatch({ type: 'SET_LOGOUTSTATE' });
+  };
+  const setProfile = () => {
+    dispatch({ type: 'DELETE_PROFILE' });
+  };
+  const setSearchBar = (iconDisplay: boolean, barDisplay: boolean): void => {
+    dispatch({ type: 'SET_SEARCHBAR', iconDisplay, barDisplay });
+  };
+
+  const logout = () => {
+    setSearchBar(true, false);
+    setLogout();
+    setProfile();
+  };
 
   const handleClickLogo = (): void => {
     props.history.push('/');
@@ -54,6 +70,7 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       token={token}
       iconDisplay={iconDisplay}
       barDisplay={barDisplay}
+      logout={logout}
       handleClickLogo={handleClickLogo}
       handleClickLogin={handleClickLogin}
       handleClickLogout={handleClickLogout}

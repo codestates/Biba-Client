@@ -6,9 +6,9 @@ import { NavProps } from '../../containers/nav/Nav';
 export const Nav = ({
   userData,
   isLogin,
-  token,
   iconDisplay,
   barDisplay,
+  logout,
   handleClickLogo,
   handleClickLogin,
   handleClickLogout,
@@ -62,7 +62,7 @@ export const Nav = ({
           </NavBtn>
           <NavBtn
             onClick={() => {
-              isLogin ? handleClickLogout() : handleClickLogin();
+              isLogin ? logout() : handleClickLogin();
             }}
           >
             {isLogin ? `로그아웃` : `로그인`}

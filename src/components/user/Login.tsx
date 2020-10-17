@@ -3,12 +3,7 @@ import styled from 'styled-components';
 
 import { LoginProps } from '../../containers/user/Login';
 
-export const Login = ({
-  props,
-  setSearchBar,
-  handleOnChange,
-  handleLogin,
-}: LoginProps): JSX.Element => {
+export const Login = ({ handleOnChange, login }: LoginProps): JSX.Element => {
   return (
     <Container>
       <LoginArea className='loginArea'>
@@ -30,14 +25,7 @@ export const Login = ({
             onChange={handleOnChange}
             placeholder='비밀번호를 입력해주세요.'
           ></Input>
-          <LoginBtn
-            className='loginBtn'
-            onClick={() => {
-              setSearchBar(false, true);
-              handleLogin();
-              props.history.push('/');
-            }}
-          >
+          <LoginBtn className='loginBtn' onClick={login}>
             로그인
           </LoginBtn>
         </InputArea>
