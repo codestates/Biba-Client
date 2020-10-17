@@ -4,6 +4,7 @@ const SET_PROFILE = 'SET_PROFILE' as const;
 const CHANGE_USERNAME = 'CHANGE_USERNAME' as const;
 const CHANGE_PASSWORD = 'CHANGE_PASSWORD' as const;
 const CHANGE_PROFILE = 'CHANGE_PROFILE' as const;
+const DELETE_PROFILE = 'DELETE_PROFILE' as const;
 
 interface User {
   id: number;
@@ -50,17 +51,22 @@ export const setLogin = (
 });
 
 export interface ProfileAction extends UserProfile {
-  type: typeof SET_PROFILE | typeof CHANGE_PROFILE;
+  type: typeof SET_PROFILE | typeof CHANGE_PROFILE | typeof DELETE_PROFILE;
 }
 const profileInit: UserProfile = {
-  profile: 'profile image test string',
+  profile: 'no profile',
 };
 export const setProfile = (profile: string): ProfileAction => ({
+  // login 했을 때 프로필 사진 받아서 저장하기
   type: SET_PROFILE,
   profile,
 });
 export const changeProfile = (profile: string): ProfileAction => ({
   type: CHANGE_PROFILE,
+  profile,
+});
+export const deleteProfile = (profile: string): ProfileAction => ({
+  type: DELETE_PROFILE,
   profile,
 });
 
