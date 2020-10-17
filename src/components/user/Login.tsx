@@ -5,7 +5,7 @@ import { LoginProps } from '../../containers/user/Login';
 
 export const Login = ({
   handleOnChange,
-  login,
+  handleLogin,
   pressEnter,
 }: LoginProps): JSX.Element => {
   return (
@@ -31,7 +31,7 @@ export const Login = ({
             onKeyPress={pressEnter}
             placeholder='비밀번호를 입력해주세요.'
           ></Input>
-          <LoginBtn className='loginBtn' onClick={login}>
+          <LoginBtn className='loginBtn' onClick={handleLogin}>
             로그인
           </LoginBtn>
         </InputArea>

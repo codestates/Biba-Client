@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import { Signup } from '../../components/user/Signup';
 import { checkInput } from './utils';
+import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 
 export interface SignupProps {
   mapInputList(): JSX.Element[];
@@ -63,28 +64,3 @@ const SignupContainer = (): JSX.Element => {
 };
 
 export const SignupContainerWithRouter = withRouter(SignupContainer);
-
-const InputWithCheck = styled.div`
-  display: flex;
-
-  margin: 0 0 0.1em 0;
-`;
-
-const Input = styled.input`
-  display: flex;
-
-  width: 13em;
-  height: 24px;
-
-  margin: 0 0 0.1em 0;
-`;
-
-const CheckBtn = styled.button`
-  cursor: pointer;
-
-  font-size: 0.85em;
-
-  height: 24px;
-
-  margin: 0;
-`;

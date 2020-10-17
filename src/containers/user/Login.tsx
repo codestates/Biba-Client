@@ -10,7 +10,7 @@ import { User, UserState, UserProfile } from '../../modules/user';
 interface LoginResponse extends UserState, UserProfile {}
 export interface LoginProps {
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
-  login(): void;
+  handleLogin(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
@@ -61,16 +61,14 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
       });
   };
 
-  const login = (): void => handleLogin();
-
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') login();
+    if (e.key === 'Enter') handleLogin();
   };
 
   return (
     <Login
       handleOnChange={handleOnChange}
-      login={login}
+      handleLogin={handleLogin}
       pressEnter={pressEnter}
     />
   );

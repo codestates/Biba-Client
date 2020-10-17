@@ -70,6 +70,31 @@ const InputArea = styled.div`
   margin: 0.5em 0 0.5em 0;
 `;
 
+export const InputWithCheck = styled.div`
+  display: flex;
+
+  margin: 0 0 0.1em 0;
+`;
+
+export const Input = styled.input`
+  display: flex;
+
+  width: 13em;
+  height: 24px;
+
+  margin: 0 0 0.1em 0;
+`;
+
+export const CheckBtn = styled.button`
+  cursor: pointer;
+
+  font-size: 0.85em;
+
+  height: 24px;
+
+  margin: 0;
+`;
+
 const SignupBtn = styled.button`
   cursor: pointer;
 

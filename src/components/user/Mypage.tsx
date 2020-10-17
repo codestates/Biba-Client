@@ -11,27 +11,34 @@ export const Mypage = ({
   return (
     <Container>
       <MypageArea className='mypageArea'>
-        <Title className='mypageTitle'>mypage</Title>
-        <ProfileArea>
-          <Subtitle>프로필</Subtitle>
-          <Profile src='fakeLogo.jpg' alt='profile img'></Profile>
-          <div>{`image ${profile}`}</div>
-          <BtnArea>
-            <ProfileBtn>사진 업로드</ProfileBtn>
-            <ProfileBtn>사진 삭제</ProfileBtn>
-          </BtnArea>
-        </ProfileArea>
-        <DetailArea>
-          <Detail key='profileDetail0'>
-            <Subtitle key='profileSub0'>이메일</Subtitle>
-            <Content key='profileContent0'>email{userData.email}</Content>
-          </Detail>
-          {mapInputList()}
-          <Detail key='profileDetail4'>
-            <Subtitle key='profileSub4'>닉네임</Subtitle>
-            <Content key='profileContent1'>name{userData.username}</Content>
-          </Detail>
-        </DetailArea>
+        <SubContainer>
+          <Title className='mypageTitle'>mypage</Title>
+          <MyComments>내 코멘트</MyComments>
+
+          <DetailArea>
+            <ProfileArea>
+              <ProfileTitle>프로필</ProfileTitle>
+              <Profile src='fakeLogo.jpg' alt='profile img'></Profile>
+              <BtnArea>
+                <ProfileBtn>업로드</ProfileBtn>
+                <ProfileBtn>삭제</ProfileBtn>
+              </BtnArea>
+            </ProfileArea>
+
+            <Detail key='profileDetail0'>
+              <Subtitle key='profileSub0'>이메일</Subtitle>
+              <Content key='profileContent0'>email{userData.email}</Content>
+            </Detail>
+            {mapInputList()}
+            <Detail key='profileDetail4'>
+              <Subtitle key='profileSub4'>닉네임</Subtitle>
+              <Content key='profileContent1'>
+                name{userData.username}
+                <UsernameBtn>변경하기</UsernameBtn>
+              </Content>
+            </Detail>
+          </DetailArea>
+        </SubContainer>
       </MypageArea>
     </Container>
   );
@@ -41,21 +48,71 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
 `;
+const MypageArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #545454;
 
-const MypageArea = styled.div``;
+  width: 65em;
+  padding: 1em 0 2em 0;
+`;
+const SubContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: flex-start;
+`;
+
 const Title = styled.div``;
+const MyComments = styled.button`
+  cursor: pointer;
+`;
 
-const ProfileArea = styled.div``;
+const DetailArea = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ProfileArea = styled.div`
+  display: grid;
+  grid-template-columns: 8em 8em 10em;
+
+  margin: 0 0 2em 0;
+`;
+const ProfileTitle = styled.div`
+  display: flex;
+  align-self: flex-end;
+`;
 const Profile = styled.img`
   width: 100px;
 `;
-
-const DetailArea = styled.div``;
-const Detail = styled.div``;
-const Subtitle = styled.div``;
-const Content = styled.div``;
-
-const BtnArea = styled.div``;
+const BtnArea = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
 const ProfileBtn = styled.button`
+  cursor: pointer;
+
+  font-size: 0.8em;
+`;
+
+export const Detail = styled.div`
+  display: grid;
+  grid-template-columns: 8em 14em;
+  height: 2em;
+`;
+export const Subtitle = styled.div`
+  display: flex;
+  align-self: center;
+`;
+export const Input = styled.input`
+  display: flex;
+  align-self: center;
+`;
+const Content = styled.div`
+  display: flex;
+  align-self: center;
+`;
+const UsernameBtn = styled.button`
   cursor: pointer;
 `;

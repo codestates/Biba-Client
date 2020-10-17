@@ -2,13 +2,12 @@ import React from 'react';
 import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
-import styled from 'styled-components';
 import axios from 'axios';
 
 import { RootState } from '../../modules';
 import { User, UserState, UserProfile } from '../../modules/user';
 import { Mypage } from '../../components/user/Mypage';
+import { Detail, Subtitle, Input } from '../../components/user/Mypage';
 
 export interface MypageProps {
   userData: User;
@@ -49,6 +48,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
           {ele[0]}
         </Subtitle>
         <Input
+          type='password'
           key={`profileInput${inputList.indexOf(ele)}`}
           placeholder={ele[1]}
         ></Input>
@@ -61,7 +61,3 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
 };
 
 export const MypageContainerWithRouter = withRouter(MypageContainer);
-
-const Detail = styled.div``;
-const Subtitle = styled.div``;
-const Input = styled.input``;
