@@ -19,6 +19,7 @@ const SignupContainer = (): JSX.Element => {
     username: '',
   });
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    e.preventDefault();
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
   };

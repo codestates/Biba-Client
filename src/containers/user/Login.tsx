@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { Login } from '../../components/user/Login';
-import { RootState } from '../../modules';
 import { User, UserState, UserProfile } from '../../modules/user';
 
 interface LoginResponse extends UserState, UserProfile {}
@@ -52,6 +51,7 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
           const { token, profile } = res.data;
           setLogin({ id: id, username: username, email: email }, true, token);
           setProfile(profile);
+          setSearchBar(false, true);
           props.history.push('/');
         }
       })
@@ -61,10 +61,7 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
       });
   };
 
-  const login = (): void => {
-    setSearchBar(false, true);
-    handleLogin();
-  };
+  const login = (): void => handleLogin();
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') login();

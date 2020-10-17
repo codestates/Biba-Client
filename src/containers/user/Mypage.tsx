@@ -2,6 +2,8 @@ import React from 'react';
 import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import styled from 'styled-components';
 import axios from 'axios';
 
 import { RootState } from '../../modules';
@@ -11,6 +13,7 @@ import { Mypage } from '../../components/user/Mypage';
 export interface MypageProps {
   userData: User;
   profile: string;
+  mapInputList(): JSX.Element[];
 }
 
 const MypageContainer = (props: RouterProps): JSX.Element => {
@@ -32,7 +35,33 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
     dispatch({ type: 'DELETE_PROFILE' });
     // store에서 profile 이미지 삭제
   };
-  return <Mypage userData={userData} profile={profile} />;
+
+  const inputList: string[][] = [
+    ['현재 비밀번호', '사용 중인 비밀번호를 입력하세요.'],
+    ['변경할 비밀번호', '변경할 비밀번호를 입력하세요.'],
+    ['비밀번호 확인', '비밀번호를 다시 한번 입력하세요.'],
+  ];
+
+  const mapInputList = (): JSX.Element[] => {
+    return inputList.map((ele) => (
+      <Detail key={`profileDetail${inputList.indexOf(ele) + 1}`}>
+        <Subtitle key={`profileSub${inputList.indexOf(ele) + 1}`}>
+          {ele[0]}
+        </Subtitle>
+        <Input
+          key={`profileInput${inputList.indexOf(ele)}`}
+          placeholder={ele[1]}
+        ></Input>
+      </Detail>
+    ));
+  };
+  return (
+    <Mypage userData={userData} profile={profile} mapInputList={mapInputList} />
+  );
 };
 
 export const MypageContainerWithRouter = withRouter(MypageContainer);
+
+const Detail = styled.div``;
+const Subtitle = styled.div``;
+const Input = styled.input``;
