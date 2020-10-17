@@ -79,6 +79,8 @@ const Input = styled.input`
 `;
 
 const LoginBtn = styled.button`
+  cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-self: center;
@@ -94,6 +96,8 @@ const BtnArea = styled.div`
 `;
 
 const SocialBtn = styled.button`
+  cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-self: center;

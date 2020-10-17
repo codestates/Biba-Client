@@ -119,6 +119,7 @@ const BtnArea = styled.div`
 `;
 
 const NavBtn = styled.button`
+  cursor: pointer;
   margin: 0 0.3em 0 0;
 `;
 

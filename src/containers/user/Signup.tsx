@@ -79,6 +79,8 @@ const Input = styled.input`
 `;
 
 const CheckBtn = styled.button`
+  cursor: pointer;
+
   font-size: 0.85em;
 
   height: 24px;

@@ -71,6 +71,8 @@ const InputArea = styled.div`
 `;
 
 const SignupBtn = styled.button`
+  cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-self: center;
@@ -86,6 +88,8 @@ const BtnArea = styled.div`
 `;
 
 const SocialBtn = styled.button`
+  cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-self: center;
