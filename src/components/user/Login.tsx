@@ -3,7 +3,11 @@ import styled from 'styled-components';
 
 import { LoginProps } from '../../containers/user/Login';
 
-export const Login = ({ handleOnChange, login }: LoginProps): JSX.Element => {
+export const Login = ({
+  handleOnChange,
+  login,
+  pressEnter,
+}: LoginProps): JSX.Element => {
   return (
     <Container>
       <LoginArea className='loginArea'>
@@ -17,12 +21,14 @@ export const Login = ({ handleOnChange, login }: LoginProps): JSX.Element => {
             type='text'
             name='email'
             onChange={handleOnChange}
+            onKeyPress={pressEnter}
             placeholder='이메일을 입력해주세요.'
           ></Input>
           <Input
             type='password'
             name='password'
             onChange={handleOnChange}
+            onKeyPress={pressEnter}
             placeholder='비밀번호를 입력해주세요.'
           ></Input>
           <LoginBtn className='loginBtn' onClick={login}>

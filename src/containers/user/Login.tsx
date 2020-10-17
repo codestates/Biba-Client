@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { KeyboardEventHandler, SyntheticEvent, useState } from 'react';
 import { RouterProps } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { Login } from '../../components/user/Login';
+import { RootState } from '../../modules';
 import { User, UserState, UserProfile } from '../../modules/user';
 
 interface LoginResponse extends UserState, UserProfile {}
 export interface LoginProps {
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   login(): void;
+  pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
 const LoginContainer = (props: RouterProps): JSX.Element => {
@@ -31,6 +33,7 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
   });
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    e.preventDefault();
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
   };
@@ -43,24 +46,37 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
         password: String(inputValues.password),
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           const { id, username, email } = res.data.userData;
           const { token, profile } = res.data;
           setLogin({ id: id, username: username, email: email }, true, token);
           setProfile(profile);
+          props.history.push('/');
         }
       })
-      .catch(() => alert('입력한 정보를 다시 한번 확인해주세요.'));
+      .catch(() => {
+        console.log(props.history.location);
+        alert('입력한 정보를 다시 한번 확인해주세요.');
+      });
   };
 
   const login = (): void => {
     setSearchBar(false, true);
     handleLogin();
-    props.history.push('/');
   };
 
-  return <Login handleOnChange={handleOnChange} login={login} />;
+  const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') login();
+  };
+
+  return (
+    <Login
+      handleOnChange={handleOnChange}
+      login={login}
+      pressEnter={pressEnter}
+    />
+  );
 };
 
 export const LoginContainerWithRouter = withRouter(LoginContainer);
