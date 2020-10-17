@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { GlobalStyle } from './styles/global-styles';
 
-import App from './App';
+import { AppContainerWithRouter } from './containers/App';
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />
     <BrowserRouter>
-      <App />
+      <AppContainerWithRouter />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),

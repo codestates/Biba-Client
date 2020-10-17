@@ -3,8 +3,8 @@ import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { RootState } from '../modules';
-import { Nav } from '../components/nav/Nav';
+import { RootState } from '../../modules';
+import { Nav } from '../../components/nav/Nav';
 
 export interface NavProps {
   userData: {
@@ -38,7 +38,7 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     props.history.push('/login');
   };
   const handleClickLogout = (): void => {
-    console.log('logout');
+    console.log('/logout');
   };
   const handleClickSignup = (): void => {
     props.history.push('/signup');
