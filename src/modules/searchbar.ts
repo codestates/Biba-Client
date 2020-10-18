@@ -5,16 +5,23 @@ export interface SearchBarState {
   barDisplay: boolean;
 }
 
+interface SetSearchBar extends SearchBarState {
+  type: typeof SET_SEARCHBAR;
+}
+
 const init: SearchBarState = {
   iconDisplay: true,
   barDisplay: false,
 };
 
-interface SetSearchBar {
-  type: typeof SET_SEARCHBAR;
-  iconState: boolean;
-  barState: boolean;
-}
+export const setSearchBar = (
+  iconDisplay: boolean,
+  barDisplay: boolean,
+): SetSearchBar => ({
+  type: SET_SEARCHBAR,
+  iconDisplay,
+  barDisplay,
+});
 
 export const searchBarReducer = (
   state = init,
@@ -24,8 +31,8 @@ export const searchBarReducer = (
     case SET_SEARCHBAR:
       return {
         ...state,
-        iconDisplay: action.iconState,
-        barDisplay: action.barState,
+        iconDisplay: action.iconDisplay,
+        barDisplay: action.barDisplay,
       };
 
     default:
@@ -33,13 +40,4 @@ export const searchBarReducer = (
   }
 };
 
-export const setSearchBar = (
-  iconState: boolean,
-  barState: boolean,
-): SetSearchBar => ({
-  type: SET_SEARCHBAR,
-  iconState,
-  barState,
-});
-
-export type SearchBarAction = ReturnType<typeof setSearchBar>;
+// export type SearchBarAction = ReturnType<typeof setSearchBar>;

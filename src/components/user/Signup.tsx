@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import { SignupProps } from '../../containers/Signup';
+import { SignupProps } from '../../containers/user/Signup';
 
 export const Signup = ({
   mapInputList,

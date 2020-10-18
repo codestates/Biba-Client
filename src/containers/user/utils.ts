@@ -24,19 +24,19 @@ export const checkInput = (
   username: string,
 ): boolean | void => {
   if (emailCheck(email)) {
-    if (usernameCheck(username)) {
-      if (passwordCheck(password)) {
-        if (passwordMatch(password, checkpw)) {
+    if (passwordCheck(password)) {
+      if (passwordMatch(password, checkpw)) {
+        if (usernameCheck(username)) {
           return true;
         }
-        return alert(`동일한 비밀번호를 입력해주세요.`);
+        return alert(
+          `닉네임을 확인해주세요.\n6~12자리의 영문, 숫자 조합이어야 합니다.`,
+        );
       }
-      return alert(
-        `비밀번호를 확인해주세요.\n8자 이상의 영문, 숫자 또는 특수문자 조합이어야 합니다.`,
-      );
+      return alert(`동일한 비밀번호를 입력해주세요.`);
     }
     return alert(
-      `닉네임을 확인해주세요.\n6~12자리의 영문, 숫자 조합이어야 합니다.`,
+      `비밀번호를 확인해주세요.\n8자 이상의 영문, 숫자 또는 특수문자 조합이어야 합니다.`,
     );
   }
   return alert('이메일을 확인해주세요.');

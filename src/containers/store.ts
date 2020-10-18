@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { rootReducer } from './modules';
+import { rootReducer } from '../modules';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function configureStore(preloadedState = {}) {
