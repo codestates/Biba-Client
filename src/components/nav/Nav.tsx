@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BiSearchAlt } from 'react-icons/bi';
 
 import { NavProps } from '../../containers/nav/Nav';
 
@@ -26,24 +27,17 @@ export const Nav = ({
           }}
         />
         <SearchBarArea className='searchBarArea'>
-          <div>
-            iconDisplay
-            <Input
-              type='checkbox'
-              id='iconDisplay'
-              checked={iconDisplay}
-              onChange={() => console.log('iconDisplay')}
-            ></Input>
-          </div>
-          <div>
-            barDisplay
-            <Input
-              type='checkbox'
-              id='barDisplay'
-              checked={barDisplay}
-              onChange={() => console.log('barDisplay')}
-            ></Input>
-          </div>
+          <Wrap>
+            <SearchIcon className='searchIcon' />
+            {isLogin ? (
+              <>
+                <Input type='text'></Input>
+                <SearchBtn>검색</SearchBtn>
+              </>
+            ) : (
+              false
+            )}
+          </Wrap>
         </SearchBarArea>
         <BtnArea className='btnArea'>
           <div>
@@ -97,12 +91,37 @@ const SearchBarArea = styled.div`
   display: flex;
   align-self: center;
 
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 
   width: 30em;
   height: 3em;
   border: 1px solid black;
+`;
+const Wrap = styled.div`
+  display: flex;
+
+  align-items: center;
+
+  padding: 0.5em;
+  background-color: lightgrey;
+`;
+
+const SearchIcon = styled(BiSearchAlt)`
+  display: flex;
+
+  width: 1.5em;
+  height: 1.5em;
+  color: #545454;
+`;
+
+const Input = styled.input`
+  display: flex;
+  margin: 0 0.5em 0 0.5em;
+`;
+
+const SearchBtn = styled.button`
+  cursor: pointer;
 `;
 
 const BtnArea = styled.div`
@@ -120,8 +139,4 @@ const BtnArea = styled.div`
 const NavBtn = styled.button`
   cursor: pointer;
   margin: 0 0.3em 0 0;
-`;
-
-const Input = styled.input`
-  margin: 0 0.5em 0 0.5em;
 `;

@@ -21,7 +21,7 @@ export const Mypage = ({
           <DetailArea>
             <ProfileArea>
               <ProfileTitle>프로필</ProfileTitle>
-              <Profile src='fakeLogo.jpg' alt='profile img'></Profile>
+              <Profile>{profile}</Profile>
               <BtnArea>
                 <ProfileBtn>업로드</ProfileBtn>
                 <ProfileBtn>삭제</ProfileBtn>
@@ -30,13 +30,13 @@ export const Mypage = ({
 
             <Detail key='profileDetail0'>
               <Subtitle key='profileSub0'>이메일</Subtitle>
-              <Content key='profileContent0'>email{userData.email}</Content>
+              <Content key='profileContent0'>{userData.email}</Content>
             </Detail>
             {mapInputList()}
             <Detail key='profileDetail4'>
               <Subtitle key='profileSub4'>닉네임</Subtitle>
               <Content key='profileContent1'>
-                name{userData.nickname}
+                {userData.nickname}
                 <NicknameBtn>변경하기</NicknameBtn>
               </Content>
             </Detail>
@@ -86,8 +86,14 @@ const ProfileTitle = styled.div`
   display: flex;
   align-self: flex-end;
 `;
-const Profile = styled.img`
+const Profile = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #545454;
+
   width: 100px;
+  height: 100px;
 `;
 const BtnArea = styled.div`
   display: flex;
