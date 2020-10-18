@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import Home from '../components/page/Home';
 import { NavContainerWithRouter } from '../containers/nav/Nav';
+import { ModalContainerWithRouter } from '../containers/nav/Modal';
 import { LoginContainerWithRouter } from '../containers/user/Login';
 import { SignupContainerWithRouter } from '../containers/user/Signup';
 import { MypageContainerWithRouter } from '../containers/user/Mypage';
@@ -23,6 +24,7 @@ export const App = ({ props }: AppProps): JSX.Element => {
           path={['/login', '/signup', '/mypage', '/']}
           component={NavContainerWithRouter}
         />
+        <Route component={ModalContainerWithRouter} />
       </Nav>
       <Main>
         <Switch>

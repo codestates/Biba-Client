@@ -11,7 +11,6 @@ export const Nav = ({
   logout,
   handleClickLogo,
   handleClickLogin,
-  handleClickLogout,
   handleClickSignup,
   handleClickMypage,
 }: NavProps): JSX.Element => {
@@ -49,7 +48,7 @@ export const Nav = ({
         <BtnArea className='btnArea'>
           <div>
             {isLogin
-              ? `${userData.username}님이 로그인하셨습니다.`
+              ? `${userData.nickname}님이 로그인하셨습니다.`
               : `로그인해주세요.`}
             &nbsp; &nbsp;
           </div>

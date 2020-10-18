@@ -47,9 +47,10 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
       .then((res) => {
         // console.log(res);
         if (res.status === 200) {
-          const { id, username, email } = res.data.userData;
+          const { id, nickname, email } = res.data.userData;
           const { token, profile } = res.data;
-          setLogin({ id: id, username: username, email: email }, true, token);
+          // 받은 데이터로 store 상태 업데이트
+          setLogin({ id: id, nickname: nickname, email: email }, true, token);
           setProfile(profile);
           setSearchBar(false, true);
           props.history.push('/');

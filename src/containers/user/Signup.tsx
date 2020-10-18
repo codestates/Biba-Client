@@ -17,7 +17,7 @@ const SignupContainer = (): JSX.Element => {
     email: '',
     password: '',
     checkpw: '',
-    username: '',
+    nickname: '',
   });
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
@@ -25,14 +25,14 @@ const SignupContainer = (): JSX.Element => {
     setInputValues({ ...inputValues, [name]: value });
   };
   const handleSignup = (): void => {
-    const { email, password, checkpw, username } = inputValues;
-    checkInput(email, password, checkpw, username);
+    const { email, password, checkpw, nickname } = inputValues;
+    checkInput(email, password, checkpw, nickname);
     console.log('test');
   };
 
   const inputList: string[][] = [
     ['email', '이메일을 입력해주세요.'],
-    ['username', '닉네임을 입력해주세요.'],
+    ['nickname', '닉네임을 입력해주세요.'],
     ['password', '비밀번호를 입력해주세요.'],
     ['checkpw', '다시 한번 입력해주세요.'],
   ];

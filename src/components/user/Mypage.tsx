@@ -2,18 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { MypageProps } from '../../containers/user/Mypage';
+import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 
 export const Mypage = ({
   userData,
   profile,
+  handleModal,
   mapInputList,
+  getMyReviews,
 }: MypageProps): JSX.Element => {
   return (
     <Container>
       <MypageArea className='mypageArea'>
         <SubContainer>
           <Title className='mypageTitle'>mypage</Title>
-          <MyComments>내 코멘트</MyComments>
+          <MyReviews onClick={() => getMyReviews()}>내 리뷰</MyReviews>
 
           <DetailArea>
             <ProfileArea>
@@ -33,8 +36,8 @@ export const Mypage = ({
             <Detail key='profileDetail4'>
               <Subtitle key='profileSub4'>닉네임</Subtitle>
               <Content key='profileContent1'>
-                name{userData.username}
-                <UsernameBtn>변경하기</UsernameBtn>
+                name{userData.nickname}
+                <NicknameBtn>변경하기</NicknameBtn>
               </Content>
             </Detail>
           </DetailArea>
@@ -64,7 +67,7 @@ const SubContainer = styled.div`
 `;
 
 const Title = styled.div``;
-const MyComments = styled.button`
+const MyReviews = styled.button`
   cursor: pointer;
 `;
 
@@ -113,6 +116,6 @@ const Content = styled.div`
   display: flex;
   align-self: center;
 `;
-const UsernameBtn = styled.button`
+const NicknameBtn = styled.button`
   cursor: pointer;
 `;

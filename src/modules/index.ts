@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux';
 
-import { loginReducer, profileReducer } from './user';
-import { searchBarReducer } from './searchbar';
+import { loginReducer, profileReducer, myReviewsReducer } from './user';
+import { navBarReducer, modalReducer } from './nav';
 import { getBeerReducer } from './getbeer';
 
 export const rootReducer = combineReducers({
   login: loginReducer,
   profile: profileReducer,
-  searchBar: searchBarReducer,
+  myReviews: myReviewsReducer,
+  navBar: navBarReducer,
+  modal: modalReducer,
   getBeer: getBeerReducer,
 });
 

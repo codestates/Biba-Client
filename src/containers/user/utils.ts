@@ -12,19 +12,19 @@ const passwordMatch = (password: string, checkpw: string): boolean => {
   return password === checkpw ? true : false;
 };
 
-const usernameCheck = (username: string): boolean => {
-  const usernameExp = /^[A-Za-z0-9]{6,12}$/;
-  return usernameExp.test(username) ? true : false;
+const nicknameCheck = (nickname: string): boolean => {
+  const nicknameExp = /^[A-Za-z0-9]{6,12}$/;
+  return nicknameExp.test(nickname) ? true : false;
 };
 
 export const checkInput = (
   email: string,
   password: string,
   checkpw: string,
-  username: string,
+  nickname: string,
 ): boolean | void => {
   if (emailCheck(email)) {
-    if (usernameCheck(username)) {
+    if (nicknameCheck(nickname)) {
       if (passwordCheck(password)) {
         if (passwordMatch(password, checkpw)) {
           return true;
