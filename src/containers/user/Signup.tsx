@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 import axios from 'axios';
 
 import { Signup } from '../../components/user/Signup';
@@ -11,7 +10,7 @@ import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 
 export interface SignupProps {
   mapInputList(): JSX.Element[];
-  handleSignup(): void;
+  handleClickSignup(): void;
 }
 
 const SignupContainer = (): JSX.Element => {
@@ -33,7 +32,7 @@ const SignupContainer = (): JSX.Element => {
   const [inputValues, setInputValues] = useState({
     email: '',
     password: '',
-    checkpw: '',
+    passwordForCheck: '',
     nickname: '',
   });
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -42,15 +41,10 @@ const SignupContainer = (): JSX.Element => {
       handleConfirmEmail(false);
     }
     if (nicknameConfirm) {
-      handleConfirmEmail(false);
+      handleConfirmNickname(false);
     }
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
-  };
-  const handleSignup = (): void => {
-    const { email, password, checkpw, nickname } = inputValues;
-    checkInput(email, password, checkpw, nickname);
-    console.log('test');
   };
 
   const handleCheckEmail = (): void => {
@@ -61,7 +55,7 @@ const SignupContainer = (): JSX.Element => {
             email: inputValues.email,
           })
           .then((res) => {
-            if (res.status === 200) alert(`사용할 수 있는 이메일입니다.`);
+            if (res.status === 200) alert(`사용 가능한 이메일입니다.`);
             // 중복 확인 버튼 변화 && confirm dispatch
             handleConfirmEmail(true);
           })
@@ -83,12 +77,12 @@ const SignupContainer = (): JSX.Element => {
             nickname: inputValues.nickname,
           })
           .then((res) => {
-            if (res.status === 200) alert(`사용할 수 있는 닉네임입니다.`);
+            if (res.status === 200) alert(`사용 가능한 닉네임입니다.`);
             // 중복 확인 버튼 변화 && confirm dispatch
             handleConfirmNickname(true);
           })
           .catch(() => {
-            alert(`이미 존재하는 이메일입니다.\n다른 닉네임을 사용해주세요.`);
+            alert(`이미 존재하는 닉네임입니다.\n다른 닉네임을 사용해주세요.`);
           });
       } else {
         alert(
@@ -100,11 +94,34 @@ const SignupContainer = (): JSX.Element => {
     }
   };
 
+  const handleClickSignup = (): void => {
+    const { email, password, passwordForCheck, nickname } = inputValues;
+    console.log('test');
+    if (emailConfirm && nicknameConfirm) {
+      checkInput(email, password, passwordForCheck, nickname);
+      // true라면 post 요청(가입 요청 전송)
+    }
+    if (!emailConfirm) {
+      if (inputValues.email !== '') {
+        return alert(`이메일 중복 확인을 해주세요.`);
+      } else {
+        return alert(`이메일 주소를 입력해주세요.`);
+      }
+    }
+    if (!nicknameConfirm) {
+      if (inputValues.nickname !== '') {
+        return alert(`닉네임 중복 확인을 해주세요.`);
+      } else {
+        return alert(`닉네임을 입력해주세요.`);
+      }
+    }
+  };
+
   const inputList: string[][] = [
     ['email', '이메일을 입력해주세요.'],
     ['nickname', '닉네임을 입력해주세요.'],
     ['password', '비밀번호를 입력해주세요.'],
-    ['checkpw', '다시 한번 입력해주세요.'],
+    ['passwordForCheck', '다시 한번 입력해주세요.'],
   ];
   const mapInputList = (): JSX.Element[] => {
     return inputList.map((ele) =>
@@ -139,7 +156,9 @@ const SignupContainer = (): JSX.Element => {
     );
   };
 
-  return <Signup mapInputList={mapInputList} handleSignup={handleSignup} />;
+  return (
+    <Signup mapInputList={mapInputList} handleClickSignup={handleClickSignup} />
+  );
 };
 
 export const SignupContainerWithRouter = withRouter(SignupContainer);

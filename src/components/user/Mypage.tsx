@@ -10,6 +10,7 @@ export const Mypage = ({
   handleModal,
   getMyReviews,
   mapInputList,
+  handleClickChangeNickname,
 }: MypageProps): JSX.Element => {
   return (
     <Container>
@@ -19,7 +20,7 @@ export const Mypage = ({
           <MyReviews onClick={() => getMyReviews()}>내 리뷰</MyReviews>
 
           <DetailArea>
-            <ProfileArea>
+            <ProfileArea key='pfDetail0'>
               <ProfileTitle>프로필</ProfileTitle>
               <Profile>{profile}</Profile>
               <BtnArea>
@@ -28,16 +29,21 @@ export const Mypage = ({
               </BtnArea>
             </ProfileArea>
 
-            <Detail key='profileDetail0'>
-              <Subtitle key='profileSub0'>이메일</Subtitle>
-              <Content key='profileContent0'>{userData.email}</Content>
+            <Detail key='pfDetail1'>
+              <Subtitle>이메일</Subtitle>
+              <Content>{userData.email}</Content>
             </Detail>
             {mapInputList()}
-            <Detail key='profileDetail4'>
-              <Subtitle key='profileSub4'>닉네임</Subtitle>
-              <Content key='profileContent1'>
+            <Detail key='pfDetail5'>
+              <Subtitle>닉네임</Subtitle>
+              <Content>
                 {userData.nickname}
-                <NicknameBtn>변경하기</NicknameBtn>
+                <ChangeBtn
+                  className='nicknameChangeBtn'
+                  onClick={handleClickChangeNickname}
+                >
+                  닉네임 변경하기
+                </ChangeBtn>
               </Content>
             </Detail>
           </DetailArea>
@@ -108,7 +114,7 @@ const ProfileBtn = styled.button`
 export const Detail = styled.div`
   display: grid;
   grid-template-columns: 8em 14em;
-  height: 2em;
+  margin: 0 0 0.5em 0;
 `;
 export const Subtitle = styled.div`
   display: flex;
@@ -118,10 +124,15 @@ export const Input = styled.input`
   display: flex;
   align-self: center;
 `;
-const Content = styled.div`
+export const Content = styled.div`
   display: flex;
   align-self: center;
 `;
-const NicknameBtn = styled.button`
+export const ChangeBtn = styled.button`
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 10em;
 `;

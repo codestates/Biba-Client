@@ -5,7 +5,7 @@ import { SignupProps } from '../../containers/user/Signup';
 
 export const Signup = ({
   mapInputList,
-  handleSignup,
+  handleClickSignup,
 }: SignupProps): JSX.Element => {
   return (
     <Container>
@@ -18,7 +18,7 @@ export const Signup = ({
 
         <InputArea className='inputArea'>
           {mapInputList()}
-          <SignupBtn className='signupBtn' onClick={handleSignup}>
+          <SignupBtn className='signupBtn' onClick={handleClickSignup}>
             회원가입
           </SignupBtn>
         </InputArea>

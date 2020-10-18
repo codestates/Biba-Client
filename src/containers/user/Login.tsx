@@ -73,6 +73,7 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
     if (e.key === 'Enter') handleLogin();
   };
   const redirectToSignup = (): void => {
+    closeModal();
     props.history.push('/signup');
   };
 

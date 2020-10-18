@@ -3,6 +3,11 @@ export const emailCheck = (email: string): boolean => {
   return emailExp.test(email) ? true : false;
 };
 
+export const nicknameCheck = (nickname: string): boolean => {
+  const nicknameExp = /^[A-Za-z0-9]{6,12}$/;
+  return nicknameExp.test(nickname) ? true : false;
+};
+
 export const passwordCheck = (password: string): boolean => {
   const passwordExp = /^(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\'",.<>\/?])*.{8,}$/;
   return passwordExp.test(password) ? true : false;
@@ -10,11 +15,6 @@ export const passwordCheck = (password: string): boolean => {
 
 export const passwordMatch = (password: string, checkpw: string): boolean => {
   return password === checkpw ? true : false;
-};
-
-export const nicknameCheck = (nickname: string): boolean => {
-  const nicknameExp = /^[A-Za-z0-9]{6,12}$/;
-  return nicknameExp.test(nickname) ? true : false;
 };
 
 export const checkInput = (

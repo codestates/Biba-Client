@@ -11,6 +11,7 @@ export enum ContentType {
   Empty,
   Login,
   MypageAllReviews,
+  ChangeNickname,
 }
 
 // 이하로 action interface + init + action
