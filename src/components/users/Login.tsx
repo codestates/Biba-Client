@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { SigninProps } from '../../containers/Signin';
+import { LoginProps } from '../../containers/Login';
 
-export const Signin = ({
-  setSignin,
+export const Login = ({
+  setLogin,
   handleOnChange,
-  handleSignin,
-}: SigninProps): JSX.Element => {
+  handleLogin,
+}: LoginProps): JSX.Element => {
   return (
     <Container>
-      <SigninArea className='signinArea'>
-        <Title className='signinTitle'>
+      <LoginArea className='loginArea'>
+        <Title className='loginTitle'>
           Biba!
           <br />
           Sign in
@@ -29,15 +29,15 @@ export const Signin = ({
             onChange={handleOnChange}
             placeholder='비밀번호를 입력해주세요.'
           ></Input>
-          <SigninBtn className='signinBtn' onClick={handleSignin}>
+          <LoginBtn className='loginBtn' onClick={handleLogin}>
             로그인
-          </SigninBtn>
+          </LoginBtn>
         </InputArea>
         <BtnArea className='btnArea'>
           <SocialBtn className='googleLoginBtn'>구글 로그인</SocialBtn>
           <SocialBtn className='kakaoLoginBtn'>카카오 로그인</SocialBtn>
         </BtnArea>
-      </SigninArea>
+      </LoginArea>
     </Container>
   );
 };
@@ -47,7 +47,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const SigninArea = styled.div`
+const LoginArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,7 +82,7 @@ const Input = styled.input`
   width: 13em;
 `;
 
-const SigninBtn = styled.button`
+const LoginBtn = styled.button`
   display: flex;
   justify-content: center;
   align-self: center;

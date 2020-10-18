@@ -3,27 +3,27 @@ import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
-import { Signin } from '../components/users/Signin';
-import { UserState } from '../modules/signin';
+import { Login } from '../components/users/Login';
+import { UserState } from '../modules/user';
 
-export interface SigninProps {
-  setSignin: (
+export interface LoginProps {
+  setLogin: (
     userData: { id: number; username: string },
-    isSignin: boolean,
+    isLogin: boolean,
     token: string,
   ) => void;
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
-  handleSignin(): void;
+  handleLogin(): void;
 }
 
-const SigninContainer = (): JSX.Element => {
+const LoginContainer = (): JSX.Element => {
   const dispatch = useDispatch();
-  const setSignin = (
+  const setLogin = (
     userData: { id: number; username: string },
-    isSignin: boolean,
+    isLogin: boolean,
     token: string,
   ) => {
-    dispatch(setSignin(userData, isSignin, token));
+    dispatch(setLogin(userData, isLogin, token));
   };
 
   const [inputValues, setInputValues] = useState({
@@ -36,7 +36,7 @@ const SigninContainer = (): JSX.Element => {
     setInputValues({ ...inputValues, [name]: value });
   };
 
-  const handleSignin = (): void => {
+  const handleLogin = (): void => {
     axios
       .post<UserState>('http://localhost:4000/users/login', {
         // 임시 주소
@@ -48,19 +48,19 @@ const SigninContainer = (): JSX.Element => {
         if (res.status === 200) {
           const { id, username } = res.data.userData;
           const { token } = res.data;
-          setSignin({ id: id, username: username }, true, token);
+          setLogin({ id: id, username: username }, true, token);
         }
       })
       .catch(() => alert('입력한 정보를 다시 한번 확인해주세요.'));
   };
 
   return (
-    <Signin
-      setSignin={setSignin}
+    <Login
+      setLogin={setLogin}
       handleOnChange={handleOnChange}
-      handleSignin={handleSignin}
+      handleLogin={handleLogin}
     />
   );
 };
 
-export const SigninContainerWithRouter = withRouter(SigninContainer);
+export const LoginContainerWithRouter = withRouter(LoginContainer);
