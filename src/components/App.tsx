@@ -20,10 +20,7 @@ export const App = ({ props }: AppProps): JSX.Element => {
   return (
     <Container>
       <Nav>
-        <Route
-          path={['/login', '/signup', '/mypage', '/']}
-          component={NavContainerWithRouter}
-        />
+        <Route component={NavContainerWithRouter} />
         <Route component={ModalContainerWithRouter} />
       </Nav>
       <Main>
@@ -40,10 +37,7 @@ export const App = ({ props }: AppProps): JSX.Element => {
         </Switch>
       </Main>
       <Footer>
-        <Route
-          path={['/login', '/signup', '/mypage', '/']}
-          component={FooterContainerithRouter}
-        />
+        <Route component={FooterContainerithRouter} />
       </Footer>
     </Container>
   );
