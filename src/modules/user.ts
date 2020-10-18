@@ -6,6 +6,8 @@ const CHANGE_PROFILE = 'CHANGE_PROFILE' as const;
 const DELETE_PROFILE = 'DELETE_PROFILE' as const;
 const CHANGE_NICKNAME = 'CHANGE_NICKNAME' as const;
 const CHANGE_PASSWORD = 'CHANGE_PASSWORD' as const;
+const CONFIRM_EMAIL = 'CONFIRM_EMAIL' as const;
+const CONFIRM_NICKNAME = 'CONFIRM_NICKNAME' as const;
 
 export interface User {
   id: number;
@@ -26,6 +28,9 @@ export interface aReview {
 }
 export interface MyReviewList {
   myReviews: aReview[];
+}
+export interface ConfirmInput {
+  value: boolean;
 }
 
 // 이하로 action interface + init + action
@@ -94,6 +99,24 @@ export const setMyReviews = (myReviews: aReview[]): ReviewListAction => ({
   myReviews,
 });
 
+export interface ConfirmInputAction extends ConfirmInput {
+  type: typeof CONFIRM_EMAIL | typeof CONFIRM_NICKNAME;
+}
+const emailInputInit: ConfirmInput = {
+  value: false,
+};
+const nicknameInputInit: ConfirmInput = {
+  value: false,
+};
+export const checkEmailInput = (value: boolean): ConfirmInputAction => ({
+  type: CONFIRM_EMAIL,
+  value,
+});
+export const checkNicknameInput = (value: boolean): ConfirmInputAction => ({
+  type: CONFIRM_NICKNAME,
+  value,
+});
+
 // ============ 이하로 reducers
 export const loginReducer = (
   state = loginInit,
@@ -156,6 +179,38 @@ export const myReviewsReducer = (
       return {
         ...state,
         myReviews: action.myReviews,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const confirmEmailReducer = (
+  state = emailInputInit,
+  action: ConfirmInputAction,
+): ConfirmInput => {
+  switch (action.type) {
+    case CONFIRM_EMAIL:
+      return {
+        ...state,
+        value: action.value,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const confirmNicknameReducer = (
+  state = emailInputInit,
+  action: ConfirmInputAction,
+): ConfirmInput => {
+  switch (action.type) {
+    case CONFIRM_NICKNAME:
+      return {
+        ...state,
+        value: action.value,
       };
 
     default:

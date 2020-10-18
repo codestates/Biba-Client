@@ -13,8 +13,8 @@ import { Detail, Subtitle, Input } from '../../components/user/Mypage';
 export interface MypageProps {
   userData: User;
   profile: string;
-  getMyReviews(): void;
   handleModal(contentType: ContentType, display: boolean): void;
+  getMyReviews(): void;
   mapInputList(): JSX.Element[];
 }
 
@@ -76,8 +76,8 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
     <Mypage
       userData={userData}
       profile={profile}
-      getMyReviews={getMyReviews}
       handleModal={handleModal}
+      getMyReviews={getMyReviews}
       mapInputList={mapInputList}
     />
   );

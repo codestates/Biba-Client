@@ -3,10 +3,11 @@ import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import { LoginContainerWithRouter } from '../../containers/user/Login';
+
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 import { Modal } from '../../components/nav/Modal';
-import { myReviewsReducer } from '../../modules/user';
 
 export interface ModalProps {
   display: boolean;
@@ -27,7 +28,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const content = (contentType: ContentType): JSX.Element | JSX.Element[] => {
     // 이 함수의 결과가 component의 Modals로 넘어감
     if (contentType === ContentType.Empty) {
-      return <>this is login modal part</>;
+      return <></>;
     }
     if (contentType === ContentType.MypageAllReviews) {
       return myReviews.length !== 0 ? (
@@ -39,7 +40,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       );
     }
     if (contentType === ContentType.Login) {
-      return <>this is login modal part</>;
+      return <LoginContainerWithRouter />;
     }
 
     return <div>error</div>;

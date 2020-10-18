@@ -8,8 +8,8 @@ export const Mypage = ({
   userData,
   profile,
   handleModal,
-  mapInputList,
   getMyReviews,
+  mapInputList,
 }: MypageProps): JSX.Element => {
   return (
     <Container>

@@ -7,6 +7,7 @@ export const Login = ({
   handleOnChange,
   handleLogin,
   pressEnter,
+  redirectToSignup,
 }: LoginProps): JSX.Element => {
   return (
     <Container>
@@ -31,13 +32,16 @@ export const Login = ({
             onKeyPress={pressEnter}
             placeholder='비밀번호를 입력해주세요.'
           ></Input>
-          <LoginBtn className='loginBtn' onClick={handleLogin}>
-            로그인
-          </LoginBtn>
         </InputArea>
         <BtnArea className='btnArea'>
-          <SocialBtn className='googleLoginBtn'>구글 로그인</SocialBtn>
-          <SocialBtn className='kakaoLoginBtn'>카카오 로그인</SocialBtn>
+          <SmallBtn className='loginBtn' onClick={handleLogin}>
+            로그인
+          </SmallBtn>
+          <LongBtn className='googleLoginBtn'>구글 로그인</LongBtn>
+          <LongBtn className='kakaoLoginBtn'>카카오 로그인</LongBtn>
+          <Redirect className='signupBtn' onClick={redirectToSignup}>
+            Biba 가입하러 가기
+          </Redirect>
         </BtnArea>
       </LoginArea>
     </Container>
@@ -84,7 +88,13 @@ const Input = styled.input`
   width: 13em;
 `;
 
-const LoginBtn = styled.button`
+const BtnArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 15em;
+`;
+
+const SmallBtn = styled.button`
   cursor: pointer;
 
   display: flex;
@@ -92,16 +102,10 @@ const LoginBtn = styled.button`
   align-self: center;
   width: 5em;
 
-  margin: 0.5em 0 0.3em 0;
+  margin: 0.15em 0 0.3em 0;
 `;
 
-const BtnArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 15em;
-`;
-
-const SocialBtn = styled.button`
+const LongBtn = styled.button`
   cursor: pointer;
 
   display: flex;
@@ -110,4 +114,13 @@ const SocialBtn = styled.button`
   width: 10em;
 
   margin: 0.15em 0 0.15em 0;
+`;
+
+const Redirect = styled.div`
+  cursor: pointer;
+
+  display: flex;
+  align-self: center;
+
+  margin: 1.5em 0 0 0;
 `;

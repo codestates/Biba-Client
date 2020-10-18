@@ -6,15 +6,17 @@ import axios from 'axios';
 
 import { Login } from '../../components/user/Login';
 import { User, UserState, UserProfile } from '../../modules/user';
+import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 
 interface LoginResponse extends UserState, UserProfile {}
 export interface LoginProps {
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   handleLogin(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
+  redirectToSignup(): void;
 }
 
-const LoginContainer = (props: RouterProps): JSX.Element => {
+export const LoginContainer = (props: RouterProps): JSX.Element => {
   const dispatch = useDispatch();
   const setLogin = (userData: User, isLogin: boolean, token: string) => {
     dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
@@ -22,15 +24,20 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
   const setProfile = (profile: string) => {
     dispatch({ type: 'SET_PROFILE', profile });
   };
-  const setSearchBar = (iconDisplay: boolean, barDisplay: boolean): void => {
-    dispatch({ type: 'SET_SEARCHBAR', iconDisplay, barDisplay });
+  const handleModalClose = (
+    contentType: ContentType,
+    display: boolean,
+  ): void => {
+    dispatch({ type: 'SET_MODAL', contentType, display });
+  };
+  const closeModal = (): void => {
+    handleModalClose(ContentType.Empty, false);
   };
 
   const [inputValues, setInputValues] = useState({
     email: '',
     password: '',
   });
-
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -52,7 +59,7 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
           // 받은 데이터로 store 상태 업데이트
           setLogin({ id: id, nickname: nickname, email: email }, true, token);
           setProfile(profile);
-          setSearchBar(false, true);
+          closeModal();
           props.history.push('/');
         }
       })
@@ -65,12 +72,16 @@ const LoginContainer = (props: RouterProps): JSX.Element => {
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleLogin();
   };
+  const redirectToSignup = (): void => {
+    props.history.push('/signup');
+  };
 
   return (
     <Login
       handleOnChange={handleOnChange}
       handleLogin={handleLogin}
       pressEnter={pressEnter}
+      redirectToSignup={redirectToSignup}
     />
   );
 };

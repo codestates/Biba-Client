@@ -7,13 +7,12 @@ import { NavProps } from '../../containers/nav/Nav';
 export const Nav = ({
   userData,
   isLogin,
-  iconDisplay,
-  barDisplay,
   logout,
   handleClickLogo,
   handleClickLogin,
   handleClickSignup,
   handleClickMypage,
+  testLoginModal,
 }: NavProps): JSX.Element => {
   return (
     <Container>
@@ -27,6 +26,7 @@ export const Nav = ({
           }}
         />
         <SearchBarArea className='searchBarArea'>
+          <button onClick={testLoginModal}>login modal</button>
           <Wrap>
             <SearchIcon className='searchIcon' />
             {isLogin ? (
