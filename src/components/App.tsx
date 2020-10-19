@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
@@ -59,7 +58,7 @@ const Container = styled.div`
     'Footer Footer Footer'
     '. . .';
 `;
-        
+
 const MainContainer = styled.div`
   position: relative;
   width: 65em;
@@ -72,7 +71,6 @@ const Nav = styled.div`
 
 const Main = styled.div`
   grid-area: Main;
-  height: 30em;
 `;
 
 const Footer = styled.div`

@@ -7,7 +7,7 @@ import {
   confirmEmailReducer,
   confirmNicknameReducer,
 } from './user';
-import { modalReducer } from './nav';
+import { modalReducer, btnColorReducer } from './nav';
 import { getBeerReducer } from './getbeer';
 
 export const rootReducer = combineReducers({
@@ -16,6 +16,7 @@ export const rootReducer = combineReducers({
   myReviews: myReviewsReducer,
   confirmEmail: confirmEmailReducer,
   confirmNickname: confirmNicknameReducer,
+  btnColor: btnColorReducer,
   modal: modalReducer,
   getBeer: getBeerReducer,
 });

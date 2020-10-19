@@ -203,7 +203,7 @@ export const confirmEmailReducer = (
 };
 
 export const confirmNicknameReducer = (
-  state = emailInputInit,
+  state = nicknameInputInit,
   action: ConfirmInputAction,
 ): ConfirmInput => {
   switch (action.type) {
