@@ -4,47 +4,44 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { RootState } from '../../modules';
+import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 import { Nav } from '../../components/nav/Nav';
 
 export interface NavProps {
   userData: {
     id: number;
-    username: string;
+    nickname: string;
+    email: string;
   };
   isLogin: boolean;
   token: string;
-  iconDisplay: boolean;
-  barDisplay: boolean;
+  profile: string;
   logout(): void;
   handleClickLogo(): void;
   handleClickLogin(): void;
   handleClickLogout(): void;
   handleClickSignup(): void;
   handleClickMypage(): void;
+  testLoginModal(): void;
 }
 
 export const NavContainer = (props: RouterProps): JSX.Element => {
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
-  const { iconDisplay, barDisplay } = useSelector(
-    (state: RootState) => state.searchBar,
-  );
+  const { profile } = useSelector((state: RootState) => state.profile);
   const dispatch = useDispatch();
   const setLogout = () => {
     dispatch({ type: 'SET_LOGOUTSTATE' });
   };
-  const setProfile = () => {
+  const removeProfile = () => {
     dispatch({ type: 'DELETE_PROFILE' });
-  };
-  const setSearchBar = (iconDisplay: boolean, barDisplay: boolean): void => {
-    dispatch({ type: 'SET_SEARCHBAR', iconDisplay, barDisplay });
   };
 
   const logout = () => {
-    setSearchBar(true, false);
+    // 로그아웃 - store에서 프로필 삭제, 사용자 정보 삭제
+    removeProfile();
     setLogout();
-    setProfile();
   };
 
   const handleClickLogo = (): void => {
@@ -63,19 +60,27 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     props.history.push('/mypage');
   };
 
+  const handleModal = (contentType: ContentType, display: boolean): void => {
+    dispatch({ type: 'SET_MODAL', contentType, display });
+  };
+  const testLoginModal = (): void => {
+    // 임시로 nav에 배치 - list page에서 일정 수준 이상 스크롤 시 등장, 로그인이 아닌 상태일 때만 나타나야 함
+    handleModal(ContentType.Login, true);
+  };
+
   return (
     <Nav
       userData={userData}
       isLogin={isLogin}
       token={token}
-      iconDisplay={iconDisplay}
-      barDisplay={barDisplay}
+      profile={profile}
       logout={logout}
       handleClickLogo={handleClickLogo}
       handleClickLogin={handleClickLogin}
       handleClickLogout={handleClickLogout}
       handleClickSignup={handleClickSignup}
       handleClickMypage={handleClickMypage}
+      testLoginModal={testLoginModal}
     />
   );
 };
