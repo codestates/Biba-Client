@@ -40,8 +40,8 @@ export interface BtnColorAction extends BtnColor {
   type: typeof SET_BTNCOLOR;
 }
 const btnInit: BtnColor = {
-  btn: 'grey',
-  text: 'black',
+  btn: '',
+  text: '',
 };
 export const setBtnColor = (btn: string, text: string): BtnColorAction => ({
   type: SET_BTNCOLOR,
