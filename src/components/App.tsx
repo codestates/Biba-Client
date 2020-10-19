@@ -33,11 +33,8 @@ export const App = ({ props }: AppProps): JSX.Element => {
           ) : (
             false
           )}
-          <MainContainer>
-            <Route exact path='/' component={BeerListNavContainerWithRouter} />
-            <Route exact path='/' component={HomeContainerWithRouter} />
-            <Redirect to='/' path='*' />
-          </MainContainer>
+          <Route exact path='/' component={HomeContainerWithRouter} />
+          <Redirect to='/' path='*' />
         </Switch>
       </Main>
       <Footer>
@@ -57,12 +54,6 @@ const Container = styled.div`
     'Main Main Main'
     'Footer Footer Footer'
     '. . .';
-`;
-
-const MainContainer = styled.div`
-  position: relative;
-  width: 90%;
-  margin: 0 auto;
 `;
 
 const Nav = styled.div`

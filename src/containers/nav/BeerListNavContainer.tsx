@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import { RootState } from '../../modules';
 import BeerListNav from '../../components/nav/BeerListNav';
+import { TODAY_BEER, WANTSOME_BEER, MY_BEER } from '../../modules/changepage';
 
 export interface BeerListNavProps {
   isLogin: boolean;
@@ -16,23 +17,15 @@ export interface BeerListNavProps {
 export const BeerListNavContainer = (props: RouterProps): JSX.Element => {
   const { isLogin } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
-  //   const setLogout = () => {
-  //     dispatch({ type: 'SET_LOGOUTSTATE' });
-  //   };
-  //   const setProfile = () => {
-  //     dispatch({ type: 'DELETE_PROFILE' });
-  //   };
-  //   const setSearchBar = (iconDisplay: boolean, barDisplay: boolean): void => {
-  //     dispatch({ type: 'SET_SEARCHBAR', iconDisplay, barDisplay });
-  //   };
+
   const handleClickTodayBeer = (): void => {
-    props.history.push('/');
+    dispatch({ type: TODAY_BEER });
   };
   const handleClickWantSomeBeer = (): void => {
-    props.history.push('/wantsomebeer');
+    dispatch({ type: WANTSOME_BEER });
   };
   const handleClickMyBeer = (): void => {
-    props.history.push('/mybeer');
+    dispatch({ type: MY_BEER });
   };
   return (
     <BeerListNav
