@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { RootState } from '../../modules';
 import BeerListNav from '../../components/nav/BeerListNav';
@@ -12,10 +12,17 @@ export interface BeerListNavProps {
   handleClickTodayBeer(): void;
   handleClickWantSomeBeer(): void;
   handleClickMyBeer(): void;
+  display: boolean;
+  setDisplay(): void;
 }
 
-export const BeerListNavContainer = (props: RouterProps): JSX.Element => {
+export const BeerListNavContainer = ({
+  match,
+  history,
+  location,
+}: RouteComponentProps): JSX.Element => {
   const { isLogin } = useSelector((state: RootState) => state.login);
+  const { display } = useSelector((state: RootState) => state.navDisplay);
   const dispatch = useDispatch();
 
   const handleClickTodayBeer = (): void => {
@@ -27,12 +34,17 @@ export const BeerListNavContainer = (props: RouterProps): JSX.Element => {
   const handleClickMyBeer = (): void => {
     dispatch({ type: MY_BEER });
   };
+  const setDisplay = () => {
+    return location.pathname === '/' ? handleClickTodayBeer() : false;
+  };
   return (
     <BeerListNav
       isLogin={isLogin}
       handleClickTodayBeer={handleClickTodayBeer}
       handleClickWantSomeBeer={handleClickWantSomeBeer}
       handleClickMyBeer={handleClickMyBeer}
+      display={display}
+      setDisplay={setDisplay}
     />
   );
 };

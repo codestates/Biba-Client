@@ -13,6 +13,7 @@ export const Nav = ({
   handleClickSignup,
   handleClickMypage,
   testLoginModal,
+  testDetail,
 }: NavProps): JSX.Element => {
   return (
     <Container>
@@ -20,13 +21,17 @@ export const Nav = ({
         <Logo
           src='fakeLogo.jpg'
           alt='this is fake logo'
-          onClick={() => {
-            console.log('link to /');
-            return handleClickLogo();
-          }}
+          onClick={handleClickLogo}
         />
         <SearchBarArea className='searchBarArea'>
           <button onClick={testLoginModal}>login modal</button>
+          <button
+            onClick={() => {
+              testDetail();
+            }}
+          >
+            detail
+          </button>
           <Wrap>
             <SearchIcon className='searchIcon' />
             {isLogin ? (

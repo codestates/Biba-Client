@@ -8,9 +8,12 @@ function BeerListNav({
   handleClickTodayBeer,
   handleClickWantSomeBeer,
   handleClickMyBeer,
+  display,
+  setDisplay,
 }: BeerListNavProps): JSX.Element {
   return (
-    <ListNav>
+    <ListNav style={display ? {} : { display: 'none' }}>
+      {setDisplay()}
       <UL>
         <ListBtn onClick={handleClickTodayBeer}>Today&apos;s Beer</ListBtn>
         <ListBtn onClick={handleClickWantSomeBeer}>Want Some Beer?</ListBtn>
@@ -21,7 +24,7 @@ function BeerListNav({
 }
 
 const ListNav = styled.div`
-  width: 14vw;
+  // width: 14vw;
   height: 100vh;
   left: 0;
   top: 0;

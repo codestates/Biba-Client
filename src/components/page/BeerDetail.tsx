@@ -1,12 +1,16 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { BeerDetailProps } from '../../containers/page/BeerDetailContainer';
+import { MatchParams } from '../../containers/page/BeerDetailContainer';
 
-export const BeerDetail = ({ name }: BeerDetailProps): JSX.Element => {
+export const BeerDetail = ({
+  match,
+}: RouteComponentProps<MatchParams>): JSX.Element => {
+  const { beerId } = match.params;
   return (
     <div>
-      <div>test test test{name}</div>
+      <div>{beerId}</div>
     </div>
   );
 };
