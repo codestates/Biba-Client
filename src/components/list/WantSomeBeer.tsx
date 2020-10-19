@@ -8,7 +8,7 @@ interface Props {
   beers: BeerT[];
 }
 
-function TodayBeerList({ beers }: Props): JSX.Element {
+function WantSomeBeer({ beers }: Props): JSX.Element {
   const todayBeerList = beers.map((beer) => (
     <Beer
       key={beer.id}
@@ -29,4 +29,4 @@ const BeerList = styled.div`
   grid-template-columns: repeat(3, 1fr);
 `;
 
-export default TodayBeerList;
+export default WantSomeBeer;
