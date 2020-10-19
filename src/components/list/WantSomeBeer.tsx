@@ -1,32 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Beer from './Beer';
-import { BeerT } from '../../modules/getbeer';
-
-interface Props {
-  beers: BeerT[];
+export interface BeerProps {
+  key: number;
+  name: string;
+  image: string;
+  rate: number;
 }
 
-function WantSomeBeer({ beers }: Props): JSX.Element {
-  const todayBeerList = beers.map((beer) => (
-    <Beer
-      key={beer.id}
-      name={beer.beer_name}
-      image={beer.beer_img}
-      rate={beer.rate}
-    />
-  ));
-  return <BeerList>{todayBeerList}</BeerList>;
+function WantSomeBeer({ name, image, rate }: BeerProps): JSX.Element {
+  return <Image src={image} alt={name} />;
 }
 
-const BeerList = styled.div`
-  height: 100%;
-  overflow-y: scroll;
-  margin: 0 auto;
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(3, 1fr);
+const Image = styled.img`
+  height: 15vh;
+  width: 8vw;
+  border: 1px solid gray;
+  border-radius: 1em;
+  margin-right: 1em;
+  &:hover {
+    transition: all ease 1s;
+    transform: scale(1.2);
+    cursor: pointer;
+  }
 `;
 
 export default WantSomeBeer;
+
+// 가운데 정렬 css
+//부모 태그
+//position: relative;
+
+// position: absolute;
+// top: 50%;
+// left: 50%;
+// transform: translate(-50%, -50%);

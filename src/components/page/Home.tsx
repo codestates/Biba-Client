@@ -5,7 +5,7 @@ import { Route, RouterProps, Switch } from 'react-router';
 import { RootState } from '../../modules';
 
 import { TodayBeerListContainerWithRouter } from '../../containers/list/TodayBeerListContainer';
-import { WantSomeBeerContainerWithRouter } from '../../containers/list/WantSomeBeerContainer';
+import { WantSomeBeerListContainerWithRouter } from '../../containers/list/WantSomeBeerListContainer';
 
 export interface HomeProps {
   props: RouterProps;
@@ -18,7 +18,7 @@ function Home({ props }: HomeProps): JSX.Element {
       <Switch>
         <Route
           path='/wantsomebeer'
-          component={WantSomeBeerContainerWithRouter}
+          component={WantSomeBeerListContainerWithRouter}
         />
         {/* {isLogin ? (
             <Route path='/mybeer' component={MybeerContainerWithRouter} />
@@ -35,10 +35,10 @@ const Container = styled.div`
   position: absolute;
   right: 0;
   top: 0;
-  width: 50em;
+  width: 80%;
   height: 100vh;
   margin: 0 auto;
-  border: solid 3px green;
+  border: solid 2px gray;
 `;
 
 export default Home;

@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 import { HomeContainerWithRouter } from '../containers/page/HomeContainer';
 import { NavContainerWithRouter } from '../containers/nav/Nav';
-import { ModalContainerWithRouter } from '../containers/nav/Modal';
 import { BeerListNavContainerWithRouter } from '../containers/nav/BeerListNavContainer';
+import { ModalContainerWithRouter } from '../containers/nav/Modal';
 import { LoginContainerWithRouter } from '../containers/user/Login';
 import { SignupContainerWithRouter } from '../containers/user/Signup';
 import { MypageContainerWithRouter } from '../containers/user/Mypage';
@@ -61,7 +61,7 @@ const Container = styled.div`
 
 const MainContainer = styled.div`
   position: relative;
-  width: 65em;
+  width: 90%;
   margin: 0 auto;
 `;
 

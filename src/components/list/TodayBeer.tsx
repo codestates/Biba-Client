@@ -31,10 +31,11 @@ function Beer({ name, image, rate }: BeerProps): JSX.Element {
 
 const BeerImage = styled.div`
   height: 30vh;
-  width: 13vw;
+  width: 12vw;
   text-align: center;
   border: 1px solid gray;
-  margin: 1em;
+  border-radius: 1em;
+  margin: 1em auto;
   padding: 1em;
 `;
 
