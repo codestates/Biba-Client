@@ -9,15 +9,35 @@ function BeerListNav({
   handleClickWantSomeBeer,
   handleClickMyBeer,
   display,
-  setDisplay,
+  redirectHome,
 }: BeerListNavProps): JSX.Element {
   return (
     <ListNav style={display ? {} : { display: 'none' }}>
-      {setDisplay()}
       <UL>
-        <ListBtn onClick={handleClickTodayBeer}>Today&apos;s Beer</ListBtn>
-        <ListBtn onClick={handleClickWantSomeBeer}>Want Some Beer?</ListBtn>
-        <ListBtn onClick={handleClickMyBeer}>My Beers</ListBtn>
+        <ListBtn
+          onClick={() => {
+            redirectHome();
+            handleClickTodayBeer();
+          }}
+        >
+          Today&apos;s Beer
+        </ListBtn>
+        <ListBtn
+          onClick={() => {
+            redirectHome();
+            handleClickWantSomeBeer();
+          }}
+        >
+          Want Some Beer?
+        </ListBtn>
+        <ListBtn
+          onClick={() => {
+            redirectHome();
+            handleClickMyBeer();
+          }}
+        >
+          My Beers
+        </ListBtn>
       </UL>
     </ListNav>
   );

@@ -10,6 +10,7 @@ import {
 import { modalReducer, btnColorReducer, navDisplayReducer } from './nav';
 import { getBeerReducer } from './getbeer';
 import { changePageReducer } from './changepage';
+import { beerDetailReducer } from './beerdetail';
 
 export const rootReducer = combineReducers({
   login: loginReducer,
@@ -22,6 +23,7 @@ export const rootReducer = combineReducers({
   navDisplay: navDisplayReducer,
   getBeer: getBeerReducer,
   changepage: changePageReducer,
+  beerDetail: beerDetailReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

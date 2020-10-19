@@ -47,7 +47,12 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     setLogout();
   };
 
+  const handleClickTodayBeer = (): void => {
+    dispatch({ type: 'TODAY_BEER' });
+  };
+
   const handleClickLogo = (): void => {
+    handleClickTodayBeer();
     props.history.push('/');
   };
   const handleClickLogin = (): void => {

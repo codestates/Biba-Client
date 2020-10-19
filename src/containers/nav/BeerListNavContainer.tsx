@@ -13,7 +13,7 @@ export interface BeerListNavProps {
   handleClickWantSomeBeer(): void;
   handleClickMyBeer(): void;
   display: boolean;
-  setDisplay(): void;
+  redirectHome(): void;
 }
 
 export const BeerListNavContainer = ({
@@ -34,9 +34,7 @@ export const BeerListNavContainer = ({
   const handleClickMyBeer = (): void => {
     dispatch({ type: MY_BEER });
   };
-  const setDisplay = () => {
-    return location.pathname === '/' ? handleClickTodayBeer() : false;
-  };
+  const redirectHome = () => history.push('/');
   return (
     <BeerListNav
       isLogin={isLogin}
@@ -44,7 +42,7 @@ export const BeerListNavContainer = ({
       handleClickWantSomeBeer={handleClickWantSomeBeer}
       handleClickMyBeer={handleClickMyBeer}
       display={display}
-      setDisplay={setDisplay}
+      redirectHome={redirectHome}
     />
   );
 };

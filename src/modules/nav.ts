@@ -19,7 +19,6 @@ export interface BtnColor {
   btn: string;
   text: string;
 }
-
 export interface NavDisplay {
   display: boolean;
 }
