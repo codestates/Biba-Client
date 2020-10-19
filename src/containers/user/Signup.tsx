@@ -20,6 +20,8 @@ const SignupContainer = (): JSX.Element => {
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
+  const btnColor = useSelector((state: RootState) => state.btnColor.btn);
+  const textColor = useSelector((state: RootState) => state.btnColor.text);
 
   const dispatch = useDispatch();
   const handleConfirmEmail = (value: boolean): void => {
@@ -27,6 +29,9 @@ const SignupContainer = (): JSX.Element => {
   };
   const handleConfirmNickname = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_NICKNAME', value });
+  };
+  const handleBtnColor = (btn: string, text: string): void => {
+    dispatch({ type: 'SET_BTNCOLOR', btn, text });
   };
 
   const [inputValues, setInputValues] = useState({
@@ -37,10 +42,10 @@ const SignupContainer = (): JSX.Element => {
   });
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    if (emailConfirm) {
+    if (emailConfirm && e.currentTarget.name === 'email') {
       handleConfirmEmail(false);
     }
-    if (nicknameConfirm) {
+    if (nicknameConfirm && e.currentTarget.name === 'nickname') {
       handleConfirmNickname(false);
     }
     const { name, value } = e.target;
@@ -57,6 +62,7 @@ const SignupContainer = (): JSX.Element => {
           .then((res) => {
             if (res.status === 200) alert(`사용 가능한 이메일입니다.`);
             // 중복 확인 버튼 변화 && confirm dispatch
+            handleBtnColor('#989898', 'lightgrey');
             handleConfirmEmail(true);
           })
           .catch(() => {
@@ -79,10 +85,13 @@ const SignupContainer = (): JSX.Element => {
           .then((res) => {
             if (res.status === 200) alert(`사용 가능한 닉네임입니다.`);
             // 중복 확인 버튼 변화 && confirm dispatch
+            handleBtnColor('#989898', 'lightgrey');
             handleConfirmNickname(true);
           })
           .catch(() => {
             alert(`이미 존재하는 닉네임입니다.\n다른 닉네임을 사용해주세요.`);
+            handleBtnColor('#989898', 'lightgrey'); // 임시
+            handleConfirmNickname(true); // 임시
           });
       } else {
         alert(
@@ -140,6 +149,15 @@ const SignupContainer = (): JSX.Element => {
                 ? handleCheckEmail()
                 : handleCheckNickname();
             }}
+            style={
+              inputList.indexOf(ele) === 0
+                ? emailConfirm
+                  ? { background: btnColor, color: textColor }
+                  : {}
+                : nicknameConfirm
+                ? { background: btnColor, color: textColor }
+                : {}
+            }
           >
             중복 확인
           </CheckBtn>

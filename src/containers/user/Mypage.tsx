@@ -21,6 +21,7 @@ import { passwordCheck, passwordMatch } from './utils';
 export interface MypageProps {
   userData: User;
   profile: string;
+  profileTest(): JSX.Element;
   handleModal(contentType: ContentType, display: boolean): void;
   getMyReviews(): void;
   mapInputList(): JSX.Element[];
@@ -28,6 +29,31 @@ export interface MypageProps {
 }
 
 const MypageContainer = (props: RouterProps): JSX.Element => {
+  // profile pic 작업 중
+  const profileTest = (): JSX.Element => {
+    return (
+      <div>
+        <input type='file' accept='image/*' />
+        <div
+          style={{
+            height: '60px',
+            width: '60px',
+            border: '2px dashed black',
+          }}
+        >
+          <img
+            style={{
+              width: '60px',
+              height: '60px',
+              position: 'absolute',
+            }}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  // 최상단
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
@@ -123,6 +149,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
     <Mypage
       userData={userData}
       profile={profile}
+      profileTest={profileTest}
       handleModal={handleModal}
       getMyReviews={getMyReviews}
       mapInputList={mapInputList}

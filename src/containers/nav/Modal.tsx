@@ -15,6 +15,8 @@ export interface ModalProps {
   display: boolean;
   content: JSX.Element | JSX.Element[];
   closeModal(): void;
+  btnColor: string;
+  textColor: string;
 }
 
 export const ModalContainer = (props: RouterProps): JSX.Element => {
@@ -30,11 +32,16 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
+  const btnColor = useSelector((state: RootState) => state.btnColor.btn);
+  const textColor = useSelector((state: RootState) => state.btnColor.text);
 
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   const dispatch = useDispatch();
   const handleConfirmNickname = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_NICKNAME', value });
+  };
+  const handleBtnColor = (btn: string, text: string): void => {
+    dispatch({ type: 'SET_BTNCOLOR', btn, text });
   };
 
   const [inputValues, setInputValues] = useState({
@@ -42,7 +49,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   });
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    if (nicknameConfirm) {
+    if (nicknameConfirm && e.currentTarget.name === 'nickname') {
       handleConfirmNickname(false);
     }
     const { name, value } = e.target;
@@ -59,9 +66,12 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           .then((res) => {
             if (res.status === 200) alert(`사용할 수 있는 닉네임입니다.`);
             // 중복 확인 버튼 변화 && confirm dispatch
+            handleBtnColor('#989898', 'lightgrey');
             handleConfirmNickname(true);
           })
           .catch(() => {
+            handleBtnColor('#989898', 'lightgrey'); // 임시
+            handleConfirmNickname(true); // 임시
             alert(`이미 존재하는 닉네임입니다.\n다른 닉네임을 사용해주세요.`);
           });
       } else {
@@ -111,7 +121,16 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
               name='nickname'
               onChange={handleOnChange}
             ></input>
-            <button onClick={handleCheckNickname}>중복 확인</button>
+            <button
+              onClick={handleCheckNickname}
+              style={
+                nicknameConfirm
+                  ? { background: btnColor, color: textColor }
+                  : {}
+              }
+            >
+              중복 확인
+            </button>
           </div>
           <button onClick={handleClickChangeNickname}>변경하기</button>
         </>
@@ -136,6 +155,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       display={display}
       content={content(contentType)}
       closeModal={closeModal}
+      btnColor={btnColor}
+      textColor={textColor}
     />
   );
 };

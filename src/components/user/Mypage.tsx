@@ -7,6 +7,7 @@ import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllRevie
 export const Mypage = ({
   userData,
   profile,
+  profileTest,
   handleModal,
   getMyReviews,
   mapInputList,
@@ -22,7 +23,7 @@ export const Mypage = ({
           <DetailArea>
             <ProfileArea key='pfDetail0'>
               <ProfileTitle>프로필</ProfileTitle>
-              <Profile>{profile}</Profile>
+              <Profile>{profileTest()}</Profile>
               <BtnArea>
                 <ProfileBtn>업로드</ProfileBtn>
                 <ProfileBtn>삭제</ProfileBtn>

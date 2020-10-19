@@ -36,9 +36,8 @@ export const App = ({ props }: AppProps): JSX.Element => {
           <MainContainer>
             <Route exact path='/' component={BeerListNavContainerWithRouter} />
             <Route exact path='/' component={HomeContainerWithRouter} />
+            <Redirect to='/' path='*' />
           </MainContainer>
-          ;
-          <Redirect to='/' path='*' />
         </Switch>
       </Main>
       <Footer>
