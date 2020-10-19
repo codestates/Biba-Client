@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { Route, RouterProps, Switch } from 'react-router';
+import { Route, RouterProps } from 'react-router';
 import { RootState } from '../../modules';
 
 import { TodayBeerListContainerWithRouter } from '../../containers/list/TodayBeerListContainer';
 import { WantSomeBeerListContainerWithRouter } from '../../containers/list/WantSomeBeerListContainer';
+import { BeerListNavContainerWithRouter } from '../../containers/nav/BeerListNavContainer';
 
 export interface HomeProps {
   props: RouterProps;
@@ -13,23 +14,26 @@ export interface HomeProps {
 
 function Home({ props }: HomeProps): JSX.Element {
   const { isLogin } = useSelector((state: RootState) => state.login);
+  const isToday = useSelector((state: RootState) => state.changepage.isToday);
+  const isWant = useSelector((state: RootState) => state.changepage.isWant);
+  const isMy = useSelector((state: RootState) => state.changepage.isMy);
   return (
-    <Container>
-      <Switch>
-        <Route
-          path='/wantsomebeer'
-          component={WantSomeBeerListContainerWithRouter}
-        />
-        {/* {isLogin ? (
-            <Route path='/mybeer' component={MybeerContainerWithRouter} />
-          ) : (
-            false
-          )} */}
-        <Route exact path='/' component={TodayBeerListContainerWithRouter} />
-      </Switch>
-    </Container>
+    <MainContainer>
+      <BeerListNavContainerWithRouter />
+      <Container>
+        {isToday ? <TodayBeerListContainerWithRouter /> : false}
+        {isWant ? <WantSomeBeerListContainerWithRouter /> : false}
+        {isMy ? true : false}
+        {/* {isDetail ? '/:id': false} */}
+      </Container>
+    </MainContainer>
   );
 }
+const MainContainer = styled.div`
+  position: relative;
+  width: 90%;
+  margin: 0 auto;
+`;
 
 const Container = styled.div`
   position: absolute;
