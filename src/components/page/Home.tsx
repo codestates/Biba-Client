@@ -24,7 +24,6 @@ function Home({ props }: HomeProps): JSX.Element {
         {isToday ? <TodayBeerListContainerWithRouter /> : false}
         {isWant ? <WantSomeBeerListContainerWithRouter /> : false}
         {isMy ? true : false}
-        {/* {isDetail ? '/:id': false} */}
       </Container>
     </MainContainer>
   );
