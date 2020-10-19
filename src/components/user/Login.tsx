@@ -3,7 +3,12 @@ import styled from 'styled-components';
 
 import { LoginProps } from '../../containers/user/Login';
 
-export const Login = ({ handleOnChange, login }: LoginProps): JSX.Element => {
+export const Login = ({
+  handleOnChange,
+  handleLogin,
+  pressEnter,
+  redirectToSignup,
+}: LoginProps): JSX.Element => {
   return (
     <Container>
       <LoginArea className='loginArea'>
@@ -17,21 +22,26 @@ export const Login = ({ handleOnChange, login }: LoginProps): JSX.Element => {
             type='text'
             name='email'
             onChange={handleOnChange}
+            onKeyPress={pressEnter}
             placeholder='이메일을 입력해주세요.'
           ></Input>
           <Input
             type='password'
             name='password'
             onChange={handleOnChange}
+            onKeyPress={pressEnter}
             placeholder='비밀번호를 입력해주세요.'
           ></Input>
-          <LoginBtn className='loginBtn' onClick={login}>
-            로그인
-          </LoginBtn>
         </InputArea>
         <BtnArea className='btnArea'>
-          <SocialBtn className='googleLoginBtn'>구글 로그인</SocialBtn>
-          <SocialBtn className='kakaoLoginBtn'>카카오 로그인</SocialBtn>
+          <SmallBtn className='loginBtn' onClick={handleLogin}>
+            로그인
+          </SmallBtn>
+          <LongBtn className='googleLoginBtn'>구글 로그인</LongBtn>
+          <LongBtn className='kakaoLoginBtn'>카카오 로그인</LongBtn>
+          <Redirect className='signupBtn' onClick={redirectToSignup}>
+            Biba 가입하러 가기
+          </Redirect>
         </BtnArea>
       </LoginArea>
     </Container>
@@ -78,26 +88,39 @@ const Input = styled.input`
   width: 13em;
 `;
 
-const LoginBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-self: center;
-  width: 5em;
-
-  margin: 0.5em 0 0.3em 0;
-`;
-
 const BtnArea = styled.div`
   display: flex;
   flex-direction: column;
   width: 15em;
 `;
 
-const SocialBtn = styled.button`
+const SmallBtn = styled.button`
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 5em;
+
+  margin: 0.15em 0 0.3em 0;
+`;
+
+const LongBtn = styled.button`
+  cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-self: center;
   width: 10em;
 
   margin: 0.15em 0 0.15em 0;
+`;
+
+const Redirect = styled.div`
+  cursor: pointer;
+
+  display: flex;
+  align-self: center;
+
+  margin: 1.5em 0 0 0;
 `;

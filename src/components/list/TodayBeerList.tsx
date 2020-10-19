@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Beer from './Beer';
+import TodayBeer from './TodayBeer';
 import { BeerT } from '../../modules/getbeer';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 function TodayBeerList({ beers }: Props): JSX.Element {
   const todayBeerList = beers.map((beer) => (
-    <Beer
+    <TodayBeer
       key={beer.id}
       name={beer.beer_name}
       image={beer.beer_img}
@@ -22,11 +22,11 @@ function TodayBeerList({ beers }: Props): JSX.Element {
 
 const BeerList = styled.div`
   height: 100%;
+  width: 100%;
   overflow-y: scroll;
-  margin: 0 auto;
   display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: center;
 `;
 
 export default TodayBeerList;

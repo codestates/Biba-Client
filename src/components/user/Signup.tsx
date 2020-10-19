@@ -5,7 +5,7 @@ import { SignupProps } from '../../containers/user/Signup';
 
 export const Signup = ({
   mapInputList,
-  handleSignup,
+  handleClickSignup,
 }: SignupProps): JSX.Element => {
   return (
     <Container>
@@ -18,7 +18,7 @@ export const Signup = ({
 
         <InputArea className='inputArea'>
           {mapInputList()}
-          <SignupBtn className='signupBtn' onClick={handleSignup}>
+          <SignupBtn className='signupBtn' onClick={handleClickSignup}>
             회원가입
           </SignupBtn>
         </InputArea>
@@ -70,7 +70,34 @@ const InputArea = styled.div`
   margin: 0.5em 0 0.5em 0;
 `;
 
+export const InputWithCheck = styled.div`
+  display: flex;
+
+  margin: 0 0 0.1em 0;
+`;
+
+export const Input = styled.input`
+  display: flex;
+
+  width: 13em;
+  height: 24px;
+
+  margin: 0 0 0.1em 0;
+`;
+
+export const CheckBtn = styled.button`
+  cursor: pointer;
+
+  font-size: 0.85em;
+
+  height: 24px;
+
+  margin: 0;
+`;
+
 const SignupBtn = styled.button`
+  cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-self: center;
@@ -86,6 +113,8 @@ const BtnArea = styled.div`
 `;
 
 const SocialBtn = styled.button`
+  cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-self: center;
