@@ -1,38 +1,127 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 import axios from 'axios';
 
 import { Signup } from '../../components/user/Signup';
-import { checkInput } from './utils';
+import { emailCheck, nicknameCheck, checkInput } from './utils';
+import { RootState } from '../../modules';
+import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 
 export interface SignupProps {
   mapInputList(): JSX.Element[];
-  handleSignup(): void;
+  handleClickSignup(): void;
 }
 
 const SignupContainer = (): JSX.Element => {
+  const emailConfirm = useSelector(
+    (state: RootState) => state.confirmEmail.value,
+  );
+  const nicknameConfirm = useSelector(
+    (state: RootState) => state.confirmNickname.value,
+  );
+
+  const dispatch = useDispatch();
+  const handleConfirmEmail = (value: boolean): void => {
+    dispatch({ type: 'CONFIRM_EMAIL', value });
+  };
+  const handleConfirmNickname = (value: boolean): void => {
+    dispatch({ type: 'CONFIRM_NICKNAME', value });
+  };
+
   const [inputValues, setInputValues] = useState({
     email: '',
     password: '',
-    checkpw: '',
-    username: '',
+    passwordForCheck: '',
+    nickname: '',
   });
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    e.preventDefault();
+    if (emailConfirm) {
+      handleConfirmEmail(false);
+    }
+    if (nicknameConfirm) {
+      handleConfirmNickname(false);
+    }
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
   };
-  const handleSignup = (): void => {
-    const { email, password, checkpw, username } = inputValues;
-    checkInput(email, password, checkpw, username);
+
+  const handleCheckEmail = (): void => {
+    if (inputValues.email !== '') {
+      if (emailCheck(inputValues.email)) {
+        axios
+          .post('http://localhost:4000/users/emailconfirm', {
+            email: inputValues.email,
+          })
+          .then((res) => {
+            if (res.status === 200) alert(`사용 가능한 이메일입니다.`);
+            // 중복 확인 버튼 변화 && confirm dispatch
+            handleConfirmEmail(true);
+          })
+          .catch(() => {
+            alert(`이미 존재하는 이메일입니다.\n다른 이메일을 사용해주세요.`);
+          });
+      } else {
+        alert(`정확한 이메일 주소를 입력해주세요.`);
+      }
+    } else {
+      alert(`이메일 주소를 입력해주세요.`);
+    }
+  };
+  const handleCheckNickname = (): void => {
+    if (inputValues.nickname !== '') {
+      if (nicknameCheck(inputValues.nickname)) {
+        axios
+          .post('http://localhost:4000/users/nicknameconfirm', {
+            nickname: inputValues.nickname,
+          })
+          .then((res) => {
+            if (res.status === 200) alert(`사용 가능한 닉네임입니다.`);
+            // 중복 확인 버튼 변화 && confirm dispatch
+            handleConfirmNickname(true);
+          })
+          .catch(() => {
+            alert(`이미 존재하는 닉네임입니다.\n다른 닉네임을 사용해주세요.`);
+          });
+      } else {
+        alert(
+          `닉네임을 확인해주세요.\n6~12자리의 영문, 숫자 조합이어야 합니다.`,
+        );
+      }
+    } else {
+      alert(`닉네임을 입력해주세요.`);
+    }
+  };
+
+  const handleClickSignup = (): void => {
+    const { email, password, passwordForCheck, nickname } = inputValues;
     console.log('test');
+    if (emailConfirm && nicknameConfirm) {
+      checkInput(email, password, passwordForCheck, nickname);
+      // true라면 post 요청(가입 요청 전송)
+    }
+    if (!emailConfirm) {
+      if (inputValues.email !== '') {
+        return alert(`이메일 중복 확인을 해주세요.`);
+      } else {
+        return alert(`이메일 주소를 입력해주세요.`);
+      }
+    }
+    if (!nicknameConfirm) {
+      if (inputValues.nickname !== '') {
+        return alert(`닉네임 중복 확인을 해주세요.`);
+      } else {
+        return alert(`닉네임을 입력해주세요.`);
+      }
+    }
   };
 
   const inputList: string[][] = [
     ['email', '이메일을 입력해주세요.'],
-    ['username', '닉네임을 입력해주세요.'],
+    ['nickname', '닉네임을 입력해주세요.'],
     ['password', '비밀번호를 입력해주세요.'],
-    ['checkpw', '다시 한번 입력해주세요.'],
+    ['passwordForCheck', '다시 한번 입력해주세요.'],
   ];
   const mapInputList = (): JSX.Element[] => {
     return inputList.map((ele) =>
@@ -44,7 +133,16 @@ const SignupContainer = (): JSX.Element => {
             onChange={handleOnChange}
             placeholder={ele[1]}
           ></Input>
-          <CheckBtn className='checkBtn'>중복 확인</CheckBtn>
+          <CheckBtn
+            className='checkBtn'
+            onClick={() => {
+              inputList.indexOf(ele) === 0
+                ? handleCheckEmail()
+                : handleCheckNickname();
+            }}
+          >
+            중복 확인
+          </CheckBtn>
         </InputWithCheck>
       ) : (
         <Input
@@ -58,30 +156,9 @@ const SignupContainer = (): JSX.Element => {
     );
   };
 
-  return <Signup mapInputList={mapInputList} handleSignup={handleSignup} />;
+  return (
+    <Signup mapInputList={mapInputList} handleClickSignup={handleClickSignup} />
+  );
 };
 
 export const SignupContainerWithRouter = withRouter(SignupContainer);
-
-const InputWithCheck = styled.div`
-  display: flex;
-
-  margin: 0 0 0.1em 0;
-`;
-
-const Input = styled.input`
-  display: flex;
-
-  width: 13em;
-  height: 24px;
-
-  margin: 0 0 0.1em 0;
-`;
-
-const CheckBtn = styled.button`
-  font-size: 0.85em;
-
-  height: 24px;
-
-  margin: 0;
-`;
