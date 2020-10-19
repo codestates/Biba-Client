@@ -8,28 +8,59 @@ export interface BeerProps {
   rate: number;
 }
 
+const numToStar = (rate: number) => {
+  let result = '';
+  for (let i = 0; i < rate; i++) {
+    result += '⭐ ';
+  }
+  return result;
+};
+
 function Beer({ name, image, rate }: BeerProps): JSX.Element {
+  const star = numToStar(rate);
   return (
     <BeerImage>
-      <Text>{name}</Text>
-      <Text>{image}</Text>
-      <Text>{rate}</Text>
+      <Image src={image} alt={name} />
+      <TextContainer>
+        <Text>{name}</Text>
+        <Text>{star}</Text>
+      </TextContainer>
     </BeerImage>
   );
 }
 
 const BeerImage = styled.div`
   height: 30vh;
-  width: 15vw;
+  width: 13vw;
   text-align: center;
-  position: relative;
+  border: 1px solid gray;
+  margin: 1em;
+  padding: 1em;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const Text = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-left: 10px;
+  margin-top: 10px;
+`;
+
+const Image = styled.img`
+  height: 80%;
+  width: 50%;
 `;
 
 export default Beer;
+
+// 가운데 정렬 css
+//부모 태그
+//position: relative;
+
+// position: absolute;
+// top: 50%;
+// left: 50%;
+// transform: translate(-50%, -50%);

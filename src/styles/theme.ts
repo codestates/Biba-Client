@@ -7,6 +7,8 @@ const theme: DefaultTheme = {
     main: 'cyan',
     secondary: 'magenta',
   },
+
+  image: '',
 };
 
 export { theme };

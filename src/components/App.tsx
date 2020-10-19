@@ -1,9 +1,11 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Home from '../components/page/Home';
+import { HomeContainerWithRouter } from '../containers/page/HomeContainer';
 import { NavContainerWithRouter } from '../containers/nav/Nav';
+import { BeerListNavContainerWithRouter } from '../containers/nav/BeerListNavContainer';
 import { LoginContainerWithRouter } from '../containers/user/Login';
 import { SignupContainerWithRouter } from '../containers/user/Signup';
 import { MypageContainerWithRouter } from '../containers/user/Mypage';
@@ -20,7 +22,9 @@ export const App = ({ props }: AppProps): JSX.Element => {
         path={['/login', '/signup', '/mypage']}
         component={NavContainerWithRouter}
       />
+
       <Route exact path='/' component={NavContainerWithRouter} />
+
       <Switch>
         <Route path='/login' component={LoginContainerWithRouter} />
         <Route path='/signup' component={SignupContainerWithRouter} />
@@ -29,9 +33,18 @@ export const App = ({ props }: AppProps): JSX.Element => {
         ) : (
           false
         )}
-        <Route exact path='/' component={Home} />
+        <MainContainer>
+          <Route exact path='/' component={BeerListNavContainerWithRouter} />
+          <Route exact path='/' component={HomeContainerWithRouter} />
+        </MainContainer>
         <Redirect to='/' path='*' />
       </Switch>
     </>
   );
 };
+
+const MainContainer = styled.div`
+  position: relative;
+  width: 65em;
+  margin: 0 auto;
+`;
