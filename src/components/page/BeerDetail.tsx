@@ -8,6 +8,7 @@ export const BeerDetail = ({
   match,
 }: RouteComponentProps<MatchParams>): JSX.Element => {
   const { beerId } = match.params;
+
   return (
     <div>
       <div>{beerId}</div>

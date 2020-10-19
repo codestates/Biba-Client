@@ -1,12 +1,5 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  Switch,
-  Route,
-  Redirect,
-  RouteComponentProps,
-  Link,
-} from 'react-router-dom';
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { HomeContainerWithRouter } from '../containers/page/HomeContainer';
@@ -19,26 +12,15 @@ import { MypageContainerWithRouter } from '../containers/user/Mypage';
 import { FooterContainerithRouter } from '../containers/nav/Footer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
-import { RootState } from '../modules';
+import { AppProps } from '../containers/App';
 
 export const App = ({
   match,
   history,
   location,
-}: RouteComponentProps): JSX.Element => {
-  const { isLogin } = useSelector((state: RootState) => state.login);
-  const dispatch = useDispatch();
-  const handleNavDisplay = (display: boolean) => {
-    dispatch({ type: 'SET_NAVDISPLAY', display });
-  };
-
-  const whiteList = ['login', 'signup', 'beer'];
-  const fullList = ['/login', '/signup', '/mypage'];
-  useEffect(() => {
-    fullList.indexOf(location.pathname) !== -1
-      ? handleNavDisplay(false)
-      : handleNavDisplay(true);
-  });
+  isLogin,
+  whiteList,
+}: AppProps): JSX.Element => {
   return (
     <Container>
       <Nav>
