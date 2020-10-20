@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -23,6 +23,7 @@ export interface NavProps {
   handleClickSignup(): void;
   handleClickMypage(): void;
   testLoginModal(): void;
+  testDetail(): void;
 }
 
 export const NavContainer = (props: RouterProps): JSX.Element => {
@@ -30,6 +31,8 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     (state: RootState) => state.login,
   );
   const { profile } = useSelector((state: RootState) => state.profile);
+  const { display } = useSelector((state: RootState) => state.navDisplay);
+
   const dispatch = useDispatch();
   const setLogout = () => {
     dispatch({ type: 'SET_LOGOUTSTATE' });
@@ -44,7 +47,12 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     setLogout();
   };
 
+  const handleClickTodayBeer = (): void => {
+    dispatch({ type: 'TODAY_BEER' });
+  };
+
   const handleClickLogo = (): void => {
+    handleClickTodayBeer();
     props.history.push('/');
   };
   const handleClickLogin = (): void => {
@@ -59,6 +67,9 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   const handleClickMypage = (): void => {
     props.history.push('/mypage');
   };
+  const testDetail = (): void => {
+    props.history.push('/beer/detail');
+  };
 
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
@@ -67,6 +78,10 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     // 임시로 nav에 배치 - list page에서 일정 수준 이상 스크롤 시 등장, 로그인이 아닌 상태일 때만 나타나야 함
     handleModal(ContentType.Login, true);
   };
+
+  // const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  //   console.log(e.currentTarget);
+  // };
 
   return (
     <Nav
@@ -81,6 +96,7 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       handleClickSignup={handleClickSignup}
       handleClickMypage={handleClickMypage}
       testLoginModal={testLoginModal}
+      testDetail={testDetail}
     />
   );
 };

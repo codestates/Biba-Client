@@ -1,6 +1,7 @@
 const SET_SEARCHBAR = 'SET_SEARCHBAR' as const;
 const SET_MODAL = 'SET_MODAL' as const;
 const SET_BTNCOLOR = 'SET_BTNCOLOR' as const;
+const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
 
 export interface ModalContent {
   contentType: ContentType;
@@ -17,6 +18,9 @@ export enum ContentType {
 export interface BtnColor {
   btn: string;
   text: string;
+}
+export interface NavDisplay {
+  display: boolean;
 }
 
 // 이하로 action interface + init + action
@@ -49,6 +53,17 @@ export const setBtnColor = (btn: string, text: string): BtnColorAction => ({
   text,
 });
 
+export interface NavDisplayAction extends NavDisplay {
+  type: typeof SET_NAVDISPLAY;
+}
+const displayInit: NavDisplay = {
+  display: true,
+};
+export const setNavDisplay = (display: boolean): NavDisplayAction => ({
+  type: SET_NAVDISPLAY,
+  display,
+});
+
 // ============ 이하로 reducers
 export const modalReducer = (
   state = modalInit,
@@ -77,6 +92,22 @@ export const btnColorReducer = (
         ...state,
         btn: action.btn,
         text: action.text,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const navDisplayReducer = (
+  state = displayInit,
+  action: NavDisplayAction,
+): NavDisplay => {
+  switch (action.type) {
+    case SET_NAVDISPLAY:
+      return {
+        ...state,
+        display: action.display,
       };
 
     default:

@@ -1,27 +1,41 @@
-import React from 'react';
-import { RouterProps } from 'react-router';
-import { Provider } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-
-import { ThemeProvider } from 'styled-components';
-import { theme } from '../styles/theme';
-import configureStore from '../containers/store';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { App } from '../components/App';
+import { RootState } from '../modules';
 
-const store = configureStore();
-
-export interface AppProps {
-  props: RouterProps;
+export interface AppProps extends RouteComponentProps {
+  isLogin: boolean;
+  whiteList: string[];
 }
 
-export const AppContainer = (props: RouterProps): JSX.Element => {
+export const AppContainer = ({
+  match,
+  history,
+  location,
+}: RouteComponentProps): JSX.Element => {
+  const { isLogin } = useSelector((state: RootState) => state.login);
+  const dispatch = useDispatch();
+  const handleNavDisplay = (display: boolean) => {
+    dispatch({ type: 'SET_NAVDISPLAY', display });
+  };
+
+  const whiteList = ['login', 'signup', 'beer'];
+  const fullList = ['/login', '/signup', '/mypage'];
+  useEffect(() => {
+    fullList.indexOf(location.pathname) !== -1
+      ? handleNavDisplay(false)
+      : handleNavDisplay(true);
+  });
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <App props={props} />
-      </Provider>
-    </ThemeProvider>
+    <App
+      match={match}
+      history={history}
+      location={location}
+      isLogin={isLogin}
+      whiteList={whiteList}
+    />
   );
 };
 
