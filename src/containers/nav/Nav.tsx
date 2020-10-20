@@ -44,15 +44,21 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   const removeProfile = () => {
     dispatch({ type: 'DELETE_PROFILE' });
   };
+  const handleClickTodayBeer = (): void => {
+    dispatch({ type: 'TODAY_BEER' });
+  };
+  const handleNavDisplay = (display: boolean) => {
+    dispatch({ type: 'SET_NAVDISPLAY', display });
+  };
 
   const logout = () => {
     // 로그아웃 - store에서 프로필 삭제, 사용자 정보 삭제
     removeProfile();
     setLogout();
-  };
-
-  const handleClickTodayBeer = (): void => {
-    dispatch({ type: 'TODAY_BEER' });
+    handleClickTodayBeer();
+    handleNavDisplay(true);
+    alert('로그아웃 되었습니다.'); // 로그아웃 시 렌더링 오류
+    props.history.push('/');
   };
 
   const handleClickLogo = (): void => {
@@ -63,7 +69,8 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     props.history.push('/login');
   };
   const handleClickLogout = (): void => {
-    console.log('/logout');
+    logout();
+    props.history.push('/');
   };
   const handleClickSignup = (): void => {
     props.history.push('/signup');

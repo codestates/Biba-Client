@@ -6,10 +6,27 @@ export interface BeerProps {
   name: string;
   image: string;
   rate: number;
+  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
+  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
 
-function WantSomeBeer({ name, image, rate }: BeerProps): JSX.Element {
-  return <Image src={image} alt={name} />;
+function WantSomeBeer({
+  name,
+  image,
+  rate,
+  setBeerDetail,
+  setAllReviews,
+}: BeerProps): JSX.Element {
+  return (
+    <Image
+      src={image}
+      alt={name}
+      onClick={(e) => {
+        setBeerDetail(e);
+        setAllReviews(e);
+      }}
+    />
+  );
 }
 
 const Image = styled.img`

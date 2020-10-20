@@ -16,13 +16,13 @@ function SearchBeerListContainer({
   match,
   history,
   location,
-  getBeerDetail,
+  setBeerDetail,
 }: HomeProps): JSX.Element {
   const beers = useSelector((state: RootState) => state.searchBeer.beers);
 
   return (
     <Container>
-      <SearchBeerList beers={fakedata} getBeerDetail={getBeerDetail} />;
+      <SearchBeerList beers={fakedata} setBeerDetail={setBeerDetail} />;
     </Container>
   );
 }

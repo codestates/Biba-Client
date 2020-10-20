@@ -13,7 +13,8 @@ function Home({
   match,
   history,
   location,
-  getBeerDetail,
+  setBeerDetail,
+  setAllReviews,
 }: HomeProps): JSX.Element {
   const { isLogin } = useSelector((state: RootState) => state.login);
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
@@ -22,12 +23,18 @@ function Home({
   return (
     <Container>
       {isToday ? (
-        <TodayBeerListContainerWithRouter getBeerDetail={getBeerDetail} />
+        <TodayBeerListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
       ) : (
         false
       )}
       {isWant ? (
-        <WantSomeBeerListContainerWithRouter getBeerDetail={getBeerDetail} />
+        <WantSomeBeerListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
       ) : (
         false
       )}

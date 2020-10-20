@@ -7,7 +7,8 @@ import axios from 'axios';
 import { LoginContainerWithRouter } from '../../containers/user/Login';
 
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
+import { ContentType } from '../../modules/nav';
+import { aReview } from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
 import { nicknameCheck } from '../user/utils';
 
@@ -36,6 +37,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const textColor = useSelector((state: RootState) => state.btnColor.text);
 
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
+  const { allReviews } = useSelector((state: RootState) => state.allReview);
+
   const dispatch = useDispatch();
   const handleConfirmNickname = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_NICKNAME', value });
@@ -103,7 +106,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     }
     if (contentType === ContentType.MypageAllReviews) {
       return myReviews.length !== 0 ? (
-        myReviews.map((ele: { message: string }) => (
+        myReviews.map((ele: aReview) => (
           <div key={myReviews.indexOf(ele)}>{ele.message}</div>
         ))
       ) : (
@@ -134,6 +137,15 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           </div>
           <button onClick={handleClickChangeNickname}>변경하기</button>
         </>
+      );
+    }
+    if (contentType === ContentType.AllReviews) {
+      return allReviews.length !== 0 ? (
+        allReviews.map((ele: aReview) => (
+          <div key={allReviews.indexOf(ele)}>{ele.message}</div>
+        ))
+      ) : (
+        <div>작성한 리뷰가 없습니다.</div>
       );
     }
 

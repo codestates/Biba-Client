@@ -1,4 +1,5 @@
 const SET_BEERDETAIL = 'SET_BEERDETAIL' as const;
+const SET_ALLREVIEWS = 'SET_ALLREVIEWS' as const;
 
 export interface IBeerDetail {
   id: number;
@@ -15,6 +16,12 @@ export interface ObjBeerDetail {
   beerDetail: IBeerDetail;
 }
 
+export interface aReview {
+  message: string;
+}
+export interface AllReviewList {
+  allReviews: aReview[];
+}
 // 이하로 action interface + init + action
 export interface BeerDetailAction extends ObjBeerDetail {
   type: typeof SET_BEERDETAIL;
@@ -37,6 +44,17 @@ export const setBeerDetail = (beerDetail: IBeerDetail): BeerDetailAction => ({
   beerDetail,
 });
 
+export interface AllReviewListAction extends AllReviewList {
+  type: typeof SET_ALLREVIEWS;
+}
+const allReviewsInit: AllReviewList = {
+  allReviews: [],
+};
+export const setMyReviews = (allReviews: aReview[]): AllReviewListAction => ({
+  type: SET_ALLREVIEWS,
+  allReviews,
+});
+
 // ============ 이하로 reducers
 export const beerDetailReducer = (
   state = beerDetailInit,
@@ -47,6 +65,22 @@ export const beerDetailReducer = (
       return {
         ...state,
         beerDetail: action.beerDetail,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const allReviewsReducer = (
+  state = allReviewsInit,
+  action: AllReviewListAction,
+): AllReviewList => {
+  switch (action.type) {
+    case SET_ALLREVIEWS:
+      return {
+        ...state,
+        allReviews: action.allReviews,
       };
 
     default:

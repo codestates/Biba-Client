@@ -1,3 +1,5 @@
+import { aReview } from './beerdetail';
+
 const SET_LOGINSTATE = 'SET_LOGINSTATE' as const;
 const SET_LOGOUTSTATE = 'SET_LOGOUTSTATE' as const;
 const SET_PROFILE = 'SET_PROFILE' as const;
@@ -22,9 +24,6 @@ export interface UserState {
   userData: User;
   isLogin: boolean;
   token: string;
-}
-export interface aReview {
-  message: string;
 }
 export interface MyReviewList {
   myReviews: aReview[];
@@ -88,13 +87,13 @@ export const deleteProfile = (profile: string): ProfileAction => ({
   profile,
 });
 
-export interface ReviewListAction extends MyReviewList {
+export interface MyReviewListAction extends MyReviewList {
   type: typeof SET_MYREVIEWS;
 }
 const myReviewsInit: MyReviewList = {
   myReviews: [],
 };
-export const setMyReviews = (myReviews: aReview[]): ReviewListAction => ({
+export const setMyReviews = (myReviews: aReview[]): MyReviewListAction => ({
   type: SET_MYREVIEWS,
   myReviews,
 });
@@ -172,7 +171,7 @@ export const profileReducer = (
 
 export const myReviewsReducer = (
   state = myReviewsInit,
-  action: ReviewListAction,
+  action: MyReviewListAction,
 ): MyReviewList => {
   switch (action.type) {
     case SET_MYREVIEWS:

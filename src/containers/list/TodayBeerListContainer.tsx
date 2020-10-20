@@ -14,11 +14,18 @@ function TodayBeerListContainer({
   match,
   history,
   location,
-  getBeerDetail,
+  setBeerDetail,
+  setAllReviews,
 }: HomeProps): JSX.Element {
   const beers = useSelector((state: RootState) => state.getBeer.beers);
 
-  return <TodayBeerList beers={fakedata} getBeerDetail={getBeerDetail} />;
+  return (
+    <TodayBeerList
+      beers={fakedata}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  );
 }
 
 export const TodayBeerListContainerWithRouter = withRouter(

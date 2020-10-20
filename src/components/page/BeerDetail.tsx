@@ -6,6 +6,7 @@ import { BeerDetailProps } from '../../containers/page/BeerDetailContainer';
 export const BeerDetail = ({
   match,
   beerDetail,
+  handleClickAllReviews,
 }: BeerDetailProps): JSX.Element => {
   const { id } = match.params;
   const example = 'https://bit.ly/2T6JRuE';
@@ -44,7 +45,7 @@ export const BeerDetail = ({
       <RatingArea>별점주기</RatingArea>
       <CommentArea></CommentArea>
       <WriteComment>리뷰 작성하기</WriteComment>
-      <CommentAll>리뷰 전체보기</CommentAll>
+      <CommentAll onClick={handleClickAllReviews}>리뷰 전체보기</CommentAll>
     </Container>
   );
 };
