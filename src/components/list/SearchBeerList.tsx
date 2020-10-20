@@ -6,9 +6,13 @@ import SearchBeer from './SearchBeer';
 
 interface SearchBeerProps {
   beers: BeerT[];
+  getBeerDetail(e: React.MouseEvent<HTMLElement>): void;
 }
 
-function SearchBeerList({ beers }: SearchBeerProps): JSX.Element {
+function SearchBeerList({
+  beers,
+  getBeerDetail,
+}: SearchBeerProps): JSX.Element {
   const searchBeerList = beers.map((beer) => (
     <SearchBeer
       key={beer.id}

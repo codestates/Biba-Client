@@ -6,9 +6,10 @@ import { BeerT } from '../../modules/getbeer';
 
 interface Props {
   beers: BeerT[];
+  getBeerDetail(e: React.MouseEvent<HTMLElement>): void;
 }
 
-function WantSomeBeerList({ beers }: Props): JSX.Element {
+function WantSomeBeerList({ beers, getBeerDetail }: Props): JSX.Element {
   const hotBeerList = beers.map((beer) => (
     <WantSomeBeer
       key={beer.id}

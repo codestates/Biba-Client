@@ -21,7 +21,7 @@ export const AppContainer = ({
     dispatch({ type: 'SET_NAVDISPLAY', display });
   };
 
-  const whiteList = ['login', 'signup', 'beer'];
+  const whiteList = ['login', 'signup'];
   const fullList = ['/login', '/signup', '/mypage'];
   useEffect(() => {
     fullList.indexOf(location.pathname) !== -1

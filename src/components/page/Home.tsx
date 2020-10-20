@@ -7,17 +7,30 @@ import { RootState } from '../../modules';
 
 import { TodayBeerListContainerWithRouter } from '../../containers/list/TodayBeerListContainer';
 import { WantSomeBeerListContainerWithRouter } from '../../containers/list/WantSomeBeerListContainer';
-import { DefaultProps } from '../../containers/page/HomeContainer';
+import { HomeProps } from '../../containers/page/HomeContainer';
 
-function Home({ match, history, location }: DefaultProps): JSX.Element {
+function Home({
+  match,
+  history,
+  location,
+  getBeerDetail,
+}: HomeProps): JSX.Element {
   const { isLogin } = useSelector((state: RootState) => state.login);
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
   const isWant = useSelector((state: RootState) => state.changePage.isWant);
   const isMy = useSelector((state: RootState) => state.changePage.isMy);
   return (
     <Container>
-      {isToday ? <TodayBeerListContainerWithRouter /> : false}
-      {isWant ? <WantSomeBeerListContainerWithRouter /> : false}
+      {isToday ? (
+        <TodayBeerListContainerWithRouter getBeerDetail={getBeerDetail} />
+      ) : (
+        false
+      )}
+      {isWant ? (
+        <WantSomeBeerListContainerWithRouter getBeerDetail={getBeerDetail} />
+      ) : (
+        false
+      )}
       {isMy ? true : false}
     </Container>
   );

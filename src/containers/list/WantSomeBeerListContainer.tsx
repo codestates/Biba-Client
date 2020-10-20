@@ -7,13 +7,19 @@ import WantSomeBeerList from '../../components/list/WantSomeBeerList';
 import Axios from 'axios';
 
 import { fakedata } from '../../modules/getbeer';
+import { HomeProps } from '../../containers/page/HomeContainer';
 
 // const beers = Axios.get<BeerT[]>('https://biba.com/beer/list-all');
 
-function WantSomeBeerListContainer(): any {
+function WantSomeBeerListContainer({
+  match,
+  history,
+  location,
+  getBeerDetail,
+}: HomeProps): JSX.Element {
   const beers = useSelector((state: RootState) => state.getBeer.beers);
 
-  return <WantSomeBeerList beers={fakedata} />;
+  return <WantSomeBeerList beers={fakedata} getBeerDetail={getBeerDetail} />;
 }
 
 export const WantSomeBeerListContainerWithRouter = withRouter(

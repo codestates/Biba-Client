@@ -16,7 +16,6 @@ export const Nav = ({
   handleOnChange,
   handleSearch,
   pressEnter,
-  testDetail,
 }: NavProps): JSX.Element => {
   return (
     <Container>
@@ -28,13 +27,6 @@ export const Nav = ({
         />
         <SearchBarArea className='searchBarArea'>
           <button onClick={testLoginModal}>login modal</button>
-          <button
-            onClick={() => {
-              testDetail();
-            }}
-          >
-            detail
-          </button>
           <Wrap>
             <SearchIcon className='searchIcon' />
             {isLogin ? (
