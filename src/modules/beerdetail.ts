@@ -12,7 +12,7 @@ export interface IBeerDetail {
   rate: number;
 }
 export interface ObjBeerDetail {
-  data: IBeerDetail;
+  beerDetail: IBeerDetail;
 }
 
 // 이하로 action interface + init + action
@@ -20,7 +20,7 @@ export interface BeerDetailAction extends ObjBeerDetail {
   type: typeof SET_BEERDETAIL;
 }
 export const beerDetailInit: ObjBeerDetail = {
-  data: {
+  beerDetail: {
     id: -1,
     beer_name: '',
     beer_img: 'default img',
@@ -32,9 +32,9 @@ export const beerDetailInit: ObjBeerDetail = {
     rate: -1,
   },
 };
-export const setBeerDetail = (data: IBeerDetail): BeerDetailAction => ({
+export const setBeerDetail = (beerDetail: IBeerDetail): BeerDetailAction => ({
   type: SET_BEERDETAIL,
-  data,
+  beerDetail,
 });
 
 // ============ 이하로 reducers
@@ -46,7 +46,7 @@ export const beerDetailReducer = (
     case SET_BEERDETAIL:
       return {
         ...state,
-        data: action.data,
+        beerDetail: action.beerDetail,
       };
 
     default:

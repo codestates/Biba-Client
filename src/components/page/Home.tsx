@@ -7,9 +7,9 @@ import { RootState } from '../../modules';
 
 import { TodayBeerListContainerWithRouter } from '../../containers/list/TodayBeerListContainer';
 import { WantSomeBeerListContainerWithRouter } from '../../containers/list/WantSomeBeerListContainer';
-import { BeerListNavContainerWithRouter } from '../../containers/nav/BeerListNavContainer';
+import { DefaultProps } from '../../containers/page/HomeContainer';
 
-function Home({ match, history, location }: RouteComponentProps): JSX.Element {
+function Home({ match, history, location }: DefaultProps): JSX.Element {
   const { isLogin } = useSelector((state: RootState) => state.login);
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
   const isWant = useSelector((state: RootState) => state.changePage.isWant);
