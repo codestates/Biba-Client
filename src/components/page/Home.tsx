@@ -14,25 +14,17 @@ export interface HomeProps {
 
 function Home({ props }: HomeProps): JSX.Element {
   const { isLogin } = useSelector((state: RootState) => state.login);
-  const isToday = useSelector((state: RootState) => state.changepage.isToday);
-  const isWant = useSelector((state: RootState) => state.changepage.isWant);
-  const isMy = useSelector((state: RootState) => state.changepage.isMy);
+  const isToday = useSelector((state: RootState) => state.changePage.isToday);
+  const isWant = useSelector((state: RootState) => state.changePage.isWant);
+  const isMy = useSelector((state: RootState) => state.changePage.isMy);
   return (
-    <MainContainer>
-      <BeerListNavContainerWithRouter />
-      <Container>
-        {isToday ? <TodayBeerListContainerWithRouter /> : false}
-        {isWant ? <WantSomeBeerListContainerWithRouter /> : false}
-        {isMy ? true : false}
-      </Container>
-    </MainContainer>
+    <Container>
+      {isToday ? <TodayBeerListContainerWithRouter /> : false}
+      {isWant ? <WantSomeBeerListContainerWithRouter /> : false}
+      {isMy ? true : false}
+    </Container>
   );
 }
-const MainContainer = styled.div`
-  position: relative;
-  width: 90%;
-  margin: 0 auto;
-`;
 
 const Container = styled.div`
   position: absolute;

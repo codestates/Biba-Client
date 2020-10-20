@@ -11,6 +11,7 @@ import { LoginContainerWithRouter } from '../containers/user/Login';
 import { SignupContainerWithRouter } from '../containers/user/Signup';
 import { MypageContainerWithRouter } from '../containers/user/Mypage';
 import { FooterContainerithRouter } from '../containers/nav/Footer';
+import { SearchBeerListContainerWithRouter } from '../containers/list/SearchBeerListContainer';
 
 import { RootState } from '../modules';
 import { AppProps } from '../containers/App';
@@ -33,6 +34,10 @@ export const App = ({ props }: AppProps): JSX.Element => {
           ) : (
             false
           )}
+          <BeerListNavContainerWithRouter />
+        </Switch>
+        <Switch>
+          <Route path='/search' component={SearchBeerListContainerWithRouter} />
           <Route exact path='/' component={HomeContainerWithRouter} />
           <Redirect to='/' path='*' />
         </Switch>
