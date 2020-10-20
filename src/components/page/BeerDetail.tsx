@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {
-  MatchParams,
-  BeerDetailProps,
-} from '../../containers/page/BeerDetailContainer';
+import { BeerDetailProps } from '../../containers/page/BeerDetailContainer';
 
-export const BeerDetail = ({ match, data }: BeerDetailProps): JSX.Element => {
-  const { beerId } = match.params;
+export const BeerDetail = ({
+  match,
+  beerDetail,
+}: BeerDetailProps): JSX.Element => {
+  const { id } = match.params;
 
   return (
     <div>
-      <div>{JSON.stringify(data)}</div>
+      <div>{JSON.stringify(beerDetail)}</div>
     </div>
   );
 };

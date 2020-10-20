@@ -136,7 +136,9 @@ export const searchBeerReducer = (
         ...state,
         beers: action.beers,
       };
-      
+  }
+};
+
 export const navDisplayReducer = (
   state = displayInit,
   action: NavDisplayAction,
