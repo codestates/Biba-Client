@@ -28,6 +28,7 @@ export interface NavProps {
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   handleSearch(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
+  testDetail(): void;
 }
 
 export const NavContainer = (props: RouterProps): JSX.Element => {
@@ -35,6 +36,8 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     (state: RootState) => state.login,
   );
   const { profile } = useSelector((state: RootState) => state.profile);
+  const { display } = useSelector((state: RootState) => state.navDisplay);
+
   const dispatch = useDispatch();
   const setLogout = () => {
     dispatch({ type: 'SET_LOGOUTSTATE' });
@@ -49,7 +52,12 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     setLogout();
   };
 
+  const handleClickTodayBeer = (): void => {
+    dispatch({ type: 'TODAY_BEER' });
+  };
+
   const handleClickLogo = (): void => {
+    handleClickTodayBeer();
     props.history.push('/');
   };
   const handleClickLogin = (): void => {
@@ -63,6 +71,9 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   };
   const handleClickMypage = (): void => {
     props.history.push('/mypage');
+  };
+  const testDetail = (): void => {
+    props.history.push('/beer/detail');
   };
 
   const handleModal = (contentType: ContentType, display: boolean): void => {
@@ -108,6 +119,10 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     if (e.key === 'Enter') handleSearch();
   };
 
+  // const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  //   console.log(e.currentTarget);
+  // };
+
   return (
     <Nav
       userData={userData}
@@ -124,6 +139,7 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       handleOnChange={handleOnChange}
       handleSearch={handleSearch}
       pressEnter={pressEnter}
+      testDetail={testDetail}
     />
   );
 };

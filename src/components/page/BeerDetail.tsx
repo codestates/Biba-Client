@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BeerDetailProps } from '../../containers/page/BeerDetailContainer';
+import {
+  MatchParams,
+  BeerDetailProps,
+} from '../../containers/page/BeerDetailContainer';
 
-export const BeerDetail = ({ name }: BeerDetailProps): JSX.Element => {
+export const BeerDetail = ({ match, data }: BeerDetailProps): JSX.Element => {
+  const { beerId } = match.params;
+
   return (
     <div>
-      <div>test test test{name}</div>
+      <div>{JSON.stringify(data)}</div>
     </div>
   );
 };
