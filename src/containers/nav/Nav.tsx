@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 import { Nav } from '../../components/nav/Nav';
+import { Beers, Beer } from '../../modules/nav';
 
 export interface NavProps {
   userData: {
@@ -23,6 +25,9 @@ export interface NavProps {
   handleClickSignup(): void;
   handleClickMypage(): void;
   testLoginModal(): void;
+  handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  handleSearch(): void;
+  pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
   testDetail(): void;
 }
 
@@ -79,6 +84,41 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     handleModal(ContentType.Login, true);
   };
 
+  const setBeers = (beers: Beer[]): void => {
+    dispatch({ type: 'SET_BEERS', beers });
+  };
+
+  const [inputQuery, setInputQuery] = useState('');
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    e.preventDefault();
+    const value = e.target.value;
+    setInputQuery(value);
+  };
+
+  const handleSearch = (): void => {
+    axios
+      .post<Beers>('http://localhost:4000/users/login', {
+        // 임시 주소
+        query: inputQuery,
+      })
+      .then((res) => {
+        // console.log(res);
+        if (res.status === 200) {
+          const beers = res.data.beers;
+          // 받은 데이터로 store 상태 업데이트
+          setBeers(beers);
+          props.history.push('/search');
+        }
+      })
+      .catch(() => {
+        alert('입력한 맥주를 찾을 수 없습니다.');
+      });
+  };
+
+  const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') handleSearch();
+  };
+
   // const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
   //   console.log(e.currentTarget);
   // };
@@ -96,6 +136,9 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       handleClickSignup={handleClickSignup}
       handleClickMypage={handleClickMypage}
       testLoginModal={testLoginModal}
+      handleOnChange={handleOnChange}
+      handleSearch={handleSearch}
+      pressEnter={pressEnter}
       testDetail={testDetail}
     />
   );

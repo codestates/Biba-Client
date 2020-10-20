@@ -10,6 +10,7 @@ import {
 import { modalReducer, btnColorReducer, navDisplayReducer } from './nav';
 import { getBeerReducer } from './getbeer';
 import { changePageReducer } from './changepage';
+import { searchBeerReducer } from './searchbeer';
 import { beerDetailReducer } from './beerdetail';
 
 export const rootReducer = combineReducers({
@@ -22,7 +23,8 @@ export const rootReducer = combineReducers({
   btnColor: btnColorReducer,
   navDisplay: navDisplayReducer,
   getBeer: getBeerReducer,
-  changepage: changePageReducer,
+  changePage: changePageReducer,
+  searchBeer: searchBeerReducer,
   beerDetail: beerDetailReducer,
 });
 

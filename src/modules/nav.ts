@@ -1,6 +1,7 @@
 const SET_SEARCHBAR = 'SET_SEARCHBAR' as const;
 const SET_MODAL = 'SET_MODAL' as const;
 const SET_BTNCOLOR = 'SET_BTNCOLOR' as const;
+const SET_BEERS = 'SET_BEERS' as const;
 const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
 
 export interface ModalContent {
@@ -21,6 +22,17 @@ export interface BtnColor {
 }
 export interface NavDisplay {
   display: boolean;
+}
+
+export type Beer = {
+  id: number;
+  beer_name: string;
+  beer_img: string;
+  rate: number;
+};
+
+export interface Beers {
+  beers: Beer[];
 }
 
 // 이하로 action interface + init + action
@@ -52,6 +64,21 @@ export const setBtnColor = (btn: string, text: string): BtnColorAction => ({
   btn,
   text,
 });
+
+export interface SetBeerAction extends Beers {
+  type: typeof SET_BEERS;
+}
+
+const beersInit: Beers = {
+  beers: [],
+};
+
+export const searchBeerAction = (beers: Array<Beer>): SetBeerAction => {
+  return {
+    type: SET_BEERS,
+    beers: beers,
+  };
+};
 
 export interface NavDisplayAction extends NavDisplay {
   type: typeof SET_NAVDISPLAY;
@@ -99,6 +126,17 @@ export const btnColorReducer = (
   }
 };
 
+export const searchBeerReducer = (
+  state: Beers = beersInit,
+  action: SetBeerAction,
+): Beers => {
+  switch (action.type) {
+    case SET_BEERS:
+      return {
+        ...state,
+        beers: action.beers,
+      };
+      
 export const navDisplayReducer = (
   state = displayInit,
   action: NavDisplayAction,

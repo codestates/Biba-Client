@@ -13,6 +13,9 @@ export const Nav = ({
   handleClickSignup,
   handleClickMypage,
   testLoginModal,
+  handleOnChange,
+  handleSearch,
+  pressEnter,
   testDetail,
 }: NavProps): JSX.Element => {
   return (
@@ -36,8 +39,12 @@ export const Nav = ({
             <SearchIcon className='searchIcon' />
             {isLogin ? (
               <>
-                <Input type='text'></Input>
-                <SearchBtn>검색</SearchBtn>
+                <Input
+                  type='text'
+                  onChange={handleOnChange}
+                  onKeyPress={pressEnter}
+                ></Input>
+                <SearchBtn onClick={handleSearch}>검색</SearchBtn>
               </>
             ) : (
               false

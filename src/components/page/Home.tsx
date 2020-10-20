@@ -11,9 +11,9 @@ import { BeerListNavContainerWithRouter } from '../../containers/nav/BeerListNav
 
 function Home({ match, history, location }: RouteComponentProps): JSX.Element {
   const { isLogin } = useSelector((state: RootState) => state.login);
-  const isToday = useSelector((state: RootState) => state.changepage.isToday);
-  const isWant = useSelector((state: RootState) => state.changepage.isWant);
-  const isMy = useSelector((state: RootState) => state.changepage.isMy);
+  const isToday = useSelector((state: RootState) => state.changePage.isToday);
+  const isWant = useSelector((state: RootState) => state.changePage.isWant);
+  const isMy = useSelector((state: RootState) => state.changePage.isMy);
   return (
     <Container>
       {isToday ? <TodayBeerListContainerWithRouter /> : false}
