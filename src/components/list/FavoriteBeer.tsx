@@ -8,23 +8,10 @@ export interface BeerProps {
   rate: number;
 }
 
-const numToStar = (rate: number) => {
-  let result = '';
-  for (let i = 0; i < rate; i++) {
-    result += '⭐ ';
-  }
-  return result;
-};
-
-function Beer({ name, image, rate }: BeerProps): JSX.Element {
-  const star = numToStar(rate);
+function FavoriteBeer({ name, image, rate }: BeerProps): JSX.Element {
   return (
     <BeerImage>
       <Image src={image} alt={name} />
-      <TextContainer>
-        <Text>{name}</Text>
-        <Text>{star}</Text>
-      </TextContainer>
     </BeerImage>
   );
 }
@@ -39,20 +26,9 @@ const BeerImage = styled.div`
   padding: 1em;
   &:hover {
     transition: all ease 1s;
-    transform: scale(1.1);
+    transform: scale(1.2);
     cursor: pointer;
   }
-`;
-
-const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const Text = styled.div`
-  margin-left: 10px;
-  margin-top: 10px;
 `;
 
 const Image = styled.img`
@@ -60,7 +36,7 @@ const Image = styled.img`
   width: 50%;
 `;
 
-export default Beer;
+export default FavoriteBeer;
 
 // 가운데 정렬 css
 //부모 태그

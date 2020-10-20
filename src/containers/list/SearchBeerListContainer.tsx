@@ -1,22 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { searchBeerAction } from '../../modules/searchbeer';
 import SearchBeerList from '../../components/list/SearchBeerList';
-import Axios from 'axios';
 
-import { fakedata } from '../../modules/getbeer';
+import { fakedata } from '../../modules/getbeers';
 
 // const beers = Axios.get<BeerT[]>('https://biba.com/beer/list-all');
 
-function SearchBeerListContainer(): any {
+function SearchBeerListContainer(): JSX.Element {
   const beers = useSelector((state: RootState) => state.searchBeer.beers);
 
   return (
     <Container>
-      <SearchBeerList beers={fakedata} />;
+      <SearchBeerList beers={beers} />;
     </Container>
   );
 }
@@ -28,7 +26,7 @@ const Container = styled.div`
   width: 80%;
   height: 100vh;
   margin: 0 auto;
-  border: solid 2px gray;
+  border: solid 1px gray;
 `;
 
 export const SearchBeerListContainerWithRouter = withRouter(

@@ -8,6 +8,8 @@ function BeerListNav({
   handleClickTodayBeer,
   handleClickWantSomeBeer,
   handleClickMyBeer,
+  handleClickFavorite,
+  handleClickReview,
   display,
   redirectHome,
 }: BeerListNavProps): JSX.Element {
@@ -37,6 +39,24 @@ function BeerListNav({
           }}
         >
           My Beers
+          <SubUl>
+            <SubLiBtn
+              onClick={() => {
+                redirectHome();
+                handleClickFavorite();
+              }}
+            >
+              Faviorite
+            </SubLiBtn>
+            <SubLiBtn
+              onClick={() => {
+                redirectHome();
+                handleClickReview();
+              }}
+            >
+              Review
+            </SubLiBtn>
+          </SubUl>
         </ListBtn>
       </UL>
     </ListNav>
@@ -53,16 +73,29 @@ const ListNav = styled.div`
 `;
 
 const UL = styled.div`
-  display: flex;
-  flex-direction: column;
   list-style: none;
-  list-gap: 30px;
 `;
 
 const ListBtn = styled.li`
   font-size: 1rem;
   color: gold;
-  margin: 1rem;
+  margin: 2rem;
+  &:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+`;
+
+const SubUl = styled.ul`
+  list-style: none;
+  transform: translateX(-20%);
+`;
+
+const SubLiBtn = styled.li`
+  font-size: 1rem;
+  color: gold;
+  margin: 0.5rem;
   &:hover {
     background-color: white;
     color: black;

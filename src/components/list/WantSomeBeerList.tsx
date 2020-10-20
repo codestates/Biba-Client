@@ -2,14 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 
 import WantSomeBeer from './WantSomeBeer';
-import { BeerT } from '../../modules/getbeer';
+import { WantI } from '../../modules/getbeers';
 
-interface Props {
-  beers: BeerT[];
-}
-
-function WantSomeBeerList({ beers }: Props): JSX.Element {
-  const hotBeerList = beers.map((beer) => (
+function WantSomeBeerList({
+  hotBeers,
+  lateBeers,
+  pickBeers,
+}: WantI): JSX.Element {
+  const hotBeerList = hotBeers.map((beer) => (
+    <WantSomeBeer
+      key={beer.id}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
+    />
+  ));
+  const lateBeerList = lateBeers.map((beer) => (
+    <WantSomeBeer
+      key={beer.id}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
+    />
+  ));
+  const pickBeerList = pickBeers.map((beer) => (
     <WantSomeBeer
       key={beer.id}
       name={beer.beer_name}
@@ -28,14 +44,14 @@ function WantSomeBeerList({ beers }: Props): JSX.Element {
         </Category>
         <Category>
           <ListContainer>
-            <Title>차가운 맥주들</Title>
-            {hotBeerList}
+            <Title>최신 맥주들</Title>
+            {lateBeerList}
           </ListContainer>
         </Category>
         <Category>
           <ListContainer>
-            <Title>라거</Title>
-            {hotBeerList}
+            <Title>즐겨찾는 맥주들</Title>
+            {pickBeerList}
           </ListContainer>
         </Category>
       </Categories>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BeerT } from '../../modules/getbeer';
+import { BeerT } from '../../modules/getbeers';
 import SearchBeer from './SearchBeer';
 
 interface SearchBeerProps {
