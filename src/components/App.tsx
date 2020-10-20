@@ -48,8 +48,8 @@ export const App = ({
             <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
             <Route exact path='/' component={HomeContainerWithRouter} />
           </Switch>
-          {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ||
-          location.pathname.split('/').length !== 2 ? (
+          {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (
+            //  || location.pathname.split('/').length !== 2 // 최종 때는 활성화
             <Redirect to='/' path='*' />
           ) : (
             false
