@@ -64,7 +64,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     if (inputValues.nickname !== '') {
       if (nicknameCheck(inputValues.nickname)) {
         axios
-          .post('http://localhost:4000/users/nicknameconfirm', {
+          .post(`https://beer4.xyz/users/checknickname`, {
             nickname: inputValues.nickname,
           })
           .then((res) => {
@@ -93,7 +93,16 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     nicknameCheck(nickname);
     console.log('nickname change test');
     if (nicknameConfirm) {
-      // true라면 post 요청(변경 요청 전송)
+      axios
+        .post(`https://beer4.xyz/users/changenickname`, {
+          token: token,
+          nickname: inputValues.nickname,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log(res.data);
+          }
+        });
     }
   };
 

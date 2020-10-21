@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { BeerT } from '../../modules/getbeers';
+import { BeerT, BEER_TODAY } from '../../modules/getbeers';
 import { IBeerDetail, ObjBeerDetail } from '../../modules/beerdetail';
 import { DefaultProps } from '../../containers/page/HomeContainer';
 import TodayBeerList from '../../components/list/TodayBeerList';
@@ -23,14 +23,15 @@ function TodayBeerListContainer({
   const dispatch = useDispatch();
   /* eslint-disable react-hooks/exhaustive-deps */
   const setTodayBeers = (beers: BeerT[]) => {
-    dispatch({ type: 'BEER_SUCCESS', beers });
+    dispatch({ type: BEER_TODAY, beers });
   };
 
   useEffect(() => {
-    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+    axios.get<BeerT[]>(`https://beer4.xyz/beer/list`).then((res) => {
       setTodayBeers(res.data);
+      console.log(res.data);
     });
-  }, [setTodayBeers]);
+  }, []);
 
   return (
     <TodayBeerList
