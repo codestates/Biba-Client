@@ -49,13 +49,11 @@ const BeerDetailContainer = ({
   };
 
   const handleBookmark = (): void => {
-    // 즐겨찾기에 check 표시 어떻게 가져올지 논의
     axios
-      .get<Bookmark>(`http://localhost:4000/posts/info/4`) // post
-      // {
-      //   beerId: match.params.id,
-      //   userId: userData.id,
-      // })
+      .post<Bookmark>(`https://beer4.xyz/bookmark/add`, {
+        token: token,
+        beer_id: beerDetail.id,
+      })
       .then((res) => {
         const { bookmark } = res.data; // 추가되었을 경우 true 돌아옴
         if (res.status === 200) {

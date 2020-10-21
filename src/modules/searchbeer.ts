@@ -27,12 +27,10 @@ export interface BeerSuccess {
 export type BeerDispatchTypes = BeerLoading | BeerFail | BeerSuccess;
 
 export interface DefaultStateI {
-  isloading: boolean;
   beers: BeerT[];
 }
 
 const defaultState: DefaultStateI = {
-  isloading: false,
   beers: [],
 };
 
@@ -52,7 +50,6 @@ export const searchBeerReducer = (
   switch (action.type) {
     case BEER_LOADING:
       return {
-        isloading: true,
         beers: [],
       };
     case BEER_FAIL:
@@ -60,7 +57,6 @@ export const searchBeerReducer = (
     case BEER_SUCCESS:
       return {
         ...state,
-        isloading: false,
         beers: action.payload.beers,
       };
     default:

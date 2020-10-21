@@ -22,9 +22,7 @@ export interface BeerProps {
 
 export interface BeerToday {
   type: typeof BEER_TODAY;
-  payload: {
-    beers: Array<BeerT>;
-  };
+  beers: BeerT[];
 }
 
 export interface BeerHot {
@@ -94,9 +92,7 @@ const defaultWant: WantI = {
 export const todayBeerAction = (beers: BeerT[]): BeerToday => {
   return {
     type: BEER_TODAY,
-    payload: {
-      beers: beers,
-    },
+    beers,
   };
 };
 
@@ -153,7 +149,7 @@ export const todayBeerReducer = (
     case BEER_TODAY:
       return {
         ...state,
-        beers: action.payload.beers,
+        beers: action.beers,
       };
     default:
       return state;

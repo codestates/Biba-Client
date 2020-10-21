@@ -18,7 +18,8 @@ function ReviewListContainer(): JSX.Element {
   };
 
   useEffect(() => {
-    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+    axios.get<BeerT[]>(`https://beer4.xyz/beer/list`).then((res) => {
+      // 임시
       setReviewBeers(res.data);
     });
   }, [setReviewBeers]);

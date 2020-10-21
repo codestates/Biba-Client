@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { RouteProps, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { Signup } from '../../components/user/Signup';
 import { emailCheck, nicknameCheck, checkInput } from './userUtils';
 import { RootState } from '../../modules';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
+import { DefaultProps } from '../../containers/page/HomeContainer';
 
 export interface SignupProps {
   mapInputList(): JSX.Element[];
@@ -15,7 +16,11 @@ export interface SignupProps {
   ageConfirm: boolean;
 }
 
-const SignupContainer = (): JSX.Element => {
+const SignupContainer = ({
+  match,
+  history,
+  location,
+}: DefaultProps): JSX.Element => {
   const emailConfirm = useSelector(
     (state: RootState) => state.confirmEmail.value,
   );
@@ -40,12 +45,13 @@ const SignupContainer = (): JSX.Element => {
     dispatch({ type: 'SET_BTNCOLOR', btn, text });
   };
 
-  const [inputValues, setInputValues] = useState({
+  const inputInit = {
     email: '',
     password: '',
     passwordForCheck: '',
     nickname: '',
-  });
+  };
+  const [inputValues, setInputValues] = useState(inputInit);
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
     if (emailConfirm && e.currentTarget.name === 'email') {
@@ -62,7 +68,7 @@ const SignupContainer = (): JSX.Element => {
     if (inputValues.email !== '') {
       if (emailCheck(inputValues.email)) {
         axios
-          .post('http://localhost:4000/users/emailconfirm', {
+          .post('https://beer4.xyz/users/checkemail', {
             email: inputValues.email,
           })
           .then((res) => {
@@ -85,7 +91,7 @@ const SignupContainer = (): JSX.Element => {
     if (inputValues.nickname !== '') {
       if (nicknameCheck(inputValues.nickname)) {
         axios
-          .post('http://localhost:4000/users/nicknameconfirm', {
+          .post('https://beer4.xyz/users/checknickname', {
             nickname: inputValues.nickname,
           })
           .then((res) => {
@@ -96,8 +102,6 @@ const SignupContainer = (): JSX.Element => {
           })
           .catch(() => {
             alert(`이미 존재하는 닉네임입니다.\n다른 닉네임을 사용해주세요.`);
-            handleBtnColor('#989898', 'lightgrey'); // 임시
-            handleConfirmNickname(true); // 임시
           });
       } else {
         alert(
@@ -110,16 +114,43 @@ const SignupContainer = (): JSX.Element => {
   };
 
   const handleCheckAge = (): void => {
-    handleConfirmAge(!ageConfirm);
+    if (!ageConfirm) {
+      const result = global.confirm(
+        '법적으로 음주가 가능한 20세 이상의 성인임을 확인합니다.',
+      );
+      if (result) {
+        handleConfirmAge(true);
+      } else {
+        alert('Biba 서비스를 이용하실 수 없습니다.');
+      }
+    } else {
+      handleConfirmAge(false);
+    }
   };
 
   const handleClickSignup = (): void => {
     const { email, password, passwordForCheck, nickname } = inputValues;
-    console.log('test');
-    if (emailConfirm && nicknameConfirm) {
+    if (emailConfirm && nicknameConfirm && ageConfirm) {
       checkInput(email, password, passwordForCheck, nickname);
       console.log(ageConfirm);
-      // checkInput, ageConfirm이 true라면 post 요청(가입 요청 전송)
+      axios
+        .post(`https://beer4.xyz/users/signup`, {
+          email: email,
+          password: password,
+          passwordForCheck: passwordForCheck,
+          nickname: nickname,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            alert(`회원 가입이 완료되었습니다. Biba!`);
+            history.push('/');
+          }
+        })
+        .catch(() => {
+          alert(
+            `회원가입에 실패했습니다. 입력하신 정보를 다시 한번 확인해주세요.`,
+          );
+        });
     }
     if (!emailConfirm) {
       if (inputValues.email !== '') {
@@ -134,6 +165,9 @@ const SignupContainer = (): JSX.Element => {
       } else {
         return alert(`닉네임을 입력해주세요.`);
       }
+    }
+    if (!ageConfirm) {
+      alert('20세 이상의 성인임을 확인해주세요.');
     }
   };
 

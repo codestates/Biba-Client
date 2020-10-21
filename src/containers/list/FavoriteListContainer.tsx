@@ -10,6 +10,7 @@ function FavoriteBeerListContainer(): JSX.Element {
   const favoriteBeerList = useSelector(
     (state: RootState) => state.favoriteBeer.beers,
   );
+  const { token } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
   /* eslint-disable react-hooks/exhaustive-deps */
   const setFavoriteBeers = (beers: BeerT[]) => {
@@ -17,9 +18,13 @@ function FavoriteBeerListContainer(): JSX.Element {
   };
 
   useEffect(() => {
-    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
-      setFavoriteBeers(res.data);
-    });
+    axios
+      .post<BeerT[]>(`https://beer4.xyz/bookmark`, {
+        token: token,
+      })
+      .then((res) => {
+        // setFavoriteBeers(res.data);
+      });
   }, [setFavoriteBeers]);
   return <FavoriteBeerList beers={favoriteBeerList} />;
 }

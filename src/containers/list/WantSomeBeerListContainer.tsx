@@ -29,13 +29,13 @@ function WantSomeBeerListContainer({
   };
 
   useEffect(() => {
-    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+    axios.get<BeerT[]>(`https://beer4.xyz/beer/list-popular`).then((res) => {
       setHotBeers(res.data);
     });
-    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+    axios.get<BeerT[]>(`https://beer4.xyz/beer/list-recent`).then((res) => {
       setLateBeers(res.data);
     });
-    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+    axios.get<BeerT[]>(`https://beer4.xyz/beer/list-popular`).then((res) => {
       setPickBeers(res.data);
     });
   }, [setHotBeers, setLateBeers, setPickBeers]);

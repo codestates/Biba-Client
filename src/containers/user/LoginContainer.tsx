@@ -46,8 +46,7 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
 
   const handleLogin = (): void => {
     axios
-      .post<LoginResponse>('http://localhost:4000/users/login', {
-        // 임시 주소
+      .post<LoginResponse>(`https://beer4.xyz/users/login`, {
         email: inputValues.email,
         password: String(inputValues.password),
       })

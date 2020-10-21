@@ -80,8 +80,9 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
 
   const getMyReviews = (): void => {
     axios
-      // user id 전송해서 review 받아오기(:id === number 붙여서 get 요청)
-      .get<aReview>('http://localhost:4000/custom/mypost/4')
+      .post<aReview>('https://beer4.xyz/comment/mylist', {
+        token: token,
+      })
       .then((res) => {
         const myReviews = res.data;
         dispatch({ type: 'SET_MYREVIEWS', myReviews });
@@ -112,6 +113,15 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
     ) {
       // currentPassword 확인 - token 사용할지 체크 필요
       // true 라면 -> newPassword 전송
+      axios
+        .post(`https://beer4.xyz/users/changepassword`, {
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+          token: token,
+        })
+        .then((res) => {
+          console.log(res.data);
+        }); ////// 추가 체크 필요
     }
   };
 
