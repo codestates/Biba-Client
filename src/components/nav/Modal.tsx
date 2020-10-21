@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ModalProps } from '../../containers/nav/Modal';
@@ -7,6 +7,7 @@ export const Modal = ({
   display,
   content,
   closeModal,
+  pressEsc,
 }: ModalProps): JSX.Element => {
   return (
     <>

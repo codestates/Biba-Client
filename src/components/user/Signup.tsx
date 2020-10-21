@@ -6,6 +6,8 @@ import { SignupProps } from '../../containers/user/Signup';
 export const Signup = ({
   mapInputList,
   handleClickSignup,
+  handleCheckAge,
+  ageConfirm,
 }: SignupProps): JSX.Element => {
   return (
     <Container>
@@ -18,6 +20,14 @@ export const Signup = ({
 
         <InputArea className='inputArea'>
           {mapInputList()}
+          <CheckAgeArea>
+            <CheckAge
+              type='checkbox'
+              onChange={handleCheckAge}
+              checked={ageConfirm}
+            ></CheckAge>
+            20세 이상입니다.
+          </CheckAgeArea>
           <SignupBtn className='signupBtn' onClick={handleClickSignup}>
             회원가입
           </SignupBtn>
@@ -47,7 +57,7 @@ const SignupArea = styled.div`
 
   border: 2px solid #545454;
 
-  width: 65em;
+  width: 100%;
   padding: 1em 0 2em 0;
 `;
 
@@ -94,6 +104,9 @@ export const CheckBtn = styled.button`
 
   margin: 0;
 `;
+
+const CheckAgeArea = styled.div``;
+const CheckAge = styled.input``;
 
 const SignupBtn = styled.button`
   cursor: pointer;

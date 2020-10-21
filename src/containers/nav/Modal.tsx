@@ -18,6 +18,7 @@ export interface ModalProps {
   closeModal(): void;
   btnColor: string;
   textColor: string;
+  pressEsc(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
 export const ModalContainer = (props: RouterProps): JSX.Element => {
@@ -145,7 +146,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           <div key={allReviews.indexOf(ele)}>{ele.message}</div>
         ))
       ) : (
-        <div>작성한 리뷰가 없습니다.</div>
+        <div>작성된 리뷰가 없습니다.</div>
       );
     }
 
@@ -162,6 +163,10 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     handleModalClose(ContentType.Empty, false);
   };
 
+  const pressEsc = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'ESC') closeModal();
+  }; // 추후 추가 작업
+
   return (
     <Modal
       display={display}
@@ -169,6 +174,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       closeModal={closeModal}
       btnColor={btnColor}
       textColor={textColor}
+      pressEsc={pressEsc}
     />
   );
 };

@@ -81,9 +81,7 @@ const NavBar = styled.div`
   justify-content: space-between;
 
   border: 2px solid #545454;
-
-  width: 65em;
-  margin: 2em;
+  width: 100%;
   padding: 0.3em;
 `;
 
@@ -98,7 +96,7 @@ const SearchBarArea = styled.div`
   justify-content: flex-end;
   align-items: center;
 
-  width: 30em;
+  width: 50%;
   height: 3em;
   border: 1px solid black;
 `;
@@ -135,7 +133,7 @@ const BtnArea = styled.div`
   justify-content: flex-end;
   align-items: center;
 
-  width: 35vw;
+  width: 35%;
   height: 3em;
   border: 1px solid black;
 `;

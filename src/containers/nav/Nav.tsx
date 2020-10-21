@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
+import { ContentType } from '../../modules/nav';
 import { Nav } from '../../components/nav/Nav';
 import { Beers, Beer } from '../../modules/nav';
 

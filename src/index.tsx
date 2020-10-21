@@ -7,7 +7,7 @@ import { GlobalStyle } from './styles/global-styles';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 
-import { AppContainerWithRouter } from './containers/App';
+import { AppContainerWithRouter } from './containers/AppContainer';
 import configureStore from './containers/store';
 
 const store = configureStore();

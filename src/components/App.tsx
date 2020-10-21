@@ -13,7 +13,7 @@ import { FooterContainerithRouter } from '../containers/nav/Footer';
 import { SearchBeerListContainerWithRouter } from '../containers/list/SearchBeerListContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
-import { AppProps } from '../containers/App';
+import { AppProps } from '../containers/AppContainer';
 
 export const App = ({
   match,
@@ -23,49 +23,64 @@ export const App = ({
   whiteList,
 }: AppProps): JSX.Element => {
   return (
-    <Container>
-      <Nav>
-        <Route component={NavContainerWithRouter} />
-        <Route component={ModalContainerWithRouter} />
-      </Nav>
-      <Main>
-        <Side>
-          <Route component={BeerListNavContainerWithRouter} />
-        </Side>
-        <Full>
-          <Switch>
-            <Route path='/login' component={LoginContainerWithRouter} />
-            <Route path='/signup' component={SignupContainerWithRouter} />
-            {isLogin ? (
-              <Route path='/mypage' component={MypageContainerWithRouter} />
+    <Outer className='outer'>
+      <Container className='appContainer'>
+        <Nav>
+          <Route component={NavContainerWithRouter} />
+          <Route component={ModalContainerWithRouter} />
+        </Nav>
+        <Main>
+          <Side>
+            <Route component={BeerListNavContainerWithRouter} />
+          </Side>
+          <Full>
+            <Switch>
+              <Route path='/login' component={LoginContainerWithRouter} />
+              <Route path='/signup' component={SignupContainerWithRouter} />
+              {isLogin ? (
+                <Route path='/mypage' component={MypageContainerWithRouter} />
+              ) : (
+                false
+              )}
+            </Switch>
+          </Full>
+          <Half>
+            <Switch>
+              <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
+              <Route exact path='/' component={HomeContainerWithRouter} />
+            </Switch>
+            {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (
+              //  || location.pathname.split('/').length !== 2 // 최종 때는 활성화
+              <Redirect to='/' path='*' />
             ) : (
               false
             )}
-          </Switch>
-        </Full>
-        <Half>
-          <Switch>
-            <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
-            <Route exact path='/' component={HomeContainerWithRouter} />
-          </Switch>
-          {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (
-            //  || location.pathname.split('/').length !== 2 // 최종 때는 활성화
-            <Redirect to='/' path='*' />
-          ) : (
-            false
-          )}
-        </Half>
-      </Main>
-      <Footer>
-        <Route component={FooterContainerithRouter} />
-      </Footer>
-    </Container>
+          </Half>
+        </Main>
+        <Footer>
+          <Route component={FooterContainerithRouter} />
+        </Footer>
+      </Container>
+    </Outer>
   );
 };
 
+const Outer = styled.div`
+  @media (max-width: 1320px) {
+    color: #656565;
+    width: 1320px;
+  }
+  @media (min-width: 1920px) {
+    color: #656565;
+    width: 1920px;
+  }
+  margin: 0 auto;
+`;
+
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 1em auto auto auto 1em;
+  width: 100%;
+  grid-template-rows: 3em auto auto auto 3em;
   grid-template-columns: auto 86% auto;
   grid-template-areas:
     '. . .'
@@ -73,10 +88,11 @@ const Container = styled.div`
     '. Main .'
     '. Footer .'
     '. . .';
-`;
+`; // 내용 1320 여백 합쳐서 맥스 1920 그 이후로는 좌우 여백만 늘어나는 걸로
 
 const Nav = styled.div`
   grid-area: Nav;
+  width: 100%;
 `;
 
 const Main = styled.div`
