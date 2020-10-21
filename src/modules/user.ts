@@ -10,6 +10,7 @@ const CHANGE_NICKNAME = 'CHANGE_NICKNAME' as const;
 const CHANGE_PASSWORD = 'CHANGE_PASSWORD' as const;
 const CONFIRM_EMAIL = 'CONFIRM_EMAIL' as const;
 const CONFIRM_NICKNAME = 'CONFIRM_NICKNAME' as const;
+const CONFIRM_AGE = 'CONFIRM_AGE' as const;
 
 export interface User {
   id: number;
@@ -99,12 +100,15 @@ export const setMyReviews = (myReviews: aReview[]): MyReviewListAction => ({
 });
 
 export interface ConfirmInputAction extends ConfirmInput {
-  type: typeof CONFIRM_EMAIL | typeof CONFIRM_NICKNAME;
+  type: typeof CONFIRM_EMAIL | typeof CONFIRM_NICKNAME | typeof CONFIRM_AGE;
 }
 const emailInputInit: ConfirmInput = {
   value: false,
 };
 const nicknameInputInit: ConfirmInput = {
+  value: false,
+};
+const ageInputInit: ConfirmInput = {
   value: false,
 };
 export const checkEmailInput = (value: boolean): ConfirmInputAction => ({
@@ -113,6 +117,10 @@ export const checkEmailInput = (value: boolean): ConfirmInputAction => ({
 });
 export const checkNicknameInput = (value: boolean): ConfirmInputAction => ({
   type: CONFIRM_NICKNAME,
+  value,
+});
+export const checkAgeInput = (value: boolean): ConfirmInputAction => ({
+  type: CONFIRM_AGE,
   value,
 });
 
@@ -207,6 +215,22 @@ export const confirmNicknameReducer = (
 ): ConfirmInput => {
   switch (action.type) {
     case CONFIRM_NICKNAME:
+      return {
+        ...state,
+        value: action.value,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const confirmAgeReducer = (
+  state = ageInputInit,
+  action: ConfirmInputAction,
+): ConfirmInput => {
+  switch (action.type) {
+    case CONFIRM_AGE:
       return {
         ...state,
         value: action.value,

@@ -1,6 +1,18 @@
 const SET_BEERDETAIL = 'SET_BEERDETAIL' as const;
 const SET_ALLREVIEWS = 'SET_ALLREVIEWS' as const;
+const SET_BOOKMARK = 'SET_BOOKMARK' as const;
+const SET_USERREVIEW = 'SET_USERREVIEW' as const;
+const SET_INFOSTATUS = 'SET_INFOSTATUS' as const;
+const SET_STARSTATUS = 'SET_STARSTATUS' as const;
 
+export interface Bookmark {
+  bookmark: boolean;
+}
+export interface UserReview {
+  review: boolean;
+  star: boolean;
+  starScore: number;
+}
 export interface IBeerDetail {
   id: number;
   beer_name: string;
@@ -22,8 +34,22 @@ export interface aReview {
 export interface AllReviewList {
   allReviews: aReview[];
 }
-// 이하로 action interface + init + action
-export interface BeerDetailAction extends ObjBeerDetail {
+
+export interface InfoStatus {
+  story: boolean;
+  more: boolean;
+}
+
+export interface StarStatus {
+  a: boolean;
+  b: boolean;
+  c: boolean;
+  d: boolean;
+  e: boolean;
+}
+
+export // 이하로 action interface + init + action
+interface BeerDetailAction extends ObjBeerDetail {
   type: typeof SET_BEERDETAIL;
 }
 export const beerDetailInit: ObjBeerDetail = {
@@ -44,6 +70,36 @@ export const setBeerDetail = (beerDetail: IBeerDetail): BeerDetailAction => ({
   beerDetail,
 });
 
+export interface BookmarkAction extends Bookmark {
+  type: typeof SET_BOOKMARK;
+}
+const bookmarkInit: Bookmark = {
+  bookmark: false,
+};
+export const setBookmark = (bookmark: boolean): BookmarkAction => ({
+  type: SET_BOOKMARK,
+  bookmark,
+});
+
+export interface UserReviewAction extends UserReview {
+  type: typeof SET_USERREVIEW;
+}
+const userReviewInit: UserReview = {
+  review: false,
+  star: false,
+  starScore: -1,
+};
+export const setUserReview = (
+  review: boolean,
+  star: boolean,
+  starScore: number,
+): UserReviewAction => ({
+  type: SET_USERREVIEW,
+  review,
+  star,
+  starScore,
+});
+
 export interface AllReviewListAction extends AllReviewList {
   type: typeof SET_ALLREVIEWS;
 }
@@ -53,6 +109,47 @@ const allReviewsInit: AllReviewList = {
 export const setMyReviews = (allReviews: aReview[]): AllReviewListAction => ({
   type: SET_ALLREVIEWS,
   allReviews,
+});
+
+export interface InfoStatusAction extends InfoStatus {
+  type: typeof SET_INFOSTATUS;
+}
+const infoStatusInit: InfoStatus = {
+  story: true,
+  more: false,
+};
+export const setInfoStatus = (
+  story: boolean,
+  more: boolean,
+): InfoStatusAction => ({
+  type: SET_INFOSTATUS,
+  story,
+  more,
+});
+
+interface StarStatusAction extends StarStatus {
+  type: typeof SET_STARSTATUS;
+}
+export const starStatusInit: StarStatus = {
+  a: false,
+  b: false,
+  c: false,
+  d: false,
+  e: false,
+};
+export const setStarStatus = (
+  a: boolean,
+  b: boolean,
+  c: boolean,
+  d: boolean,
+  e: boolean,
+): StarStatusAction => ({
+  type: SET_STARSTATUS,
+  a,
+  b,
+  c,
+  d,
+  e,
 });
 
 // ============ 이하로 reducers
@@ -72,6 +169,39 @@ export const beerDetailReducer = (
   }
 };
 
+export const bookmarkReducer = (
+  state = bookmarkInit,
+  action: BookmarkAction,
+): Bookmark => {
+  switch (action.type) {
+    case SET_BOOKMARK:
+      return {
+        ...state,
+        bookmark: action.bookmark,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const userReviewReducer = (
+  state = userReviewInit,
+  action: UserReviewAction,
+): UserReview => {
+  switch (action.type) {
+    case SET_USERREVIEW:
+      return {
+        ...state,
+        review: action.review,
+        star: action.star,
+        starScore: action.starScore,
+      };
+
+    default:
+      return state;
+  }
+};
 export const allReviewsReducer = (
   state = allReviewsInit,
   action: AllReviewListAction,
@@ -81,6 +211,43 @@ export const allReviewsReducer = (
       return {
         ...state,
         allReviews: action.allReviews,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const infoStatusReducer = (
+  state = infoStatusInit,
+  action: InfoStatusAction,
+): InfoStatus => {
+  switch (action.type) {
+    case SET_INFOSTATUS:
+      return {
+        ...state,
+        story: action.story,
+        more: action.more,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const starStatusReducer = (
+  state = starStatusInit,
+  action: StarStatusAction,
+): StarStatus => {
+  switch (action.type) {
+    case SET_STARSTATUS:
+      return {
+        ...state,
+        a: action.a,
+        b: action.b,
+        c: action.c,
+        d: action.d,
+        e: action.e,
       };
 
     default:
