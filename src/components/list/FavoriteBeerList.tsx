@@ -1,23 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import TodayBeer from './TodayBeer';
-import { BeerT } from '../../modules/getbeers';
+import FavoriteBeer from './FavoriteBeer';
+import { BeerI } from '../../modules/getbeers';
 
-interface Props {
-  beers: BeerT[];
-}
-
-function TodayBeerList({ beers }: Props): JSX.Element {
-  const todayBeerList = beers.map((beer) => (
-    <TodayBeer
+function FavoriteBeerList({ beers }: BeerI): JSX.Element {
+  const favoriteBeerList = beers.map((beer) => (
+    <FavoriteBeer
       key={beer.id}
       name={beer.beer_name}
       image={beer.beer_img}
       rate={beer.rate}
     />
   ));
-  return <BeerList>{todayBeerList}</BeerList>;
+  return <BeerList>{favoriteBeerList}</BeerList>;
 }
 
 const BeerList = styled.div`
@@ -29,4 +25,4 @@ const BeerList = styled.div`
   justify-content: center;
 `;
 
-export default TodayBeerList;
+export default FavoriteBeerList;

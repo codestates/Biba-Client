@@ -7,6 +7,8 @@ import { RootState } from '../../modules';
 
 import { TodayBeerListContainerWithRouter } from '../../containers/list/TodayBeerListContainer';
 import { WantSomeBeerListContainerWithRouter } from '../../containers/list/WantSomeBeerListContainer';
+import { MyBeerContainerWithRouter } from '../../containers/page/MyBeerContainer';
+import { SearchBeerListContainerWithRouter } from '../../containers/list/SearchBeerListContainer';
 import { DefaultProps } from '../../containers/page/HomeContainer';
 
 function Home({ match, history, location }: DefaultProps): JSX.Element {
@@ -14,11 +16,13 @@ function Home({ match, history, location }: DefaultProps): JSX.Element {
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
   const isWant = useSelector((state: RootState) => state.changePage.isWant);
   const isMy = useSelector((state: RootState) => state.changePage.isMy);
+  const isSearch = useSelector((state: RootState) => state.changePage.isSearch);
   return (
     <Container>
       {isToday ? <TodayBeerListContainerWithRouter /> : false}
       {isWant ? <WantSomeBeerListContainerWithRouter /> : false}
-      {isMy ? true : false}
+      {isMy ? <MyBeerContainerWithRouter /> : false}
+      {isSearch ? <SearchBeerListContainerWithRouter /> : false}
     </Container>
   );
 }

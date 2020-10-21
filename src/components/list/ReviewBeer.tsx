@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { BeerProps } from '../../modules/getbeers';
 
-function WantSomeBeer({ name, image, rate }: BeerProps): JSX.Element {
+function Review({ name, image, rate }: BeerProps): JSX.Element {
   return <Image src={image} alt={name} />;
 }
 
@@ -20,7 +20,7 @@ const Image = styled.img`
   }
 `;
 
-export default WantSomeBeer;
+export default Review;
 
 // 가운데 정렬 css
 //부모 태그

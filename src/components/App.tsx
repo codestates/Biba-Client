@@ -10,10 +10,9 @@ import { LoginContainerWithRouter } from '../containers/user/Login';
 import { SignupContainerWithRouter } from '../containers/user/Signup';
 import { MypageContainerWithRouter } from '../containers/user/Mypage';
 import { FooterContainerithRouter } from '../containers/nav/Footer';
-import { SearchBeerListContainerWithRouter } from '../containers/list/SearchBeerListContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
-import { AppProps } from '../containers/App';
+import { AppProps } from '../containers/AppContainer';
 
 export const App = ({
   match,
