@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
 
-import { NavProps } from '../../containers/nav/Nav';
+import { NavProps } from '../../containers/nav/NavContainer';
 
 export const Nav = ({
   userData,
@@ -16,7 +16,6 @@ export const Nav = ({
   handleOnChange,
   handleSearch,
   pressEnter,
-  testDetail,
 }: NavProps): JSX.Element => {
   return (
     <Container>
@@ -28,13 +27,6 @@ export const Nav = ({
         />
         <SearchBarArea className='searchBarArea'>
           <button onClick={testLoginModal}>login modal</button>
-          <button
-            onClick={() => {
-              testDetail();
-            }}
-          >
-            detail
-          </button>
           <Wrap>
             <SearchIcon className='searchIcon' />
             {isLogin ? (
@@ -89,9 +81,7 @@ const NavBar = styled.div`
   justify-content: space-between;
 
   border: 2px solid #545454;
-
-  width: 65em;
-  margin: 2em;
+  width: 100%;
   padding: 0.3em;
 `;
 
@@ -106,7 +96,7 @@ const SearchBarArea = styled.div`
   justify-content: flex-end;
   align-items: center;
 
-  width: 30em;
+  width: 50%;
   height: 3em;
   border: 1px solid black;
 `;
@@ -143,7 +133,7 @@ const BtnArea = styled.div`
   justify-content: flex-end;
   align-items: center;
 
-  width: 35vw;
+  width: 35%;
   height: 3em;
   border: 1px solid black;
 `;

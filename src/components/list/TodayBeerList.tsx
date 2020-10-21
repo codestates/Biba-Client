@@ -6,15 +6,23 @@ import { BeerT } from '../../modules/getbeers';
 
 interface Props {
   beers: BeerT[];
+  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
+  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
 
-function TodayBeerList({ beers }: Props): JSX.Element {
+function TodayBeerList({
+  beers,
+  setBeerDetail,
+  setAllReviews,
+}: Props): JSX.Element {
   const todayBeerList = beers.map((beer) => (
     <TodayBeer
       key={beer.id}
       name={beer.beer_name}
       image={beer.beer_img}
       rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   ));
   return <BeerList>{todayBeerList}</BeerList>;

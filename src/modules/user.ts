@@ -1,3 +1,5 @@
+import { aReview } from './beerdetail';
+
 const SET_LOGINSTATE = 'SET_LOGINSTATE' as const;
 const SET_LOGOUTSTATE = 'SET_LOGOUTSTATE' as const;
 const SET_PROFILE = 'SET_PROFILE' as const;
@@ -8,6 +10,7 @@ const CHANGE_NICKNAME = 'CHANGE_NICKNAME' as const;
 const CHANGE_PASSWORD = 'CHANGE_PASSWORD' as const;
 const CONFIRM_EMAIL = 'CONFIRM_EMAIL' as const;
 const CONFIRM_NICKNAME = 'CONFIRM_NICKNAME' as const;
+const CONFIRM_AGE = 'CONFIRM_AGE' as const;
 
 export interface User {
   id: number;
@@ -22,9 +25,6 @@ export interface UserState {
   userData: User;
   isLogin: boolean;
   token: string;
-}
-export interface aReview {
-  message: string;
 }
 export interface MyReviewList {
   myReviews: aReview[];
@@ -88,24 +88,27 @@ export const deleteProfile = (profile: string): ProfileAction => ({
   profile,
 });
 
-export interface ReviewListAction extends MyReviewList {
+export interface MyReviewListAction extends MyReviewList {
   type: typeof SET_MYREVIEWS;
 }
 const myReviewsInit: MyReviewList = {
   myReviews: [],
 };
-export const setMyReviews = (myReviews: aReview[]): ReviewListAction => ({
+export const setMyReviews = (myReviews: aReview[]): MyReviewListAction => ({
   type: SET_MYREVIEWS,
   myReviews,
 });
 
 export interface ConfirmInputAction extends ConfirmInput {
-  type: typeof CONFIRM_EMAIL | typeof CONFIRM_NICKNAME;
+  type: typeof CONFIRM_EMAIL | typeof CONFIRM_NICKNAME | typeof CONFIRM_AGE;
 }
 const emailInputInit: ConfirmInput = {
   value: false,
 };
 const nicknameInputInit: ConfirmInput = {
+  value: false,
+};
+const ageInputInit: ConfirmInput = {
   value: false,
 };
 export const checkEmailInput = (value: boolean): ConfirmInputAction => ({
@@ -114,6 +117,10 @@ export const checkEmailInput = (value: boolean): ConfirmInputAction => ({
 });
 export const checkNicknameInput = (value: boolean): ConfirmInputAction => ({
   type: CONFIRM_NICKNAME,
+  value,
+});
+export const checkAgeInput = (value: boolean): ConfirmInputAction => ({
+  type: CONFIRM_AGE,
   value,
 });
 
@@ -172,7 +179,7 @@ export const profileReducer = (
 
 export const myReviewsReducer = (
   state = myReviewsInit,
-  action: ReviewListAction,
+  action: MyReviewListAction,
 ): MyReviewList => {
   switch (action.type) {
     case SET_MYREVIEWS:
@@ -208,6 +215,22 @@ export const confirmNicknameReducer = (
 ): ConfirmInput => {
   switch (action.type) {
     case CONFIRM_NICKNAME:
+      return {
+        ...state,
+        value: action.value,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const confirmAgeReducer = (
+  state = ageInputInit,
+  action: ConfirmInputAction,
+): ConfirmInput => {
+  switch (action.type) {
+    case CONFIRM_AGE:
       return {
         ...state,
         value: action.value,

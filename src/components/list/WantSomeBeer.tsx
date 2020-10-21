@@ -1,10 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { BeerProps } from '../../modules/getbeers';
 
-function WantSomeBeer({ name, image, rate }: BeerProps): JSX.Element {
-  return <Image src={image} alt={name} />;
+export interface WSBeerProps extends BeerProps {
+  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
+  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
+}
+
+function WantSomeBeer({
+  name,
+  image,
+  rate,
+  setBeerDetail,
+  setAllReviews,
+}: WSBeerProps): JSX.Element {
+  return (
+    <Image
+      src={image}
+      alt={name}
+      onClick={(e) => {
+        setBeerDetail(e);
+        setAllReviews(e);
+      }}
+    />
+  );
 }
 
 const Image = styled.img`

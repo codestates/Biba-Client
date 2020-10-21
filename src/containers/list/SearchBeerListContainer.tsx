@@ -5,16 +5,17 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import SearchBeerList from '../../components/list/SearchBeerList';
 
-import { fakedata } from '../../modules/getbeers';
+import { HomeProps } from '../../containers/page/HomeContainer';
 
-// const beers = Axios.get<BeerT[]>('https://biba.com/beer/list-all');
-
-function SearchBeerListContainer(): JSX.Element {
+function SearchBeerListContainer({
+  setBeerDetail,
+  setAllReviews,
+}: HomeProps): JSX.Element {
   const beers = useSelector((state: RootState) => state.searchBeer.beers);
 
   return (
     <Container>
-      <SearchBeerList beers={beers} />;
+      <SearchBeerList beers={beers} setBeerDetail={setBeerDetail} />;
     </Container>
   );
 }

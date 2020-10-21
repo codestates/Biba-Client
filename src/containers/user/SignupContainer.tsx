@@ -4,13 +4,15 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { Signup } from '../../components/user/Signup';
-import { emailCheck, nicknameCheck, checkInput } from './utils';
+import { emailCheck, nicknameCheck, checkInput } from './userUtils';
 import { RootState } from '../../modules';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 
 export interface SignupProps {
   mapInputList(): JSX.Element[];
   handleClickSignup(): void;
+  handleCheckAge(): void;
+  ageConfirm: boolean;
 }
 
 const SignupContainer = (): JSX.Element => {
@@ -20,6 +22,7 @@ const SignupContainer = (): JSX.Element => {
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
+  const ageConfirm = useSelector((state: RootState) => state.confirmAge.value);
   const btnColor = useSelector((state: RootState) => state.btnColor.btn);
   const textColor = useSelector((state: RootState) => state.btnColor.text);
 
@@ -29,6 +32,9 @@ const SignupContainer = (): JSX.Element => {
   };
   const handleConfirmNickname = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_NICKNAME', value });
+  };
+  const handleConfirmAge = (value: boolean): void => {
+    dispatch({ type: 'CONFIRM_AGE', value });
   };
   const handleBtnColor = (btn: string, text: string): void => {
     dispatch({ type: 'SET_BTNCOLOR', btn, text });
@@ -103,12 +109,17 @@ const SignupContainer = (): JSX.Element => {
     }
   };
 
+  const handleCheckAge = (): void => {
+    handleConfirmAge(!ageConfirm);
+  };
+
   const handleClickSignup = (): void => {
     const { email, password, passwordForCheck, nickname } = inputValues;
     console.log('test');
     if (emailConfirm && nicknameConfirm) {
       checkInput(email, password, passwordForCheck, nickname);
-      // true라면 post 요청(가입 요청 전송)
+      console.log(ageConfirm);
+      // checkInput, ageConfirm이 true라면 post 요청(가입 요청 전송)
     }
     if (!emailConfirm) {
       if (inputValues.email !== '') {
@@ -175,7 +186,12 @@ const SignupContainer = (): JSX.Element => {
   };
 
   return (
-    <Signup mapInputList={mapInputList} handleClickSignup={handleClickSignup} />
+    <Signup
+      mapInputList={mapInputList}
+      handleClickSignup={handleClickSignup}
+      handleCheckAge={handleCheckAge}
+      ageConfirm={ageConfirm}
+    />
   );
 };
 

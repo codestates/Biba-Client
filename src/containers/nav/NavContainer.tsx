@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
+import { ContentType } from '../../modules/nav';
 import { Nav } from '../../components/nav/Nav';
 import { Beers, Beer } from '../../modules/nav';
 
@@ -28,7 +28,6 @@ export interface NavProps {
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   handleSearch(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
-  testDetail(): void;
 }
 
 export const NavContainer = (props: RouterProps): JSX.Element => {
@@ -45,15 +44,21 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   const removeProfile = () => {
     dispatch({ type: 'DELETE_PROFILE' });
   };
+  const handleClickTodayBeer = (): void => {
+    dispatch({ type: 'TODAY_BEER' });
+  };
+  const handleNavDisplay = (display: boolean) => {
+    dispatch({ type: 'SET_NAVDISPLAY', display });
+  };
 
   const logout = () => {
     // 로그아웃 - store에서 프로필 삭제, 사용자 정보 삭제
     removeProfile();
     setLogout();
-  };
-
-  const handleClickTodayBeer = (): void => {
-    dispatch({ type: 'TODAY_BEER' });
+    handleClickTodayBeer();
+    handleNavDisplay(true);
+    alert('로그아웃 되었습니다.'); // 로그아웃 시 렌더링 오류
+    props.history.push('/');
   };
 
   const handleClickLogo = (): void => {
@@ -64,16 +69,14 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     props.history.push('/login');
   };
   const handleClickLogout = (): void => {
-    console.log('/logout');
+    logout();
+    props.history.push('/');
   };
   const handleClickSignup = (): void => {
     props.history.push('/signup');
   };
   const handleClickMypage = (): void => {
     props.history.push('/mypage');
-  };
-  const testDetail = (): void => {
-    props.history.push('/beer/detail');
   };
 
   const handleModal = (contentType: ContentType, display: boolean): void => {
@@ -107,21 +110,17 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
           const beers = res.data.beers;
           // 받은 데이터로 store 상태 업데이트
           setBeers(beers);
-          props.history.push('/search');
+          dispatch({ type: 'SEARCH_BEER' });
         }
       })
       .catch(() => {
-        alert('입력한 맥주를 찾을 수 없습니다.');
+        dispatch({ type: 'SEARCH_BEER' });
       });
   };
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleSearch();
   };
-
-  // const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-  //   console.log(e.currentTarget);
-  // };
 
   return (
     <Nav
@@ -139,7 +138,6 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       handleOnChange={handleOnChange}
       handleSearch={handleSearch}
       pressEnter={pressEnter}
-      testDetail={testDetail}
     />
   );
 };

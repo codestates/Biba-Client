@@ -6,6 +6,8 @@ export interface BeerProps {
   name: string;
   image: string;
   rate: number;
+  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
+  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
 
 const numToStar = (rate: number) => {
@@ -16,11 +18,24 @@ const numToStar = (rate: number) => {
   return result;
 };
 
-function Beer({ name, image, rate }: BeerProps): JSX.Element {
+function Beer({
+  name,
+  image,
+  rate,
+  setBeerDetail,
+  setAllReviews,
+}: BeerProps): JSX.Element {
   const star = numToStar(rate);
   return (
     <BeerImage>
-      <Image src={image} alt={name} />
+      <Image
+        src={image}
+        alt={name}
+        onClick={(e) => {
+          setBeerDetail(e);
+          setAllReviews(e);
+        }}
+      />
       <TextContainer>
         <Text>{name}</Text>
         <Text>{star}</Text>

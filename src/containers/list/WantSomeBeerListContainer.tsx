@@ -6,7 +6,12 @@ import { BEER_HOT, BEER_LATE, BEER_PICK, BeerT } from '../../modules/getbeers';
 import WantSomeBeerList from '../../components/list/WantSomeBeerList';
 import axios from 'axios';
 
-function WantSomeBeerListContainer(): JSX.Element {
+import { HomeProps } from '../../containers/page/HomeContainer';
+
+function WantSomeBeerListContainer({
+  setBeerDetail,
+  setAllReviews,
+}: HomeProps): JSX.Element {
   const hotBeers = useSelector((state: RootState) => state.wantBeer.hotBeers);
   const lateBeers = useSelector((state: RootState) => state.wantBeer.lateBeers);
   const pickBeers = useSelector((state: RootState) => state.wantBeer.pickBeers);
@@ -40,6 +45,8 @@ function WantSomeBeerListContainer(): JSX.Element {
       hotBeers={hotBeers}
       lateBeers={lateBeers}
       pickBeers={pickBeers}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   );
 }

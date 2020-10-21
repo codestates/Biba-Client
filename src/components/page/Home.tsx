@@ -7,11 +7,18 @@ import { RootState } from '../../modules';
 
 import { TodayBeerListContainerWithRouter } from '../../containers/list/TodayBeerListContainer';
 import { WantSomeBeerListContainerWithRouter } from '../../containers/list/WantSomeBeerListContainer';
+
+import { HomeProps } from '../../containers/page/HomeContainer';
 import { MyBeerContainerWithRouter } from '../../containers/page/MyBeerContainer';
 import { SearchBeerListContainerWithRouter } from '../../containers/list/SearchBeerListContainer';
-import { DefaultProps } from '../../containers/page/HomeContainer';
 
-function Home({ match, history, location }: DefaultProps): JSX.Element {
+function Home({
+  match,
+  history,
+  location,
+  setBeerDetail,
+  setAllReviews,
+}: HomeProps): JSX.Element {
   const { isLogin } = useSelector((state: RootState) => state.login);
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
   const isWant = useSelector((state: RootState) => state.changePage.isWant);
@@ -19,10 +26,31 @@ function Home({ match, history, location }: DefaultProps): JSX.Element {
   const isSearch = useSelector((state: RootState) => state.changePage.isSearch);
   return (
     <Container>
-      {isToday ? <TodayBeerListContainerWithRouter /> : false}
-      {isWant ? <WantSomeBeerListContainerWithRouter /> : false}
+      {isToday ? (
+        <TodayBeerListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
+      {isWant ? (
+        <WantSomeBeerListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
       {isMy ? <MyBeerContainerWithRouter /> : false}
-      {isSearch ? <SearchBeerListContainerWithRouter /> : false}
+      {isSearch ? (
+        <SearchBeerListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
     </Container>
   );
 }
@@ -32,7 +60,7 @@ const Container = styled.div`
   right: 0;
   top: 0;
   // width: 80%;
-  height: 100vh;
+  height: auto;
   margin: 0 auto;
   border: solid 2px gray;
 `;

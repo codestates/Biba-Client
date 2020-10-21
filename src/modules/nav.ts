@@ -15,6 +15,7 @@ export enum ContentType {
   Login,
   MypageAllReviews,
   ChangeNickname,
+  AllReviews,
 }
 export interface BtnColor {
   btn: string;

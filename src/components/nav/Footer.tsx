@@ -24,12 +24,11 @@ const Container = styled.div`
 const FooterArea = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-items: flex-start;
 
   border: 2px solid #545454;
 
-  width: 65em;
-  margin: 2em;
+  width: 100%;
   padding: 0.3em;
 `;
 const Logo = styled.img`

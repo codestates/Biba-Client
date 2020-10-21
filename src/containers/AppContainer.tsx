@@ -21,7 +21,7 @@ export const AppContainer = ({
     dispatch({ type: 'SET_NAVDISPLAY', display });
   };
 
-  const whiteList = ['login', 'signup', 'beer'];
+  const whiteList = ['login', 'signup', 'beer']; // 최종 때는 beer 빼는 걸로
   const fullList = ['/login', '/signup', '/mypage'];
   useEffect(() => {
     fullList.indexOf(location.pathname) !== -1

@@ -7,7 +7,8 @@ import styled from 'styled-components';
 
 import { RootState } from '../../modules';
 import { User, UserState, UserProfile } from '../../modules/user';
-import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
+import { ContentType } from '../../modules/nav';
+import { aReview } from '../../modules/beerdetail';
 import { Mypage } from '../../components/user/Mypage';
 import {
   Content,
@@ -16,7 +17,7 @@ import {
   Input,
   ChangeBtn,
 } from '../../components/user/Mypage';
-import { passwordCheck, passwordMatch } from './utils';
+import { passwordCheck, passwordMatch } from './userUtils';
 
 export interface MypageProps {
   userData: User;
@@ -80,7 +81,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
   const getMyReviews = (): void => {
     axios
       // user id 전송해서 review 받아오기(:id === number 붙여서 get 요청)
-      .get<{ message: string }[]>('http://localhost:4000/custom/mypost/4')
+      .get<aReview>('http://localhost:4000/custom/mypost/4')
       .then((res) => {
         const myReviews = res.data;
         dispatch({ type: 'SET_MYREVIEWS', myReviews });

@@ -65,7 +65,7 @@ function BeerListNav({
 
 const ListNav = styled.div`
   // width: 14vw;
-  height: 100vh;
+  // height: 100vh;
   left: 0;
   top: 0;
   padding: 1rem;

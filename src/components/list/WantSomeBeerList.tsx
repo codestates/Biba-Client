@@ -4,17 +4,25 @@ import styled from 'styled-components';
 import WantSomeBeer from './WantSomeBeer';
 import { WantI } from '../../modules/getbeers';
 
+interface WSLBeerProps extends WantI {
+  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
+  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
+}
 function WantSomeBeerList({
   hotBeers,
   lateBeers,
   pickBeers,
-}: WantI): JSX.Element {
+  setBeerDetail,
+  setAllReviews,
+}: WSLBeerProps): JSX.Element {
   const hotBeerList = hotBeers.map((beer) => (
     <WantSomeBeer
       key={beer.id}
       name={beer.beer_name}
       image={beer.beer_img}
       rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   ));
   const lateBeerList = lateBeers.map((beer) => (
@@ -23,6 +31,8 @@ function WantSomeBeerList({
       name={beer.beer_name}
       image={beer.beer_img}
       rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   ));
   const pickBeerList = pickBeers.map((beer) => (
@@ -31,6 +41,8 @@ function WantSomeBeerList({
       name={beer.beer_name}
       image={beer.beer_img}
       rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   ));
   return (

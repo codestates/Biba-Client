@@ -5,7 +5,14 @@ import { BeerI } from '../../modules/getbeers';
 import SearchBeer from './SearchBeer';
 import RequsetBeer from './RequestBeer';
 
-function SearchBeerList({ beers }: BeerI): JSX.Element {
+interface SearchBeerProps extends BeerI {
+  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
+}
+
+function SearchBeerList({
+  beers,
+  setBeerDetail,
+}: SearchBeerProps): JSX.Element {
   if (beers.length !== 0) {
     const searchBeerList = beers.map((beer) => (
       <SearchBeer
@@ -16,9 +23,7 @@ function SearchBeerList({ beers }: BeerI): JSX.Element {
       />
     ));
   }
-
   const searchBeerList = <RequsetBeer />;
-
   return <BeerList>{searchBeerList}</BeerList>;
 }
 

@@ -6,6 +6,7 @@ import {
   myReviewsReducer,
   confirmEmailReducer,
   confirmNicknameReducer,
+  confirmAgeReducer,
 } from './user';
 import { modalReducer, btnColorReducer, navDisplayReducer } from './nav';
 import {
@@ -16,7 +17,15 @@ import {
 } from './getbeers';
 import { changePageReducer } from './changepage';
 import { searchBeerReducer } from './searchbeer';
-import { beerDetailReducer } from './beerdetail';
+
+import {
+  beerDetailReducer,
+  bookmarkReducer,
+  userReviewReducer,
+  allReviewsReducer,
+  infoStatusReducer,
+  starStatusReducer,
+} from './beerdetail';
 import { myBeerReducer } from './mybeer';
 
 export const rootReducer = combineReducers({
@@ -25,17 +34,23 @@ export const rootReducer = combineReducers({
   myReviews: myReviewsReducer,
   confirmEmail: confirmEmailReducer,
   confirmNickname: confirmNicknameReducer,
+  confirmAge: confirmAgeReducer,
   modal: modalReducer,
   btnColor: btnColorReducer,
   navDisplay: navDisplayReducer,
   todayBeer: todayBeerReducer,
   wantBeer: wantBeerReducer,
   changePage: changePageReducer,
+  myBeer: myBeerReducer,
   favoriteBeer: favoriteBeerReducer,
   reviewBeer: reviewBeerReducer,
   searchBeer: searchBeerReducer,
   beerDetail: beerDetailReducer,
-  myBeer: myBeerReducer,
+  bookmark: bookmarkReducer,
+  userReview: userReviewReducer,
+  allReview: allReviewsReducer,
+  infoStatus: infoStatusReducer,
+  starStatus: starStatusReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

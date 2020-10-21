@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { MypageProps } from '../../containers/user/Mypage';
+import { MypageProps } from '../../containers/user/MypageContainer';
 import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 
 export const Mypage = ({
@@ -63,7 +63,7 @@ const MypageArea = styled.div`
   flex-direction: column;
   border: 2px solid #545454;
 
-  width: 65em;
+  width: 100%;
   padding: 1em 0 2em 0;
 `;
 const SubContainer = styled.div`
