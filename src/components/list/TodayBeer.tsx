@@ -52,6 +52,11 @@ const BeerImage = styled.div`
   border-radius: 1em;
   margin: 1em auto;
   padding: 1em;
+  &:hover {
+    transition: all ease 1s;
+    transform: scale(1.1);
+    cursor: pointer;
+  }
 `;
 
 const TextContainer = styled.div`

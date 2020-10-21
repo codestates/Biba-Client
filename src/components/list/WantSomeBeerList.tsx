@@ -2,20 +2,40 @@ import React from 'react';
 import styled from 'styled-components';
 
 import WantSomeBeer from './WantSomeBeer';
-import { BeerT } from '../../modules/getbeer';
+import { WantI } from '../../modules/getbeers';
 
-interface Props {
-  beers: BeerT[];
+interface WSLBeerProps extends WantI {
   setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
   setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
-
 function WantSomeBeerList({
-  beers,
+  hotBeers,
+  lateBeers,
+  pickBeers,
   setBeerDetail,
   setAllReviews,
-}: Props): JSX.Element {
-  const hotBeerList = beers.map((beer) => (
+}: WSLBeerProps): JSX.Element {
+  const hotBeerList = hotBeers.map((beer) => (
+    <WantSomeBeer
+      key={beer.id}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  ));
+  const lateBeerList = lateBeers.map((beer) => (
+    <WantSomeBeer
+      key={beer.id}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  ));
+  const pickBeerList = pickBeers.map((beer) => (
     <WantSomeBeer
       key={beer.id}
       name={beer.beer_name}
@@ -36,14 +56,14 @@ function WantSomeBeerList({
         </Category>
         <Category>
           <ListContainer>
-            <Title>차가운 맥주들</Title>
-            {hotBeerList}
+            <Title>최신 맥주들</Title>
+            {lateBeerList}
           </ListContainer>
         </Category>
         <Category>
           <ListContainer>
-            <Title>라거</Title>
-            {hotBeerList}
+            <Title>즐겨찾는 맥주들</Title>
+            {pickBeerList}
           </ListContainer>
         </Category>
       </Categories>

@@ -7,7 +7,10 @@ import { RootState } from '../../modules';
 
 import { TodayBeerListContainerWithRouter } from '../../containers/list/TodayBeerListContainer';
 import { WantSomeBeerListContainerWithRouter } from '../../containers/list/WantSomeBeerListContainer';
+
 import { HomeProps } from '../../containers/page/HomeContainer';
+import { MyBeerContainerWithRouter } from '../../containers/page/MyBeerContainer';
+import { SearchBeerListContainerWithRouter } from '../../containers/list/SearchBeerListContainer';
 
 function Home({
   match,
@@ -20,6 +23,7 @@ function Home({
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
   const isWant = useSelector((state: RootState) => state.changePage.isWant);
   const isMy = useSelector((state: RootState) => state.changePage.isMy);
+  const isSearch = useSelector((state: RootState) => state.changePage.isSearch);
   return (
     <Container>
       {isToday ? (
@@ -38,7 +42,15 @@ function Home({
       ) : (
         false
       )}
-      {isMy ? true : false}
+      {isMy ? <MyBeerContainerWithRouter /> : false}
+      {isSearch ? (
+        <SearchBeerListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
     </Container>
   );
 }

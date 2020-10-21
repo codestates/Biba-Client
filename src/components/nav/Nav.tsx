@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
 
-import { NavProps } from '../../containers/nav/Nav';
+import { NavProps } from '../../containers/nav/NavContainer';
 
 export const Nav = ({
   userData,

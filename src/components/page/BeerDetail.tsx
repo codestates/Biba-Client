@@ -62,9 +62,8 @@ export const BeerDetail = ({
                 <P className='content'>제조사: {beerDetail.company}</P>
                 <P className='content'>제조국: {beerDetail.country}</P>
                 <P className='content'>스타일: {beerDetail.style_name}</P>
-                <P className='content'>
-                  ABV / IBU: {beerDetail.abv} / {beerDetail.ibu}
-                </P>
+                <P className='content'>ABV : {beerDetail.abv}</P>
+                <P className='content'>IBU: {beerDetail.ibu}</P>
               </InfoDetail2>
             </InfoBody>
           </InfoDiv>

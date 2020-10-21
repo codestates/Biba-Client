@@ -4,13 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
-import { LoginContainerWithRouter } from '../../containers/user/Login';
+import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
 import { aReview } from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
-import { nicknameCheck } from '../user/utils';
+import { nicknameCheck } from '../user/userUtils';
 
 export interface ModalProps {
   display: boolean;

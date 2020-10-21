@@ -3,14 +3,13 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { HomeContainerWithRouter } from '../containers/page/HomeContainer';
-import { NavContainerWithRouter } from '../containers/nav/Nav';
+import { NavContainerWithRouter } from '../containers/nav/NavContainer';
 import { BeerListNavContainerWithRouter } from '../containers/nav/BeerListNavContainer';
-import { ModalContainerWithRouter } from '../containers/nav/Modal';
-import { LoginContainerWithRouter } from '../containers/user/Login';
-import { SignupContainerWithRouter } from '../containers/user/Signup';
-import { MypageContainerWithRouter } from '../containers/user/Mypage';
-import { FooterContainerithRouter } from '../containers/nav/Footer';
-import { SearchBeerListContainerWithRouter } from '../containers/list/SearchBeerListContainer';
+import { ModalContainerWithRouter } from '../containers/nav/ModalContainer';
+import { LoginContainerWithRouter } from '../containers/user/LoginContainer';
+import { SignupContainerWithRouter } from '../containers/user/SignupContainer';
+import { MypageContainerWithRouter } from '../containers/user/MypageContainer';
+import { FooterContainerithRouter } from '../containers/nav/FooterContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
 import { AppProps } from '../containers/AppContainer';

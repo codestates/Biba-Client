@@ -110,11 +110,11 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
           const beers = res.data.beers;
           // 받은 데이터로 store 상태 업데이트
           setBeers(beers);
-          props.history.push('/search');
+          dispatch({ type: 'SEARCH_BEER' });
         }
       })
       .catch(() => {
-        alert('입력한 맥주를 찾을 수 없습니다.');
+        dispatch({ type: 'SEARCH_BEER' });
       });
   };
 

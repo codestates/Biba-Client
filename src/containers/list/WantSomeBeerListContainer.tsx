@@ -1,28 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { getBeerAction, BeerT } from '../../modules/getbeer';
+import { BEER_HOT, BEER_LATE, BEER_PICK, BeerT } from '../../modules/getbeers';
 import WantSomeBeerList from '../../components/list/WantSomeBeerList';
-import Axios from 'axios';
+import axios from 'axios';
 
-import { fakedata } from '../../modules/getbeer';
 import { HomeProps } from '../../containers/page/HomeContainer';
 
-// const beers = Axios.get<BeerT[]>('https://biba.com/beer/list-all');
-
 function WantSomeBeerListContainer({
-  match,
-  history,
-  location,
   setBeerDetail,
   setAllReviews,
 }: HomeProps): JSX.Element {
-  const beers = useSelector((state: RootState) => state.getBeer.beers);
+  const hotBeers = useSelector((state: RootState) => state.wantBeer.hotBeers);
+  const lateBeers = useSelector((state: RootState) => state.wantBeer.lateBeers);
+  const pickBeers = useSelector((state: RootState) => state.wantBeer.pickBeers);
+  const dispatch = useDispatch();
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  const setHotBeers = (beers: BeerT[]) => {
+    dispatch({ type: BEER_HOT, beers });
+  };
+  const setLateBeers = (beers: BeerT[]) => {
+    dispatch({ type: BEER_LATE, beers });
+  };
+  const setPickBeers = (beers: BeerT[]) => {
+    dispatch({ type: BEER_PICK, beers });
+  };
+
+  useEffect(() => {
+    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+      setHotBeers(res.data);
+    });
+    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+      setLateBeers(res.data);
+    });
+    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+      setPickBeers(res.data);
+    });
+  }, [setHotBeers, setLateBeers, setPickBeers]);
 
   return (
     <WantSomeBeerList
-      beers={fakedata}
+      hotBeers={hotBeers}
+      lateBeers={lateBeers}
+      pickBeers={pickBeers}
       setBeerDetail={setBeerDetail}
       setAllReviews={setAllReviews}
     />

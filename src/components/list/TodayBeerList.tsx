@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import TodayBeer from './TodayBeer';
-import { BeerT } from '../../modules/getbeer';
+import { BeerT } from '../../modules/getbeers';
 
 interface Props {
   beers: BeerT[];

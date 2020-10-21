@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { MypageProps } from '../../containers/user/Mypage';
+import { MypageProps } from '../../containers/user/MypageContainer';
 import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 
 export const Mypage = ({

@@ -1,27 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { getBeerAction, BeerT } from '../../modules/getbeer';
+import { BeerT } from '../../modules/getbeers';
+import { IBeerDetail, ObjBeerDetail } from '../../modules/beerdetail';
+import { DefaultProps } from '../../containers/page/HomeContainer';
 import TodayBeerList from '../../components/list/TodayBeerList';
-
-import { fakedata } from '../../modules/getbeer';
 import { HomeProps } from '../../containers/page/HomeContainer';
+import axios from 'axios';
 
-// const beers = Axios.get<BeerT[]>('https://biba.com/beer/list-all');
+interface TBLCProps extends DefaultProps {
+  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
+  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
+}
 
 function TodayBeerListContainer({
   match,
-  history,
-  location,
   setBeerDetail,
   setAllReviews,
-}: HomeProps): JSX.Element {
-  const beers = useSelector((state: RootState) => state.getBeer.beers);
+}: TBLCProps): JSX.Element {
+  const todayBeers = useSelector((state: RootState) => state.todayBeer.beers);
+  const dispatch = useDispatch();
+  /* eslint-disable react-hooks/exhaustive-deps */
+  const setTodayBeers = (beers: BeerT[]) => {
+    dispatch({ type: 'BEER_SUCCESS', beers });
+  };
+
+  useEffect(() => {
+    axios.get<BeerT[]>('https://biba.com/beer/list-all').then((res) => {
+      setTodayBeers(res.data);
+    });
+  }, [setTodayBeers]);
 
   return (
     <TodayBeerList
-      beers={fakedata}
+      beers={todayBeers}
       setBeerDetail={setBeerDetail}
       setAllReviews={setAllReviews}
     />

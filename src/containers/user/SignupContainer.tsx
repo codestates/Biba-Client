@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { Signup } from '../../components/user/Signup';
-import { emailCheck, nicknameCheck, checkInput } from './utils';
+import { emailCheck, nicknameCheck, checkInput } from './userUtils';
 import { RootState } from '../../modules';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 

@@ -17,7 +17,7 @@ import {
   Input,
   ChangeBtn,
 } from '../../components/user/Mypage';
-import { passwordCheck, passwordMatch } from './utils';
+import { passwordCheck, passwordMatch } from './userUtils';
 
 export interface MypageProps {
   userData: User;

@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BeerT } from '../../modules/getbeer';
+import { BeerI } from '../../modules/getbeers';
 import SearchBeer from './SearchBeer';
+import RequsetBeer from './RequestBeer';
 
-interface SearchBeerProps {
-  beers: BeerT[];
+interface SearchBeerProps extends BeerI {
   setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
 }
 
@@ -13,14 +13,17 @@ function SearchBeerList({
   beers,
   setBeerDetail,
 }: SearchBeerProps): JSX.Element {
-  const searchBeerList = beers.map((beer) => (
-    <SearchBeer
-      key={beer.id}
-      name={beer.beer_name}
-      image={beer.beer_img}
-      rate={beer.rate}
-    />
-  ));
+  if (beers.length !== 0) {
+    const searchBeerList = beers.map((beer) => (
+      <SearchBeer
+        key={beer.id}
+        name={beer.beer_name}
+        image={beer.beer_img}
+        rate={beer.rate}
+      />
+    ));
+  }
+  const searchBeerList = <RequsetBeer />;
   return <BeerList>{searchBeerList}</BeerList>;
 }
 
