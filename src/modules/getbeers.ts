@@ -214,7 +214,7 @@ export const reviewBeerReducer = (
       return state;
   }
 };
-
+//gather beers
 //fakedata
 export const fakedata = [
   {
