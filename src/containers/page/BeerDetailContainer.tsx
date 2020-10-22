@@ -11,7 +11,10 @@ import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllRevie
 import { starStatusInit } from '../../modules/beerdetail';
 import { BeerDetail } from '../../components/page/BeerDetail';
 import { Bookmark, IBeerDetail, aReview } from '../../modules/beerdetail';
-import { DefaultProps } from '../../containers/page/HomeContainer';
+import {
+  DefaultProps,
+  IBeerDetailWithAll,
+} from '../../containers/page/HomeContainer';
 import { checkStarScore } from './pageUtils';
 
 export interface BeerDetailProps extends DefaultProps {
@@ -23,6 +26,7 @@ export interface BeerDetailProps extends DefaultProps {
   handleInfoTab(e: React.MouseEvent<HTMLElement>): void;
   handleStar(): JSX.Element[];
   handleClickAllReviews(): void;
+  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
 }
 
 const BeerDetailContainer = ({
@@ -35,7 +39,7 @@ const BeerDetailContainer = ({
   );
   const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
   const { bookmark } = useSelector((state: RootState) => state.bookmark);
-  const { review, star, starScore } = useSelector(
+  const { user_review, user_star, user_input, user_rate } = useSelector(
     (state: RootState) => state.userReview,
   );
   const { story, more } = useSelector((state: RootState) => state.infoStatus);
@@ -94,6 +98,42 @@ const BeerDetailContainer = ({
     handleModal(ContentType.AllReviews, true);
   };
 
+  // 이하 임시
+
+  const setBeerDetail = (e: React.MouseEvent<HTMLElement>): void => {
+    console.log(e.currentTarget); // 클릭 시 타겟 정보 -> 나중에 여기서 id 받아와야 함
+    axios
+      // .get<IBeerDetailWithAll>(`https://beer4.xyz/beer/${e.currentTarget.id}`) // 여기에 id 붙여서 get 요청
+      .get<IBeerDetailWithAll>(`http://localhost:4000/custom/scrap/4`) // 임시 버튼
+      .then((res) => {
+        console.log(res.data);
+        const beerDetail: IBeerDetail = res.data;
+        const { bookmark } = res.data;
+        const { user_review, user_star, user_input, user_rate } = res.data;
+        dispatch({ type: 'SET_BEERDETAIL', beerDetail }); // store에 detail 전달
+        dispatch({ type: 'SET_BOOKMARK', bookmark });
+        dispatch({
+          type: 'SET_USERREVIEW',
+          user_review,
+          user_star,
+          user_input,
+          user_rate,
+        }); // 삭제, 수정 버튼 추가
+        const { a, b, c, d, e } = checkStarScore(user_rate); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
+        dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
+        history.push('/beer/4');
+      });
+  };
+  const setAllReviews = (e: React.MouseEvent<HTMLElement>): void => {
+    // store에 전체 리뷰 넣는 함수
+    axios.get<aReview>('http://localhost:4000/custom/mypost/4').then((res) => {
+      const allReviews = res.data;
+      dispatch({ type: 'SET_ALLREVIEWS', allReviews });
+    }); // [{}, {}]
+  };
+
+  // =============
+
   const handleStar = (): JSX.Element[] => {
     const stars = [
       [a, 1],
@@ -131,6 +171,7 @@ const BeerDetailContainer = ({
       handleInfoTab={handleInfoTab}
       handleStar={handleStar}
       handleClickAllReviews={handleClickAllReviews}
+      setBeerDetail={setBeerDetail}
     />
   );
 };

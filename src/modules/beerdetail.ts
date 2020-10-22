@@ -9,9 +9,10 @@ export interface Bookmark {
   bookmark: boolean;
 }
 export interface UserReview {
-  review: boolean;
-  star: boolean;
-  starScore: number;
+  user_review: boolean;
+  user_star: boolean;
+  user_input: string;
+  user_rate: number;
 }
 export interface IBeerDetail {
   id: number;
@@ -85,19 +86,22 @@ export interface UserReviewAction extends UserReview {
   type: typeof SET_USERREVIEW;
 }
 const userReviewInit: UserReview = {
-  review: false,
-  star: false,
-  starScore: -1,
+  user_review: false,
+  user_star: false,
+  user_input: '',
+  user_rate: -1,
 };
 export const setUserReview = (
-  review: boolean,
-  star: boolean,
-  starScore: number,
+  user_review: boolean,
+  user_star: boolean,
+  user_input: string,
+  user_rate: number,
 ): UserReviewAction => ({
   type: SET_USERREVIEW,
-  review,
-  star,
-  starScore,
+  user_review,
+  user_star,
+  user_input,
+  user_rate,
 });
 
 export interface AllReviewListAction extends AllReviewList {
@@ -193,9 +197,10 @@ export const userReviewReducer = (
     case SET_USERREVIEW:
       return {
         ...state,
-        review: action.review,
-        star: action.star,
-        starScore: action.starScore,
+        user_review: action.user_review,
+        user_star: action.user_star,
+        user_input: action.user_input,
+        user_rate: action.user_rate,
       };
 
     default:

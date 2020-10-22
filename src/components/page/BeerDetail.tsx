@@ -14,15 +14,20 @@ export const BeerDetail = ({
   handleInfoTab,
   handleStar,
   handleClickAllReviews,
+  setBeerDetail,
 }: BeerDetailProps): JSX.Element => {
   const { id } = match.params;
-  const example = 'https://bit.ly/2T6JRuE';
+  // const example = 'https://bit.ly/2T6JRuE';
+  const example =
+    'https://flagshipfebruary.com/wp-content/uploads/hero-19-02-01-samadams-1600x800.jpg';
 
   return (
     <Outer>
       <Container className='detailContainer'>
         <InfoArea className='infoArea'>
-          <InfoImg className='infoImg' src={example} alt='' />
+          <ImgDiv>
+            <InfoImg className='infoImg' src={example} alt='' />
+          </ImgDiv>
           <InfoDiv className='infoDiv'>
             <InfoTitle className='infoTitle'>맥주 상세 정보</InfoTitle>
             <FavToggle className='favToggle'>
@@ -77,6 +82,7 @@ export const BeerDetail = ({
           <CommentAll className='commentAllBtn' onClick={handleClickAllReviews}>
             리뷰 전체보기
           </CommentAll>
+          <button onClick={setBeerDetail}>임시 상세페이지 로딩</button>
         </CommentArea>
       </Container>
     </Outer>
@@ -86,7 +92,7 @@ export const BeerDetail = ({
 const Outer = styled.div`
   display: flex;
   justify-content: flex-start;
-  padding: 2em 0 2em 3em;
+  padding: 2em 0 2em 2em;
 `;
 
 const Container = styled.div`
@@ -97,11 +103,40 @@ const Container = styled.div`
 
 const InfoArea = styled.div`
   display: flex;
+  align-items: flex-start;
+`;
+
+const ImgDiv = styled.div`
+  display: flex;
+  justify-content: center;
+
+  width: 30em;
+  height: 30em;
+
+  @media (max-width: 1320px) {
+    border: 1px solid purple;
+  }
+  @media (min-width: 1920px) {
+    border: 1px solid yellow;
+  }
+
+  margin: 0 2em 0 0;
+  border: 1px solid black;
 `;
 const InfoImg = styled.img`
-  width: 25em;
+  display: flex;
+  justify-self: center;
+  align-self: center;
+
+  max-height: 30em;
+  max-width: 30em;
+  padding: 2em 0 2em 0;
 `;
-const InfoDiv = styled.div``;
+
+const InfoDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const InfoTitle = styled.p`
   font-size: 1.4em;
