@@ -67,12 +67,12 @@ const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px 2px 20px 20px;
   border: 1px solid #888;
   width: 60vw;
   min-width: 800px;
-  max-width: 1200px;
+  max-width: 1100px;
+  margin: 15% auto;
+  padding: 15px 15px 20px 15px;
 `;
 const TitleWrap = styled.div`
   display: flex;

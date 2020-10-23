@@ -229,7 +229,9 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
 export const ModalContainerWithRouter = withRouter(ModalContainer);
 
 export const ModalSingleComment = styled(SingleComment)`
-  width: 180px;
+  width: 31%;
+  min-width: 220px;
+  max-width: 250px;
 `;
 
 const ResultEmpty = styled.div`

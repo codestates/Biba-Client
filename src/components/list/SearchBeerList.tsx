@@ -2,16 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BeerI } from '../../modules/getbeers';
+import { DetailProps } from '../../containers/page/HomeContainer';
+
 import SearchBeer from './SearchBeer';
 import RequsetBeer from './RequestBeer';
 
-interface SearchBeerProps extends BeerI {
-  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
-}
+interface SearchBeerProps extends BeerI, DetailProps {}
 
 function SearchBeerList({
   beers,
   setBeerDetail,
+  setAllReviews,
 }: SearchBeerProps): JSX.Element {
   if (beers.length !== 0) {
     const searchBeerList = beers.map((beer) => (

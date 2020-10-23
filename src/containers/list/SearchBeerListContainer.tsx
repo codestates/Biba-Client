@@ -15,7 +15,12 @@ function SearchBeerListContainer({
 
   return (
     <Container>
-      <SearchBeerList beers={beers} setBeerDetail={setBeerDetail} />;
+      <SearchBeerList
+        beers={beers}
+        setBeerDetail={setBeerDetail}
+        setAllReviews={setAllReviews}
+      />
+      ;
     </Container>
   );
 }

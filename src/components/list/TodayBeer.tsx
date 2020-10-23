@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { DetailProps } from '../../containers/page/HomeContainer';
 
-export interface BeerProps {
+export interface BeerProps extends DetailProps {
   key: number;
   name: string;
   image: string;
   rate: number;
-  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
-  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
 
 const numToStar = (rate: number) => {

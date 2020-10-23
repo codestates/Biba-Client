@@ -24,14 +24,15 @@ export const SingleComment = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  width: 23%;
+  // width: 23%;
+  height: 150px;
   min-width: 180px;
   min-height: 120px;
 
   border: 2px solid ${mainYellow};
   border-radius: 8px;
 
-  margin: 0.5em 0.8em 1em 0;
+  margin: 0.5em 0.5em 1em 0.5em;
   padding: 0.6em;
 `; // 하나의 코멘트 wrap
 

@@ -20,11 +20,14 @@ import { checkStarScore } from './pageUtils';
 export interface MatchParams {
   id: string;
 }
-export type DefaultProps = RouteComponentProps<MatchParams>;
-export interface HomeProps extends DefaultProps {
+export interface DetailProps {
   setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
   setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
+
+export type DefaultProps = RouteComponentProps<MatchParams>;
+export interface HomeProps extends DefaultProps, DetailProps {}
+
 export interface IBeerDetailWithAll extends Bookmark, UserReview, IBeerDetail {}
 function HomeContainer({
   match,

@@ -258,7 +258,9 @@ const BeerDetailContainer = ({
 export const BeerDetailWithRouter = withRouter(BeerDetailContainer);
 
 const DetailSingleComment = styled(SingleComment)`
-  margin: 0 0.8em 0 0;
+  width: 23%;
+
+  margin: 0 0.4em 0 0.4em;
 `;
 
 const DetailNoComment = styled(SingleComment)`
@@ -268,5 +270,5 @@ const DetailNoComment = styled(SingleComment)`
 
   border: 2px solid ${mainYellowOpac};
 
-  margin: 0 0.8em 0 0;
+  margin: 0 0.2em 0 0;
 `;

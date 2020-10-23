@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 import { BeerDetailProps } from '../../containers/page/BeerDetailContainer';
+import { chart } from '../../containers/page/radar';
 
 export const BeerDetail = ({
   match,
@@ -26,13 +27,14 @@ export const BeerDetail = ({
   return (
     <Outer className='detailOuter'>
       <Container className='detailContainer'>
+        <InfoTitle className='infoTitle'>맥주 상세 정보</InfoTitle>
         <InfoArea className='infoArea'>
           <ImgDiv>
             <InfoImg className='infoImg' src={example} alt='' />
           </ImgDiv>
           <InfoDiv className='infoDiv'>
-            <InfoTitleWrap className='infoTitleWrap'>
-              <InfoTitle className='infoTitle'>맥주 상세 정보</InfoTitle>
+            <InfoTopWrap className='infoTitleWrap'>
+              <BeerName className='beerName'>{beerDetail.beer_name}</BeerName>
               <FavToggle className='favToggle'>
                 <FavTitle>즐겨찾기</FavTitle>
                 <FavWrap className='favWrap'>
@@ -45,13 +47,13 @@ export const BeerDetail = ({
                   <FavLB htmlFor='favToggle'></FavLB>
                 </FavWrap>
               </FavToggle>
-            </InfoTitleWrap>
+            </InfoTopWrap>
             <InfoSub className='infoSub'>
-              <BeerName className='beerName'>{beerDetail.beer_name}</BeerName>
               <Average className='beerAverage'>
                 별점 평균 {beerDetail.rate}
               </Average>
               <TagWrap>{handleTag()}</TagWrap>
+              <InfoChart>{chart()}</InfoChart>
             </InfoSub>
             <InfoBody className='infoBody'>
               <TabWrap className='infoTabWrap'>
@@ -185,35 +187,51 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
+  width: 100%;
   min-height: 32em;
 `;
+const InfoTitle = styled.p`
+  display: flex;
 
+  margin: 0;
+  padding: 0;
+
+  font-size: 1.4em;
+`;
 const InfoArea = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-around;
+
+  margin: -1.4em 0 0 0;
 `;
 
+// =================================== Pic
 const ImgDiv = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
 
-  width: 30vw;
-  height: 30vw;
+  width: 32vw;
+  height: 32vw;
   @media (max-width: 1320px) {
     min-width: 400px;
     min-height: 400px;
   }
   @media (min-width: 1920px) {
-    max-width: 575px;
-    max-height: 575px;
+    max-width: 620px;
+    max-height: 620px;
   }
 
   // border: 2px solid ${mainGrey};
   border-radius: 16px;
   // background-color: ${mainYellowOpac};
 
-  margin: 0 2.5em 0 0;
+  margin: 0 4em 0 0;
+  padding: 0 1em 0.5em 0;
 `;
+
 const InfoImg = styled.img`
   display: flex;
   justify-self: center;
@@ -227,23 +245,18 @@ const InfoImg = styled.img`
   padding: 2em 0 2em 0;
 `;
 
+// =================================== Title
 const InfoDiv = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const InfoTitleWrap = styled.div`
+const InfoTopWrap = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const InfoTitle = styled.p`
-  margin: 0;
-  padding: 0;
 
-  font-size: 1.4em;
-`;
-
-// =================================== TOGGLE
+// =================================== Toggle
 const FavToggle = styled.div`
   display: flex;
   align-items: center;
@@ -291,22 +304,15 @@ const FavLB = styled.label`
   }
 `;
 
-// =================================== INFO SUB
+// =================================== Name Ave
 
 const InfoSub = styled.div``;
-const InfoBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
 const BeerName = styled.p``;
 const Average = styled.p`
   font-size: 1.2em;
 `;
 
-// =================================== TAG
-
+// =================================== Tag Chart
 const TagWrap = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -328,7 +334,19 @@ export const Tag = styled.p`
   color: #212121;
 `;
 
-// =================================== TAB
+const InfoChart = styled.div`
+  display: flex;
+
+  margin: 0 0 2em 0;
+`;
+
+// =================================== Tab
+const InfoBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
 const TabWrap = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -360,7 +378,7 @@ const Tab = styled.div`
   color: #fff;
 `;
 
-// =================================== TAB:DESCRIPTION
+// =================================== Tab: DESCRIPTION
 
 const InfoDetailWrap = styled.div`
   display: flex;
@@ -397,7 +415,7 @@ const PWrap = styled.div`
 
   margin: 0 2em 0 0;
 `;
-// =================================== INFO TEXT
+// =================================== Tab: TEXT
 
 const PT = styled.p`
   display: flex;
@@ -419,7 +437,7 @@ const P = styled.p`
   color: ${pDefault};
 `;
 
-// =================================== RATE & REVIEW
+// =================================== Rate & Review
 
 const RateReview = styled.div``;
 const RatingArea = styled.div`
@@ -457,9 +475,12 @@ const CommentArea = styled.div`
   flex-direction: column;
 
   width: 100%;
+  margin: 0;
+  padding: 0;
 `;
 const List = styled.div`
   display: flex;
+  justify-content: center;
 
   // max-width: 800px;
   width: 100%;
