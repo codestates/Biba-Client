@@ -48,7 +48,7 @@ export const rootReducer = combineReducers({
   beerDetail: beerDetailReducer,
   bookmark: bookmarkReducer,
   userReview: userReviewReducer,
-  allReview: allReviewsReducer,
+  allReviews: allReviewsReducer,
   infoStatus: infoStatusReducer,
   starStatus: starStatusReducer,
 });

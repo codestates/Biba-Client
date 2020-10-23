@@ -71,7 +71,7 @@ export interface ProfileAction extends UserProfile {
   type: typeof SET_PROFILE | typeof CHANGE_PROFILE | typeof DELETE_PROFILE;
 }
 const profileInit: UserProfile = {
-  profile: 'empty',
+  profile: '',
 };
 export const setProfile = (profile: string): ProfileAction => ({
   // login 했을 때 프로필 사진 받아서 저장하기

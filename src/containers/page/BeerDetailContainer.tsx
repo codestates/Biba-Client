@@ -6,6 +6,21 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
+import { Tag, StarWrap, FStar, EStar } from '../../components/page/BeerDetail';
+import {
+  mainYellowOpac,
+  SingleComment,
+  MainWrap,
+  UserWrap,
+  Profile,
+  PIcon,
+  Nickname,
+  RateWrap,
+  URStar,
+  UserRate,
+  Comment,
+} from './../../components/nav/modalStyle';
+
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 import { starStatusInit } from '../../modules/beerdetail';
@@ -24,9 +39,12 @@ export interface BeerDetailProps extends DefaultProps {
   story: boolean;
   more: boolean;
   handleInfoTab(e: React.MouseEvent<HTMLElement>): void;
+  handleTag(): JSX.Element[];
   handleStar(): JSX.Element[];
+  mainReviewList(): JSX.Element[] | JSX.Element;
   handleClickAllReviews(): void;
   setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
+  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
 
 const BeerDetailContainer = ({
@@ -42,6 +60,8 @@ const BeerDetailContainer = ({
   const { user_review, user_star, user_input, user_rate } = useSelector(
     (state: RootState) => state.userReview,
   );
+
+  const { allReviews } = useSelector((state: RootState) => state.allReviews);
   const { story, more } = useSelector((state: RootState) => state.infoStatus);
   const { a, b, c, d, e } = useSelector((state: RootState) => state.starStatus);
   const currentStatus = [a, b, c, d, e];
@@ -54,10 +74,11 @@ const BeerDetailContainer = ({
 
   const handleBookmark = (): void => {
     axios
-      .post<Bookmark>(`https://beer4.xyz/bookmark/add`, {
-        token: token,
-        beer_id: beerDetail.id,
-      })
+      .get<Bookmark>(`http://localhost:4000/posts/info/4`)
+      // .post<Bookmark>(`https://beer4.xyz/bookmark/add`, {
+      // token: token,
+      // beer_id: beerDetail.id,
+      // })
       .then((res) => {
         const { bookmark } = res.data; // 추가되었을 경우 true 돌아옴
         if (res.status === 200) {
@@ -94,6 +115,46 @@ const BeerDetailContainer = ({
     dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
     // axios.post - 서버에 전송, 이때 review status 체크해서 보내야 함
   };
+
+  const mainReviewList = (): JSX.Element[] | JSX.Element => {
+    //// ======== 작업 중!!!
+    if (allReviews.length !== 0) {
+      const mainReviews = allReviews.slice(0, 4);
+      return mainReviews.map((ele) => {
+        return (
+          <DetailSingleComment
+            key={`review${mainReviews.indexOf(ele)}`}
+            className='singleComment'
+          >
+            <MainWrap className='commentWrap'>
+              <UserWrap className='userWrap'>
+                {ele.profile === '' || ele.profile === undefined ? (
+                  <PIcon />
+                ) : (
+                  <Profile className='profile' src='' alt='profile'>
+                    {ele.profile}
+                  </Profile>
+                )}
+                <Nickname className='nickname'>{ele.nickname}</Nickname>
+              </UserWrap>
+              <Comment className='comment'>{ele.comment}</Comment>
+            </MainWrap>
+            <RateWrap className='rateWrap'>
+              <URStar className='userRateStar' />
+              <UserRate className='userRate'>{ele.rate}</UserRate>
+            </RateWrap>
+          </DetailSingleComment>
+        );
+      });
+    } else {
+      return (
+        <DetailNoComment>
+          <div>아직 등록된 리뷰가 없습니다.</div>
+        </DetailNoComment>
+      );
+    }
+  };
+
   const handleClickAllReviews = (): void => {
     handleModal(ContentType.AllReviews, true);
   };
@@ -134,6 +195,21 @@ const BeerDetailContainer = ({
 
   // =============
 
+  const handleTag = (): JSX.Element[] => {
+    const tags = ['오렌지', '뜨거운 맥주', '벨기에'];
+    return tags.map((ele) => {
+      return (
+        <Tag
+          key={`tag${tags.indexOf(ele)}`}
+          className='beerTag'
+          id={`tag${tags.indexOf(ele)}`}
+        >
+          {ele}
+        </Tag>
+      );
+    });
+  };
+
   const handleStar = (): JSX.Element[] => {
     const stars = [
       [a, 1],
@@ -169,18 +245,28 @@ const BeerDetailContainer = ({
       story={story}
       more={more}
       handleInfoTab={handleInfoTab}
+      handleTag={handleTag}
       handleStar={handleStar}
+      mainReviewList={mainReviewList}
       handleClickAllReviews={handleClickAllReviews}
       setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   );
 };
 
 export const BeerDetailWithRouter = withRouter(BeerDetailContainer);
 
-const StarWrap = styled.div`
-  cursor: pointer;
-  display: flex;
+const DetailSingleComment = styled(SingleComment)`
+  margin: 0 0.8em 0 0;
 `;
-const FStar = styled(FaRegStar)``;
-const EStar = styled(FaStar)``;
+
+const DetailNoComment = styled(SingleComment)`
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  border: 2px solid ${mainYellowOpac};
+
+  margin: 0 0.8em 0 0;
+`;

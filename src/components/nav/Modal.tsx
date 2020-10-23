@@ -2,13 +2,22 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ModalProps } from '../../containers/nav/ModalContainer';
+import { ContentType } from '../../modules/nav';
 
 export const Modal = ({
   display,
+  contentType,
   content,
   closeModal,
   pressEsc,
 }: ModalProps): JSX.Element => {
+  const title = (): string => {
+    if (contentType === ContentType.AllReviews) {
+      return '리뷰 전체보기';
+    } else {
+      return '';
+    }
+  };
   return (
     <>
       <Container
@@ -17,10 +26,15 @@ export const Modal = ({
       >
         <ModalMask className='modalMask' onClick={closeModal}></ModalMask>
         <ContentArea className='contentArea'>
-          <CloseBtn className='closeBtn' onClick={closeModal}>
-            x
-          </CloseBtn>
-          <Content>{content}</Content>
+          <TitleWrap className='modalTitleWrap'>
+            <Title>{title()}</Title>
+            <CloseBtn className='closeBtn' onClick={closeModal}>
+              x
+            </CloseBtn>
+          </TitleWrap>
+          <ContentWrap className='modalContentWrap'>
+            <Content className='modalContent'>{content}</Content>
+          </ContentWrap>
         </ContentArea>
       </Container>
     </>
@@ -29,7 +43,7 @@ export const Modal = ({
 
 const Container = styled.div`
   position: fixed;
-  z-index: 1;
+  z-index: 10;
   left: 0;
   top: 0;
   width: 100vw;
@@ -50,16 +64,31 @@ const ModalMask = styled.div`
 
 const ContentArea = styled.div`
   position: relative; /* 넣어줘야 mask에 포함되지 않음 */
+  display: flex;
+  flex-direction: column;
   background-color: #fefefe;
   margin: 15% auto;
-  padding: 20px;
+  padding: 20px 2px 20px 20px;
   border: 1px solid #888;
-  width: 50%;
+  width: 60vw;
+  min-width: 800px;
+  max-width: 1200px;
+`;
+const TitleWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
 `;
 
-const CloseBtn = styled.span`
+const Title = styled.div`
+  display: flex;
+  font-weight: 600;
+`;
+
+const CloseBtn = styled.div`
+  display: flex;
   color: #aaa;
-  float: right;
   font-size: 28px;
   font-weight: bold;
 
@@ -68,6 +97,16 @@ const CloseBtn = styled.span`
     color: black;
     text-decoration: none;
   }
+  padding: 0 20px 0 0;
 `;
 
-const Content = styled.div``;
+const ContentWrap = styled.div`
+  display: flex;
+  align-self: center;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+`;

@@ -30,7 +30,15 @@ export interface ObjBeerDetail {
 }
 
 export interface aReview {
-  message: string;
+  id: number;
+  comment: string;
+  rate: number;
+  beer_id: number;
+  createdAt: string;
+  updatedAt: string;
+  user_id: number;
+  nickname: string;
+  profile: string;
 }
 export interface AllReviewList {
   allReviews: aReview[];

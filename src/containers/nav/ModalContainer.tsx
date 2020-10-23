@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 import axios from 'axios';
 
 import { LoginContainerWithRouter } from '../user/LoginContainer';
@@ -11,9 +12,21 @@ import { ContentType } from '../../modules/nav';
 import { aReview } from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
 import { nicknameCheck } from '../user/userUtils';
-
+import {
+  SingleComment,
+  MainWrap,
+  UserWrap,
+  Profile,
+  PIcon,
+  Nickname,
+  RateWrap,
+  URStar,
+  UserRate,
+  Comment,
+} from './../../components/nav/modalStyle';
 export interface ModalProps {
   display: boolean;
+  contentType: ContentType;
   content: JSX.Element | JSX.Element[];
   closeModal(): void;
   btnColor: string;
@@ -38,7 +51,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const textColor = useSelector((state: RootState) => state.btnColor.text);
 
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
-  const { allReviews } = useSelector((state: RootState) => state.allReview);
+  const { allReviews } = useSelector((state: RootState) => state.allReviews);
 
   const dispatch = useDispatch();
   const handleConfirmNickname = (value: boolean): void => {
@@ -117,7 +130,10 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     if (contentType === ContentType.MypageAllReviews) {
       return myReviews.length !== 0 ? (
         myReviews.map((ele: aReview) => (
-          <div key={myReviews.indexOf(ele)}>{ele.message}</div>
+          <div key={myReviews.indexOf(ele)}>
+            <div>{ele.comment}</div>
+            <div>{ele.nickname}</div>
+          </div>
         ))
       ) : (
         <div>작성한 리뷰가 없습니다.</div>
@@ -152,14 +168,35 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     if (contentType === ContentType.AllReviews) {
       return allReviews.length !== 0 ? (
         allReviews.map((ele: aReview) => (
-          <div key={allReviews.indexOf(ele)}>{ele.message}</div>
+          <ModalSingleComment
+            key={`review${allReviews.indexOf(ele)}`}
+            className='singleComment'
+          >
+            <MainWrap className='commentWrap'>
+              <UserWrap className='userWrap'>
+                {ele.profile === '' || ele.profile === undefined ? (
+                  <PIcon />
+                ) : (
+                  <Profile className='profile' src='' alt='profile'>
+                    {ele.profile}
+                  </Profile>
+                )}
+                <Nickname className='nickname'>{ele.nickname}</Nickname>
+              </UserWrap>
+              <Comment className='comment'>{ele.comment}</Comment>
+            </MainWrap>
+            <RateWrap className='rateWrap'>
+              <URStar className='userRateStar' />
+              <UserRate className='userRate'>{ele.rate}</UserRate>
+            </RateWrap>
+          </ModalSingleComment>
         ))
       ) : (
-        <div>작성된 리뷰가 없습니다.</div>
+        <ResultEmpty>작성된 리뷰가 없습니다.</ResultEmpty>
       );
     }
 
-    return <div>error</div>;
+    return <div></div>;
   };
 
   const handleModalClose = (
@@ -179,6 +216,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   return (
     <Modal
       display={display}
+      contentType={contentType}
       content={content(contentType)}
       closeModal={closeModal}
       btnColor={btnColor}
@@ -189,3 +227,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
 };
 
 export const ModalContainerWithRouter = withRouter(ModalContainer);
+
+export const ModalSingleComment = styled(SingleComment)`
+  width: 180px;
+`;
+
+const ResultEmpty = styled.div`
+  display: flex;
+  align-items: center;
+
+  height: 150px;
+`;
