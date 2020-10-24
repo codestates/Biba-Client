@@ -19,7 +19,7 @@ export const pDefault = '#161616';
 // 색 정의
 
 export const SingleComment = styled.div`
-  // ModalSingleComment 참고 at ModalContainer
+  // ModalContainer - ModalSingleComment 참고
   display: flex;
   flex-direction: column;
   justify-content: space-between;

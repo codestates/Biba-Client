@@ -15,26 +15,34 @@ export const BeerDetail = ({
   handleInfoTab,
   handleTag,
   handleStar,
+  user_review,
+  handleClickUsersReview,
   mainReviewList,
   handleClickAllReviews,
   setBeerDetail,
   setAllReviews,
 }: BeerDetailProps): JSX.Element => {
   const { id } = match.params;
-  // const example = 'https://bit.ly/2T6JRuE';
-  const example =
-    'https://flagshipfebruary.com/wp-content/uploads/hero-19-02-01-samadams-1600x800.jpg';
+  const example = 'https://bit.ly/2T6JRuE';
+  // const example =
+  //   'https://flagshipfebruary.com/wp-content/uploads/hero-19-02-01-samadams-1600x800.jpg';
   return (
     <Outer className='detailOuter'>
       <Container className='detailContainer'>
-        <InfoTitle className='infoTitle'>맥주 상세 정보</InfoTitle>
-        <InfoArea className='infoArea'>
-          <ImgDiv>
-            <InfoImg className='infoImg' src={example} alt='' />
-          </ImgDiv>
-          <InfoDiv className='infoDiv'>
-            <InfoTopWrap className='infoTitleWrap'>
-              <BeerName className='beerName'>{beerDetail.beer_name}</BeerName>
+        <InfoTitle className='infoTitle'>
+          <TitleText>맥주 상세 정보</TitleText>
+        </InfoTitle>
+        <ImgDiv>
+          <Img className='infoImg' src={example} alt='' />
+        </ImgDiv>
+        <InfoDiv className='infoDiv'>
+          <BeerName className='beerName'>{beerDetail.beer_name}</BeerName>
+          <InfoSub className='infoSub'>
+            <AveFavWrap>
+              <Average className='beerAverage'>
+                별점 평균
+                <Rate>{beerDetail.rate}</Rate>
+              </Average>
               <FavToggle className='favToggle'>
                 <FavTitle>즐겨찾기</FavTitle>
                 <FavWrap className='favWrap'>
@@ -47,90 +55,91 @@ export const BeerDetail = ({
                   <FavLB htmlFor='favToggle'></FavLB>
                 </FavWrap>
               </FavToggle>
-            </InfoTopWrap>
-            <InfoSub className='infoSub'>
-              <Average className='beerAverage'>
-                별점 평균 {beerDetail.rate}
-              </Average>
-              <TagWrap>{handleTag()}</TagWrap>
-              <InfoChart>{chart()}</InfoChart>
-            </InfoSub>
-            <InfoBody className='infoBody'>
-              <TabWrap className='infoTabWrap'>
-                <Tab
-                  id='story'
-                  className='infoTab'
-                  onClick={handleInfoTab}
-                  style={
-                    story
-                      ? { fontWeight: 500 }
-                      : {
-                          background: `${btnOff}`,
-                          color: `${btnOffText}`,
-                          fontWeight: 400,
-                        }
-                  }
-                >
-                  맥주 스토리
-                </Tab>
-                <Divider>&nbsp; </Divider>
-                <Tab
-                  id='more'
-                  className='infoTab'
-                  onClick={handleInfoTab}
-                  style={
-                    more
-                      ? { fontWeight: 500 }
-                      : {
-                          background: `${btnOff}`,
-                          color: `${btnOffText}`,
-                          fontWeight: 400,
-                        }
-                  }
-                >
-                  상세 정보
-                </Tab>
-              </TabWrap>
-              <InfoDetailWrap>
-                <InfoDetail1
-                  className='infoDetail'
-                  style={story ? {} : { display: 'none' }}
-                >
-                  <P className='content'>
-                    이 맥주에는 이런 전설이 있습니다.
-                    <br />
-                    단어 몇 개까지 넣어야 보기에 괜찮을까요? 줄바꿈 어떻게 되는
-                    건지 고기와 함께하는 탄산수 타임
-                  </P>
-                </InfoDetail1>
-                <InfoDetail2
-                  className='infoDetail'
-                  style={more ? {} : { display: 'none' }}
-                >
-                  <PWrap>
-                    <PT className='contentT'>제조사</PT>
-                    <PT className='contentT'>제조국</PT>
-                    <PT className='contentT'>스타일</PT>
-                    <PT className='contentT'>ABV</PT>
-                    <PT className='contentT'>IBU</PT>
-                  </PWrap>
-                  <PWrap>
-                    <P className='content'>{beerDetail.company}</P>
-                    <P className='content'>{beerDetail.country}</P>
-                    <P className='content'>{beerDetail.style_name}</P>
-                    <P className='content'>{beerDetail.abv}</P>
-                    <P className='content'>{beerDetail.ibu}</P>
-                  </PWrap>
-                </InfoDetail2>
-              </InfoDetailWrap>
-            </InfoBody>
-          </InfoDiv>
-        </InfoArea>
+            </AveFavWrap>
+            <TagWrap>{handleTag()}</TagWrap>
+
+            <InfoChart>{chart()}</InfoChart>
+          </InfoSub>
+          <InfoBody className='infoBody'>
+            <TabWrap className='infoTabWrap'>
+              <Tab
+                id='story'
+                className='infoTab'
+                onClick={handleInfoTab}
+                style={
+                  story
+                    ? { fontWeight: 500 }
+                    : {
+                        background: `${btnOff}`,
+                        color: `${btnOffText}`,
+                        fontWeight: 400,
+                      }
+                }
+              >
+                맥주 스토리
+              </Tab>
+              <Divider>&nbsp; </Divider>
+              <Tab
+                id='more'
+                className='infoTab'
+                onClick={handleInfoTab}
+                style={
+                  more
+                    ? { fontWeight: 500 }
+                    : {
+                        background: `${btnOff}`,
+                        color: `${btnOffText}`,
+                        fontWeight: 400,
+                      }
+                }
+              >
+                상세 정보
+              </Tab>
+            </TabWrap>
+            <InfoDetailWrap>
+              <InfoDetail1
+                className='infoDetail'
+                style={story ? {} : { display: 'none' }}
+              >
+                <P className='content'>
+                  이 맥주에는 이런 전설이 있습니다.
+                  <br />
+                  단어 몇 개까지 넣어야 보기에 괜찮을까요? 줄바꿈 어떻게 되는
+                  건지 고기와 함께하는 탄산수 타임
+                </P>
+              </InfoDetail1>
+              <InfoDetail2
+                className='infoDetail'
+                style={more ? {} : { display: 'none' }}
+              >
+                <PWrap>
+                  <PT className='contentT'>제조사</PT>
+                  <PT className='contentT'>제조국</PT>
+                  <PT className='contentT'>스타일</PT>
+                  <PT className='contentT'>ABV</PT>
+                  <PT className='contentT'>IBU</PT>
+                </PWrap>
+                <PWrap>
+                  <P className='content'>{beerDetail.company}</P>
+                  <P className='content'>{beerDetail.country}</P>
+                  <P className='content'>{beerDetail.style_name}</P>
+                  <P className='content'>{beerDetail.abv}</P>
+                  <P className='content'>{beerDetail.ibu}</P>
+                </PWrap>
+              </InfoDetail2>
+            </InfoDetailWrap>
+          </InfoBody>
+        </InfoDiv>
         <RateReview className='rateReview'>
           <RatingArea className='ratingArea'>
-            <Rate className='rate'>별점 주기</Rate>
+            <UserRate className='rate'>별점 주기</UserRate>
             <Stars className='stars'>{handleStar()}</Stars>
-            <WriteComment className='commentBtn'>리뷰 작성하기</WriteComment>
+            <WriteComment
+              className='commentBtn'
+              onClick={handleClickUsersReview}
+            >
+              {user_review ? `리뷰 수정하기` : `리뷰 작성하기`}
+            </WriteComment>
           </RatingArea>
           <CommentArea className='commentArea'>
             <List className='commentList'>{mainReviewList()}</List>
@@ -140,14 +149,14 @@ export const BeerDetail = ({
             >
               리뷰 전체보기
             </CommentAll>
-            <button
+            <CommentAll
               onClick={(e) => {
                 setAllReviews(e);
                 setBeerDetail(e);
               }}
             >
               임시 상세페이지 로딩
-            </button>
+            </CommentAll>
           </CommentArea>
         </RateReview>
       </Container>
@@ -173,41 +182,48 @@ const pDefault = '#161616';
 
 const Outer = styled.div`
   font-family: Noto Sans KR;
+  color: ${mainGrey};
 
   display: flex;
   justify-content: flex-start;
+  @media (min-width: 1600px) {
+    justify-content: center;
+    margin: 0 0 0 -1.5vw;
+  }
 
-  width: 90%;
+  width: 100%;
 
-  padding: 2em 0 2em 3em;
+  padding: 0 0 0 1vw;
 `;
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 2em 3em auto auto 2em;
+  grid-template-columns: 3vw auto 2vw 350px 3em;
 
-  width: 100%;
   min-height: 32em;
 `;
-const InfoTitle = styled.p`
-  display: flex;
 
-  margin: 0;
-  padding: 0;
-
-  font-size: 1.4em;
-`;
-const InfoArea = styled.div`
+const InfoTitle = styled.div`
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
   display: flex;
   align-items: flex-start;
-  justify-content: space-around;
-
-  margin: -1.4em 0 0 0;
+  justify-content: flex-start;
 `;
 
+const TitleText = styled.p`
+  margin: 0;
+  padding: 0;
+  font-size: 1.4em;
+
+  background-color: #fff;
+`;
 // =================================== Pic
 const ImgDiv = styled.div`
+  grid-row: 3 / 4;
+  grid-column: 2 / 3;
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -232,7 +248,7 @@ const ImgDiv = styled.div`
   padding: 0 1em 0.5em 0;
 `;
 
-const InfoImg = styled.img`
+const Img = styled.img`
   display: flex;
   justify-self: center;
   align-self: center;
@@ -247,13 +263,49 @@ const InfoImg = styled.img`
 
 // =================================== Title
 const InfoDiv = styled.div`
+  grid-row: 2 / 4;
+  grid-column: 4 / 5;
+
   display: flex;
   flex-direction: column;
 `;
 
-const InfoTopWrap = styled.div`
+const BeerName = styled.p`
+  margin: 0;
+  padding: 0 0 0.15em 0;
+
+  // font-weight: 300;
+  font-size: 1.25em;
+  // color: ${mainYellow};
+`;
+
+// =================================== Ave
+
+const InfoSub = styled.div`
   display: flex;
+  flex-direction: column;
+`;
+const AveFavWrap = styled.div`
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+
+  margin: 0.5em 0 0.6em 0;
+  padding: 0;
+`;
+const Average = styled.div`
+  display: flex;
+  justify-content: flex-start;
+
+  font-size: 1.1em;
+  // color: ${mainYellow};
+`;
+const Rate = styled.p`
+  display: flex;
+  margin: -0.05em 0 0 0.5em;
+  padding: 0 0 0 0;
+
+  font-size: 1.14em;
 `;
 
 // =================================== Toggle
@@ -261,12 +313,12 @@ const FavToggle = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-`;
-const FavTitle = styled.div`
+
   margin: 0 0 0.2em 0;
 `;
+const FavTitle = styled.div``;
 const FavWrap = styled.div`
-  margin: 0 0 0 0.5em;
+  margin: 0 0 0.1em 0.5em;
 `;
 const Fav = styled.input`
   display: none;
@@ -282,7 +334,7 @@ const Fav = styled.input`
   }
 `;
 const FavLB = styled.label`
-  display: inline-block;
+  display: flex;
   width: 42px;
   height: 24px;
   cursor: pointer;
@@ -292,7 +344,6 @@ const FavLB = styled.label`
 
   &::before {
     content: '';
-    display: block;
     width: 20px;
     height: 20px;
     left: 2px;
@@ -302,14 +353,6 @@ const FavLB = styled.label`
     transition: all 0.4s ease;
     border-radius: 100px;
   }
-`;
-
-// =================================== Name Ave
-
-const InfoSub = styled.div``;
-const BeerName = styled.p``;
-const Average = styled.p`
-  font-size: 1.2em;
 `;
 
 // =================================== Tag Chart
@@ -383,7 +426,8 @@ const Tab = styled.div`
 const InfoDetailWrap = styled.div`
   display: flex;
 
-  width: 20em;
+  // width: 20em;
+  width: 95%;
   height: auto;
   min-height: 10em;
 
@@ -396,7 +440,7 @@ const InfoDetailWrap = styled.div`
 const InfoDetail1 = styled.div`
   display: flex;
 
-  padding: 0.8em 0 0 0.7em;
+  padding: 0.8em 0.7em 0 0.7em;
 
   font-size: 0.95em;
   line-height: 1.5;
@@ -439,12 +483,15 @@ const P = styled.p`
 
 // =================================== Rate & Review
 
-const RateReview = styled.div``;
+const RateReview = styled.div`
+  grid-row: 4 / 5;
+  grid-column: 2 / 5;
+`;
 const RatingArea = styled.div`
   display: flex;
   align-items: center;
 `;
-const Rate = styled.p``;
+const UserRate = styled.p``;
 const Stars = styled.div`
   display: flex;
 
@@ -471,8 +518,9 @@ export const EStar = styled(FaStar)`
 
 const CommentArea = styled.div`
   display: flex;
-  align-items: flex-end;
   flex-direction: column;
+  justify-content: start;
+  align-items: flex-end;
 
   width: 100%;
   margin: 0;
@@ -485,8 +533,34 @@ const List = styled.div`
   // max-width: 800px;
   width: 100%;
 
-  margin: 0 0 1.5em 0;
+  margin: 0 0 1.2em 0;
 `;
 
-const WriteComment = styled.button``;
-const CommentAll = styled.button``;
+const WriteComment = styled.button`
+  cursor: pointer;
+  border: 0px;
+  border-radius: 8px;
+  background-color: ${mainYellow};
+  color: #fff;
+  &: hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+
+  margin: 0 0 0.1em 0.5em;
+  padding: 0.4em 0.6em 0.35em 0.6em;
+`;
+const CommentAll = styled.button`
+  cursor: pointer;
+  border: 0px;
+  border-radius: 8px;
+  background-color: ${mainYellow};
+  color: #fff;
+  &: hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+
+  margin: 0 0.2em 0 0;
+  padding: 0.4em 0.6em 0.35em 0.6em;
+`;

@@ -28,6 +28,7 @@ export interface ModalProps {
   display: boolean;
   contentType: ContentType;
   content: JSX.Element | JSX.Element[];
+  user_review: boolean;
   closeModal(): void;
   btnColor: string;
   textColor: string;
@@ -52,6 +53,9 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
 
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
+  const { user_review, user_input } = useSelector(
+    (state: RootState) => state.userReview,
+  );
 
   const dispatch = useDispatch();
   const handleConfirmNickname = (value: boolean): void => {
@@ -130,13 +134,31 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     if (contentType === ContentType.MypageAllReviews) {
       return myReviews.length !== 0 ? (
         myReviews.map((ele: aReview) => (
-          <div key={myReviews.indexOf(ele)}>
-            <div>{ele.comment}</div>
-            <div>{ele.nickname}</div>
-          </div>
+          <ModalSingleComment
+            key={`myReview${myReviews.indexOf(ele)}`}
+            className='singleComment'
+          >
+            <MainWrap className='commentWrap'>
+              <UserWrap className='userWrap'>
+                {ele.profile === '' || ele.profile === undefined ? (
+                  <PIcon />
+                ) : (
+                  <Profile className='profile' src='' alt='profile'>
+                    {ele.profile}
+                  </Profile>
+                )}
+                <Nickname className='nickname'>{ele.nickname}</Nickname>
+              </UserWrap>
+              <Comment className='comment'>{ele.comment}</Comment>
+            </MainWrap>
+            <RateWrap className='rateWrap'>
+              <URStar className='userRateStar' />
+              <UserRate className='userRate'>{ele.rate}</UserRate>
+            </RateWrap>
+          </ModalSingleComment>
         ))
       ) : (
-        <div>작성한 리뷰가 없습니다.</div>
+        <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
       );
     }
     if (contentType === ContentType.ChangeNickname) {
@@ -163,6 +185,17 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           </div>
           <button onClick={handleClickChangeNickname}>변경하기</button>
         </>
+      );
+    }
+    if (contentType === ContentType.UsersReview) {
+      return user_review ? (
+        <div>
+          <div>리뷰 수정하기</div>
+        </div>
+      ) : (
+        <div>
+          <div>리뷰 작성하기</div>
+        </div>
       );
     }
     if (contentType === ContentType.AllReviews) {
@@ -218,6 +251,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       display={display}
       contentType={contentType}
       content={content(contentType)}
+      user_review={user_review}
       closeModal={closeModal}
       btnColor={btnColor}
       textColor={textColor}

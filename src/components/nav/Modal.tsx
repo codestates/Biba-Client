@@ -1,18 +1,29 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { CgCloseO } from 'react-icons/cg';
 
 import { ModalProps } from '../../containers/nav/ModalContainer';
 import { ContentType } from '../../modules/nav';
+import { mainGrey, mainGreyOpac, mainYellow } from './modalStyle';
 
 export const Modal = ({
   display,
   contentType,
   content,
+  user_review,
   closeModal,
   pressEsc,
 }: ModalProps): JSX.Element => {
   const title = (): string => {
-    if (contentType === ContentType.AllReviews) {
+    if (contentType === ContentType.MypageAllReviews) {
+      return '내가 작성한 리뷰';
+    } else if (contentType === ContentType.ChangeNickname) {
+      return '닉네임 변경하기';
+    } else if (contentType === ContentType.UsersReview && !user_review) {
+      return '리뷰 작성하기';
+    } else if (contentType === ContentType.UsersReview && user_review) {
+      return '리뷰 수정하기';
+    } else if (contentType === ContentType.AllReviews) {
       return '리뷰 전체보기';
     } else {
       return '';
@@ -28,9 +39,7 @@ export const Modal = ({
         <ContentArea className='contentArea'>
           <TitleWrap className='modalTitleWrap'>
             <Title>{title()}</Title>
-            <CloseBtn className='closeBtn' onClick={closeModal}>
-              x
-            </CloseBtn>
+            <CloseBtn className='closeBtn' onClick={closeModal} />
           </TitleWrap>
           <ContentWrap className='modalContentWrap'>
             <Content className='modalContent'>{content}</Content>
@@ -76,28 +85,32 @@ const ContentArea = styled.div`
 `;
 const TitleWrap = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
 
   width: 100%;
+  padding: 0.3em 0.5em 0.4em 0.5em;
 `;
 
 const Title = styled.div`
   display: flex;
+  font-size: 1.2em;
   font-weight: 600;
+
+  color: ${mainYellow};
 `;
 
-const CloseBtn = styled.div`
+const CloseBtn = styled(CgCloseO)`
   display: flex;
-  color: #aaa;
-  font-size: 28px;
-  font-weight: bold;
+  width: 1.9em;
+  height: 1.9em;
 
   &:hover {
     cursor: pointer;
-    color: black;
+    color: #989898;
     text-decoration: none;
   }
-  padding: 0 20px 0 0;
+  color: ${mainGrey};
 `;
 
 const ContentWrap = styled.div`

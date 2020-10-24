@@ -41,7 +41,9 @@ export interface BeerDetailProps extends DefaultProps {
   handleInfoTab(e: React.MouseEvent<HTMLElement>): void;
   handleTag(): JSX.Element[];
   handleStar(): JSX.Element[];
+  user_review: boolean;
   mainReviewList(): JSX.Element[] | JSX.Element;
+  handleClickUsersReview(): void;
   handleClickAllReviews(): void;
   setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
   setAllReviews(e: React.MouseEvent<HTMLElement>): void;
@@ -155,6 +157,10 @@ const BeerDetailContainer = ({
     }
   };
 
+  const handleClickUsersReview = (): void => {
+    handleModal(ContentType.UsersReview, true);
+  };
+
   const handleClickAllReviews = (): void => {
     handleModal(ContentType.AllReviews, true);
   };
@@ -187,7 +193,7 @@ const BeerDetailContainer = ({
   };
   const setAllReviews = (e: React.MouseEvent<HTMLElement>): void => {
     // store에 전체 리뷰 넣는 함수
-    axios.get<aReview>('http://localhost:4000/custom/mypost/4').then((res) => {
+    axios.get<aReview>(`http://localhost:4000/custom/mypost/4`).then((res) => {
       const allReviews = res.data;
       dispatch({ type: 'SET_ALLREVIEWS', allReviews });
     }); // [{}, {}]
@@ -247,7 +253,9 @@ const BeerDetailContainer = ({
       handleInfoTab={handleInfoTab}
       handleTag={handleTag}
       handleStar={handleStar}
+      user_review={user_review}
       mainReviewList={mainReviewList}
+      handleClickUsersReview={handleClickUsersReview}
       handleClickAllReviews={handleClickAllReviews}
       setBeerDetail={setBeerDetail}
       setAllReviews={setAllReviews}
@@ -270,5 +278,5 @@ const DetailNoComment = styled(SingleComment)`
 
   border: 2px solid ${mainYellowOpac};
 
-  margin: 0 0.2em 0 0;
+  margin: 0 0.2em 0 0.2em;
 `;

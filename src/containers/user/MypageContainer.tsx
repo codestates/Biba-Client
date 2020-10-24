@@ -80,9 +80,10 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
 
   const getMyReviews = (): void => {
     axios
-      .post<aReview>('https://beer4.xyz/comment/mylist', {
-        token: token,
-      })
+      .get<aReview>(`http://localhost:4000/custom/mypost/4`)
+      // .post<aReview>(`https://beer4.xyz/comment/mylist`, {
+      //   token: token,
+      // })
       .then((res) => {
         const myReviews = res.data;
         dispatch({ type: 'SET_MYREVIEWS', myReviews });
