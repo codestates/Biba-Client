@@ -4,6 +4,17 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 import { BeerDetailProps } from '../../containers/page/BeerDetailContainer';
 import { chart } from '../../containers/page/radar';
+import {
+  mainYellow,
+  mainYellowOpac,
+  mainGrey,
+  mainGreyOpac,
+  lightGrey1,
+  lightGrey2,
+  btnOff,
+  btnOffText,
+  pDefault,
+} from '../../components/nav/color';
 
 export const BeerDetail = ({
   match,
@@ -164,22 +175,6 @@ export const BeerDetail = ({
   );
 };
 
-const mainYellow = '#ffad13';
-const mainYellowOpac = 'rgba(255, 173, 19, 0.5)';
-const mainGrey = '#323232';
-const mainGreyOpac = 'rgba(50, 50, 50, 0.8)';
-
-const lightGrey1 = 'rgb(250, 250, 250)';
-const lightGrey2 = 'rgb(241, 241, 241)';
-
-// const btnOff = 'rgba(50, 50, 50, 0.3)';
-// const btnOff = '#dddddd';
-const btnOff = '#161616';
-const btnOffText = 'rgb(241, 241, 241)';
-
-const pDefault = '#161616';
-// 색 정의
-
 const Outer = styled.div`
   font-family: Noto Sans KR;
   color: ${mainGrey};
@@ -332,13 +327,17 @@ const Fav = styled.input`
     transform: translateX(18px);
     border-radius: 20px;
   }
+  &:focus {
+    outline: none;
+  }
 `;
 const FavLB = styled.label`
+  cursor: pointer;
+
   display: flex;
+  position: relative;
   width: 42px;
   height: 24px;
-  cursor: pointer;
-  position: relative;
   background-color: ${mainGrey};
   border-radius: 20px;
 
@@ -542,25 +541,34 @@ const WriteComment = styled.button`
   border-radius: 8px;
   background-color: ${mainYellow};
   color: #fff;
+
+  margin: 0 0 0.1em 0.5em;
+  padding: 0.4em 0.6em 0.35em 0.6em;
+
   &: hover {
     background-color: ${mainGrey};
     color: white;
   }
-
-  margin: 0 0 0.1em 0.5em;
-  padding: 0.4em 0.6em 0.35em 0.6em;
+  &:focus {
+    outline: none;
+  }
 `;
 const CommentAll = styled.button`
   cursor: pointer;
   border: 0px;
   border-radius: 8px;
+
+  margin: 0 0.2em 0 0;
+  padding: 0.4em 0.6em 0.35em 0.6em;
+
   background-color: ${mainYellow};
   color: #fff;
+
   &: hover {
     background-color: ${mainGrey};
     color: white;
   }
-
-  margin: 0 0.2em 0 0;
-  padding: 0.4em 0.6em 0.35em 0.6em;
+  &:focus {
+    outline: none;
+  }
 `;

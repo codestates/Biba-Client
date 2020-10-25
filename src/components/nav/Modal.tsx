@@ -4,7 +4,7 @@ import { CgCloseO } from 'react-icons/cg';
 
 import { ModalProps } from '../../containers/nav/ModalContainer';
 import { ContentType } from '../../modules/nav';
-import { mainGrey, mainGreyOpac, mainYellow } from './modalStyle';
+import { mainGrey, mainGreyOpac, mainYellow } from '../../components/nav/color';
 
 export const Modal = ({
   display,
@@ -25,6 +25,8 @@ export const Modal = ({
       return '리뷰 수정하기';
     } else if (contentType === ContentType.AllReviews) {
       return '리뷰 전체보기';
+    } else if (contentType === ContentType.RequestBeer) {
+      return '맥주 등록 요청하기';
     } else {
       return '';
     }
@@ -33,24 +35,37 @@ export const Modal = ({
     <>
       <Container
         className='modalContainer'
-        style={{ display: display ? 'block' : 'none' }}
+        style={display ? { display: 'block' } : undefined}
       >
         <ModalMask className='modalMask' onClick={closeModal}></ModalMask>
-        <ContentArea className='contentArea'>
-          <TitleWrap className='modalTitleWrap'>
-            <Title>{title()}</Title>
-            <CloseBtn className='closeBtn' onClick={closeModal} />
-          </TitleWrap>
-          <ContentWrap className='modalContentWrap'>
-            <Content className='modalContent'>{content}</Content>
-          </ContentWrap>
-        </ContentArea>
+        {contentType === ContentType.UsersReview ||
+        contentType === ContentType.Login ||
+        contentType === ContentType.RequestBeer ? (
+          <SmallContentArea className='contentArea'>
+            <TitleWrap className='modalTitleWrap'>
+              <Title>{title()}</Title>
+              <CloseBtn className='closeBtn' onClick={closeModal} />
+            </TitleWrap>
+            <ContentWrap className='modalContentWrap'>{content}</ContentWrap>
+          </SmallContentArea>
+        ) : (
+          <ContentArea className='contentArea'>
+            <TitleWrap className='modalTitleWrap'>
+              <Title>{title()}</Title>
+              <CloseBtn className='closeBtn' onClick={closeModal} />
+            </TitleWrap>
+            <ContentWrap className='modalContentWrap'>
+              <Content className='modalContent'>{content}</Content>
+            </ContentWrap>
+          </ContentArea>
+        )}
       </Container>
     </>
   );
 };
 
 const Container = styled.div`
+  display: none;
   position: fixed;
   z-index: 10;
   left: 0;
@@ -77,12 +92,20 @@ const ContentArea = styled.div`
   flex-direction: column;
   background-color: #fefefe;
   border: 1px solid #888;
+  border-radius: 16px;
   width: 60vw;
   min-width: 800px;
   max-width: 1100px;
   margin: 15% auto;
   padding: 15px 15px 20px 15px;
 `;
+
+const SmallContentArea = styled(ContentArea)`
+  width: 560px;
+  min-width: 560px;
+  max-width: 560px;
+`;
+
 const TitleWrap = styled.div`
   display: flex;
   align-items: center;
@@ -116,6 +139,8 @@ const CloseBtn = styled(CgCloseO)`
 const ContentWrap = styled.div`
   display: flex;
   align-self: center;
+  justify-content: center;
+  width: 100%;
 `;
 
 const Content = styled.div`

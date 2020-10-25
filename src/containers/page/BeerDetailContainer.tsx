@@ -8,7 +8,13 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 import { Tag, StarWrap, FStar, EStar } from '../../components/page/BeerDetail';
 import {
+  mainYellow,
   mainYellowOpac,
+  mainGrey,
+  mainGreyOpac,
+} from '../../components/nav/color';
+
+import {
   SingleComment,
   MainWrap,
   UserWrap,
@@ -19,7 +25,7 @@ import {
   URStar,
   UserRate,
   Comment,
-} from './../../components/nav/modalStyle';
+} from './../../containers/nav/ModalContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews

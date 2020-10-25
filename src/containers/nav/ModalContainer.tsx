@@ -5,6 +5,9 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { BiUserCircle } from 'react-icons/bi';
+
 import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
@@ -13,17 +16,12 @@ import { aReview } from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
 import { nicknameCheck } from '../user/userUtils';
 import {
-  SingleComment,
-  MainWrap,
-  UserWrap,
-  Profile,
-  PIcon,
-  Nickname,
-  RateWrap,
-  URStar,
-  UserRate,
-  Comment,
-} from './../../components/nav/modalStyle';
+  mainYellow,
+  mainYellowOpac,
+  mainGrey,
+  mainGreyOpac,
+} from '../../components/nav/color';
+
 export interface ModalProps {
   display: boolean;
   contentType: ContentType;
@@ -57,6 +55,10 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     (state: RootState) => state.userReview,
   );
 
+  const { request1, request2 } = useSelector(
+    (state: RootState) => state.beerRequest,
+  );
+
   const dispatch = useDispatch();
   const handleConfirmNickname = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_NICKNAME', value });
@@ -67,14 +69,47 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
 
   const [inputValues, setInputValues] = useState({
     nickname: '',
+    review: '',
+    beerName: '',
+    beerRequest: '',
   });
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleNicknameOnChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
     e.preventDefault();
     if (nicknameConfirm && e.currentTarget.name === 'nickname') {
       handleConfirmNickname(false);
     }
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
+  };
+  const handleInputOnChange = (
+    e:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setInputValues({ ...inputValues, [name]: value });
+  };
+
+  const handleRequestType = (request1: boolean, request2: boolean): void => {
+    dispatch({ type: 'SET_REQUESTTYPE', request1, request2 });
+  };
+
+  const handleRadioSelect1 = (): void => {
+    handleRequestType(true, false);
+  };
+
+  const handleRadioSelect2 = (): void => {
+    handleRequestType(false, true);
+  };
+
+  const handleClickSubmitRequest = () => {
+    // axios
+    //   .post
+    console.log(request1, request2);
+    console.log(inputValues.beerName, inputValues.beerRequest);
   };
 
   const handleCheckNickname = (): void => {
@@ -125,6 +160,65 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
 
   const content = (contentType: ContentType): JSX.Element | JSX.Element[] => {
     // 이 함수의 결과가 component의 Modals로 넘어감
+    if (contentType === ContentType.RequestBeer) {
+      return (
+        <RequestBeerModal className='requestBeerModal'>
+          <RadioArea className='radioArea'>
+            <RadioWrap className='radioWrap'>
+              <Radio
+                id='request1'
+                type='radio'
+                name='requestBeer'
+                value='마셔본 맥주 추천'
+                checked={request1}
+                onChange={handleRadioSelect1}
+              />
+              <RadioOption onClick={handleRadioSelect1}>
+                마셔본 맥주 추천
+              </RadioOption>
+            </RadioWrap>
+            <RadioWrap className='radioWrap'>
+              <Radio
+                id='request2'
+                type='radio'
+                name='requestBeer'
+                value='이 맥주가 궁금해요'
+                checked={request2}
+                onChange={handleRadioSelect2}
+              />
+              <RadioOption onClick={handleRadioSelect2}>
+                이 맥주가 궁금해요
+              </RadioOption>
+            </RadioWrap>
+          </RadioArea>
+          <RequestTitleArea className='requestTitleArea'>
+            <Subtitle className='subtitle'>맥주 이름</Subtitle>
+            <RequestTitle
+              name='beerName'
+              defaultValue=''
+              onChange={handleInputOnChange}
+              placeholder='맥주 이름을 작성해주세요.'
+            />
+          </RequestTitleArea>
+          <RequestBodyArea className='requestBodyArea'>
+            <Subtitle className='subtitle'>내용</Subtitle>
+            <RequestBody
+              name='beerRequest'
+              defaultValue=''
+              onChange={handleInputOnChange}
+              maxLength={100}
+              rows={4}
+              placeholder='내용을 작성해주세요.'
+              wrap='hard'
+            />
+          </RequestBodyArea>
+          <RequestSubmitBtn onClick={handleClickSubmitRequest}>
+            요청하기
+          </RequestSubmitBtn>
+        </RequestBeerModal>
+      );
+    }
+
     if (contentType === ContentType.Empty) {
       return <></>;
     }
@@ -170,7 +264,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             <input
               type='text'
               name='nickname'
-              onChange={handleOnChange}
+              onChange={handleNicknameOnChange}
             ></input>
             <button
               onClick={handleCheckNickname}
@@ -188,14 +282,21 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       );
     }
     if (contentType === ContentType.UsersReview) {
-      return user_review ? (
-        <div>
-          <div>리뷰 수정하기</div>
-        </div>
-      ) : (
-        <div>
-          <div>리뷰 작성하기</div>
-        </div>
+      return (
+        <ReviewWrap className='reviewWrap'>
+          <ReviewTextArea
+            name='review'
+            defaultValue={user_review ? user_input : ''}
+            onChange={handleInputOnChange}
+            maxLength={100}
+            rows={4}
+            placeholder='리뷰를 작성해주세요.'
+            wrap='hard'
+          ></ReviewTextArea>
+          <ReviewSubmitBtn>
+            {user_review ? `수정하기` : `등록하기`}
+          </ReviewSubmitBtn>
+        </ReviewWrap>
       );
     }
     if (contentType === ContentType.AllReviews) {
@@ -262,10 +363,88 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
 
 export const ModalContainerWithRouter = withRouter(ModalContainer);
 
+export const SingleComment = styled.div`
+  // ModalContainer - ModalSingleComment 참고
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  // width: 23%;
+  height: 180px;
+  min-width: 180px;
+  min-height: 120px;
+
+  border: 2px solid ${mainYellow};
+  border-radius: 8px;
+
+  margin: 0.5em 0.5em 1em 0.5em;
+  padding: 0.6em;
+`; // 하나의 코멘트 wrap
+
 export const ModalSingleComment = styled(SingleComment)`
   width: 31%;
   min-width: 220px;
   max-width: 250px;
+`;
+
+export const MainWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const UserWrap = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  margin: 0 0 0.4em 0;
+`;
+export const Profile = styled.img`
+  display: flex;
+  width: 1.5em;
+  height: 1.5em;
+
+  margin: 0 0.3em 0 0;
+`;
+export const PIcon = styled(BiUserCircle)`
+  display: flex;
+
+  width: 1.5em;
+  height: 1.5em;
+
+  margin: 0 0.3em 0 0;
+  color: ${mainGrey};
+`;
+export const Nickname = styled.div`
+  display: flex;
+
+  padding: 0.2em 0 0 0;
+
+  font-size: 0.95em;
+`;
+
+export const RateWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  align-self: flex-end;
+`;
+export const URStar = styled(FaStar)`
+  display: flex;
+
+  margin: 0 0.25em 0 0;
+  color: ${mainYellow};
+`;
+export const UserRate = styled.div`
+  display: flex;
+
+  padding: 0.1em 0.2em 0 0;
+`;
+
+export const Comment = styled.div`
+  display: flex;
+
+  margin: 0 0 0 0.2em;
+  font-size: 0.9em;
 `;
 
 const ResultEmpty = styled.div`
@@ -273,4 +452,183 @@ const ResultEmpty = styled.div`
   align-items: center;
 
   height: 150px;
+`;
+
+// ============================ User Review
+const ReviewWrap = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  width: 90%;
+`;
+const ReviewTextArea = styled.textarea`
+  resize: none;
+  border: 2px solid ${mainYellow};
+  border-radius: 8px;
+
+  width: 80%;
+
+  padding: 0.5em 0.4em 0.5em 0.4em;
+  line-height: 1.5;
+  font-size: 0.95em;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const ReviewSubmitBtn = styled.button`
+  cursor: pointer;
+
+  display: flex;
+  align-self: flex-end;
+
+  border: 0px;
+  border-radius: 8px;
+
+  margin: 0 0 0 0.5em;
+  padding: 0.5em 0.6em 0.35em 0.6em;
+
+  background-color: ${mainYellow};
+  color: #fff;
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+// ============================ Request Beer
+const RequestBeerModal = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 90%;
+`;
+
+const RadioArea = styled.div`
+  display: flex;
+`;
+
+const RadioWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin: 0 1em 0 0;
+`;
+const Radio = styled.input`
+  cursor: pointer;
+
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid ${mainGrey};
+  border-radius: 50%;
+  outline: none;
+
+  margin: 0 0.3em 0.3em 0;
+
+  background: #fff;
+
+  &:before {
+    content: '';
+    display: flex;
+    width: 60%;
+    height: 60%;
+    margin: 20% auto;
+    border-radius: 50%;
+  }
+  &:checked:before {
+    background: ${mainYellow};
+  }
+  &:checked:hover:before {
+    background: ${mainGrey};
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+const RadioOption = styled.div`
+  display: flex;
+  cursor: pointer;
+`;
+
+const RequestTitleArea = styled.div`
+  display: grid;
+  grid-template-columns: 5em auto;
+
+  margin: 0.8em 0 0.5em 0;
+`;
+
+const Subtitle = styled.div`
+  grid-column: 1 / 2;
+
+  display: flex;
+  align-self: center;
+
+  margin: 0 0 0.1em 0;
+  font-size: 0.95em;
+`;
+const RequestTitle = styled.input`
+  grid-column: 2 / 3;
+
+  display: flex;
+  width: 60%;
+  height: auto;
+  border: 2px solid ${mainYellow};
+  border-radius: 8px;
+  padding: 0.5em 0.4em 0.4em 0.4em;
+
+  font-size: 0.95em;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const RequestBodyArea = styled.div`
+  display: grid;
+  grid-template-columns: 5em auto;
+`;
+const RequestBody = styled.textarea`
+  grid-column: 2 / 3;
+  resize: none;
+
+  width: 95%;
+  border: 2px solid ${mainYellow};
+  border-radius: 8px;
+
+  padding: 0.5em 0.4em 0.5em 0.4em;
+  line-height: 1.5;
+  font-size: 0.95em;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const RequestSubmitBtn = styled.button`
+  cursor: pointer;
+
+  display: flex;
+  align-self: flex-end;
+
+  border: 0px;
+  border-radius: 8px;
+
+  margin: 0.5em 1.2em 0 0;
+  padding: 0.4em 0.6em 0.35em 0.6em;
+
+  background-color: ${mainYellow};
+  color: #fff;
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
