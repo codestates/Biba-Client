@@ -3,6 +3,17 @@ import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
 
 import { NavProps } from '../../containers/nav/NavContainer';
+import {
+  mainYellow,
+  mainYellowOpac,
+  mainGrey,
+  mainGreyOpac,
+  lightGrey1,
+  lightGrey2,
+  btnOff,
+  btnOffText,
+  pDefault,
+} from '../../components/nav/color';
 
 export const Nav = ({
   userData,
@@ -16,6 +27,7 @@ export const Nav = ({
   handleOnChange,
   handleSearch,
   pressEnter,
+  testBeerRequestModal,
 }: NavProps): JSX.Element => {
   return (
     <Container>
@@ -25,46 +37,47 @@ export const Nav = ({
           alt='this is fake logo'
           onClick={handleClickLogo}
         />
-        <SearchBarArea className='searchBarArea'>
+        <TestBtns>
           <button onClick={testLoginModal}>login modal</button>
-          <Wrap>
+          <button onClick={testBeerRequestModal}>request beer</button>
+        </TestBtns>
+        <Wrap className='searchbarWrap'>
+          <SearchbarArea className='searchbarArea'>
             <SearchIcon className='searchIcon' />
             {isLogin ? (
-              <>
+              <SearchInputWrap className='searchInputWrap'>
                 <Input
                   type='text'
+                  placeholder='맥주 이름을 입력해주세요.'
                   onChange={handleOnChange}
                   onKeyPress={pressEnter}
                 ></Input>
-                <SearchBtn onClick={handleSearch}>검색</SearchBtn>
-              </>
+                <SearchBtn onClick={handleSearch}>Biba!</SearchBtn>
+              </SearchInputWrap>
             ) : (
               false
             )}
-          </Wrap>
-        </SearchBarArea>
-        <BtnArea className='btnArea'>
-          <div>
-            {isLogin
-              ? `${userData.nickname}님이 로그인하셨습니다.`
-              : `로그인해주세요.`}
-            &nbsp; &nbsp;
-          </div>
-          <NavBtn
-            onClick={() => {
-              isLogin ? handleClickMypage() : handleClickSignup();
-            }}
-          >
-            {isLogin ? `마이페이지` : `회원가입`}
-          </NavBtn>
-          <NavBtn
-            onClick={() => {
-              isLogin ? logout() : handleClickLogin();
-            }}
-          >
-            {isLogin ? `로그아웃` : `로그인`}
-          </NavBtn>
-        </BtnArea>
+          </SearchbarArea>
+          <BtnArea className='btnArea'>
+            <NavBtn
+              onClick={() => {
+                isLogin ? handleClickMypage() : handleClickSignup();
+              }}
+            >
+              {isLogin ? `마이페이지` : `회원가입`}
+            </NavBtn>
+            <NavBtn
+              onClick={() => {
+                isLogin ? logout() : handleClickLogin();
+              }}
+            >
+              {isLogin ? `로그아웃` : `로그인`}
+            </NavBtn>
+            {/* <NicknameProfile>
+              {isLogin ? `${userData.nickname}` : ``}
+            </NicknameProfile> */}
+          </BtnArea>
+        </Wrap>
       </NavBar>
     </Container>
   );
@@ -77,36 +90,40 @@ const Container = styled.div`
 
 const NavBar = styled.div`
   display: flex;
-  align-self: center;
   justify-content: space-between;
 
-  border: 2px solid #545454;
   width: 100%;
-  padding: 0.3em;
+  // border: 2px solid ${mainYellow};
+  border-radius: 16px;
+
+  padding: 0.3em 0.7em 0.3em 0.3em;
+
+  color: #fff;
 `;
 
+const Wrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 80%;
+`;
 const Logo = styled.img`
   width: 100px;
 `;
 
-const SearchBarArea = styled.div`
+const SearchbarArea = styled.div`
   display: flex;
-  align-self: center;
-
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 
-  width: 50%;
+  // width: 26vw;
   height: 3em;
-  border: 1px solid black;
-`;
-const Wrap = styled.div`
-  display: flex;
+  border-radius: 16px;
+  border: 2px solid ${mainYellowOpac};
 
-  align-items: center;
-
-  padding: 0.5em;
-  background-color: lightgrey;
+  margin: 0 0.5em 0.1em 0;
+  padding: 0.5em 0.8em 0.5em 0.8em;
+  // background-color: ${mainYellowOpac};
 `;
 
 const SearchIcon = styled(BiSearchAlt)`
@@ -116,29 +133,98 @@ const SearchIcon = styled(BiSearchAlt)`
   height: 1.5em;
   color: #545454;
 `;
+const SearchInputWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; // 박스 내 input, btn
+
+  // width: 22vw;
+`;
 
 const Input = styled.input`
   display: flex;
-  margin: 0 0.5em 0 0.5em;
+
+  width: 16vw;
+  border: 0px solid ${mainYellow};
+  border-radius: 8px;
+  margin: 0 0.8em 0 0.6em;
+  padding: 0.4em 0.5em 0.3em 0.5em;
+
+  font-size: 0.9em;
+  background-color: ${lightGrey1};
+  &:focus {
+    outline: none;
+  }
 `;
 
 const SearchBtn = styled.button`
   cursor: pointer;
+  border: 0px;
+  border-radius: 8px;
+
+  margin: 0 0 0.05em 0;
+  padding: 0.4em 0.6em 0.3em 0.6em;
+
+  font-size: 0.95em;
+  // font-weight: 300;
+  background-color: ${mainYellow};
+  color: #fff;
+
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 const BtnArea = styled.div`
   display: flex;
-  align-self: center;
 
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 
-  width: 35%;
+  width: auto;
   height: 3em;
-  border: 1px solid black;
+  // border: 1px solid black;
 `;
 
 const NavBtn = styled.button`
   cursor: pointer;
-  margin: 0 0.3em 0 0;
+  border: 0px;
+  border-radius: 8px;
+  background-color: ${mainYellow};
+  color: #fff;
+
+  margin: 0 0em 0.1em 0.5em;
+  padding: 0.4em 0.7em 0.35em 0.7em;
+
+  font-size: 1.1em;
+  font-weight: 300;
+
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const NicknameProfile = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 0 0 1em;
+
+  color: ${mainGrey};
+`;
+
+const TestBtns = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 `;

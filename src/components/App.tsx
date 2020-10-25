@@ -108,6 +108,7 @@ const Side = styled.div`
 const Full = styled.div`
   grid-area: Main;
   grid-column: 1 / 3;
+  min-height: 640px;
 `;
 
 const Half = styled.div`
