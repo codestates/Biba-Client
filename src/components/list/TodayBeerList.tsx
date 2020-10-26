@@ -67,29 +67,6 @@ function TodayBeerList({
   );
 }
 
-const BeerList = styled.div`
-  height: 100%;
-  width: 100%;
-  margin: 0 auto;
-  padding: 10px;
-  columns: 5;
-  column-gap: 60px;
-
-  // @media only screen and (max-width: 1200px) {
-  //   columns: 4;
-  // }
-
-  // @media only screen and (max-width: 960px) {
-  //   columns: 3;
-  // }
-
-  // overflow-y: scroll;
-  // display: grid;
-  // grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  // grid-gap: 5px;
-  // justify-content: center;
-`;
-
 const Item = styled.img`
   width: 200px;
   border-radius: 10px;
