@@ -8,7 +8,12 @@ import {
   confirmNicknameReducer,
   confirmAgeReducer,
 } from './user';
-import { modalReducer, btnColorReducer, navDisplayReducer } from './nav';
+import {
+  modalReducer,
+  btnColorReducer,
+  navDisplayReducer,
+  beerRequestReducer,
+} from './nav';
 import {
   todayBeerReducer,
   wantBeerReducer,
@@ -38,6 +43,7 @@ export const rootReducer = combineReducers({
   modal: modalReducer,
   btnColor: btnColorReducer,
   navDisplay: navDisplayReducer,
+  beerRequest: beerRequestReducer,
   todayBeer: todayBeerReducer,
   wantBeer: wantBeerReducer,
   changePage: changePageReducer,
@@ -48,7 +54,7 @@ export const rootReducer = combineReducers({
   beerDetail: beerDetailReducer,
   bookmark: bookmarkReducer,
   userReview: userReviewReducer,
-  allReview: allReviewsReducer,
+  allReviews: allReviewsReducer,
   infoStatus: infoStatusReducer,
   starStatus: starStatusReducer,
 });

@@ -2,6 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { SignupProps } from '../../containers/user/SignupContainer';
+import {
+  mainYellow,
+  mainYellowOpac,
+  mainGrey,
+  mainGreyOpac,
+  lightGrey1,
+  lightGrey2,
+  btnOff,
+  btnOffText,
+  pDefault,
+} from '../../components/nav/color';
 
 export const Signup = ({
   mapInputList,
@@ -22,14 +33,16 @@ export const Signup = ({
           {mapInputList()}
           <CheckAgeArea>
             <CheckAge
+              id='checkAge'
               type='checkbox'
               onChange={handleCheckAge}
               checked={ageConfirm}
             ></CheckAge>
-            20세 이상입니다.
+            <CheckAgeLabel htmlFor='checkAge'></CheckAgeLabel>
+            <CheckAgeText>20세 이상입니다.</CheckAgeText>
           </CheckAgeArea>
           <SignupBtn className='signupBtn' onClick={handleClickSignup}>
-            회원가입
+            Biba! 회원가입
           </SignupBtn>
         </InputArea>
         <BtnArea className='btnArea'>
@@ -54,22 +67,28 @@ const SignupArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
-  border: 2px solid #545454;
+  width: 500px;
+  height: 520px;
 
-  width: 100%;
-  padding: 1em 0 2em 0;
+  border: 2px solid ${mainYellowOpac};
+  border-radius: 8px;
+
+  margin: 3em 0 4em 0;
+  padding: 2em 0 2.5em 0;
+
+  // background-color: ${mainYellowOpac};
 `;
 
 const Title = styled.div`
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+
+  width: 70%;
+  margin: 0.5em 0 0.5em 0;
   font-size: 1.7em;
   font-weight: bold;
-
-  width: 10em;
-  margin: 0.5em 0 0.5em 0;
 `;
 
 const InputArea = styled.div`
@@ -82,31 +101,78 @@ const InputArea = styled.div`
 
 export const InputWithCheck = styled.div`
   display: flex;
-
-  margin: 0 0 0.1em 0;
+  align-items: center;
 `;
 
 export const Input = styled.input`
   display: flex;
 
-  width: 13em;
-  height: 24px;
+  border: 0px solid ${mainYellow};
+  border-radius: 8px;
+  width: 15em;
 
-  margin: 0 0 0.1em 0;
+  margin: 0 0.6em 0.5em 0.6em;
+  padding: 0.4em 0.5em 0.3em 0.5em;
+
+  font-size: 0.95em;
+  line-height: 1.5;
+  background-color: ${lightGrey1};
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const CheckBtn = styled.button`
   cursor: pointer;
+  border: 0px;
+  border-radius: 8px;
+
+  margin: 0 0 0.5em 0;
+  padding: 0.55em 0.6em 0.45em 0.6em;
 
   font-size: 0.85em;
+  // font-weight: 300;
+  background-color: ${mainYellow};
+  color: #fff;
 
-  height: 24px;
-
-  margin: 0;
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
-const CheckAgeArea = styled.div``;
-const CheckAge = styled.input``;
+const CheckAgeArea = styled.div`
+  display: flex;
+
+  margin: 0.5em 0 1em 1em;
+`;
+const CheckAge = styled.input`
+  cursor: pointer;
+  display: none;
+
+  &:checked + label {
+    background-color: ${mainYellow};
+    border: 0px;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+const CheckAgeLabel = styled.label`
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid ${mainGrey};
+`;
+const CheckAgeText = styled.p`
+  cursor: pointer;
+
+  margin: 0.1em 0 0 0.35em;
+  padding: 0;
+`;
 
 const SignupBtn = styled.button`
   cursor: pointer;
@@ -114,9 +180,26 @@ const SignupBtn = styled.button`
   display: flex;
   justify-content: center;
   align-self: center;
-  width: 5em;
+  width: 12em;
 
-  margin: 0.5em 0 0.3em 0;
+  border: 0.5px solid white;
+  border-radius: 8px;
+
+  margin: 0.7em 0 0 0;
+  padding: 0.525em 0.6em 0.425em 0.6em;
+
+  font-size: 1em;
+  // font-weight: 300;
+  background-color: ${mainYellow};
+  color: #fff;
+
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 const BtnArea = styled.div`
@@ -133,5 +216,26 @@ const SocialBtn = styled.button`
   align-self: center;
   width: 12em;
 
-  margin: 0.15em 0 0.15em 0;
+  border: 2px solid ${mainYellowOpac};
+  border-radius: 8px;
+
+  margin: 0.15em 0 0.3em 0;
+  padding: 0.5em 0.6em 0.4em 0.6em;
+
+  font-size: 1em;
+  font-weight: 500;
+  // background-color: ${mainYellow};
+  // color: #fff;
+  background-color: #fff;
+  color: ${mainGrey};
+
+  &:hover {
+    border: 2px solid rgba(0, 0, 0, 0);
+    font-weight: 400;
+    background-color: ${mainGrey};
+    color: #fff;
+  }
+  &:focus {
+    outline: none;
+  }
 `;

@@ -6,6 +6,8 @@ import ReviewList from '../../components/list/ReviewBeerList';
 import axios from 'axios';
 import { BeerT, BEER_REVIEW } from '../../modules/getbeers';
 
+import { HomeProps } from '../../containers/page/HomeContainer';
+
 function ReviewListContainer(): JSX.Element {
   const reviewBeerList = useSelector(
     (state: RootState) => state.reviewBeer.beers,

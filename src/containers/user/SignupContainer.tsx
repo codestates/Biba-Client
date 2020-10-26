@@ -67,21 +67,22 @@ const SignupContainer = ({
   const handleCheckEmail = (): void => {
     if (inputValues.email !== '') {
       if (emailCheck(inputValues.email)) {
-        axios
-          .post('https://beer4.xyz/users/checkemail', {
-            email: inputValues.email,
-          })
-          .then((res) => {
-            if (res.status === 200) alert(`사용 가능한 이메일입니다.`);
-            // 중복 확인 버튼 변화 && confirm dispatch
-            handleBtnColor('#989898', 'lightgrey');
-            handleConfirmEmail(true);
-          })
-          .catch(() => {
-            alert(`이미 존재하는 이메일입니다.\n다른 이메일을 사용해주세요.`);
-          });
-      } else {
-        alert(`정확한 이메일 주소를 입력해주세요.`);
+        // axios
+        //   .post('https://beer4.xyz/users/checkemail', {
+        //     email: inputValues.email,
+        //   })
+        // .then((res) => {
+        // if (res.status === 200) alert(`사용 가능한 이메일입니다.`);
+        if (true) alert(`사용 가능한 이메일입니다.`);
+        // 중복 확인 버튼 변화 && confirm dispatch
+        handleBtnColor('#989898', 'lightgrey');
+        handleConfirmEmail(true);
+        //       })
+        //       .catch(() => {
+        //         alert(`이미 존재하는 이메일입니다.\n다른 이메일을 사용해주세요.`);
+        //       });
+        //   } else {
+        //     alert(`정확한 이메일 주소를 입력해주세요.`);
       }
     } else {
       alert(`이메일 주소를 입력해주세요.`);

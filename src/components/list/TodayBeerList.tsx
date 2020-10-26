@@ -3,11 +3,10 @@ import styled from 'styled-components';
 
 import TodayBeer from './TodayBeer';
 import { BeerT } from '../../modules/getbeers';
+import { DetailProps } from '../../containers/page/HomeContainer';
 
-interface Props {
+interface Props extends DetailProps {
   beers: BeerT[];
-  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
-  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
 
 function TodayBeerList({

@@ -3,11 +3,10 @@ import styled from 'styled-components';
 
 import WantSomeBeer from './WantSomeBeer';
 import { WantI } from '../../modules/getbeers';
+import { DetailProps } from '../../containers/page/HomeContainer';
 
-interface WSLBeerProps extends WantI {
-  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
-  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
-}
+interface WSLBeerProps extends WantI, DetailProps {}
+
 function WantSomeBeerList({
   hotBeers,
   lateBeers,

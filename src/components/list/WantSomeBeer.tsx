@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BeerProps } from '../../modules/getbeers';
+import { DetailProps } from '../../containers/page/HomeContainer';
 
-export interface WSBeerProps extends BeerProps {
-  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
-  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
-}
+export interface WSBeerProps extends BeerProps, DetailProps {}
 
 function WantSomeBeer({
   name,

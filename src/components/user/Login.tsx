@@ -1,7 +1,22 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { LoginProps } from '../../containers/user/LoginContainer';
+import { RootState } from '../../modules';
+import { ContentType } from '../../modules/nav';
+
+import {
+  mainYellow,
+  mainYellowOpac,
+  mainGrey,
+  mainGreyOpac,
+  lightGrey1,
+  lightGrey2,
+  btnOff,
+  btnOffText,
+  pDefault,
+} from '../../components/nav/color';
 
 export const Login = ({
   handleOnChange,
@@ -9,13 +24,16 @@ export const Login = ({
   pressEnter,
   redirectToSignup,
 }: LoginProps): JSX.Element => {
-  return (
-    <Container>
-      <LoginArea className='loginArea'>
+  const { contentType, display } = useSelector(
+    (state: RootState) => state.modal,
+  );
+  const innerContent = (): JSX.Element => {
+    return (
+      <>
         <Title className='loginTitle'>
           Biba!
           <br />
-          Sign in
+          Login
         </Title>
         <InputArea className='inputArea'>
           <Input
@@ -43,7 +61,16 @@ export const Login = ({
             Biba 가입하러 가기
           </Redirect>
         </BtnArea>
-      </LoginArea>
+      </>
+    );
+  };
+  return (
+    <Container>
+      {display !== true ? (
+        <LoginArea className='loginArea'>{innerContent()}</LoginArea>
+      ) : (
+        <ModalLoginArea>{innerContent()}</ModalLoginArea>
+      )}
     </Container>
   );
 };
@@ -58,21 +85,30 @@ const LoginArea = styled.div`
   flex-direction: column;
   align-items: center;
 
-  border: 2px solid #545454;
+  width: 400px;
+  // height: 520px;
 
-  width: 100%;
-  padding: 1em 0 2em 0;
+  border: 2px solid ${mainYellowOpac};
+  border-radius: 8px;
+
+  margin: 3em 0 4em 0;
+  padding: 2em 0 2.5em 0;
+
+  // background-color: ${mainYellowOpac};
+`;
+
+const ModalLoginArea = styled(LoginArea)`
+  margin: 0 0 2.2em 0;
 `;
 
 const Title = styled.div`
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+
+  width: 70%;
+  margin: 0.5em 0 0.5em 0;
   font-size: 1.7em;
   font-weight: bold;
-
-  width: 10em;
-  margin: 0.5em 0 0.5em 0;
 `;
 
 const InputArea = styled.div`
@@ -85,7 +121,20 @@ const InputArea = styled.div`
 
 const Input = styled.input`
   display: flex;
-  width: 13em;
+
+  border: 0px solid ${mainYellow};
+  border-radius: 8px;
+  width: 15em;
+
+  margin: 0 0.8em 0.5em 0.6em;
+  padding: 0.4em 0.5em 0.3em 0.5em;
+
+  font-size: 0.95em;
+  line-height: 1.5;
+  background-color: ${lightGrey1};
+  &:focus {
+    outline: none;
+  }
 `;
 
 const BtnArea = styled.div`
@@ -100,9 +149,25 @@ const SmallBtn = styled.button`
   display: flex;
   justify-content: center;
   align-self: center;
-  width: 5em;
+  width: 10em;
+  border: 0.5px solid white;
+  border-radius: 8px;
 
-  margin: 0.15em 0 0.3em 0;
+  margin: 0.15em 0 1em 0;
+  padding: 0.525em 0.6em 0.425em 0.6em;
+
+  font-size: 1em;
+  // font-weight: 300;
+  background-color: ${mainYellow};
+  color: #fff;
+
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 const LongBtn = styled.button`
@@ -113,7 +178,28 @@ const LongBtn = styled.button`
   align-self: center;
   width: 10em;
 
-  margin: 0.15em 0 0.15em 0;
+  border: 2px solid ${mainYellowOpac};
+  border-radius: 8px;
+
+  margin: 0.15em 0 0.3em 0;
+  padding: 0.5em 0.6em 0.4em 0.6em;
+
+  font-size: 1em;
+  font-weight: 500;
+  // background-color: ${mainYellow};
+  // color: #fff;
+  background-color: #fff;
+  color: ${mainGrey};
+
+  &:hover {
+    border: 2px solid rgba(0, 0, 0, 0);
+    font-weight: 400;
+    background-color: ${mainGrey};
+    color: #fff;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Redirect = styled.div`
@@ -123,4 +209,15 @@ const Redirect = styled.div`
   align-self: center;
 
   margin: 1.5em 0 0 0;
+
+  text-decoration: underline;
+  font-size: 1.05em;
+  font-weight: 500;
+  color: ${mainYellow};
+  &:hover {
+    color: ${mainGrey};
+  }
+  &:focus {
+    outline: none;
+  }
 `;

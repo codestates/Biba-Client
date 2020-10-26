@@ -3,6 +3,7 @@ const SET_MODAL = 'SET_MODAL' as const;
 const SET_BTNCOLOR = 'SET_BTNCOLOR' as const;
 const SET_BEERS = 'SET_BEERS' as const;
 const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
+const SET_REQUESTTYPE = 'SET_REQUESTTYPE' as const;
 
 export interface ModalContent {
   contentType: ContentType;
@@ -15,7 +16,9 @@ export enum ContentType {
   Login,
   MypageAllReviews,
   ChangeNickname,
+  UsersReview,
   AllReviews,
+  RequestBeer,
 }
 export interface BtnColor {
   btn: string;
@@ -31,9 +34,13 @@ export type Beer = {
   beer_img: string;
   rate: number;
 };
-
 export interface Beers {
   beers: Beer[];
+}
+
+export interface BeerRequest {
+  request1: boolean;
+  request2: boolean;
 }
 
 // 이하로 action interface + init + action
@@ -90,6 +97,22 @@ const displayInit: NavDisplay = {
 export const setNavDisplay = (display: boolean): NavDisplayAction => ({
   type: SET_NAVDISPLAY,
   display,
+});
+
+interface BeerRequestAction extends BeerRequest {
+  type: typeof SET_REQUESTTYPE;
+}
+const requestInit: BeerRequest = {
+  request1: true,
+  request2: false,
+};
+export const setRequestType = (
+  request1: boolean,
+  request2: boolean,
+): BeerRequestAction => ({
+  type: SET_REQUESTTYPE,
+  request1,
+  request2,
 });
 
 // ============ 이하로 reducers
@@ -149,6 +172,23 @@ export const navDisplayReducer = (
       return {
         ...state,
         display: action.display,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const beerRequestReducer = (
+  state = requestInit,
+  action: BeerRequestAction,
+): BeerRequest => {
+  switch (action.type) {
+    case SET_REQUESTTYPE:
+      return {
+        ...state,
+        request1: action.request1,
+        request2: action.request2,
       };
 
     default:

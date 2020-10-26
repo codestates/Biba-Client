@@ -4,21 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { BeerT, BEER_TODAY } from '../../modules/getbeers';
 import { IBeerDetail, ObjBeerDetail } from '../../modules/beerdetail';
-import { DefaultProps } from '../../containers/page/HomeContainer';
 import TodayBeerList from '../../components/list/TodayBeerList';
 import { HomeProps } from '../../containers/page/HomeContainer';
 import axios from 'axios';
-
-interface TBLCProps extends DefaultProps {
-  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
-  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
-}
 
 function TodayBeerListContainer({
   match,
   setBeerDetail,
   setAllReviews,
-}: TBLCProps): JSX.Element {
+}: HomeProps): JSX.Element {
   const todayBeers = useSelector((state: RootState) => state.todayBeer.beers);
   const dispatch = useDispatch();
   /* eslint-disable react-hooks/exhaustive-deps */
