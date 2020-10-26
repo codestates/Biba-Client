@@ -1,0 +1,52 @@
+.my-masonry-grid {
+    display: -webkit-box; /* Not needed if autoprefixing */
+    display: -ms-flexbox; /* Not needed if autoprefixing */
+    display: flex;
+    width: auto;
+  }
+  .my-masonry-grid_column {
+    background-clip: padding-box;
+    padding-left: 20px;
+  }
+
+  @media (max-width: 1200px) {
+    .my-masonry-grid {
+      transform: translateX(-140px);
+      margin-left: 100px; /* gutter size offset */
+    }
+    .my-masonry-grid_column {
+        padding-left: 10px;
+      
+    }
+    .my-masonry-grid_column > div {
+      margin-bottom: 15px; /* space between items */
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .my-masonry-grid {
+      transform: translateX(-240px);
+      margin-left: 260px; /* gutter size offset */
+    }
+    .my-masonry-grid_column {
+        padding-left: 10px;
+      
+    }
+    .my-masonry-grid_column > div {
+      margin-bottom: 15px; /* space between items */
+    }
+  }
+ 
+  @media (max-width: 800px) {
+    .my-masonry-grid {
+      transform: translateX(-480px);
+      margin-left: 480px; /* gutter size offset */
+    }
+    .my-masonry-grid_column {
+        padding-left: 10px;
+      
+    }
+    .my-masonry-grid_column > div {
+      margin-bottom: 15px; /* space between items */
+    }
+  }

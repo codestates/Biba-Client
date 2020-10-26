@@ -22,7 +22,7 @@ function BeerListNav({
             handleClickTodayBeer();
           }}
         >
-          Today&apos;s Beer
+          <TH>Today&apos;s Beer</TH>
         </ListBtn>
         <ListBtn
           onClick={() => {
@@ -30,7 +30,7 @@ function BeerListNav({
             handleClickWantSomeBeer();
           }}
         >
-          Want Some Beer?
+          <TH>Want Some Beer?</TH>
         </ListBtn>
         <ListBtn
           onClick={() => {
@@ -38,7 +38,7 @@ function BeerListNav({
             handleClickMyBeer();
           }}
         >
-          My Beers
+          <TH>My Beers</TH>
           <SubUl>
             <SubLiBtn
               onClick={() => {
@@ -46,7 +46,7 @@ function BeerListNav({
                 handleClickFavorite();
               }}
             >
-              Faviorite
+              <TH>Faviorite</TH>
             </SubLiBtn>
             <SubLiBtn
               onClick={() => {
@@ -54,7 +54,7 @@ function BeerListNav({
                 handleClickReview();
               }}
             >
-              Review
+              <TH>Review</TH>
             </SubLiBtn>
           </SubUl>
         </ListBtn>
@@ -64,12 +64,11 @@ function BeerListNav({
 }
 
 const ListNav = styled.div`
-  // width: 14vw;
-  // height: 100vh;
   left: 0;
   top: 0;
-  padding: 1rem;
-  border: 1px solid black;
+  margin-top: 2rem;
+  padding: 0.5rem;
+  border-radius: 10px;
 `;
 
 const UL = styled.div`
@@ -78,11 +77,17 @@ const UL = styled.div`
 
 const ListBtn = styled.li`
   font-size: 1rem;
-  color: gold;
   margin: 2rem;
+`;
+
+const TH = styled.div`
+  display: inline-block;
+  padding: 5px;
+  color: #52575d;
+  background-color: #f6f4e6;
+  border-radius: 10px;
   &:hover {
-    background-color: white;
-    color: black;
+    color: #fddb3a;
     cursor: pointer;
   }
 `;
@@ -96,11 +101,6 @@ const SubLiBtn = styled.li`
   font-size: 1rem;
   color: gold;
   margin: 0.5rem;
-  &:hover {
-    background-color: white;
-    color: black;
-    cursor: pointer;
-  }
 `;
 
 export default BeerListNav;

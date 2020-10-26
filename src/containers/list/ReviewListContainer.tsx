@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,19 +11,20 @@ function ReviewListContainer(): JSX.Element {
   const reviewBeerList = useSelector(
     (state: RootState) => state.reviewBeer.beers,
   );
+  const { token } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const setReviewBeers = (beers: BeerT[]) => {
+  function setReviewBeers(beers: BeerT[]) {
     dispatch({ type: BEER_REVIEW, beers });
-  };
-
+  }
   useEffect(() => {
-    axios.get<BeerT[]>(`https://beer4.xyz/beer/list`).then((res) => {
-      // 임시
-      setReviewBeers(res.data);
-    });
-  }, [setReviewBeers]);
+    axios
+      .post<BeerT[]>(`https://beer4.xyz/comment/mylist`, { token: token })
+      .then((res) => {
+        setReviewBeers(res.data);
+      });
+  }, []);
+
   return <ReviewList beers={reviewBeerList} />;
 }
 
