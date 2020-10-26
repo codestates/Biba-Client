@@ -23,9 +23,9 @@ function FavoriteBeerListContainer(): JSX.Element {
         token: token,
       })
       .then((res) => {
-        // setFavoriteBeers(res.data);
+        setFavoriteBeers(res.data);
       });
-  }, [setFavoriteBeers]);
+  }, []);
   return <FavoriteBeerList beers={favoriteBeerList} />;
 }
 

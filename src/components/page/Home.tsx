@@ -60,9 +60,9 @@ const Container = styled.div`
   right: 0;
   top: 0;
   // width: 80%;
-  height: auto;
-  margin: 0 auto;
-  border: solid 2px gray;
+  max-width: 1050px;
+  min-height: 650px;
+  margin: 1em auto;
 `;
 
 export default Home;

@@ -45,7 +45,7 @@ function Beer({
 
 const BeerImage = styled.div`
   height: 30vh;
-  width: 12vw;
+  width: 100%;
   text-align: center;
   border: 1px solid gray;
   border-radius: 1em;
