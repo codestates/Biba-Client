@@ -9,8 +9,8 @@ import {
   confirmAgeReducer,
 } from './user';
 import {
+  searchbarReducer,
   modalReducer,
-  btnColorReducer,
   navDisplayReducer,
   beerRequestReducer,
 } from './nav';
@@ -26,8 +26,10 @@ import { searchBeerReducer } from './searchbeer';
 import {
   beerDetailReducer,
   bookmarkReducer,
+  graphDataReducer,
   userReviewReducer,
   allReviewsReducer,
+  infoDisplayReducer,
   infoStatusReducer,
   starStatusReducer,
 } from './beerdetail';
@@ -40,8 +42,8 @@ export const rootReducer = combineReducers({
   confirmEmail: confirmEmailReducer,
   confirmNickname: confirmNicknameReducer,
   confirmAge: confirmAgeReducer,
+  searchbar: searchbarReducer,
   modal: modalReducer,
-  btnColor: btnColorReducer,
   navDisplay: navDisplayReducer,
   beerRequest: beerRequestReducer,
   todayBeer: todayBeerReducer,
@@ -53,8 +55,10 @@ export const rootReducer = combineReducers({
   searchBeer: searchBeerReducer,
   beerDetail: beerDetailReducer,
   bookmark: bookmarkReducer,
+  graphData: graphDataReducer,
   userReview: userReviewReducer,
   allReviews: allReviewsReducer,
+  infoDisplay: infoDisplayReducer,
   infoStatus: infoStatusReducer,
   starStatus: starStatusReducer,
 });

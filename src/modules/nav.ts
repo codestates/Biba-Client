@@ -1,9 +1,12 @@
 const SET_SEARCHBAR = 'SET_SEARCHBAR' as const;
 const SET_MODAL = 'SET_MODAL' as const;
-const SET_BTNCOLOR = 'SET_BTNCOLOR' as const;
 const SET_BEERS = 'SET_BEERS' as const;
 const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
 const SET_REQUESTTYPE = 'SET_REQUESTTYPE' as const;
+
+export interface SearchbarState {
+  display: boolean;
+}
 
 export interface ModalContent {
   contentType: ContentType;
@@ -44,6 +47,17 @@ export interface BeerRequest {
 }
 
 // 이하로 action interface + init + action
+interface SearchbarStateAction extends SearchbarState {
+  type: typeof SET_SEARCHBAR;
+}
+const searchbarInit: SearchbarState = {
+  display: false,
+};
+export const setSearchbar = (display: boolean): SearchbarStateAction => ({
+  type: SET_SEARCHBAR,
+  display,
+});
+
 interface ModalStateAction extends ModalState {
   type: typeof SET_MODAL;
 }
@@ -58,19 +72,6 @@ export const setModal = (
   type: SET_MODAL,
   contentType,
   display,
-});
-
-export interface BtnColorAction extends BtnColor {
-  type: typeof SET_BTNCOLOR;
-}
-const btnInit: BtnColor = {
-  btn: '',
-  text: '',
-};
-export const setBtnColor = (btn: string, text: string): BtnColorAction => ({
-  type: SET_BTNCOLOR,
-  btn,
-  text,
 });
 
 export interface SetBeerAction extends Beers {
@@ -116,6 +117,22 @@ export const setRequestType = (
 });
 
 // ============ 이하로 reducers
+export const searchbarReducer = (
+  state = searchbarInit,
+  action: SearchbarStateAction,
+): SearchbarState => {
+  switch (action.type) {
+    case SET_SEARCHBAR:
+      return {
+        ...state,
+        display: action.display,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const modalReducer = (
   state = modalInit,
   action: ModalStateAction,
@@ -126,23 +143,6 @@ export const modalReducer = (
         ...state,
         contentType: action.contentType,
         display: action.display,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const btnColorReducer = (
-  state = btnInit,
-  action: BtnColorAction,
-): BtnColor => {
-  switch (action.type) {
-    case SET_BTNCOLOR:
-      return {
-        ...state,
-        btn: action.btn,
-        text: action.text,
       };
 
     default:
