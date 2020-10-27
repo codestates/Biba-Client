@@ -42,17 +42,19 @@ export interface BeerDetailProps extends DefaultProps {
   beerDetail: IBeerDetail;
   bookmark: boolean;
   handleBookmark(): void;
-  story: boolean;
-  more: boolean;
-  handleInfoTab(e: React.MouseEvent<HTMLElement>): void;
   handleTag(): JSX.Element[];
+  disBasic: boolean;
+  disStory: boolean;
+  disMore: boolean;
+  tabBasic: boolean;
+  tabStory: boolean;
+  tabMore: boolean;
+  handleInfoTab(e: React.MouseEvent<HTMLElement>): void;
   handleStar(): JSX.Element[];
   user_review: boolean;
   mainReviewList(): JSX.Element[] | JSX.Element;
   handleClickUsersReview(): void;
   handleClickAllReviews(): void;
-  setBeerDetail(e: React.MouseEvent<HTMLElement>): void;
-  setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
 
 const BeerDetailContainer = ({
@@ -60,9 +62,7 @@ const BeerDetailContainer = ({
   history,
   location,
 }: DefaultProps): JSX.Element => {
-  const { userData, isLogin, token } = useSelector(
-    (state: RootState) => state.login,
-  );
+  const { token } = useSelector((state: RootState) => state.login);
   const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
   const { bookmark } = useSelector((state: RootState) => state.bookmark);
   const { user_review, user_star, user_input, user_rate } = useSelector(
@@ -70,7 +70,13 @@ const BeerDetailContainer = ({
   );
 
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
-  const { story, more } = useSelector((state: RootState) => state.infoStatus);
+  const { disBasic, disStory, disMore } = useSelector(
+    (state: RootState) => state.infoDisplay,
+  );
+  const { tabBasic, tabStory, tabMore } = useSelector(
+    (state: RootState) => state.infoStatus,
+  );
+
   const { a, b, c, d, e } = useSelector((state: RootState) => state.starStatus);
   const currentStatus = [a, b, c, d, e];
 
@@ -81,12 +87,12 @@ const BeerDetailContainer = ({
   };
 
   const handleBookmark = (): void => {
+    console.log({ token: token, beer_id: beerDetail.id });
     axios
-      .get<Bookmark>(`http://localhost:4000/posts/info/4`)
-      // .post<Bookmark>(`https://beer4.xyz/bookmark/add`, {
-      // token: token,
-      // beer_id: beerDetail.id,
-      // })
+      .post<Bookmark>(`https://beer4.xyz/bookmark`, {
+        token: token,
+        beer_id: beerDetail.id,
+      })
       .then((res) => {
         const { bookmark } = res.data; // 추가되었을 경우 true 돌아옴
         if (res.status === 200) {
@@ -97,35 +103,68 @@ const BeerDetailContainer = ({
         } else {
           alert(`즐겨찾기 추가에 실패하였습니다.`);
         }
+      })
+      .catch(() => {
+        alert(`즐겨찾기 추가에 실패하였습니다.`);
       });
   };
+  const setInfoTabBasic = (): void => {
+    dispatch({
+      type: 'SET_INFOSTATUS',
+      tabBasic: true,
+      tabStory: false,
+      tabMore: false,
+    });
+  };
+  const setInfoTabStory = (): void => {
+    dispatch({
+      type: 'SET_INFOSTATUS',
+      tabBasic: false,
+      tabStory: true,
+      tabMore: false,
+    });
+  };
+  const setInfoTabMore = (): void => {
+    dispatch({
+      type: 'SET_INFOSTATUS',
+      tabBasic: false,
+      tabStory: false,
+      tabMore: true,
+    });
+  };
   const handleInfoTab = (e: React.MouseEvent<HTMLElement>): void => {
-    console.log('test');
-    if (e.currentTarget.id === 'story') {
-      const story = true,
-        more = false;
-      dispatch({ type: 'SET_INFOSTATUS', story, more });
-    }
-    if (e.currentTarget.id === 'more') {
-      const story = false,
-        more = true;
-      dispatch({ type: 'SET_INFOSTATUS', story, more });
-    }
+    if (e.currentTarget.id === 'basic') setInfoTabBasic();
+    if (e.currentTarget.id === 'story') setInfoTabStory();
+    if (e.currentTarget.id === 'more') setInfoTabMore();
   };
   const handleClickStar = (star: React.MouseEvent<HTMLElement>): void => {
     console.log(star.currentTarget.id);
     if (currentStatus.indexOf(true) !== -1) {
       dispatch({ type: 'SET_STARSTATUS', starStatusInit });
+      dispatch({
+        type: 'SET_USERREVIEW',
+        user_review,
+        user_star: false,
+        user_input,
+        user_rate: -1,
+      });
       // axios.post - 서버에 전송, 이때 review status 체크해서 보내야 함
       return;
     }
     const { a, b, c, d, e } = checkStarScore(Number(star.currentTarget.id)); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
     dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
+    dispatch({
+      type: 'SET_USERREVIEW',
+      user_review,
+      user_star: true,
+      user_input,
+      user_rate: star.currentTarget.id,
+    });
+
     // axios.post - 서버에 전송, 이때 review status 체크해서 보내야 함
   };
 
   const mainReviewList = (): JSX.Element[] | JSX.Element => {
-    //// ======== 작업 중!!!
     if (allReviews.length !== 0) {
       const mainReviews = allReviews.slice(0, 4);
       return mainReviews.map((ele) => {
@@ -170,42 +209,6 @@ const BeerDetailContainer = ({
   const handleClickAllReviews = (): void => {
     handleModal(ContentType.AllReviews, true);
   };
-
-  // 이하 임시
-
-  const setBeerDetail = (e: React.MouseEvent<HTMLElement>): void => {
-    console.log(e.currentTarget); // 클릭 시 타겟 정보 -> 나중에 여기서 id 받아와야 함
-    axios
-      // .get<IBeerDetailWithAll>(`https://beer4.xyz/beer/${e.currentTarget.id}`) // 여기에 id 붙여서 get 요청
-      .get<IBeerDetailWithAll>(`http://localhost:4000/custom/scrap/4`) // 임시 버튼
-      .then((res) => {
-        console.log(res.data);
-        const beerDetail: IBeerDetail = res.data;
-        const { bookmark } = res.data;
-        const { user_review, user_star, user_input, user_rate } = res.data;
-        dispatch({ type: 'SET_BEERDETAIL', beerDetail }); // store에 detail 전달
-        dispatch({ type: 'SET_BOOKMARK', bookmark });
-        dispatch({
-          type: 'SET_USERREVIEW',
-          user_review,
-          user_star,
-          user_input,
-          user_rate,
-        }); // 삭제, 수정 버튼 추가
-        const { a, b, c, d, e } = checkStarScore(user_rate); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
-        dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
-        history.push('/beer/4');
-      });
-  };
-  const setAllReviews = (e: React.MouseEvent<HTMLElement>): void => {
-    // store에 전체 리뷰 넣는 함수
-    axios.get<aReview>(`http://localhost:4000/custom/mypost/4`).then((res) => {
-      const allReviews = res.data;
-      dispatch({ type: 'SET_ALLREVIEWS', allReviews });
-    }); // [{}, {}]
-  };
-
-  // =============
 
   const handleTag = (): JSX.Element[] => {
     const tags = ['오렌지', '뜨거운 맥주', '벨기에'];
@@ -254,17 +257,19 @@ const BeerDetailContainer = ({
       beerDetail={beerDetail}
       bookmark={bookmark}
       handleBookmark={handleBookmark}
-      story={story}
-      more={more}
-      handleInfoTab={handleInfoTab}
       handleTag={handleTag}
+      disBasic={disBasic}
+      disStory={disStory}
+      disMore={disMore}
+      tabBasic={tabBasic}
+      tabStory={tabStory}
+      tabMore={tabMore}
+      handleInfoTab={handleInfoTab}
       handleStar={handleStar}
       user_review={user_review}
       mainReviewList={mainReviewList}
       handleClickUsersReview={handleClickUsersReview}
       handleClickAllReviews={handleClickAllReviews}
-      setBeerDetail={setBeerDetail}
-      setAllReviews={setAllReviews}
     />
   );
 };

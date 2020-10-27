@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 import { BeerDetailProps } from '../../containers/page/BeerDetailContainer';
-import { chart } from '../../containers/page/radar';
+import { Chart } from '../../containers/page/radar';
 import {
   mainYellow,
   mainYellowOpac,
@@ -21,22 +21,20 @@ export const BeerDetail = ({
   beerDetail,
   bookmark,
   handleBookmark,
-  story,
-  more,
-  handleInfoTab,
   handleTag,
+  disBasic,
+  disStory,
+  disMore,
+  tabBasic,
+  tabStory,
+  tabMore,
+  handleInfoTab,
   handleStar,
   user_review,
   handleClickUsersReview,
   mainReviewList,
   handleClickAllReviews,
-  setBeerDetail,
-  setAllReviews,
 }: BeerDetailProps): JSX.Element => {
-  const { id } = match.params;
-  const example = 'https://bit.ly/2T6JRuE';
-  // const example =
-  //   'https://flagshipfebruary.com/wp-content/uploads/hero-19-02-01-samadams-1600x800.jpg';
   return (
     <Outer className='detailOuter'>
       <Container className='detailContainer'>
@@ -44,7 +42,7 @@ export const BeerDetail = ({
           <TitleText>맥주 상세 정보</TitleText>
         </InfoTitle>
         <ImgDiv>
-          <Img className='infoImg' src={example} alt='' />
+          <Img className='infoImg' src={beerDetail.beer_img} alt='' />
         </ImgDiv>
         <InfoDiv className='infoDiv'>
           <BeerName className='beerName'>{beerDetail.beer_name}</BeerName>
@@ -69,33 +67,58 @@ export const BeerDetail = ({
             </AveFavWrap>
             <TagWrap>{handleTag()}</TagWrap>
 
-            <InfoChart>{chart()}</InfoChart>
+            <InfoChart>{Chart()}</InfoChart>
           </InfoSub>
           <InfoBody className='infoBody'>
             <TabWrap className='infoTabWrap'>
+              <Tab
+                id='basic'
+                className='infoTab'
+                onClick={handleInfoTab}
+                style={
+                  disBasic
+                    ? tabBasic
+                      ? { fontWeight: 500 }
+                      : {
+                          background: `${btnOff}`,
+                          color: `${btnOffText}`,
+                          fontWeight: 400,
+                        }
+                    : { display: 'none' }
+                }
+              >
+                맥주 소개
+              </Tab>
+              <Divider style={disBasic ? undefined : { display: 'none' }}>
+                &nbsp;{' '}
+              </Divider>
               <Tab
                 id='story'
                 className='infoTab'
                 onClick={handleInfoTab}
                 style={
-                  story
-                    ? { fontWeight: 500 }
-                    : {
-                        background: `${btnOff}`,
-                        color: `${btnOffText}`,
-                        fontWeight: 400,
-                      }
+                  disStory
+                    ? tabStory
+                      ? { fontWeight: 500 }
+                      : {
+                          background: `${btnOff}`,
+                          color: `${btnOffText}`,
+                          fontWeight: 400,
+                        }
+                    : { display: 'none' }
                 }
               >
-                맥주 스토리
+                스토리
               </Tab>
-              <Divider>&nbsp; </Divider>
+              <Divider style={disStory ? undefined : { display: 'none' }}>
+                &nbsp;{' '}
+              </Divider>
               <Tab
                 id='more'
                 className='infoTab'
                 onClick={handleInfoTab}
                 style={
-                  more
+                  tabMore
                     ? { fontWeight: 500 }
                     : {
                         background: `${btnOff}`,
@@ -110,7 +133,13 @@ export const BeerDetail = ({
             <InfoDetailWrap>
               <InfoDetail1
                 className='infoDetail'
-                style={story ? {} : { display: 'none' }}
+                style={
+                  disBasic
+                    ? tabBasic
+                      ? {}
+                      : { display: 'none' }
+                    : { display: 'none' }
+                }
               >
                 <P className='content'>
                   이 맥주에는 이런 전설이 있습니다.
@@ -121,23 +150,46 @@ export const BeerDetail = ({
               </InfoDetail1>
               <InfoDetail2
                 className='infoDetail'
-                style={more ? {} : { display: 'none' }}
+                style={
+                  disStory
+                    ? tabStory
+                      ? {}
+                      : { display: 'none' }
+                    : { display: 'none' }
+                }
               >
-                <PWrap>
-                  <PT className='contentT'>제조사</PT>
-                  <PT className='contentT'>제조국</PT>
-                  <PT className='contentT'>스타일</PT>
-                  <PT className='contentT'>ABV</PT>
-                  <PT className='contentT'>IBU</PT>
-                </PWrap>
-                <PWrap>
-                  <P className='content'>{beerDetail.company}</P>
-                  <P className='content'>{beerDetail.country}</P>
-                  <P className='content'>{beerDetail.style_name}</P>
-                  <P className='content'>{beerDetail.abv}</P>
-                  <P className='content'>{beerDetail.ibu}</P>
-                </PWrap>
+                <P className='content'>
+                  이 맥주에는 이런 전설이 있습니다.
+                  <br />
+                  단어 몇 개까지 넣어야 보기에 괜찮을까요? 줄바꿈 어떻게 되는
+                  건지 고기와 함께하는 탄산수 타임
+                </P>
               </InfoDetail2>
+              <InfoDetail3
+                className='infoDetail'
+                style={tabMore ? {} : { display: 'none' }}
+              >
+                {disMore ? (
+                  <>
+                    <PWrap>
+                      <PT className='contentT'>제조사</PT>
+                      <PT className='contentT'>제조국</PT>
+                      <PT className='contentT'>스타일</PT>
+                      <PT className='contentT'>ABV</PT>
+                      <PT className='contentT'>IBU</PT>
+                    </PWrap>
+                    <PWrap>
+                      <P className='content'>{beerDetail.company}</P>
+                      <P className='content'>{beerDetail.country}</P>
+                      <P className='content'>{beerDetail.style_name}</P>
+                      <P className='content'>{beerDetail.abv}</P>
+                      <P className='content'>{beerDetail.ibu}</P>
+                    </PWrap>
+                  </>
+                ) : (
+                  <>등록된 정보가 없습니다.</>
+                )}
+              </InfoDetail3>
             </InfoDetailWrap>
           </InfoBody>
         </InfoDiv>
@@ -159,14 +211,6 @@ export const BeerDetail = ({
               onClick={handleClickAllReviews}
             >
               리뷰 전체보기
-            </CommentAll>
-            <CommentAll
-              onClick={(e) => {
-                setAllReviews(e);
-                setBeerDetail(e);
-              }}
-            >
-              임시 상세페이지 로딩
             </CommentAll>
           </CommentArea>
         </RateReview>
@@ -445,6 +489,14 @@ const InfoDetail1 = styled.div`
   line-height: 1.5;
 `;
 const InfoDetail2 = styled.div`
+  display: flex;
+
+  padding: 0.8em 0.7em 0 0.7em;
+
+  font-size: 0.95em;
+  line-height: 1.5;
+`;
+const InfoDetail3 = styled.div`
   display: flex;
   justify-content: space-between;
 
