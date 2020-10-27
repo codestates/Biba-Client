@@ -12,7 +12,7 @@ import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
-import { aReview } from '../../modules/beerdetail';
+import { aReview, beerDetailInit } from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
 import { nicknameCheck } from '../user/userUtils';
 import {
@@ -21,17 +21,19 @@ import {
   mainGrey,
   mainGreyOpac,
 } from '../../components/nav/color';
+import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 
 export interface ModalProps {
   display: boolean;
+  closeModal(): void;
+  pressEsc(e: React.KeyboardEvent<HTMLInputElement>): void;
+  user_review: boolean;
   contentType: ContentType;
   content: JSX.Element | JSX.Element[];
-  user_review: boolean;
-  closeModal(): void;
-  btnColor: string;
-  textColor: string;
-  pressEsc(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
+
+const confirmBtnColor = '#989898';
+const confirmTextColor = 'lightGrey';
 
 export const ModalContainer = (props: RouterProps): JSX.Element => {
   // modal이 필요한 각 페이지에서 상황에 맞게 dispatch
@@ -46,12 +48,10 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
-  const btnColor = useSelector((state: RootState) => state.btnColor.btn);
-  const textColor = useSelector((state: RootState) => state.btnColor.text);
 
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
-  const { user_review, user_input } = useSelector(
+  const { user_review, user_star, user_input, user_rate } = useSelector(
     (state: RootState) => state.userReview,
   );
 
@@ -60,11 +60,22 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   );
 
   const dispatch = useDispatch();
+  // ================================================================ Modal
+  const handleModalClose = (
+    contentType: ContentType,
+    display: boolean,
+  ): void => {
+    dispatch({ type: 'SET_MODAL', contentType, display });
+  };
+  const closeModal = (): void => {
+    handleModalClose(ContentType.Empty, false);
+  };
+  const pressEsc = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'ESC') closeModal();
+  }; // 추후 추가 작업
+
   const handleConfirmNickname = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_NICKNAME', value });
-  };
-  const handleBtnColor = (btn: string, text: string): void => {
-    dispatch({ type: 'SET_BTNCOLOR', btn, text });
   };
 
   const [inputValues, setInputValues] = useState({
@@ -73,6 +84,17 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     beerName: '',
     beerRequest: '',
   });
+
+  // ================================================================ Change Nickname
+  const handleInputOnChange = (
+    e:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setInputValues({ ...inputValues, [name]: value });
+  };
   const handleNicknameOnChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ): void => {
@@ -83,35 +105,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
   };
-  const handleInputOnChange = (
-    e:
-      | React.ChangeEvent<HTMLTextAreaElement>
-      | React.ChangeEvent<HTMLInputElement>,
-  ): void => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setInputValues({ ...inputValues, [name]: value });
-  };
-
-  const handleRequestType = (request1: boolean, request2: boolean): void => {
-    dispatch({ type: 'SET_REQUESTTYPE', request1, request2 });
-  };
-
-  const handleRadioSelect1 = (): void => {
-    handleRequestType(true, false);
-  };
-
-  const handleRadioSelect2 = (): void => {
-    handleRequestType(false, true);
-  };
-
-  const handleClickSubmitRequest = () => {
-    // axios
-    //   .post
-    console.log(request1, request2);
-    console.log(inputValues.beerName, inputValues.beerRequest);
-  };
-
   const handleCheckNickname = (): void => {
     if (inputValues.nickname !== '') {
       if (nicknameCheck(inputValues.nickname)) {
@@ -120,26 +113,23 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             nickname: inputValues.nickname,
           })
           .then((res) => {
-            if (res.status === 200) alert(`사용할 수 있는 닉네임입니다.`);
-            // 중복 확인 버튼 변화 && confirm dispatch
-            handleBtnColor('#989898', 'lightgrey');
-            handleConfirmNickname(true);
+            if (res.status === 200) {
+              alert(`사용할 수 있는 닉네임입니다.`);
+              handleConfirmNickname(true);
+            }
           })
           .catch(() => {
-            handleBtnColor('#989898', 'lightgrey'); // 임시
-            handleConfirmNickname(true); // 임시
             alert(`이미 존재하는 닉네임입니다.\n다른 닉네임을 사용해주세요.`);
           });
       } else {
         alert(
-          `닉네임을 확인해주세요.\n6~12자리의 영문, 숫자 조합이어야 합니다.`,
+          `닉네임을 확인해주세요.\n4~12자리의 한글, 영어 또는 숫자 조합이어야 합니다.`,
         );
       }
     } else {
       alert(`닉네임을 입력해주세요.`);
     }
   };
-
   const handleClickChangeNickname = (): void => {
     const { nickname } = inputValues;
     nicknameCheck(nickname);
@@ -152,14 +142,134 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         })
         .then((res) => {
           if (res.status === 200) {
-            console.log(res.data);
+            alert(`닉네임이 정상적으로 변경되었습니다.`);
+            handleConfirmNickname(false);
           }
+        })
+        .catch(() => {
+          alert(`닉네임 변경에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
         });
     }
   };
 
+  // ================================================================ User Review
+  const handleClickSubmitReview = (): void => {
+    // review 작성 모달 창 내에서 작동
+    if (!isLogin) {
+      alert(`로그인 후 이용해주세요.`);
+    } else if (inputValues.review === '') {
+      alert(`리뷰 내용을 작성해주세요.`);
+    } else if (!user_star) {
+      alert(`별점을 먼저 등록해주세요.`);
+    } else {
+      if (!user_review) {
+        // 새로 생성
+        console.log('review 작성 테스트');
+
+        // axios
+        //   .post(`https://beer4.xyz/comment/create`, {
+        //     token: token,
+        //     beer_id: beerDetailInit.beerDetail.id,
+        //     comment: inputValues.review,
+        //     rate: user_rate,
+        //   })
+        //   .then((res) => {
+        //     if (res.status === 200) {
+        //       alert(`리뷰가 등록되었습니다.`);
+        dispatch({
+          type: 'SET_USERREVIEW',
+          user_review: true,
+          user_star,
+          user_input: inputValues.review,
+          user_rate,
+        });
+        //     }
+        //   })
+        //   .catch(() => {
+        //     alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+        //   });
+      } else {
+        console.log('review 수정 테스트');
+        // axios
+        //   .post(`https://beer4.xyz/comment/update`, {
+        //     token: token,
+        //     beer_id: beerDetailInit.beerDetail.id,
+        //     comment: inputValues.review,
+        //     rate: user_rate,
+        //   })
+        //   .then((res) => {
+        //     if (res.status === 201) {
+        //       alert(`리뷰가 수정되었습니다.`);
+        dispatch({
+          type: 'SET_USERREVIEW',
+          user_review: true,
+          user_star,
+          user_input: inputValues.review,
+          user_rate,
+        });
+        //     }
+        //   })
+        //   .catch(() => {
+        //     alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+        //   });
+      }
+    }
+  };
+
+  // ================================================================ Beer Request
+  const handleRequestType = (request1: boolean, request2: boolean): void => {
+    dispatch({ type: 'SET_REQUESTTYPE', request1, request2 });
+  };
+  const handleRadioSelect1 = (): void => {
+    handleRequestType(true, false);
+  };
+  const handleRadioSelect2 = (): void => {
+    handleRequestType(false, true);
+  };
+  const handleClickSubmitRequest = (): void => {
+    // axios
+    //   .post
+    if (inputValues.beerName !== '' && inputValues.beerRequest !== '') {
+      if (request1) {
+        axios
+          .post(`https://beer4.xyz/report/recommend`, {
+            token: token,
+            comment: inputValues.beerName + '/' + inputValues.beerRequest,
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              return alert(`맥주 추천이 완료되었습니다. Biba!`);
+            }
+          })
+          .catch(() => {
+            return alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+          });
+      } else if (request2) {
+        axios
+          .post(`https://beer4.xyz/report/request`, {
+            token: token,
+            comment: inputValues.beerName + '/' + inputValues.beerRequest,
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              return alert(`맥주 요청이 완료되었습니다. Biba!`);
+            }
+          })
+          .catch(() => {
+            return alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+          });
+      }
+    }
+    if (inputValues.beerName === '') {
+      return alert(`맥주 이름을 작성해주세요.`);
+    } else if (inputValues.beerRequest === '') {
+      return alert(`내용을 작성해주세요.`);
+    }
+  };
+
+  // ================================================================ Content
   const content = (contentType: ContentType): JSX.Element | JSX.Element[] => {
-    // 이 함수의 결과가 component의 Modals로 넘어감
+    // ==================================================== request beer
     if (contentType === ContentType.RequestBeer) {
       return (
         <RequestBeerModal className='requestBeerModal'>
@@ -218,13 +328,16 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         </RequestBeerModal>
       );
     }
-
+    // ==================================================== empty
     if (contentType === ContentType.Empty) {
       return <></>;
     }
+    // ==================================================== login
+
     if (contentType === ContentType.Login) {
       return <LoginContainerWithRouter />;
     }
+    // ==================================================== mypage reviews
     if (contentType === ContentType.MypageAllReviews) {
       return myReviews.length !== 0 ? (
         myReviews.map((ele: aReview) => (
@@ -255,32 +368,36 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
       );
     }
+    // ==================================================== change nickname
+
     if (contentType === ContentType.ChangeNickname) {
       return (
-        <>
-          <div>사용 중인 닉네임: {userData.nickname}</div>
-          <div>새로운 닉네임을 입력해주세요.</div>
-          <div>
-            <input
+        <ChangeNicknameWrap>
+          <NicknameGuide>새로운 닉네임을 입력해주세요.</NicknameGuide>
+          <InputWithCheck>
+            <Input
               type='text'
               name='nickname'
               onChange={handleNicknameOnChange}
-            ></input>
-            <button
+            ></Input>
+            <NNCheckBtn
               onClick={handleCheckNickname}
               style={
                 nicknameConfirm
-                  ? { background: btnColor, color: textColor }
+                  ? { background: confirmBtnColor, color: confirmTextColor }
                   : {}
               }
             >
               중복 확인
-            </button>
-          </div>
-          <button onClick={handleClickChangeNickname}>변경하기</button>
-        </>
+            </NNCheckBtn>
+          </InputWithCheck>
+          <NicknameSubmitBtn onClick={handleClickChangeNickname}>
+            변경하기
+          </NicknameSubmitBtn>
+        </ChangeNicknameWrap>
       );
     }
+    // ==================================================== add review
     if (contentType === ContentType.UsersReview) {
       return (
         <ReviewWrap className='reviewWrap'>
@@ -293,12 +410,13 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             placeholder='리뷰를 작성해주세요.'
             wrap='hard'
           ></ReviewTextArea>
-          <ReviewSubmitBtn>
+          <ReviewSubmitBtn onClick={handleClickSubmitReview}>
             {user_review ? `수정하기` : `등록하기`}
           </ReviewSubmitBtn>
         </ReviewWrap>
       );
     }
+    // ==================================================== all reviews
     if (contentType === ContentType.AllReviews) {
       return allReviews.length !== 0 ? (
         allReviews.map((ele: aReview) => (
@@ -333,30 +451,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     return <div></div>;
   };
 
-  const handleModalClose = (
-    contentType: ContentType,
-    display: boolean,
-  ): void => {
-    dispatch({ type: 'SET_MODAL', contentType, display });
-  };
-  const closeModal = (): void => {
-    handleModalClose(ContentType.Empty, false);
-  };
-
-  const pressEsc = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'ESC') closeModal();
-  }; // 추후 추가 작업
-
   return (
     <Modal
       display={display}
+      closeModal={closeModal}
+      pressEsc={pressEsc}
+      user_review={user_review}
       contentType={contentType}
       content={content(contentType)}
-      user_review={user_review}
-      closeModal={closeModal}
-      btnColor={btnColor}
-      textColor={textColor}
-      pressEsc={pressEsc}
     />
   );
 };
@@ -627,6 +729,74 @@ const RequestSubmitBtn = styled.button`
   &:hover {
     background-color: ${mainGrey};
     color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+// ============================ Change Nickname
+const ChangeNicknameWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  height: 9em;
+`;
+
+const NicknameGuide = styled.div`
+  margin: 0 0 0.6em 0;
+  padding: 0 0 0 0.8em;
+`;
+const NNCheckBtn = styled.button`
+  cursor: pointer;
+  border: 0px;
+  border-radius: 8px;
+
+  margin: 0 0 0.6em 0;
+  padding: 0.55em 0.6em 0.45em 0.6em;
+
+  font-size: 0.85em;
+  // font-weight: 300;
+  background-color: ${mainYellow};
+  color: #fff;
+
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const NicknameSubmitBtn = styled.button`
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 8em;
+
+  border: 2px solid ${mainYellowOpac};
+  border-radius: 8px;
+
+  margin: 0.7em 0 0.3em 0;
+  padding: 0.5em 0.6em 0.4em 0.6em;
+
+  font-size: 1em;
+  font-weight: 500;
+  // background-color: ${mainYellow};
+  // color: #fff;
+  background-color: #fff;
+  color: ${mainGrey};
+
+  &:hover {
+    border: 2px solid rgba(0, 0, 0, 0);
+    font-weight: 400;
+    background-color: ${mainGrey};
+    color: #fff;
   }
   &:focus {
     outline: none;

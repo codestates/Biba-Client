@@ -8,11 +8,11 @@ import { mainGrey, mainGreyOpac, mainYellow } from '../../components/nav/color';
 
 export const Modal = ({
   display,
-  contentType,
-  content,
-  user_review,
   closeModal,
   pressEsc,
+  user_review,
+  contentType,
+  content,
 }: ModalProps): JSX.Element => {
   const title = (): string => {
     if (contentType === ContentType.MypageAllReviews) {
@@ -31,6 +31,7 @@ export const Modal = ({
       return '';
     }
   };
+
   return (
     <>
       <Container
@@ -40,7 +41,8 @@ export const Modal = ({
         <ModalMask className='modalMask' onClick={closeModal}></ModalMask>
         {contentType === ContentType.UsersReview ||
         contentType === ContentType.Login ||
-        contentType === ContentType.RequestBeer ? (
+        contentType === ContentType.RequestBeer ||
+        contentType === ContentType.ChangeNickname ? (
           <SmallContentArea className='contentArea'>
             <TitleWrap className='modalTitleWrap'>
               <Title>{title()}</Title>
@@ -75,6 +77,7 @@ const Container = styled.div`
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
+  color: ${mainGrey};
 `;
 
 const ModalMask = styled.div`

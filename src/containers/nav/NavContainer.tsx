@@ -26,6 +26,8 @@ export interface NavProps {
   handleClickMypage(): void;
   testLoginModal(): void;
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  searchbarDisplay: boolean;
+  handleClickIcon(display: boolean): void;
   handleSearch(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
   testBeerRequestModal(): void;
@@ -37,6 +39,9 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   );
   const { profile } = useSelector((state: RootState) => state.profile);
   const { display } = useSelector((state: RootState) => state.navDisplay);
+  const searchbarDisplay = useSelector(
+    (state: RootState) => state.searchbar.display,
+  );
 
   const dispatch = useDispatch();
   const setLogout = () => {
@@ -99,12 +104,13 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     setInputQuery(value);
   };
 
+  const handleClickIcon = (display: boolean): void => {
+    dispatch({ type: 'SET_SEARCHBAR', display });
+  };
+
   const handleSearch = (): void => {
     axios
-      .post<Beers>('http://localhost:4000/users/login', {
-        // 임시 주소
-        query: inputQuery,
-      })
+      .get<Beers>(`https://beer4.xyz/search/${inputQuery}`)
       .then((res) => {
         // console.log(res);
         if (res.status === 200) {
@@ -142,6 +148,8 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       handleClickMypage={handleClickMypage}
       testLoginModal={testLoginModal}
       handleOnChange={handleOnChange}
+      searchbarDisplay={searchbarDisplay}
+      handleClickIcon={handleClickIcon}
       handleSearch={handleSearch}
       pressEnter={pressEnter}
       testBeerRequestModal={testBeerRequestModal}
