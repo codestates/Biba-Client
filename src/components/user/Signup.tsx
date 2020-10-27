@@ -39,7 +39,9 @@ export const Signup = ({
               checked={ageConfirm}
             ></CheckAge>
             <CheckAgeLabel htmlFor='checkAge'></CheckAgeLabel>
-            <CheckAgeText>20세 이상입니다.</CheckAgeText>
+            <CheckAgeText onClick={handleCheckAge}>
+              20세 이상입니다.
+            </CheckAgeText>
           </CheckAgeArea>
           <SignupBtn className='signupBtn' onClick={handleClickSignup}>
             Biba! 회원가입
@@ -116,7 +118,7 @@ export const Input = styled.input`
 
   font-size: 0.95em;
   line-height: 1.5;
-  background-color: ${lightGrey1};
+  background-color: ${lightGrey2};
   &:focus {
     outline: none;
   }
