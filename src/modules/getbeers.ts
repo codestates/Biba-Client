@@ -7,14 +7,15 @@ export const BEER_REVIEW = 'my/BEER_REVIEW';
 
 // interface & type & default state
 export type BeerT = {
-  id: number;
+  id: string;
   beer_name: string;
   beer_img: string;
   rate: number;
 };
 
 export interface BeerProps {
-  key: number;
+  id: string;
+  key: string;
   name: string;
   image: string;
   rate: number;
@@ -27,37 +28,27 @@ export interface BeerToday {
 
 export interface BeerHot {
   type: typeof BEER_HOT;
-  payload: {
-    hotBeers: Array<BeerT>;
-  };
+  beers: Array<BeerT>;
 }
 
 export interface BeerLate {
   type: typeof BEER_LATE;
-  payload: {
-    lateBeers: Array<BeerT>;
-  };
+  beers: Array<BeerT>;
 }
 
 export interface BeerPick {
   type: typeof BEER_PICK;
-  payload: {
-    pickBeers: Array<BeerT>;
-  };
+  beers: Array<BeerT>;
 }
 
 export interface BeerFavorite {
   type: typeof BEER_FAVORITE;
-  payload: {
-    beers: Array<BeerT>;
-  };
+  beers: Array<BeerT>;
 }
 
 export interface BeerReview {
   type: typeof BEER_REVIEW;
-  payload: {
-    beers: Array<BeerT>;
-  };
+  beers: Array<BeerT>;
 }
 
 export type BeerDispatchTypes =
@@ -99,44 +90,34 @@ export const todayBeerAction = (beers: BeerT[]): BeerToday => {
 export const hotBeerAction = (beers: BeerT[]): BeerHot => {
   return {
     type: BEER_HOT,
-    payload: {
-      hotBeers: beers,
-    },
+    beers,
   };
 };
 export const lateBeerAction = (beers: BeerT[]): BeerLate => {
   return {
     type: BEER_LATE,
-    payload: {
-      lateBeers: beers,
-    },
+    beers,
   };
 };
 
 export const pickBeerAction = (beers: BeerT[]): BeerPick => {
   return {
     type: BEER_PICK,
-    payload: {
-      pickBeers: beers,
-    },
+    beers,
   };
 };
 
 export const favoriteBeerAction = (beers: BeerT[]): BeerFavorite => {
   return {
     type: BEER_FAVORITE,
-    payload: {
-      beers: beers,
-    },
+    beers,
   };
 };
 
 export const reviewBeerAction = (beers: BeerT[]): BeerReview => {
   return {
     type: BEER_REVIEW,
-    payload: {
-      beers: beers,
-    },
+    beers,
   };
 };
 
@@ -164,17 +145,17 @@ export const wantBeerReducer = (
     case BEER_HOT:
       return {
         ...state,
-        hotBeers: action.payload.hotBeers,
+        hotBeers: action.beers,
       };
     case BEER_LATE:
       return {
         ...state,
-        lateBeers: action.payload.lateBeers,
+        lateBeers: action.beers,
       };
     case BEER_PICK:
       return {
         ...state,
-        pickBeers: action.payload.pickBeers,
+        pickBeers: action.beers,
       };
     default:
       return state;
@@ -189,7 +170,7 @@ export const favoriteBeerReducer = (
     case BEER_FAVORITE:
       return {
         ...state,
-        beers: action.payload.beers,
+        beers: action.beers,
       };
     default:
       return state;
@@ -204,7 +185,7 @@ export const reviewBeerReducer = (
     case BEER_REVIEW:
       return {
         ...state,
-        beers: action.payload.beers,
+        beers: action.beers,
       };
     default:
       return state;

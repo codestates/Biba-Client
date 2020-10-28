@@ -13,6 +13,7 @@ import {
   modalReducer,
   navDisplayReducer,
   beerRequestReducer,
+  searchBeerReducer,
 } from './nav';
 import {
   todayBeerReducer,
@@ -21,7 +22,6 @@ import {
   reviewBeerReducer,
 } from './getbeers';
 import { changePageReducer } from './changepage';
-import { searchBeerReducer } from './searchbeer';
 
 import {
   beerDetailReducer,

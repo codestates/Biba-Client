@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 export interface BeerProps {
-  key: number;
+  id: string;
+  key: string;
   name: string;
   image: string;
   rate: number;

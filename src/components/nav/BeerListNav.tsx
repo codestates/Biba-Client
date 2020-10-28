@@ -2,6 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BeerListNavProps } from '../../containers/nav/BeerListNavContainer';
+import {
+  mainGrey,
+  mainGreyOpac,
+  mainYellow,
+  lightGrey1,
+  lightGrey2,
+} from '../../components/nav/color';
 
 function BeerListNav({
   isLogin,
@@ -12,6 +19,7 @@ function BeerListNav({
   handleClickReview,
   display,
   redirectHome,
+  redirectLogin,
 }: BeerListNavProps): JSX.Element {
   return (
     <ListNav style={display ? {} : { display: 'none' }}>
@@ -32,32 +40,50 @@ function BeerListNav({
         >
           <TH>Want Some Beer?</TH>
         </ListBtn>
-        <ListBtn
-          onClick={() => {
-            redirectHome();
-            handleClickMyBeer();
-          }}
-        >
-          <TH>My Beers</TH>
-          <SubUl>
-            <SubLiBtn
-              onClick={() => {
-                redirectHome();
-                handleClickFavorite();
-              }}
-            >
-              <TH>Faviorite</TH>
-            </SubLiBtn>
-            <SubLiBtn
-              onClick={() => {
-                redirectHome();
-                handleClickReview();
-              }}
-            >
-              <TH>Review</TH>
-            </SubLiBtn>
-          </SubUl>
-        </ListBtn>
+        {isLogin ? (
+          <ListBtn
+            onClick={() => {
+              redirectHome();
+              handleClickMyBeer();
+            }}
+          >
+            <TH>My Beers</TH>
+            <SubUl>
+              <SubLiBtn
+                onClick={() => {
+                  redirectHome();
+                  handleClickFavorite();
+                }}
+              >
+                <TH>Faviorite</TH>
+              </SubLiBtn>
+              <SubLiBtn
+                onClick={() => {
+                  redirectHome();
+                  handleClickReview();
+                }}
+              >
+                <TH>Review</TH>
+              </SubLiBtn>
+            </SubUl>
+          </ListBtn>
+        ) : (
+          <ListBtn
+            onClick={() => {
+              redirectLogin();
+            }}
+          >
+            <TH>My Beers</TH>
+            <SubUl>
+              <SubLiBtn>
+                <TH>Faviorite</TH>
+              </SubLiBtn>
+              <SubLiBtn>
+                <TH>Review</TH>
+              </SubLiBtn>
+            </SubUl>
+          </ListBtn>
+        )}
       </UL>
     </ListNav>
   );
@@ -83,11 +109,11 @@ const ListBtn = styled.li`
 const TH = styled.div`
   display: inline-block;
   padding: 5px;
-  color: #52575d;
-  background-color: #f6f4e6;
+  color: ${mainGrey};
+  background-color: ${lightGrey2};
   border-radius: 10px;
   &:hover {
-    color: #fddb3a;
+    color: ${mainYellow};
     cursor: pointer;
   }
 `;

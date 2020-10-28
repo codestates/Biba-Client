@@ -15,21 +15,10 @@ function MyBeer(): JSX.Element {
   const isReview = useSelector((state: RootState) => state.myBeer.isReview);
 
   return (
-    <Container>
+    <>
       {isFavorite ? <FavoriteBeerListContainerWithRouter /> : false}
       {isReview ? <ReviewListContainerWithRouter /> : false}
-    </Container>
+    </>
   );
 }
-
-const Container = styled.div`
-  // position: absolute;
-  right: 0;
-  top: 0;
-  // width: 80%;
-  height: 100vh;
-  margin: 0 auto;
-  border: solid 2px gray;
-`;
-
 export default MyBeer;

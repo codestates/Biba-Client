@@ -7,7 +7,7 @@ import axios from 'axios';
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
 import { Nav } from '../../components/nav/Nav';
-import { Beers, Beer } from '../../modules/nav';
+import { BeerT } from '../../modules/getbeers';
 
 export interface NavProps {
   userData: {
@@ -93,7 +93,7 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     handleModal(ContentType.Login, true);
   };
 
-  const setBeers = (beers: Beer[]): void => {
+  const setBeers = (beers: BeerT[]): void => {
     dispatch({ type: 'SET_BEERS', beers });
   };
 
@@ -110,11 +110,11 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
 
   const handleSearch = (): void => {
     axios
-      .get<Beers>(`https://beer4.xyz/search/${inputQuery}`)
+      .get<Array<BeerT>>(`https://beer4.xyz/search/${inputQuery}`)
       .then((res) => {
-        // console.log(res);
         if (res.status === 200) {
-          const beers = res.data.beers;
+          const beers = res.data;
+          // console.log(beers);
           // 받은 데이터로 store 상태 업데이트
           setBeers(beers);
           dispatch({ type: 'SEARCH_BEER' });

@@ -7,6 +7,7 @@ import { BeerI } from '../../modules/getbeers';
 function ReviewList({ beers }: BeerI): JSX.Element {
   const reviewBeerList = beers.map((beer) => (
     <Review
+      id={beer.id}
       key={beer.id}
       name={beer.beer_name}
       image={beer.beer_img}
@@ -31,8 +32,12 @@ const Container = styled.div`
 const ListContainer = styled.div``;
 
 const Title = styled.h3`
-  color: gold;
-  border-bottom: 1px solid gray;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  background-color: #f2a405;
+  opacity: 0.9;
+  color: white;
 `;
 
 // const Categories = styled.ul`

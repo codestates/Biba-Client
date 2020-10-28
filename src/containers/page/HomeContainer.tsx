@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import Home from '../../components/page/Home';
 import { RootState } from '../../modules';
+import { BeerT } from '../../modules/getbeers';
 import { ContentType } from '../../modules/nav';
 import {
   IBeerDetail,
@@ -26,6 +27,17 @@ export interface DetailProps {
   setAllReviews(e: React.MouseEvent<HTMLElement>): void;
 }
 
+export interface BeerListProps extends DetailProps {
+  beers: BeerT[];
+}
+export interface BeerProps extends DetailProps {
+  id: string;
+  key: string;
+  name: string;
+  image: string;
+  rate: number;
+}
+
 export type DefaultProps = RouteComponentProps<MatchParams>;
 export interface HomeProps extends DefaultProps, DetailProps {}
 
@@ -42,13 +54,20 @@ function HomeContainer({
   const { disBasic, disStory, disMore } = useSelector(
     (state: RootState) => state.infoDisplay,
   );
+  const { userData } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
   // store에 각각 beerdetail 넣는 함수
   const setBeerDetail = (e: React.MouseEvent<HTMLElement>): void => {
     console.log(e.currentTarget); // 클릭 시 타겟 정보 -> 나중에 여기서 id 받아와야 함
 
     axios
-      .get<IBeerDetailWithAll>(`https://beer4.xyz/beer/${e.currentTarget.id}`) // 여기에 id 붙여서 get 요청
+      .post<IBeerDetailWithAll>(
+        `https://beer4.xyz/beer/${e.currentTarget.id}`,
+        {
+          user_id: userData.id,
+          beer_id: e.currentTarget.id,
+        },
+      ) // 여기에 id 붙여서 get 요청
       // .get<IBeerDetailWithAll>(`http://localhost:4000/custom/scrap/4`) // 임시 버튼
       .then((res) => {
         console.log(res.data);
