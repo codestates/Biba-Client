@@ -126,7 +126,6 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
 
   const handleClickChangePassword = (): void => {
     const { currentPassword, newPassword, passwordForCheck } = inputValues;
-    console.log('change password test');
     if (
       passwordCheck(newPassword) &&
       passwordMatch(newPassword, passwordForCheck)
@@ -139,7 +138,14 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
         })
         .then((res) => {
           console.log(res.data);
-        }); ////// 추가 체크 필요
+          // 200일 경우 vs 200 아닐 경우 분기
+        });
+    } else if (!passwordCheck(newPassword)) {
+      return alert(
+        `비밀번호를 확인해주세요.\n8자 이상의 영문, 숫자 또는 특수문자 조합이어야 합니다.`,
+      );
+    } else if (!passwordMatch(newPassword, passwordForCheck)) {
+      return alert(`동일한 비밀번호를 입력해주세요.`);
     }
   };
 

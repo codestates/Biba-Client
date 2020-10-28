@@ -142,12 +142,20 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         })
         .then((res) => {
           if (res.status === 200) {
+            dispatch({
+              type: 'SET_LOGINSTATE',
+              userData: { ...userData, nickname: nickname },
+              isLogin,
+              token,
+            });
             alert(`닉네임이 정상적으로 변경되었습니다.`);
             handleConfirmNickname(false);
+            return closeModal();
           }
         })
         .catch(() => {
           alert(`닉네임 변경에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+          return closeModal();
         });
     }
   };
@@ -165,53 +173,62 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       if (!user_review) {
         // 새로 생성
         console.log('review 작성 테스트');
-
-        // axios
-        //   .post(`https://beer4.xyz/comment/create`, {
-        //     token: token,
-        //     beer_id: beerDetailInit.beerDetail.id,
-        //     comment: inputValues.review,
-        //     rate: user_rate,
-        //   })
-        //   .then((res) => {
-        //     if (res.status === 200) {
-        //       alert(`리뷰가 등록되었습니다.`);
-        dispatch({
-          type: 'SET_USERREVIEW',
-          user_review: true,
-          user_star,
-          user_input: inputValues.review,
-          user_rate,
+        console.log({
+          token: token,
+          beer_id: beerDetailInit.beerDetail.id,
+          comment: inputValues.review,
+          rate: user_rate,
         });
-        //     }
-        //   })
-        //   .catch(() => {
-        //     alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-        //   });
+        axios
+          .post(`https://beer4.xyz/comment/create`, {
+            token: token,
+            beer_id: beerDetailInit.beerDetail.id,
+            comment: inputValues.review,
+            rate: user_rate,
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.status === 201) {
+              dispatch({
+                type: 'SET_USERREVIEW',
+                user_review: true,
+                user_star,
+                user_input: inputValues.review,
+                user_rate,
+              });
+              alert(`리뷰가 등록되었습니다.`);
+              return closeModal();
+            }
+          })
+          .catch(() => {
+            alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+          });
       } else {
         console.log('review 수정 테스트');
-        // axios
-        //   .post(`https://beer4.xyz/comment/update`, {
-        //     token: token,
-        //     beer_id: beerDetailInit.beerDetail.id,
-        //     comment: inputValues.review,
-        //     rate: user_rate,
-        //   })
-        //   .then((res) => {
-        //     if (res.status === 201) {
-        //       alert(`리뷰가 수정되었습니다.`);
-        dispatch({
-          type: 'SET_USERREVIEW',
-          user_review: true,
-          user_star,
-          user_input: inputValues.review,
-          user_rate,
-        });
-        //     }
-        //   })
-        //   .catch(() => {
-        //     alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-        //   });
+        axios
+          .post(`https://beer4.xyz/comment/update`, {
+            token: token,
+            beer_id: beerDetailInit.beerDetail.id,
+            comment: inputValues.review,
+            rate: user_rate,
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.status === 201) {
+              dispatch({
+                type: 'SET_USERREVIEW',
+                user_review: true,
+                user_star,
+                user_input: inputValues.review,
+                user_rate,
+              });
+              alert(`리뷰가 수정되었습니다.`);
+              return closeModal();
+            }
+          })
+          .catch(() => {
+            alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+          });
       }
     }
   };
@@ -227,32 +244,41 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     handleRequestType(false, true);
   };
   const handleClickSubmitRequest = (): void => {
-    // axios
-    //   .post
+    console.log(inputValues, request1, request2);
     if (inputValues.beerName !== '' && inputValues.beerRequest !== '') {
       if (request1) {
         axios
           .post(`https://beer4.xyz/report/recommend`, {
             token: token,
-            comment: inputValues.beerName + '/' + inputValues.beerRequest,
+            comment: inputValues.beerRequest,
+            beer_name: inputValues.beerName,
           })
           .then((res) => {
-            if (res.status === 200) {
-              return alert(`맥주 추천이 완료되었습니다. Biba!`);
+            if (res.status === 201) {
+              alert(`맥주 추천이 완료되었습니다. Biba!`);
+              return closeModal();
+            } else {
+              alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+              return closeModal();
             }
           })
           .catch(() => {
-            return alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+            alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+            return closeModal();
           });
       } else if (request2) {
         axios
           .post(`https://beer4.xyz/report/request`, {
             token: token,
-            comment: inputValues.beerName + '/' + inputValues.beerRequest,
+            comment: inputValues.beerRequest,
+            beer_name: inputValues.beerName,
           })
           .then((res) => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               return alert(`맥주 요청이 완료되었습니다. Biba!`);
+            } else {
+              alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+              return closeModal();
             }
           })
           .catch(() => {

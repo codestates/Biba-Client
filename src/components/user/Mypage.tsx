@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { MypageProps } from '../../containers/user/MypageContainer';
+import {
+  MypageProps,
+  SubmitBtnArea,
+  SubmitBtn,
+} from '../../containers/user/MypageContainer';
+
 import { ContentType } from '../../modules/nav';
 import {
   mainYellow,
@@ -71,16 +76,18 @@ export const Mypage = ({
           </Detail1>
           {mapInputList()}
           <Detail key='pfDetail5'>
-            <Subtitle className='userNickname'>닉네임</Subtitle>
-            <Content>
-              {userData.nickname}
-              <ChangeNNBtn
-                className='nicknameChangeBtn'
-                onClick={handleClickChangeNickname}
-              >
-                닉네임 변경하기
-              </ChangeNNBtn>
-            </Content>
+            <Subtitle5 className='userNickname'>닉네임</Subtitle5>
+            {userData.nickname}
+            <NNSubmitBtnArea>
+              <SubmitBtn>
+                <ChangeBtn
+                  className='nicknameChangeBtn'
+                  onClick={handleClickChangeNickname}
+                >
+                  닉네임 변경하기
+                </ChangeBtn>
+              </SubmitBtn>
+            </NNSubmitBtnArea>
           </Detail>
 
           <Detail6 key='pfDetail6'>
@@ -96,6 +103,25 @@ export const Mypage = ({
     </Container>
   );
 };
+
+/*
+<Detail key='pfDetail5'>
+  <Subtitle5 className='userNickname'>닉네임</Subtitle5>
+  <Content5>
+  {userData.nickname}
+  <NNSubmitBtnArea>
+    <SubmitBtn>
+      <ChangeBtn
+        className='nicknameChangeBtn'
+        onClick={handleClickChangeNickname}
+      >
+        닉네임 변경하기
+      </ChangeBtn>
+    </SubmitBtn>
+  </NNSubmitBtnArea>
+  </Content5>
+</Detail>
+*/
 
 const Container = styled.div`
   display: flex;
@@ -248,6 +274,9 @@ export const Subtitle = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
+const Subtitle5 = styled(Subtitle)`
+  align-items: flex-start;
+`; // added
 export const Input = styled.input`
   display: flex;
 
@@ -270,6 +299,11 @@ export const Content = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
+const NNSubmitBtnArea = styled.div`
+  display: grid;
+  grid-template-columns: 10em 14em;
+  margin: 0.4em 0 0.5em 0;
+`; // added
 export const ChangeBtn = styled.button`
   cursor: pointer;
   display: flex;
@@ -297,9 +331,9 @@ export const ChangeBtn = styled.button`
     outline: none;
   }
 `;
-const ChangeNNBtn = styled(ChangeBtn)`
-  margin: 0 0 0 0.6em;
-`;
+// const ChangeNNBtn = styled(ChangeBtn)`
+//   margin: 0 0 0 0.6em;
+// `;
 const Detail6 = styled(Detail)`
   margin: 0.3em 0 1em 0;
 `;
