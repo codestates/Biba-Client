@@ -14,26 +14,13 @@ function SearchBeerListContainer({
   const beers = useSelector((state: RootState) => state.searchBeer.beers);
 
   return (
-    <Container>
-      <SearchBeerList
-        beers={beers}
-        setBeerDetail={setBeerDetail}
-        setAllReviews={setAllReviews}
-      />
-      ;
-    </Container>
+    <SearchBeerList
+      beers={beers}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
   );
 }
-
-const Container = styled.div`
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 80%;
-  height: 100vh;
-  margin: 0 auto;
-  border: solid 1px gray;
-`;
 
 export const SearchBeerListContainerWithRouter = withRouter(
   SearchBeerListContainer,

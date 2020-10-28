@@ -17,6 +17,7 @@ export interface BeerListNavProps {
   handleClickReview(): void;
   display: boolean;
   redirectHome(): void;
+  redirectLogin(): void;
 }
 
 export const BeerListNavContainer = ({
@@ -45,6 +46,7 @@ export const BeerListNavContainer = ({
   };
 
   const redirectHome = () => history.push('/');
+  const redirectLogin = () => history.push('/login');
   return (
     <BeerListNav
       isLogin={isLogin}
@@ -55,6 +57,7 @@ export const BeerListNavContainer = ({
       handleClickReview={handleClickReview}
       display={display}
       redirectHome={redirectHome}
+      redirectLogin={redirectLogin}
     />
   );
 };

@@ -101,14 +101,11 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
 
   const handleSearch = (): void => {
     axios
-      .post<Beers>('http://localhost:4000/users/login', {
-        // 임시 주소
-        query: inputQuery,
-      })
+      .get<Array<Beer>>(`https://beer4.xyz/search/${inputQuery}`)
       .then((res) => {
-        // console.log(res);
         if (res.status === 200) {
-          const beers = res.data.beers;
+          const beers = res.data;
+          // console.log(beers);
           // 받은 데이터로 store 상태 업데이트
           setBeers(beers);
           dispatch({ type: 'SEARCH_BEER' });

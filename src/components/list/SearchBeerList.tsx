@@ -1,5 +1,7 @@
 import React from 'react';
+import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
+import './TodayCss.css';
 
 import { BeerI } from '../../modules/getbeers';
 import { DetailProps } from '../../containers/page/HomeContainer';
@@ -14,8 +16,9 @@ function SearchBeerList({
   setBeerDetail,
   setAllReviews,
 }: SearchBeerProps): JSX.Element {
+  let sbList;
   if (beers.length !== 0) {
-    const searchBeerList = beers.map((beer) => (
+    sbList = beers.map((beer) => (
       <SearchBeer
         key={beer.id}
         name={beer.beer_name}
@@ -23,17 +26,27 @@ function SearchBeerList({
         rate={beer.rate}
       />
     ));
+  } else {
+    sbList = <RequsetBeer />;
   }
-  const searchBeerList = <RequsetBeer />;
-  return <BeerList>{searchBeerList}</BeerList>;
+
+  const breakpointColumnsObj = {
+    default: 5,
+    1200: 4,
+    1100: 3,
+    800: 2,
+    500: 1,
+  };
+
+  return (
+    <Masonry
+      breakpointCols={breakpointColumnsObj}
+      className='my-masonry-grid'
+      columnClassName='my-masonry-grid_column'
+    >
+      {sbList}
+    </Masonry>
+  );
 }
 
-const BeerList = styled.div`
-  height: 100%;
-  width: 100%;
-  overflow-y: scroll;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  justify-content: center;
-`;
 export default SearchBeerList;

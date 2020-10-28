@@ -160,6 +160,8 @@ export const searchBeerReducer = (
         ...state,
         beers: action.beers,
       };
+    default:
+      return state;
   }
 };
 

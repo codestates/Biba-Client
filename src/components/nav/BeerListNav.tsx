@@ -12,6 +12,7 @@ function BeerListNav({
   handleClickReview,
   display,
   redirectHome,
+  redirectLogin,
 }: BeerListNavProps): JSX.Element {
   return (
     <ListNav style={display ? {} : { display: 'none' }}>
@@ -32,32 +33,50 @@ function BeerListNav({
         >
           <TH>Want Some Beer?</TH>
         </ListBtn>
-        <ListBtn
-          onClick={() => {
-            redirectHome();
-            handleClickMyBeer();
-          }}
-        >
-          <TH>My Beers</TH>
-          <SubUl>
-            <SubLiBtn
-              onClick={() => {
-                redirectHome();
-                handleClickFavorite();
-              }}
-            >
-              <TH>Faviorite</TH>
-            </SubLiBtn>
-            <SubLiBtn
-              onClick={() => {
-                redirectHome();
-                handleClickReview();
-              }}
-            >
-              <TH>Review</TH>
-            </SubLiBtn>
-          </SubUl>
-        </ListBtn>
+        {isLogin ? (
+          <ListBtn
+            onClick={() => {
+              redirectHome();
+              handleClickMyBeer();
+            }}
+          >
+            <TH>My Beers</TH>
+            <SubUl>
+              <SubLiBtn
+                onClick={() => {
+                  redirectHome();
+                  handleClickFavorite();
+                }}
+              >
+                <TH>Faviorite</TH>
+              </SubLiBtn>
+              <SubLiBtn
+                onClick={() => {
+                  redirectHome();
+                  handleClickReview();
+                }}
+              >
+                <TH>Review</TH>
+              </SubLiBtn>
+            </SubUl>
+          </ListBtn>
+        ) : (
+          <ListBtn
+            onClick={() => {
+              redirectLogin();
+            }}
+          >
+            <TH>My Beers</TH>
+            <SubUl>
+              <SubLiBtn>
+                <TH>Faviorite</TH>
+              </SubLiBtn>
+              <SubLiBtn>
+                <TH>Review</TH>
+              </SubLiBtn>
+            </SubUl>
+          </ListBtn>
+        )}
       </UL>
     </ListNav>
   );
