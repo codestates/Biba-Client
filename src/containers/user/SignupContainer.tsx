@@ -13,6 +13,7 @@ export interface SignupProps {
   mapInputList(): JSX.Element[];
   handleClickSignup(): void;
   handleCheckAge(): void;
+  handleClickGoogleSignup(): void;
   ageConfirm: boolean;
 }
 
@@ -175,6 +176,12 @@ const SignupContainer = ({
     }
   };
 
+  const handleClickGoogleSignup = (): void => {
+    axios
+      .get('http://localhost:4000/auth/google')
+      .then((res) => console.log(res));
+  };
+
   const inputList: string[][] = [
     ['email', '이메일을 입력해주세요.'],
     ['nickname', '닉네임을 입력해주세요.'],
@@ -228,6 +235,7 @@ const SignupContainer = ({
       mapInputList={mapInputList}
       handleClickSignup={handleClickSignup}
       handleCheckAge={handleCheckAge}
+      handleClickGoogleSignup={handleClickGoogleSignup}
       ageConfirm={ageConfirm}
     />
   );
