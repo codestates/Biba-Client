@@ -15,7 +15,9 @@ function SearchBeerList({
   setAllReviews,
 }: BeerListProps): JSX.Element {
   let sbList;
+  let exist = false;
   if (beers.length !== 0) {
+    exist = true;
     sbList = beers.map((beer) => (
       <SearchBeer
         id={beer.id}
@@ -38,16 +40,27 @@ function SearchBeerList({
     800: 2,
     500: 1,
   };
-
+  console.log(sbList);
   return (
-    <Masonry
-      breakpointCols={breakpointColumnsObj}
-      className='my-masonry-grid'
-      columnClassName='my-masonry-grid_column'
-    >
-      {sbList}
-    </Masonry>
+    <>
+      {exist ? (
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className='my-masonry-grid'
+          columnClassName='my-masonry-grid_column'
+        >
+          {sbList}
+        </Masonry>
+      ) : (
+        <Container>{sbList}</Container>
+      )}
+    </>
   );
 }
 
+const Container = styled.div`
+  display: grid;
+  place-items: center;
+  height: 500px;
+`;
 export default SearchBeerList;

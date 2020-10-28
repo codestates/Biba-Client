@@ -18,6 +18,7 @@ export const Signup = ({
   mapInputList,
   handleClickSignup,
   handleCheckAge,
+  handleClickGoogleSignup,
   ageConfirm,
 }: SignupProps): JSX.Element => {
   return (
@@ -48,7 +49,10 @@ export const Signup = ({
           </SignupBtn>
         </InputArea>
         <BtnArea className='btnArea'>
-          <SocialBtn className='googleSignupBtn'>
+          <SocialBtn
+            className='googleSignupBtn'
+            onClick={handleClickGoogleSignup}
+          >
             구글 아이디로 회원가입
           </SocialBtn>
           <SocialBtn className='kakaoSignupBtn'>
