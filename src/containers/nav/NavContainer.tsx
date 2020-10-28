@@ -30,7 +30,6 @@ export interface NavProps {
   handleClickIcon(display: boolean): void;
   handleSearch(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
-  testBeerRequestModal(): void;
 }
 
 export const NavContainer = (props: RouterProps): JSX.Element => {
@@ -130,11 +129,6 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       });
   };
 
-  const testBeerRequestModal = (): void => {
-    // 임시로 nav에 배치 - list page에서 일정 수준 이상 스크롤 시 등장, 로그인이 아닌 상태일 때만 나타나야 함
-    handleModal(ContentType.RequestBeer, true);
-  };
-
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleSearch();
   };
@@ -157,7 +151,6 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       handleClickIcon={handleClickIcon}
       handleSearch={handleSearch}
       pressEnter={pressEnter}
-      testBeerRequestModal={testBeerRequestModal}
     />
   );
 };

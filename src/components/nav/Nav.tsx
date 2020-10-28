@@ -29,7 +29,6 @@ export const Nav = ({
   handleClickIcon,
   handleSearch,
   pressEnter,
-  testBeerRequestModal,
 }: NavProps): JSX.Element => {
   return (
     <Container>
@@ -41,7 +40,6 @@ export const Nav = ({
         />
         <TestBtns>
           <button onClick={testLoginModal}>login modal</button>
-          <button onClick={testBeerRequestModal}>request beer</button>
         </TestBtns>
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
