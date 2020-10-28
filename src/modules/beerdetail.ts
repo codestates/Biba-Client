@@ -1,19 +1,12 @@
 const SET_BEERDETAIL = 'SET_BEERDETAIL' as const;
-const SET_ALLREVIEWS = 'SET_ALLREVIEWS' as const;
 const SET_BOOKMARK = 'SET_BOOKMARK' as const;
+const SET_GRAPHDATA = 'SET_GRAPHDATA' as const;
 const SET_USERREVIEW = 'SET_USERREVIEW' as const;
+const SET_ALLREVIEWS = 'SET_ALLREVIEWS' as const;
+const SET_INFODISPLAY = 'SET_INFODISPLAY' as const;
 const SET_INFOSTATUS = 'SET_INFOSTATUS' as const;
 const SET_STARSTATUS = 'SET_STARSTATUS' as const;
 
-export interface Bookmark {
-  bookmark: boolean;
-}
-export interface UserReview {
-  user_review: boolean;
-  user_star: boolean;
-  user_input: string;
-  user_rate: number;
-}
 export interface IBeerDetail {
   id: number;
   beer_name: string;
@@ -23,12 +16,31 @@ export interface IBeerDetail {
   company: string;
   country: string;
   style_name: string;
+  story: string;
+  explain: string;
+  source: string;
   rate: number;
+  tags: string[];
 }
 export interface ObjBeerDetail {
   beerDetail: IBeerDetail;
 }
-
+export interface Bookmark {
+  bookmark: boolean;
+}
+export interface GraphData {
+  sparkling: number;
+  sweet: number;
+  bitter: number;
+  accessibility: number;
+  body: number;
+}
+export interface UserReview {
+  user_review: boolean;
+  user_star: boolean;
+  user_input: string;
+  user_rate: number;
+}
 export interface aReview {
   id: number;
   comment: string;
@@ -44,11 +56,16 @@ export interface AllReviewList {
   allReviews: aReview[];
 }
 
-export interface InfoStatus {
-  story: boolean;
-  more: boolean;
+export interface InfoDisplay {
+  disBasic: boolean;
+  disStory: boolean;
+  disMore: boolean;
 }
-
+export interface InfoStatus {
+  tabBasic: boolean;
+  tabStory: boolean;
+  tabMore: boolean;
+}
 export interface StarStatus {
   a: boolean;
   b: boolean;
@@ -63,7 +80,7 @@ interface BeerDetailAction extends ObjBeerDetail {
 }
 export const beerDetailInit: ObjBeerDetail = {
   beerDetail: {
-    id: -1,
+    id: 4,
     beer_name: '',
     beer_img: 'default img',
     abv: -1,
@@ -71,7 +88,11 @@ export const beerDetailInit: ObjBeerDetail = {
     company: '',
     country: '',
     style_name: '',
+    story: '',
+    explain: '',
+    source: '',
     rate: -1,
+    tags: [],
   },
 };
 export const setBeerDetail = (beerDetail: IBeerDetail): BeerDetailAction => ({
@@ -88,6 +109,31 @@ const bookmarkInit: Bookmark = {
 export const setBookmark = (bookmark: boolean): BookmarkAction => ({
   type: SET_BOOKMARK,
   bookmark,
+});
+
+export interface GraphDataAction extends GraphData {
+  type: typeof SET_GRAPHDATA;
+}
+const graphDataInit: GraphData = {
+  sparkling: 0,
+  sweet: 0,
+  bitter: 0,
+  accessibility: 0,
+  body: 0,
+};
+export const setGraphData = (
+  sparkling: number,
+  sweet: number,
+  bitter: number,
+  accessibility: number,
+  body: number,
+): GraphDataAction => ({
+  type: SET_GRAPHDATA,
+  sparkling,
+  sweet,
+  bitter,
+  accessibility,
+  body,
 });
 
 export interface UserReviewAction extends UserReview {
@@ -123,20 +169,42 @@ export const setMyReviews = (allReviews: aReview[]): AllReviewListAction => ({
   allReviews,
 });
 
+export interface InfoDisplayAction extends InfoDisplay {
+  type: typeof SET_INFODISPLAY;
+}
+const infoDisplayInit: InfoDisplay = {
+  disBasic: true,
+  disStory: true,
+  disMore: true,
+};
+export const setInfoDisplay = (
+  disBasic: boolean,
+  disStory: boolean,
+  disMore: boolean,
+): InfoDisplayAction => ({
+  type: SET_INFODISPLAY,
+  disBasic,
+  disStory,
+  disMore,
+});
+
 export interface InfoStatusAction extends InfoStatus {
   type: typeof SET_INFOSTATUS;
 }
 const infoStatusInit: InfoStatus = {
-  story: true,
-  more: false,
+  tabBasic: true,
+  tabStory: false,
+  tabMore: false,
 };
 export const setInfoStatus = (
-  story: boolean,
-  more: boolean,
+  tabBasic: boolean,
+  tabStory: boolean,
+  tabMore: boolean,
 ): InfoStatusAction => ({
   type: SET_INFOSTATUS,
-  story,
-  more,
+  tabBasic,
+  tabStory,
+  tabMore,
 });
 
 interface StarStatusAction extends StarStatus {
@@ -196,6 +264,25 @@ export const bookmarkReducer = (
       return state;
   }
 };
+export const graphDataReducer = (
+  state = graphDataInit,
+  action: GraphDataAction,
+): GraphData => {
+  switch (action.type) {
+    case SET_GRAPHDATA:
+      return {
+        ...state,
+        sparkling: action.sparkling,
+        sweet: action.sweet,
+        bitter: action.bitter,
+        accessibility: action.accessibility,
+        body: action.body,
+      };
+
+    default:
+      return state;
+  }
+};
 
 export const userReviewReducer = (
   state = userReviewInit,
@@ -231,6 +318,24 @@ export const allReviewsReducer = (
   }
 };
 
+export const infoDisplayReducer = (
+  state = infoDisplayInit,
+  action: InfoDisplayAction,
+): InfoDisplay => {
+  switch (action.type) {
+    case SET_INFODISPLAY:
+      return {
+        ...state,
+        disBasic: action.disBasic,
+        disStory: action.disStory,
+        disMore: action.disMore,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const infoStatusReducer = (
   state = infoStatusInit,
   action: InfoStatusAction,
@@ -239,8 +344,9 @@ export const infoStatusReducer = (
     case SET_INFOSTATUS:
       return {
         ...state,
-        story: action.story,
-        more: action.more,
+        tabBasic: action.tabBasic,
+        tabStory: action.tabStory,
+        tabMore: action.tabMore,
       };
 
     default:

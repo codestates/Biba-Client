@@ -5,20 +5,17 @@ import './TodayCss.css';
 
 import TodayBeer from './TodayBeer';
 import { BeerT } from '../../modules/getbeers';
-import { DetailProps } from '../../containers/page/HomeContainer';
-
-interface Props extends DetailProps {
-  beers: BeerT[];
-}
+import { BeerListProps } from '../../containers/page/HomeContainer';
 
 function TodayBeerList({
   beers,
   setBeerDetail,
   setAllReviews,
-}: Props): JSX.Element {
+}: BeerListProps): JSX.Element {
   if (beers.length !== 0) {
     const todayBeerList = beers.map((beer) => (
       <TodayBeer
+        id={beer.id}
         key={beer.id}
         name={beer.beer_name}
         image={beer.beer_img}

@@ -16,6 +16,9 @@ export interface SignupProps {
   ageConfirm: boolean;
 }
 
+const confirmBtnColor = '#989898';
+const confirmTextColor = 'lightGrey';
+
 const SignupContainer = ({
   match,
   history,
@@ -28,8 +31,6 @@ const SignupContainer = ({
     (state: RootState) => state.confirmNickname.value,
   );
   const ageConfirm = useSelector((state: RootState) => state.confirmAge.value);
-  const btnColor = useSelector((state: RootState) => state.btnColor.btn);
-  const textColor = useSelector((state: RootState) => state.btnColor.text);
 
   const dispatch = useDispatch();
   const handleConfirmEmail = (value: boolean): void => {
@@ -40,9 +41,6 @@ const SignupContainer = ({
   };
   const handleConfirmAge = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_AGE', value });
-  };
-  const handleBtnColor = (btn: string, text: string): void => {
-    dispatch({ type: 'SET_BTNCOLOR', btn, text });
   };
 
   const inputInit = {
@@ -67,22 +65,21 @@ const SignupContainer = ({
   const handleCheckEmail = (): void => {
     if (inputValues.email !== '') {
       if (emailCheck(inputValues.email)) {
-        // axios
-        //   .post('https://beer4.xyz/users/checkemail', {
-        //     email: inputValues.email,
-        //   })
-        // .then((res) => {
-        // if (res.status === 200) alert(`사용 가능한 이메일입니다.`);
-        if (true) alert(`사용 가능한 이메일입니다.`);
-        // 중복 확인 버튼 변화 && confirm dispatch
-        handleBtnColor('#989898', 'lightgrey');
-        handleConfirmEmail(true);
-        //       })
-        //       .catch(() => {
-        //         alert(`이미 존재하는 이메일입니다.\n다른 이메일을 사용해주세요.`);
-        //       });
-        //   } else {
-        //     alert(`정확한 이메일 주소를 입력해주세요.`);
+        axios
+          .post('https://beer4.xyz/users/checkemail', {
+            email: inputValues.email,
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              alert(`사용 가능한 이메일입니다.`);
+              handleConfirmEmail(true);
+            }
+          })
+          .catch(() => {
+            alert(`이미 존재하는 이메일입니다.\n다른 이메일을 사용해주세요.`);
+          });
+      } else {
+        alert(`정확한 이메일 주소를 입력해주세요.`);
       }
     } else {
       alert(`이메일 주소를 입력해주세요.`);
@@ -96,17 +93,17 @@ const SignupContainer = ({
             nickname: inputValues.nickname,
           })
           .then((res) => {
-            if (res.status === 200) alert(`사용 가능한 닉네임입니다.`);
-            // 중복 확인 버튼 변화 && confirm dispatch
-            handleBtnColor('#989898', 'lightgrey');
-            handleConfirmNickname(true);
+            if (res.status === 200) {
+              alert(`사용 가능한 닉네임입니다.`);
+              handleConfirmNickname(true);
+            }
           })
           .catch(() => {
             alert(`이미 존재하는 닉네임입니다.\n다른 닉네임을 사용해주세요.`);
           });
       } else {
         alert(
-          `닉네임을 확인해주세요.\n6~12자리의 영문, 숫자 조합이어야 합니다.`,
+          `닉네임을 확인해주세요.\n4~12자리의 한글, 영어 또는 숫자 조합이어야 합니다.`,
         );
       }
     } else {
@@ -131,9 +128,12 @@ const SignupContainer = ({
 
   const handleClickSignup = (): void => {
     const { email, password, passwordForCheck, nickname } = inputValues;
-    if (emailConfirm && nicknameConfirm && ageConfirm) {
-      checkInput(email, password, passwordForCheck, nickname);
-      console.log(ageConfirm);
+    if (
+      emailConfirm &&
+      nicknameConfirm &&
+      ageConfirm &&
+      checkInput(email, password, passwordForCheck, nickname)
+    ) {
       axios
         .post(`https://beer4.xyz/users/signup`, {
           email: email,
@@ -144,6 +144,9 @@ const SignupContainer = ({
         .then((res) => {
           if (res.status === 200) {
             alert(`회원 가입이 완료되었습니다. Biba!`);
+            handleConfirmEmail(false);
+            handleConfirmNickname(false);
+            handleConfirmAge(false);
             history.push('/');
           }
         })
@@ -198,10 +201,10 @@ const SignupContainer = ({
             style={
               inputList.indexOf(ele) === 0
                 ? emailConfirm
-                  ? { background: btnColor, color: textColor }
+                  ? { background: confirmBtnColor, color: confirmTextColor }
                   : {}
                 : nicknameConfirm
-                ? { background: btnColor, color: textColor }
+                ? { background: confirmBtnColor, color: confirmTextColor }
                 : {}
             }
           >

@@ -20,6 +20,20 @@ export const AppContainer = ({
   const handleNavDisplay = (display: boolean) => {
     dispatch({ type: 'SET_NAVDISPLAY', display });
   };
+  const handleConfirmEmail = (value: boolean): void => {
+    dispatch({ type: 'CONFIRM_EMAIL', value });
+  };
+  const handleConfirmNickname = (value: boolean): void => {
+    dispatch({ type: 'CONFIRM_NICKNAME', value });
+  };
+  const handleConfirmAge = (value: boolean): void => {
+    dispatch({ type: 'CONFIRM_AGE', value });
+  };
+  const handleConfirms = (): void => {
+    handleConfirmEmail(false);
+    handleConfirmNickname(false);
+    handleConfirmAge(false);
+  };
 
   const whiteList = ['login', 'signup', 'beer']; // 최종 때는 beer 빼는 걸로
   const fullList = ['/login', '/signup', '/mypage'];
@@ -27,6 +41,11 @@ export const AppContainer = ({
     fullList.indexOf(location.pathname) !== -1
       ? handleNavDisplay(false)
       : handleNavDisplay(true);
+  });
+  useEffect(() => {
+    return location.pathname === 'signup' || location.pathname === 'mypage'
+      ? undefined
+      : handleConfirms();
   });
   return (
     <App

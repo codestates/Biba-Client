@@ -35,9 +35,9 @@ function WantSomeBeerListContainer({
     axios.get<BeerT[]>(`https://beer4.xyz/beer/list-recent`).then((res) => {
       setLateBeers(res.data);
     });
-    // axios.get<BeerT[]>(`https://beer4.xyz/beer/list-favor`).then((res) => {
-    //   setPickBeers(res.data);
-    // });
+    axios.get<BeerT[]>(`https://beer4.xyz/beer/list-favor`).then((res) => {
+      setPickBeers(res.data);
+    });
   }, []);
 
   return (

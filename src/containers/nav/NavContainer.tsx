@@ -7,7 +7,7 @@ import axios from 'axios';
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
 import { Nav } from '../../components/nav/Nav';
-import { Beers, Beer } from '../../modules/nav';
+import { BeerT } from '../../modules/getbeers';
 
 export interface NavProps {
   userData: {
@@ -26,6 +26,8 @@ export interface NavProps {
   handleClickMypage(): void;
   testLoginModal(): void;
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  searchbarDisplay: boolean;
+  handleClickIcon(display: boolean): void;
   handleSearch(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
   testBeerRequestModal(): void;
@@ -37,6 +39,9 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   );
   const { profile } = useSelector((state: RootState) => state.profile);
   const { display } = useSelector((state: RootState) => state.navDisplay);
+  const searchbarDisplay = useSelector(
+    (state: RootState) => state.searchbar.display,
+  );
 
   const dispatch = useDispatch();
   const setLogout = () => {
@@ -88,7 +93,7 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     handleModal(ContentType.Login, true);
   };
 
-  const setBeers = (beers: Beer[]): void => {
+  const setBeers = (beers: BeerT[]): void => {
     dispatch({ type: 'SET_BEERS', beers });
   };
 
@@ -99,9 +104,13 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     setInputQuery(value);
   };
 
+  const handleClickIcon = (display: boolean): void => {
+    dispatch({ type: 'SET_SEARCHBAR', display });
+  };
+
   const handleSearch = (): void => {
     axios
-      .get<Array<Beer>>(`https://beer4.xyz/search/${inputQuery}`)
+      .get<Array<BeerT>>(`https://beer4.xyz/search/${inputQuery}`)
       .then((res) => {
         if (res.status === 200) {
           const beers = res.data;
@@ -139,6 +148,8 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       handleClickMypage={handleClickMypage}
       testLoginModal={testLoginModal}
       handleOnChange={handleOnChange}
+      searchbarDisplay={searchbarDisplay}
+      handleClickIcon={handleClickIcon}
       handleSearch={handleSearch}
       pressEnter={pressEnter}
       testBeerRequestModal={testBeerRequestModal}

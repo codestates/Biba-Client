@@ -7,14 +7,15 @@ export const BEER_REVIEW = 'my/BEER_REVIEW';
 
 // interface & type & default state
 export type BeerT = {
-  id: number;
+  id: string;
   beer_name: string;
   beer_img: string;
   rate: number;
 };
 
 export interface BeerProps {
-  key: number;
+  id: string;
+  key: string;
   name: string;
   image: string;
   rate: number;

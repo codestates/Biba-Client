@@ -1,25 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BeerProps } from '../../modules/getbeers';
-import { DetailProps } from '../../containers/page/HomeContainer';
-
-export interface WSBeerProps extends BeerProps, DetailProps {}
+import { BeerProps } from '../../containers/page/HomeContainer';
 
 function WantSomeBeer({
+  id,
   name,
   image,
   rate,
   setBeerDetail,
   setAllReviews,
-}: WSBeerProps): JSX.Element {
+}: BeerProps): JSX.Element {
   return (
     <Item
+      id={id}
       onClick={(e) => {
         setBeerDetail(e);
         setAllReviews(e);
       }}
     >
-      <Sub>
+      <Sub id={id}>
         <Image className='image' src={image} alt={name} />
         <Name className='name'>{name}</Name>
       </Sub>

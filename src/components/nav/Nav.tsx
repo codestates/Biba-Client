@@ -25,6 +25,8 @@ export const Nav = ({
   handleClickMypage,
   testLoginModal,
   handleOnChange,
+  searchbarDisplay,
+  handleClickIcon,
   handleSearch,
   pressEnter,
   testBeerRequestModal,
@@ -33,7 +35,7 @@ export const Nav = ({
     <Container>
       <NavBar className='navBar'>
         <Logo
-          src='fakeLogo.jpg'
+          src={require('./templogo.jpg')}
           alt='this is fake logo'
           onClick={handleClickLogo}
         />
@@ -43,8 +45,13 @@ export const Nav = ({
         </TestBtns>
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
-            <SearchIcon className='searchIcon' />
-            {isLogin ? (
+            <SearchIcon
+              className='searchIcon'
+              onClick={() => {
+                handleClickIcon(!searchbarDisplay);
+              }}
+            />
+            {searchbarDisplay ? (
               <SearchInputWrap className='searchInputWrap'>
                 <Input
                   type='text'
@@ -108,6 +115,7 @@ const Wrap = styled.div`
   width: 80%;
 `;
 const Logo = styled.img`
+  cursor: pointer;
   width: 100px;
 `;
 
@@ -127,6 +135,7 @@ const SearchbarArea = styled.div`
 `;
 
 const SearchIcon = styled(BiSearchAlt)`
+  cursor: pointer;
   display: flex;
 
   width: 1.5em;

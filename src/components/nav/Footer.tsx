@@ -5,7 +5,6 @@ export const Footer = (): JSX.Element => {
   return (
     <Container>
       <FooterArea>
-        {/* <Logo src='fakeLogo.jpg' alt='this is fake logo'></Logo> */}
         <About>
           <AboutText>{`Team Non-Alcohol`}</AboutText>
           <AboutText>{`Member`}</AboutText>

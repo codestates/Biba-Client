@@ -4,26 +4,27 @@ import styled from 'styled-components';
 import './TodayCss.css';
 
 import { BeerI } from '../../modules/getbeers';
-import { DetailProps } from '../../containers/page/HomeContainer';
+import { BeerListProps } from '../../containers/page/HomeContainer';
 
 import SearchBeer from './SearchBeer';
 import RequsetBeer from './RequestBeer';
-
-interface SearchBeerProps extends BeerI, DetailProps {}
 
 function SearchBeerList({
   beers,
   setBeerDetail,
   setAllReviews,
-}: SearchBeerProps): JSX.Element {
+}: BeerListProps): JSX.Element {
   let sbList;
   if (beers.length !== 0) {
     sbList = beers.map((beer) => (
       <SearchBeer
+        id={beer.id}
         key={beer.id}
         name={beer.beer_name}
         image={beer.beer_img}
         rate={beer.rate}
+        setBeerDetail={setBeerDetail}
+        setAllReviews={setAllReviews}
       />
     ));
   } else {

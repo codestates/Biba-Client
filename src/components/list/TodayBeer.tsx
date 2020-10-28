@@ -1,13 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DetailProps } from '../../containers/page/HomeContainer';
-
-export interface BeerProps extends DetailProps {
-  key: number;
-  name: string;
-  image: string;
-  rate: number;
-}
+import { BeerProps } from '../../containers/page/HomeContainer';
 
 const numToStar = (rate: number) => {
   let result = '';

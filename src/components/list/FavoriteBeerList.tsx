@@ -9,6 +9,7 @@ import { BeerI } from '../../modules/getbeers';
 function FavoriteBeerList({ beers }: BeerI): JSX.Element {
   const favoriteBeerList = beers.map((beer) => (
     <FavoriteBeer
+      id={beer.id}
       key={beer.id}
       name={beer.beer_name}
       image={beer.beer_img}

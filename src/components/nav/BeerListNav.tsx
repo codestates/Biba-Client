@@ -2,6 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BeerListNavProps } from '../../containers/nav/BeerListNavContainer';
+import {
+  mainGrey,
+  mainGreyOpac,
+  mainYellow,
+  lightGrey1,
+  lightGrey2,
+} from '../../components/nav/color';
 
 function BeerListNav({
   isLogin,
@@ -102,11 +109,11 @@ const ListBtn = styled.li`
 const TH = styled.div`
   display: inline-block;
   padding: 5px;
-  color: #52575d;
-  background-color: #f6f4e6;
+  color: ${mainGrey};
+  background-color: ${lightGrey2};
   border-radius: 10px;
   &:hover {
-    color: #fddb3a;
+    color: ${mainYellow};
     cursor: pointer;
   }
 `;

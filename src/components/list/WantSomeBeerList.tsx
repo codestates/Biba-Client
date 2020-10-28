@@ -18,6 +18,7 @@ function WantSomeBeerList({
 }: WSLBeerProps): JSX.Element {
   const hotBeerList = hotBeers.map((beer) => (
     <WantSomeBeer
+      id={beer.id}
       key={beer.id}
       name={beer.beer_name}
       image={beer.beer_img}
@@ -28,6 +29,7 @@ function WantSomeBeerList({
   ));
   const lateBeerList = lateBeers.map((beer) => (
     <WantSomeBeer
+      id={beer.id}
       key={beer.id}
       name={beer.beer_name}
       image={beer.beer_img}

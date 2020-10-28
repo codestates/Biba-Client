@@ -1,26 +1,50 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../modules';
+import { BeerDetail } from '../../components/page/BeerDetail';
+
 import { Radar } from 'react-chartjs-2';
 
-const expData = {
-  labels: ['가벼움', '독특함', '부드러움', '가성비', '접근성'],
-  datasets: [
-    {
-      label: 'test',
-      data: [60, 53, 57, 50, 83],
-      backgroundColor: 'rgba(255, 198, 0, 0.5)',
-      borderColor: 'rgba(255, 198, 0, 0.5)',
-      fill: true,
-      borderWidth: 2,
-      hoverBorderWidth: 4,
-      pointRadius: 0,
-      pointBorderWidth: 3,
-      pointHoverRadius: 10,
-      pointHitRadius: 40,
-    },
-  ],
-};
+export const Chart = (): JSX.Element => {
+  const { sparkling, sweet, bitter, accessibility, body } = useSelector(
+    (state: RootState) => state.graphData,
+  );
+  const { beer_name } = useSelector(
+    (state: RootState) => state.beerDetail.beerDetail,
+  );
 
-export const chart = (): JSX.Element => {
+  const expData = {
+    labels: ['탄산감', '달콤함', '씁쓸함', '접근성', '바디감'],
+    datasets: [
+      {
+        label: beer_name,
+        data: [1, 2, 3, 4, 5],
+        backgroundColor: 'rgba(255, 198, 0, 0.7)',
+        borderColor: 'rgba(255, 198, 0, 0.5)',
+        fill: true,
+        borderWidth: 2,
+        hoverBorderWidth: 4,
+        pointRadius: 0,
+        pointBorderWidth: 3,
+        pointHoverRadius: 10,
+        pointHitRadius: 40,
+      },
+      {
+        label: beer_name,
+        data: [5, 4, 3, 2, 5],
+        backgroundColor: 'rgba(238, 102, 121, 0.7)',
+        borderColor: 'rgba(238, 102, 121, 0.5)',
+        fill: true,
+        borderWidth: 2,
+        hoverBorderWidth: 4,
+        pointRadius: 0,
+        pointBorderWidth: 3,
+        pointHoverRadius: 10,
+        pointHitRadius: 40,
+      },
+    ],
+  };
+
   return (
     <Radar
       options={{
@@ -28,8 +52,8 @@ export const chart = (): JSX.Element => {
           ticks: {
             beginAtZero: true,
             min: 0,
-            max: 100,
-            stepSize: 33,
+            max: 5,
+            stepSize: 1,
             display: false,
           },
           pointLabels: {
@@ -38,7 +62,7 @@ export const chart = (): JSX.Element => {
         },
         legend: {
           position: 'right',
-          display: false,
+          display: true,
         },
       }}
       data={expData}

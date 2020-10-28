@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -19,39 +19,58 @@ import {
 } from '../../components/user/Mypage';
 import { passwordCheck, passwordMatch } from './userUtils';
 
+interface IProfile extends HTMLDivElement {
+  src: string | ArrayBuffer | null;
+}
+
 export interface MypageProps {
   userData: User;
   profile: string;
-  profileTest(): JSX.Element;
   handleModal(contentType: ContentType, display: boolean): void;
   getMyReviews(): void;
   mapInputList(): JSX.Element[];
   handleClickChangeNickname(): void;
+  handleProfileUpload(e: React.ChangeEvent<HTMLInputElement>): void;
+  profileInput: React.RefObject<HTMLImageElement>;
+  handleProfilePost(): void;
 }
 
 const MypageContainer = (props: RouterProps): JSX.Element => {
   // profile pic 작업 중
-  const profileTest = (): JSX.Element => {
-    return (
-      <div>
-        <input type='file' accept='image/*' />
-        <div
-          style={{
-            height: '60px',
-            width: '60px',
-            border: '2px dashed black',
-          }}
-        >
-          <img
-            style={{
-              width: '60px',
-              height: '60px',
-              position: 'absolute',
-            }}
-          />
-        </div>
-      </div>
-    );
+  const profileInput = React.useRef(null);
+  const formData = new FormData();
+
+  const handleProfileUpload = (
+    // 사진 ref에 업로드만, 전송 x 함수
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    const target = e.currentTarget.files as FileList;
+    console.log(target[0]);
+    formData.append('image', target[0]);
+
+    if (profileInput.current) {
+      const { current } = profileInput as React.RefObject<IProfile>;
+
+      const fr = new FileReader();
+      fr.onload = () => {
+        if (current) {
+          current.src = fr.result;
+        }
+      };
+      console.log(target);
+      fr.readAsDataURL(target[0]);
+      console.log(formData.getAll('image'));
+    }
+    setTimeout(() => console.log(profileInput), 1000);
+    // 전송 후 이미지 주소(S3 주소) 받아서 dispatch 필요
+  };
+
+  const handleProfilePost = (): void => {
+    const index = formData.getAll('image').length;
+    console.log(formData.getAll('image')[index - 1]); // 이거 전송!
+    // axios
+    //   .post(`https://beer4.xyz/users/profile`, formData)
+    //   .then((res) => console.log(res));
   };
 
   // 최상단
@@ -80,10 +99,10 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
 
   const getMyReviews = (): void => {
     axios
-      .get<aReview>(`http://localhost:4000/custom/mypost/4`)
-      // .post<aReview>(`https://beer4.xyz/comment/mylist`, {
-      //   token: token,
-      // })
+      // .get<aReview>(`http://localhost:4000/custom/mypost/4`)
+      .post<aReview>(`https://beer4.xyz/comment/mylist`, {
+        token: token,
+      })
       .then((res) => {
         const myReviews = res.data;
         dispatch({ type: 'SET_MYREVIEWS', myReviews });
@@ -107,13 +126,10 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
 
   const handleClickChangePassword = (): void => {
     const { currentPassword, newPassword, passwordForCheck } = inputValues;
-    console.log('change password test');
     if (
       passwordCheck(newPassword) &&
       passwordMatch(newPassword, passwordForCheck)
     ) {
-      // currentPassword 확인 - token 사용할지 체크 필요
-      // true 라면 -> newPassword 전송
       axios
         .post(`https://beer4.xyz/users/changepassword`, {
           currentPassword: currentPassword,
@@ -122,7 +138,14 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
         })
         .then((res) => {
           console.log(res.data);
-        }); ////// 추가 체크 필요
+          // 200일 경우 vs 200 아닐 경우 분기
+        });
+    } else if (!passwordCheck(newPassword)) {
+      return alert(
+        `비밀번호를 확인해주세요.\n8자 이상의 영문, 숫자 또는 특수문자 조합이어야 합니다.`,
+      );
+    } else if (!passwordMatch(newPassword, passwordForCheck)) {
+      return alert(`동일한 비밀번호를 입력해주세요.`);
     }
   };
 
@@ -161,11 +184,13 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
     <Mypage
       userData={userData}
       profile={profile}
-      profileTest={profileTest}
       handleModal={handleModal}
       getMyReviews={getMyReviews}
       mapInputList={mapInputList}
       handleClickChangeNickname={handleClickChangeNickname}
+      handleProfileUpload={handleProfileUpload}
+      profileInput={profileInput}
+      handleProfilePost={handleProfilePost}
     />
   );
 };
@@ -174,8 +199,8 @@ export const MypageContainerWithRouter = withRouter(MypageContainer);
 
 export const SubmitBtnArea = styled.div`
   display: grid;
-  grid-template-columns: 8em 14em;
-  margin: 0.5em 0 0.5em 0;
+  grid-template-columns: 10em 14em;
+  margin: 0.8em 0 0.5em 0;
 `;
 export const SubmitBtn = styled.div`
   display: flex;

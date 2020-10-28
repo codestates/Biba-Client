@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { EStar } from '../../components/page/BeerDetail';
+import { BeerProps } from '../../containers/page/HomeContainer';
 
-export interface BeerProps {
-  key: number;
-  name: string;
-  image: string;
-  rate: number;
-}
-
-function SearchBeer({ name, image, rate }: BeerProps): JSX.Element {
+function SearchBeer({
+  name,
+  image,
+  rate,
+  setBeerDetail,
+  setAllReviews,
+}: BeerProps): JSX.Element {
   const createStar = (rate: number): number[] => {
     const arr = [];
     for (let i = 0; i < rate; i++) {

@@ -1,9 +1,14 @@
+import { BeerT, BeerI } from './getbeers';
+
 const SET_SEARCHBAR = 'SET_SEARCHBAR' as const;
 const SET_MODAL = 'SET_MODAL' as const;
-const SET_BTNCOLOR = 'SET_BTNCOLOR' as const;
 const SET_BEERS = 'SET_BEERS' as const;
 const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
 const SET_REQUESTTYPE = 'SET_REQUESTTYPE' as const;
+
+export interface SearchbarState {
+  display: boolean;
+}
 
 export interface ModalContent {
   contentType: ContentType;
@@ -28,22 +33,23 @@ export interface NavDisplay {
   display: boolean;
 }
 
-export type Beer = {
-  id: number;
-  beer_name: string;
-  beer_img: string;
-  rate: number;
-};
-export interface Beers {
-  beers: Beer[];
-}
-
 export interface BeerRequest {
   request1: boolean;
   request2: boolean;
 }
 
 // 이하로 action interface + init + action
+interface SearchbarStateAction extends SearchbarState {
+  type: typeof SET_SEARCHBAR;
+}
+const searchbarInit: SearchbarState = {
+  display: false,
+};
+export const setSearchbar = (display: boolean): SearchbarStateAction => ({
+  type: SET_SEARCHBAR,
+  display,
+});
+
 interface ModalStateAction extends ModalState {
   type: typeof SET_MODAL;
 }
@@ -60,28 +66,15 @@ export const setModal = (
   display,
 });
 
-export interface BtnColorAction extends BtnColor {
-  type: typeof SET_BTNCOLOR;
-}
-const btnInit: BtnColor = {
-  btn: '',
-  text: '',
-};
-export const setBtnColor = (btn: string, text: string): BtnColorAction => ({
-  type: SET_BTNCOLOR,
-  btn,
-  text,
-});
-
-export interface SetBeerAction extends Beers {
+export interface SetBeerAction extends BeerI {
   type: typeof SET_BEERS;
 }
 
-const beersInit: Beers = {
+const beersInit: BeerI = {
   beers: [],
 };
 
-export const searchBeerAction = (beers: Array<Beer>): SetBeerAction => {
+export const searchBeerAction = (beers: Array<BeerT>): SetBeerAction => {
   return {
     type: SET_BEERS,
     beers: beers,
@@ -116,6 +109,22 @@ export const setRequestType = (
 });
 
 // ============ 이하로 reducers
+export const searchbarReducer = (
+  state = searchbarInit,
+  action: SearchbarStateAction,
+): SearchbarState => {
+  switch (action.type) {
+    case SET_SEARCHBAR:
+      return {
+        ...state,
+        display: action.display,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const modalReducer = (
   state = modalInit,
   action: ModalStateAction,
@@ -133,27 +142,10 @@ export const modalReducer = (
   }
 };
 
-export const btnColorReducer = (
-  state = btnInit,
-  action: BtnColorAction,
-): BtnColor => {
-  switch (action.type) {
-    case SET_BTNCOLOR:
-      return {
-        ...state,
-        btn: action.btn,
-        text: action.text,
-      };
-
-    default:
-      return state;
-  }
-};
-
 export const searchBeerReducer = (
-  state: Beers = beersInit,
+  state: BeerI = beersInit,
   action: SetBeerAction,
-): Beers => {
+): BeerI => {
   switch (action.type) {
     case SET_BEERS:
       return {
