@@ -95,7 +95,7 @@ const BeerDetailContainer = ({
       })
       .then((res) => {
         const { bookmark } = res.data; // 추가되었을 경우 true 돌아옴
-        if (res.status === 200) {
+        if (res.status === 201 && (bookmark === true || bookmark === false)) {
           dispatch({ type: 'SET_BOOKMARK', bookmark }); // store에 저장된 bookmark 상태 업데이트
           bookmark
             ? alert(`즐겨찾기에 추가되었습니다.`)
@@ -211,7 +211,7 @@ const BeerDetailContainer = ({
   };
 
   const handleTag = (): JSX.Element[] => {
-    const tags = ['오렌지', '뜨거운 맥주', '벨기에'];
+    const { tags } = beerDetail;
     return tags.map((ele) => {
       return (
         <Tag

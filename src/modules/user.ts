@@ -7,7 +7,6 @@ const SET_MYREVIEWS = 'SET_MYREVIEWS' as const;
 const CHANGE_PROFILE = 'CHANGE_PROFILE' as const;
 const DELETE_PROFILE = 'DELETE_PROFILE' as const;
 const CHANGE_NICKNAME = 'CHANGE_NICKNAME' as const;
-const CHANGE_PASSWORD = 'CHANGE_PASSWORD' as const;
 const CONFIRM_EMAIL = 'CONFIRM_EMAIL' as const;
 const CONFIRM_NICKNAME = 'CONFIRM_NICKNAME' as const;
 const CONFIRM_AGE = 'CONFIRM_AGE' as const;
@@ -35,7 +34,7 @@ export interface ConfirmInput {
 
 // 이하로 action interface + init + action
 export interface UserStateAction extends UserState {
-  type: typeof SET_LOGINSTATE | typeof SET_LOGOUTSTATE;
+  type: typeof SET_LOGINSTATE | typeof SET_LOGOUTSTATE | typeof CHANGE_NICKNAME;
 }
 const loginInit: UserState = {
   userData: {
@@ -62,6 +61,16 @@ export const setLogout = (
   token: string,
 ): UserStateAction => ({
   type: SET_LOGOUTSTATE,
+  userData,
+  isLogin,
+  token,
+});
+export const changeNickname = (
+  userData: User,
+  isLogin: boolean,
+  token: string,
+): UserStateAction => ({
+  type: CHANGE_NICKNAME,
   userData,
   isLogin,
   token,
@@ -142,6 +151,12 @@ export const loginReducer = (
       return {
         ...state,
         ...loginInit,
+      };
+
+    case CHANGE_NICKNAME:
+      return {
+        ...state,
+        userData: action.userData,
       };
 
     default:
@@ -240,5 +255,3 @@ export const confirmAgeReducer = (
       return state;
   }
 };
-
-// export type LoginAction = ReturnType<typeof setLogin>;

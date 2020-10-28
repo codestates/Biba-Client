@@ -69,9 +69,11 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
 
   const handleClickLogo = (): void => {
     handleClickTodayBeer();
+    handleNavDisplay(true);
     props.history.push('/');
   };
   const handleClickLogin = (): void => {
+    handleNavDisplay(false);
     props.history.push('/login');
   };
   const handleClickLogout = (): void => {
@@ -79,9 +81,12 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     props.history.push('/');
   };
   const handleClickSignup = (): void => {
+    handleNavDisplay(false);
     props.history.push('/signup');
   };
   const handleClickMypage = (): void => {
+    console.log('test');
+    handleNavDisplay(false);
     props.history.push('/mypage');
   };
 

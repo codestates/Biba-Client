@@ -12,7 +12,7 @@ import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
-import { aReview, beerDetailInit } from '../../modules/beerdetail';
+import { aReview } from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
 import { nicknameCheck } from '../user/userUtils';
 import {
@@ -48,6 +48,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
+  const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
 
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
@@ -132,9 +133,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   };
   const handleClickChangeNickname = (): void => {
     const { nickname } = inputValues;
-    nicknameCheck(nickname);
-    console.log('nickname change test');
-    if (nicknameConfirm) {
+    if (nicknameCheck(nickname) && nicknameConfirm) {
       axios
         .post(`https://beer4.xyz/users/changenickname`, {
           token: token,
@@ -143,10 +142,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         .then((res) => {
           if (res.status === 200) {
             dispatch({
-              type: 'SET_LOGINSTATE',
+              type: 'CHANGE_NICKNAME',
               userData: { ...userData, nickname: nickname },
-              isLogin,
-              token,
             });
             alert(`닉네임이 정상적으로 변경되었습니다.`);
             handleConfirmNickname(false);
@@ -155,6 +152,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         })
         .catch(() => {
           alert(`닉네임 변경에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+          handleConfirmNickname(false);
           return closeModal();
         });
     }
@@ -175,14 +173,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         console.log('review 작성 테스트');
         console.log({
           token: token,
-          beer_id: beerDetailInit.beerDetail.id,
+          beer_id: beerDetail.id,
           comment: inputValues.review,
           rate: user_rate,
         });
         axios
           .post(`https://beer4.xyz/comment/create`, {
             token: token,
-            beer_id: beerDetailInit.beerDetail.id,
+            beer_id: beerDetail.id,
             comment: inputValues.review,
             rate: user_rate,
           })
@@ -208,7 +206,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         axios
           .post(`https://beer4.xyz/comment/update`, {
             token: token,
-            beer_id: beerDetailInit.beerDetail.id,
+            beer_id: beerDetail.id,
             comment: inputValues.review,
             rate: user_rate,
           })

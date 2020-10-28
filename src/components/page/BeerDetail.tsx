@@ -141,12 +141,7 @@ export const BeerDetail = ({
                     : { display: 'none' }
                 }
               >
-                <P className='content'>
-                  이 맥주에는 이런 전설이 있습니다.
-                  <br />
-                  단어 몇 개까지 넣어야 보기에 괜찮을까요? 줄바꿈 어떻게 되는
-                  건지 고기와 함께하는 탄산수 타임
-                </P>
+                <P className='content'>{beerDetail.explain}</P>
               </InfoDetail1>
               <InfoDetail2
                 className='infoDetail'
@@ -158,12 +153,7 @@ export const BeerDetail = ({
                     : { display: 'none' }
                 }
               >
-                <P className='content'>
-                  이 맥주에는 이런 전설이 있습니다.
-                  <br />
-                  단어 몇 개까지 넣어야 보기에 괜찮을까요? 줄바꿈 어떻게 되는
-                  건지 고기와 함께하는 탄산수 타임
-                </P>
+                <P className='content'>{beerDetail.story}</P>
               </InfoDetail2>
               <InfoDetail3
                 className='infoDetail'

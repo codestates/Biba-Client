@@ -10,6 +10,10 @@ import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllRevie
 
 interface LoginResponse extends UserState, UserProfile {}
 export interface LoginProps {
+  inputValues: {
+    email: string;
+    password: string;
+  };
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   handleLogin(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
@@ -45,8 +49,11 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
   };
 
   const handleLogin = (): void => {
+    console.log({
+      email: inputValues.email,
+      password: String(inputValues.password),
+    });
     axios
-      // .post<LoginResponse>(`http://localhost:4000/users/login`, {
       .post<LoginResponse>(`https://beer4.xyz/users/login`, {
         email: inputValues.email,
         password: String(inputValues.password),
@@ -62,11 +69,12 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
           setProfile(profile);
           closeModal();
           props.history.push('/');
+          setInputValues({ ...inputValues, email: '', password: '' });
         }
       })
       .catch(() => {
-        console.log(props.history.location);
         alert('입력한 정보를 다시 한번 확인해주세요.');
+        setInputValues({ ...inputValues, email: '', password: '' });
       });
   };
 
@@ -80,6 +88,7 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
 
   return (
     <Login
+      inputValues={inputValues}
       handleOnChange={handleOnChange}
       handleLogin={handleLogin}
       pressEnter={pressEnter}

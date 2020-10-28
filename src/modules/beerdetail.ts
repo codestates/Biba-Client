@@ -80,7 +80,7 @@ interface BeerDetailAction extends ObjBeerDetail {
 }
 export const beerDetailInit: ObjBeerDetail = {
   beerDetail: {
-    id: 4,
+    id: -1,
     beer_name: '',
     beer_img: 'default img',
     abv: -1,

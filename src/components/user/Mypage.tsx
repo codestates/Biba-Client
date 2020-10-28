@@ -29,7 +29,7 @@ export const Mypage = ({
   handleClickChangeNickname,
   handleProfileUpload,
   profileInput,
-  handleProfilePost,
+  handlePostProfile,
 }: MypageProps): JSX.Element => {
   return (
     <Container>
@@ -62,7 +62,7 @@ export const Mypage = ({
                 ></ProfileImg>
               </ProfileDiv>
               <BtnArea className='btnArea'>
-                <Btn className='postBtn' onClick={handleProfilePost}>
+                <Btn className='postBtn' onClick={handlePostProfile}>
                   등록
                 </Btn>
                 <Btn className='deleteBtn'>삭제</Btn>
