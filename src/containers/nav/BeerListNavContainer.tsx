@@ -7,6 +7,7 @@ import { RootState } from '../../modules';
 import BeerListNav from '../../components/nav/BeerListNav';
 import { TODAY_BEER, WANTSOME_BEER, MY_BEER } from '../../modules/changepage';
 import { FAVORITE, REVIEW } from '../../modules/mybeer';
+import { ContentType } from '../../modules/nav';
 
 export interface BeerListNavProps {
   isLogin: boolean;
@@ -18,6 +19,7 @@ export interface BeerListNavProps {
   display: boolean;
   redirectHome(): void;
   redirectLogin(): void;
+  handleClickGuest(): void;
 }
 
 export const BeerListNavContainer = ({
@@ -44,6 +46,13 @@ export const BeerListNavContainer = ({
   const handleClickReview = (): void => {
     dispatch({ type: REVIEW });
   };
+  const handleClickGuest = (): void => {
+    dispatch({
+      type: 'SET_MODAL',
+      contentType: ContentType.Login,
+      display: true,
+    });
+  };
 
   const redirectHome = () => history.push('/');
   const redirectLogin = () => history.push('/login');
@@ -58,6 +67,7 @@ export const BeerListNavContainer = ({
       display={display}
       redirectHome={redirectHome}
       redirectLogin={redirectLogin}
+      handleClickGuest={handleClickGuest}
     />
   );
 };

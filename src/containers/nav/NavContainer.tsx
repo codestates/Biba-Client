@@ -27,7 +27,6 @@ export interface NavProps {
   handleClickLogout(): void;
   handleClickSignup(): void;
   handleClickMypage(): void;
-  testLoginModal(): void;
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   searchbarDisplay: boolean;
   handleClickIcon(display: boolean): void;
@@ -94,10 +93,6 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
-  const testLoginModal = (): void => {
-    // 임시로 nav에 배치 - list page에서 일정 수준 이상 스크롤 시 등장, 로그인이 아닌 상태일 때만 나타나야 함
-    handleModal(ContentType.Login, true);
-  };
 
   const setBeers = (beers: BeerT[]): void => {
     dispatch({ type: 'SET_BEERS', beers });
@@ -151,7 +146,6 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       handleClickLogout={handleClickLogout}
       handleClickSignup={handleClickSignup}
       handleClickMypage={handleClickMypage}
-      testLoginModal={testLoginModal}
       handleOnChange={handleOnChange}
       searchbarDisplay={searchbarDisplay}
       handleClickIcon={handleClickIcon}

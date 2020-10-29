@@ -20,6 +20,7 @@ function BeerListNav({
   display,
   redirectHome,
   redirectLogin,
+  handleClickGuest,
 }: BeerListNavProps): JSX.Element {
   return (
     <ListNav style={display ? {} : { display: 'none' }}>
@@ -70,7 +71,7 @@ function BeerListNav({
         ) : (
           <ListBtn
             onClick={() => {
-              redirectLogin();
+              handleClickGuest();
             }}
           >
             <TH>My Beers</TH>
