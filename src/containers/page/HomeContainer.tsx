@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { RouterProps, withRouter } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
@@ -138,6 +139,30 @@ function HomeContainer({
         dispatch({ type: 'SET_ALLREVIEWS', allReviews });
       }); // [{}, {}]
   };
+
+  // const setLogin = (userData: User, isLogin: boolean, token: string) => {
+  //   dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
+  // };
+  // const setProfile = (profile: string) => {
+  //   dispatch({ type: 'SET_PROFILE', profile });
+  // };
+
+  // useEffect(() => {
+  //   axios
+  //     .get<LoginResponse>('http://localhost:4000/auth', {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         const { id, nickname, email } = res.data.userData;
+  //         const { token, profile } = res.data;
+  //         // 받은 데이터로 store 상태 업데이트
+  //         setLogin({ id: id, nickname: nickname, email: email }, true, token);
+  //         setProfile(profile);
+  //       } else if (res.status === 404) {
+  //       }
+  //     });
+  // }, []);
 
   return (
     <Home

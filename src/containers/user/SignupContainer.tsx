@@ -67,7 +67,8 @@ const SignupContainer = ({
     if (inputValues.email !== '') {
       if (emailCheck(inputValues.email)) {
         axios
-          .post('https://beer4.xyz/users/checkemail', {
+          .post('http://localhost:4000/users/checkemail', {
+            // .post('https://beer4.xyz/users/checkemail', {
             email: inputValues.email,
           })
           .then((res) => {
@@ -90,7 +91,8 @@ const SignupContainer = ({
     if (inputValues.nickname !== '') {
       if (nicknameCheck(inputValues.nickname)) {
         axios
-          .post('https://beer4.xyz/users/checknickname', {
+          .post('http://localhost:4000/users/checknickname', {
+            // .post('https://beer4.xyz/users/checknickname', {
             nickname: inputValues.nickname,
           })
           .then((res) => {
@@ -136,6 +138,7 @@ const SignupContainer = ({
       checkInput(email, password, passwordForCheck, nickname)
     ) {
       axios
+        // .post(`http://localhost:4000/users/signup`, {
         .post(`https://beer4.xyz/users/signup`, {
           email: email,
           password: password,
