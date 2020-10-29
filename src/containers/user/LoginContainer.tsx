@@ -72,7 +72,6 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
       })
       .catch(() => {
         alert('입력한 정보를 다시 한번 확인해주세요.');
-        setInputValues({ ...inputValues, email: '', password: '' });
       });
   };
 

@@ -19,6 +19,7 @@ export const Chart = (): JSX.Element => {
       {
         label: beer_name,
         data: [sparkling, sweet, bitter, accessibility, body],
+        pointBackgroundColor: 'white',
         backgroundColor: 'rgba(255, 198, 0, 0.7)',
         borderColor: 'rgba(255, 198, 0, 0.5)',
         fill: true,

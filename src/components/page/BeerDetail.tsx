@@ -230,7 +230,7 @@ const Outer = styled.div`
 const Container = styled.div`
   display: grid;
   grid-template-rows: 2em 3em auto auto 2em;
-  grid-template-columns: 3vw auto 2vw 350px 3em;
+  grid-template-columns: 2vw auto 2vw 350px 3em;
 
   min-height: 32em;
 `;
