@@ -53,6 +53,7 @@ export interface aReview {
   nickname: string;
   profile: string;
 }
+
 export interface AllReviewList {
   allReviews: aReview[];
 }

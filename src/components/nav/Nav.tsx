@@ -36,13 +36,10 @@ export const Nav = ({
         <LogoWrap>
           <Logo
             src={require('./templogo500.jpg')}
-            alt='this is fake logo'
+            alt='biba logo'
             onClick={handleClickLogo}
           />
         </LogoWrap>
-        {/* <TestBtns>
-          <button onClick={testLoginModal}>login modal</button>
-        </TestBtns> */}
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
             <SearchIcon
