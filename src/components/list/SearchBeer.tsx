@@ -4,6 +4,7 @@ import { EStar } from '../../components/page/BeerDetail';
 import { BeerProps } from '../../containers/page/HomeContainer';
 
 function SearchBeer({
+  id,
   name,
   image,
   rate,
@@ -19,7 +20,13 @@ function SearchBeer({
   };
   const stars = createStar(rate);
   return (
-    <BeerImage>
+    <BeerImage
+      id={id}
+      onClick={(e) => {
+        setBeerDetail(e);
+        setAllReviews(e);
+      }}
+    >
       <Top>
         <Image src={image} alt={name} />
       </Top>
