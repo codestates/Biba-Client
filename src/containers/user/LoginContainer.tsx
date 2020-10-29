@@ -46,18 +46,22 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
 
   const handleLogin = (): void => {
     axios
-      // .post<LoginResponse>(`http://localhost:4000/users/login`, {
-      .post<LoginResponse>(`https://beer4.xyz/users/login`, {
-        email: inputValues.email,
-        password: String(inputValues.password),
-      })
+      // .post<LoginResponse>(
+      //   `http://localhost:4000/users/login`,
+      // {
+      .post<LoginResponse>(
+        `https://beer4.xyz/users/login`,
+        {
+          email: inputValues.email,
+          password: String(inputValues.password),
+        },
+        { withCredentials: true },
+      )
       .then((res) => {
-        // console.log(res);
         if (res.status === 200) {
           const { id, nickname, email } = res.data.userData;
           const { token, profile } = res.data;
           // 받은 데이터로 store 상태 업데이트
-          console.log(token);
           setLogin({ id: id, nickname: nickname, email: email }, true, token);
           setProfile(profile);
           closeModal();
