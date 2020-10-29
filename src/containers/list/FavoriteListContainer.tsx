@@ -19,7 +19,7 @@ function FavoriteBeerListContainer(): JSX.Element {
 
   useEffect(() => {
     axios
-      .post<BeerT[]>(`https://beer4.xyz/list-favor`, {
+      .post<BeerT[]>(`https://beer4.xyz/bookmark`, {
         token: token,
       })
       .then((res) => {
