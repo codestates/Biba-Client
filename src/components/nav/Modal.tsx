@@ -13,6 +13,7 @@ export const Modal = ({
   user_review,
   contentType,
   content,
+  allReviews,
 }: ModalProps): JSX.Element => {
   const title = (): string => {
     if (contentType === ContentType.MypageAllReviews) {
@@ -57,7 +58,14 @@ export const Modal = ({
               <CloseBtn className='closeBtn' onClick={closeModal} />
             </TitleWrap>
             <ContentWrap className='modalContentWrap'>
-              <Content className='modalContent'>{content}</Content>
+              {contentType === ContentType.AllReviews &&
+              allReviews.length !== 0 ? (
+                <AllReviewsContent className='modalContent'>
+                  {content}
+                </AllReviewsContent>
+              ) : (
+                <Content className='modalContent'>{content}</Content>
+              )}
             </ContentWrap>
           </ContentArea>
         )}
@@ -150,4 +158,10 @@ const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+`;
+const AllReviewsContent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
 `;

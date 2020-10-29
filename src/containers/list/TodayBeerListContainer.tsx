@@ -23,7 +23,6 @@ function TodayBeerListContainer({
   useEffect(() => {
     axios.get<BeerT[]>(`https://beer4.xyz/beer/list`).then((res) => {
       setTodayBeers(res.data);
-      console.log(res.data);
     });
   }, []);
 

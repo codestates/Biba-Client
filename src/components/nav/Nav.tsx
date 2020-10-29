@@ -18,6 +18,7 @@ import {
 export const Nav = ({
   userData,
   isLogin,
+  inputQuery,
   logout,
   handleClickLogo,
   handleClickLogin,
@@ -38,9 +39,9 @@ export const Nav = ({
           alt='this is fake logo'
           onClick={handleClickLogo}
         />
-        <TestBtns>
+        {/* <TestBtns>
           <button onClick={testLoginModal}>login modal</button>
-        </TestBtns>
+        </TestBtns> */}
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
             <SearchIcon
@@ -54,6 +55,7 @@ export const Nav = ({
                 <Input
                   type='text'
                   placeholder='맥주 이름을 입력해주세요.'
+                  value={inputQuery.query}
                   onChange={handleOnChange}
                   onKeyPress={pressEnter}
                 ></Input>

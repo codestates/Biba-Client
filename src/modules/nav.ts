@@ -21,6 +21,7 @@ export enum ContentType {
   Login,
   MypageAllReviews,
   ChangeNickname,
+  MyBookmarks,
   UsersReview,
   AllReviews,
   RequestBeer,

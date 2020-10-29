@@ -1,21 +1,81 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BeerProps } from '../../modules/getbeers';
+import { BeerProps } from '../../containers/page/HomeContainer';
 
-function Review({ name, image, rate }: BeerProps): JSX.Element {
-  return <Image src={image} alt={name} />;
+function Review({
+  id,
+  name,
+  image,
+  rate,
+  setBeerDetail,
+  setAllReviews,
+}: BeerProps): JSX.Element {
+  return (
+    <Item
+      id={id}
+      onClick={(e) => {
+        setBeerDetail(e);
+        setAllReviews(e);
+      }}
+    >
+      <Sub>
+        <Image className='image' src={image} alt={name} />
+        <Name className='name'>{name}</Name>
+      </Sub>
+    </Item>
+  );
 }
 
+const Item = styled.div`
+  float: left;
+  padding-top: 20px;
+  height: 200px;
+  width: 150px;
+  border-radius: 8px;
+  box-shadow: 3px 3px 3px rgba(238, 238, 238, 0.8);
+  // &:hover .name {
+  //   animation: fadein 1s;
+  //   color: white;
+  //   @keyframes fadein {
+  //     from {
+  //       opacity: 0;
+  //     }
+  //     to {
+  //       opacity: 1;
+  //     }
+  //   }
+`;
+
+const Sub = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  color: black;
+  overflow: hidden;
+`;
+
+const Name = styled.div`
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+  height: 50px;
+  ov
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+`;
+
 const Image = styled.img`
-  height: 15vh;
-  width: 8vw;
-  border: 1px solid gray;
-  border-radius: 1em;
-  margin-right: 1em;
+  height: 60%;
+  width: 40%;
+  margin-bottom: 20px;
   &:hover {
     transition: all ease 1s;
-    transform: scale(1.2);
+    transform: translateY(-5px);
     cursor: pointer;
   }
 `;

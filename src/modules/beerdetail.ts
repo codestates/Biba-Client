@@ -2,6 +2,7 @@ const SET_BEERDETAIL = 'SET_BEERDETAIL' as const;
 const SET_BOOKMARK = 'SET_BOOKMARK' as const;
 const SET_GRAPHDATA = 'SET_GRAPHDATA' as const;
 const SET_USERREVIEW = 'SET_USERREVIEW' as const;
+const DELETE_USERREVIEW = 'DELETE_USERREVIEW' as const;
 const SET_ALLREVIEWS = 'SET_ALLREVIEWS' as const;
 const SET_INFODISPLAY = 'SET_INFODISPLAY' as const;
 const SET_INFOSTATUS = 'SET_INFOSTATUS' as const;
@@ -81,9 +82,9 @@ interface BeerDetailAction extends ObjBeerDetail {
 }
 export const beerDetailInit: ObjBeerDetail = {
   beerDetail: {
-    id: 4,
+    id: -1,
     beer_name: '',
-    beer_img: 'default img',
+    beer_img: '',
     abv: -1,
     ibu: -1,
     company: '',
@@ -138,7 +139,7 @@ export const setGraphData = (
 });
 
 export interface UserReviewAction extends UserReview {
-  type: typeof SET_USERREVIEW;
+  type: typeof SET_USERREVIEW | typeof DELETE_USERREVIEW;
 }
 const userReviewInit: UserReview = {
   user_review: false,
@@ -297,6 +298,12 @@ export const userReviewReducer = (
         user_star: action.user_star,
         user_input: action.user_input,
         user_rate: action.user_rate,
+      };
+
+    case DELETE_USERREVIEW:
+      return {
+        ...state,
+        ...userReviewInit,
       };
 
     default:

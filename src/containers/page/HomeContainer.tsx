@@ -11,6 +11,7 @@ import { BeerT } from '../../modules/getbeers';
 import { ContentType } from '../../modules/nav';
 import {
   IBeerDetail,
+  beerDetailInit,
   Bookmark,
   GraphData,
   UserReview,
@@ -19,6 +20,8 @@ import {
   starStatusInit,
 } from '../../modules/beerdetail';
 import { checkStarScore } from './pageUtils';
+import { User } from '../../modules/user';
+import { LoginResponse } from '../user/LoginContainer';
 
 export interface MatchParams {
   id: string;
@@ -60,7 +63,13 @@ function HomeContainer({
   // store에 각각 beerdetail 넣는 함수
   const setBeerDetail = (e: React.MouseEvent<HTMLElement>): void => {
     console.log(e.currentTarget); // 클릭 시 타겟 정보 -> 나중에 여기서 id 받아와야 함
-
+    dispatch({
+      type: 'SET_INFOSTATUS',
+      tabBasic: true,
+      tabStory: false,
+      tabMore: false,
+    });
+    dispatch({ type: 'SET_BEERDETAIL', beerDetailInit });
     axios
       .post<IBeerDetailWithAll>(
         `https://beer4.xyz/beer/${e.currentTarget.id}`,
@@ -68,8 +77,7 @@ function HomeContainer({
           user_id: userData.id,
           beer_id: e.currentTarget.id,
         },
-      ) // 여기에 id 붙여서 get 요청
-      // .get<IBeerDetailWithAll>(`http://localhost:4000/custom/scrap/4`) // 임시 버튼
+      )
       .then((res) => {
         console.log(res.data);
         const beerDetail: IBeerDetail = res.data;
@@ -133,36 +141,40 @@ function HomeContainer({
   const setAllReviews = (e: React.MouseEvent<HTMLElement>): void => {
     // store에 전체 리뷰 넣는 함수
     axios
-      .get<aReview>(`https://beer4.xyz/comment/${e.currentTarget.id}`)
+      .get<aReview[]>(`https://beer4.xyz/comment/${e.currentTarget.id}`)
       .then((res) => {
-        const allReviews = res.data;
+        console.log(res.data);
+        const rawReviews = res.data;
+        const allReviews = rawReviews.filter((ele) => {
+          if (ele.comment !== '') return ele;
+        });
         dispatch({ type: 'SET_ALLREVIEWS', allReviews });
       }); // [{}, {}]
   };
 
-  // const setLogin = (userData: User, isLogin: boolean, token: string) => {
-  //   dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
-  // };
-  // const setProfile = (profile: string) => {
-  //   dispatch({ type: 'SET_PROFILE', profile });
-  // };
+  const setLogin = (userData: User, isLogin: boolean, token: string) => {
+    dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
+  };
+  const setProfile = (profile: string) => {
+    dispatch({ type: 'SET_PROFILE', profile });
+  };
 
-  // useEffect(() => {
-  //   axios
-  //     .get<LoginResponse>('http://localhost:4000/auth', {
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         const { id, nickname, email } = res.data.userData;
-  //         const { token, profile } = res.data;
-  //         // 받은 데이터로 store 상태 업데이트
-  //         setLogin({ id: id, nickname: nickname, email: email }, true, token);
-  //         setProfile(profile);
-  //       } else if (res.status === 404) {
-  //       }
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get<LoginResponse>('https://beer4.xyz/auth', {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          const { id, nickname, email } = res.data.userData;
+          const { token, profile } = res.data;
+          // 받은 데이터로 store 상태 업데이트
+          setLogin({ id: id, nickname: nickname, email: email }, true, token);
+          setProfile(profile);
+        } else if (res.status === 404) {
+        }
+      });
+  }, []);
 
   return (
     <Home

@@ -39,7 +39,7 @@ export const App = ({
               {isLogin ? (
                 <Route path='/mypage' component={MypageContainerWithRouter} />
               ) : (
-                false
+                <Redirect exact to='/' />
               )}
             </Switch>
           </Full>

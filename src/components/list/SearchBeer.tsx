@@ -22,6 +22,7 @@ function SearchBeer({
   return (
     <BeerImage
       id={id}
+      key={`searchbeer${id}`}
       onClick={(e) => {
         setBeerDetail(e);
         setAllReviews(e);
@@ -35,7 +36,8 @@ function SearchBeer({
       </Middle>
       <Bottom>
         {stars.map((index) => (
-          <EStar key={stars[index]} />
+          // <EStar key={stars[index]} />
+          <EStar key={`star${stars.indexOf(index)}`} />
         ))}
       </Bottom>
     </BeerImage>

@@ -12,7 +12,7 @@ import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
-import { aReview, beerDetailInit } from '../../modules/beerdetail';
+import { aReview } from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
 import { nicknameCheck } from '../user/userUtils';
 import {
@@ -22,6 +22,7 @@ import {
   mainGreyOpac,
 } from '../../components/nav/color';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
+import { Content } from '../../components/user/Mypage';
 
 export interface ModalProps {
   display: boolean;
@@ -30,6 +31,7 @@ export interface ModalProps {
   user_review: boolean;
   contentType: ContentType;
   content: JSX.Element | JSX.Element[];
+  allReviews: aReview[];
 }
 
 const confirmBtnColor = '#989898';
@@ -48,6 +50,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
+  const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
 
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
@@ -61,14 +64,11 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
 
   const dispatch = useDispatch();
   // ================================================================ Modal
-  const handleModalClose = (
-    contentType: ContentType,
-    display: boolean,
-  ): void => {
+  const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
   const closeModal = (): void => {
-    handleModalClose(ContentType.Empty, false);
+    handleModal(ContentType.Empty, false);
   };
   const pressEsc = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'ESC') closeModal();
@@ -132,9 +132,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   };
   const handleClickChangeNickname = (): void => {
     const { nickname } = inputValues;
-    nicknameCheck(nickname);
-    console.log('nickname change test');
-    if (nicknameConfirm) {
+    if (nicknameCheck(nickname) && nicknameConfirm) {
       axios
         .post(`https://beer4.xyz/users/changenickname`, {
           token: token,
@@ -143,10 +141,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         .then((res) => {
           if (res.status === 200) {
             dispatch({
-              type: 'SET_LOGINSTATE',
+              type: 'CHANGE_NICKNAME',
               userData: { ...userData, nickname: nickname },
-              isLogin,
-              token,
             });
             alert(`닉네임이 정상적으로 변경되었습니다.`);
             handleConfirmNickname(false);
@@ -155,9 +151,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         })
         .catch(() => {
           alert(`닉네임 변경에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+          handleConfirmNickname(false);
           return closeModal();
         });
     }
+  };
+  // ================================================================ Bookmark List
+  const handleClickBookmarkList = (): void => {
+    // 서버에서 넘어오는 favorite list 보고 결정
   };
 
   // ================================================================ User Review
@@ -165,24 +166,27 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     // review 작성 모달 창 내에서 작동
     if (!isLogin) {
       alert(`로그인 후 이용해주세요.`);
+      closeModal();
+      handleModal(ContentType.Login, true);
     } else if (inputValues.review === '') {
       alert(`리뷰 내용을 작성해주세요.`);
     } else if (!user_star) {
       alert(`별점을 먼저 등록해주세요.`);
+      closeModal();
     } else {
       if (!user_review) {
         // 새로 생성
         console.log('review 작성 테스트');
         console.log({
           token: token,
-          beer_id: beerDetailInit.beerDetail.id,
+          beer_id: beerDetail.id,
           comment: inputValues.review,
           rate: user_rate,
         });
         axios
-          .post(`https://beer4.xyz/comment/create`, {
+          .post(`https://beer4.xyz/comment/update`, {
             token: token,
-            beer_id: beerDetailInit.beerDetail.id,
+            beer_id: beerDetail.id,
             comment: inputValues.review,
             rate: user_rate,
           })
@@ -197,6 +201,15 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
                 user_rate,
               });
               alert(`리뷰가 등록되었습니다.`);
+              axios
+                .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
+                .then((res) => {
+                  const rawReviews = res.data;
+                  const allReviews = rawReviews.filter((ele) => {
+                    if (ele.comment !== '') return ele;
+                  });
+                  dispatch({ type: 'SET_ALLREVIEWS', allReviews });
+                }); // [{}, {}]
               return closeModal();
             }
           })
@@ -208,7 +221,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         axios
           .post(`https://beer4.xyz/comment/update`, {
             token: token,
-            beer_id: beerDetailInit.beerDetail.id,
+            beer_id: beerDetail.id,
             comment: inputValues.review,
             rate: user_rate,
           })
@@ -223,6 +236,15 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
                 user_rate,
               });
               alert(`리뷰가 수정되었습니다.`);
+              axios
+                .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
+                .then((res) => {
+                  const rawReviews = res.data;
+                  const allReviews = rawReviews.filter((ele) => {
+                    if (ele.comment !== '') return ele;
+                  });
+                  dispatch({ type: 'SET_ALLREVIEWS', allReviews });
+                }); // [{}, {}]
               return closeModal();
             }
           })
@@ -233,6 +255,43 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     }
   };
 
+  const handleClickDeleteReview = (): void => {
+    const result = global.confirm(`리뷰를 삭제하시겠어요?`);
+    if (result) {
+      axios
+        .post(`https://beer4.xyz/comment/delete`, {
+          beer_id: beerDetail.id,
+          token: token,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 201) {
+            dispatch({
+              type: 'DELETE_USERREVIEW',
+            });
+            alert(`리뷰가 삭제되었습니다.`);
+            axios
+              .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
+              .then((res) => {
+                const rawReviews = res.data;
+                const allReviews = rawReviews.filter((ele) => {
+                  if (ele.comment !== '') return ele;
+                });
+                dispatch({ type: 'SET_ALLREVIEWS', allReviews });
+                dispatch({
+                  type: 'SET_STARSTATUS',
+                  a: false,
+                  b: false,
+                  c: false,
+                  d: false,
+                  e: false,
+                });
+              }); // [{}, {}]
+            return closeModal();
+          }
+        });
+    }
+  };
   // ================================================================ Beer Request
   const handleRequestType = (request1: boolean, request2: boolean): void => {
     dispatch({ type: 'SET_REQUESTTYPE', request1, request2 });
@@ -292,7 +351,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       return alert(`내용을 작성해주세요.`);
     }
   };
-
   // ================================================================ Content
   const content = (contentType: ContentType): JSX.Element | JSX.Element[] => {
     // ==================================================== request beer
@@ -376,9 +434,11 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
                 {ele.profile === '' || ele.profile === undefined ? (
                   <PIcon />
                 ) : (
-                  <Profile className='profile' src='' alt='profile'>
-                    {ele.profile}
-                  </Profile>
+                  <Profile
+                    className='profile'
+                    src={ele.profile}
+                    alt='profile'
+                  />
                 )}
                 <Nickname className='nickname'>{ele.nickname}</Nickname>
               </UserWrap>
@@ -423,6 +483,15 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         </ChangeNicknameWrap>
       );
     }
+    // ==================================================== favorite beer list
+
+    if (contentType === ContentType.MyBookmarks) {
+      return (
+        <div>
+          <div>모달 - favorite list 보고 그래프 비교하기</div>
+        </div>
+      );
+    }
     // ==================================================== add review
     if (contentType === ContentType.UsersReview) {
       return (
@@ -436,9 +505,16 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             placeholder='리뷰를 작성해주세요.'
             wrap='hard'
           ></ReviewTextArea>
-          <ReviewSubmitBtn onClick={handleClickSubmitReview}>
-            {user_review ? `수정하기` : `등록하기`}
-          </ReviewSubmitBtn>
+          <UserReviewBtnArea>
+            <UserReviewBtn onClick={handleClickSubmitReview}>
+              {user_review ? `수정하기` : `등록하기`}
+            </UserReviewBtn>
+            {user_review ? (
+              <UserReviewBtn onClick={handleClickDeleteReview}>
+                삭제하기
+              </UserReviewBtn>
+            ) : undefined}
+          </UserReviewBtnArea>
         </ReviewWrap>
       );
     }
@@ -455,9 +531,11 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
                 {ele.profile === '' || ele.profile === undefined ? (
                   <PIcon />
                 ) : (
-                  <Profile className='profile' src='' alt='profile'>
-                    {ele.profile}
-                  </Profile>
+                  <Profile
+                    className='profile'
+                    src={ele.profile}
+                    alt='profile'
+                  />
                 )}
                 <Nickname className='nickname'>{ele.nickname}</Nickname>
               </UserWrap>
@@ -485,6 +563,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       user_review={user_review}
       contentType={contentType}
       content={content(contentType)}
+      allReviews={allReviews}
     />
   );
 };
@@ -605,8 +684,14 @@ const ReviewTextArea = styled.textarea`
     outline: none;
   }
 `;
+const UserReviewBtnArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
 
-const ReviewSubmitBtn = styled.button`
+const UserReviewBtn = styled.button`
   cursor: pointer;
 
   display: flex;
@@ -615,9 +700,10 @@ const ReviewSubmitBtn = styled.button`
   border: 0px;
   border-radius: 8px;
 
-  margin: 0 0 0 0.5em;
+  margin: 0.3em 0 0 0.5em;
   padding: 0.5em 0.6em 0.35em 0.6em;
 
+  font-size: 0.95em;
   background-color: ${mainYellow};
   color: #fff;
   &:hover {
@@ -628,7 +714,6 @@ const ReviewSubmitBtn = styled.button`
     outline: none;
   }
 `;
-
 // ============================ Request Beer
 const RequestBeerModal = styled.div`
   display: flex;

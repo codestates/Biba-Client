@@ -1,10 +1,16 @@
 import React from 'react';
+import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
+import './TodayCss.css';
 
 import Review from './ReviewBeer';
-import { BeerI } from '../../modules/getbeers';
+import { BeerListProps } from '../../containers/page/HomeContainer';
 
-function ReviewList({ beers }: BeerI): JSX.Element {
+function ReviewList({
+  beers,
+  setBeerDetail,
+  setAllReviews,
+}: BeerListProps): JSX.Element {
   const reviewBeerList = beers.map((beer) => (
     <Review
       id={beer.id}
@@ -12,25 +18,30 @@ function ReviewList({ beers }: BeerI): JSX.Element {
       name={beer.beer_name}
       image={beer.beer_img}
       rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   ));
+  const breakpointColumnsObj = {
+    default: 5,
+    1200: 4,
+    1100: 3,
+    800: 2,
+    500: 1,
+  };
   return (
-    <Container>
-      <ListContainer>
-        <Title>리뷰 작성한 맥주들</Title>
+    <>
+      <Title>리뷰 작성한 맥주들</Title>
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className='my-masonry-grid'
+        columnClassName='my-masonry-grid_column'
+      >
         {reviewBeerList}
-      </ListContainer>
-    </Container>
+      </Masonry>
+    </>
   );
 }
-
-const Container = styled.div`
-  height: 100%;
-  overflow-y: scroll;
-`;
-
-const ListContainer = styled.div``;
-
 const Title = styled.h3`
   padding: 10px;
   border-radius: 8px;
@@ -39,14 +50,5 @@ const Title = styled.h3`
   opacity: 0.9;
   color: white;
 `;
-
-// const Categories = styled.ul`
-//   list-style: none;
-// `;
-
-// const Category = styled.li`
-//   margin-bottom: 1em;
-//   margin-right: 3em;
-// `;
 
 export default ReviewList;

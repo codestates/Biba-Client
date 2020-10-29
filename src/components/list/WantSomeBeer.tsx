@@ -13,12 +13,13 @@ function WantSomeBeer({
   return (
     <Item
       id={id}
+      key={`wantsomebeer${id}`}
       onClick={(e) => {
         setBeerDetail(e);
         setAllReviews(e);
       }}
     >
-      <Sub id={id}>
+      <Sub>
         <Image className='image' src={image} alt={name} />
         <Name className='name'>{name}</Name>
       </Sub>
@@ -32,7 +33,6 @@ const Item = styled.div`
   height: 200px;
   width: 150px;
   border-radius: 8px;
-  background-color: lightgray;
   // &:hover .name {
   //   animation: fadein 1s;
   //   color: white;

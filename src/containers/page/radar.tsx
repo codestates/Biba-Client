@@ -18,7 +18,7 @@ export const Chart = (): JSX.Element => {
     datasets: [
       {
         label: beer_name,
-        data: [1, 2, 3, 4, 5],
+        data: [sparkling, sweet, bitter, accessibility, body],
         backgroundColor: 'rgba(255, 198, 0, 0.7)',
         borderColor: 'rgba(255, 198, 0, 0.5)',
         fill: true,
@@ -29,19 +29,19 @@ export const Chart = (): JSX.Element => {
         pointHoverRadius: 10,
         pointHitRadius: 40,
       },
-      {
-        label: beer_name,
-        data: [5, 4, 3, 2, 5],
-        backgroundColor: 'rgba(238, 102, 121, 0.7)',
-        borderColor: 'rgba(238, 102, 121, 0.5)',
-        fill: true,
-        borderWidth: 2,
-        hoverBorderWidth: 4,
-        pointRadius: 0,
-        pointBorderWidth: 3,
-        pointHoverRadius: 10,
-        pointHitRadius: 40,
-      },
+      // {
+      //   label: beer_name,
+      //   data: [5, 4, 3, 2, 5],
+      //   backgroundColor: 'rgba(238, 102, 121, 0.7)',
+      //   borderColor: 'rgba(238, 102, 121, 0.5)',
+      //   fill: true,
+      //   borderWidth: 2,
+      //   hoverBorderWidth: 4,
+      //   pointRadius: 0,
+      //   pointBorderWidth: 3,
+      //   pointHoverRadius: 10,
+      //   pointHitRadius: 40,
+      // },
     ],
   };
 
@@ -62,7 +62,7 @@ export const Chart = (): JSX.Element => {
         },
         legend: {
           position: 'right',
-          display: true,
+          display: false,
         },
       }}
       data={expData}
