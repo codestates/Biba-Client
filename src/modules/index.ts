@@ -7,6 +7,7 @@ import {
   confirmEmailReducer,
   confirmNicknameReducer,
   confirmAgeReducer,
+  refDisplayReducer,
 } from './user';
 import {
   searchbarReducer,
@@ -42,6 +43,7 @@ export const rootReducer = combineReducers({
   confirmEmail: confirmEmailReducer,
   confirmNickname: confirmNicknameReducer,
   confirmAge: confirmAgeReducer,
+  refDisplay: refDisplayReducer,
   searchbar: searchbarReducer,
   modal: modalReducer,
   navDisplay: navDisplayReducer,

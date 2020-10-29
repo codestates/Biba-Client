@@ -8,16 +8,30 @@ import { RootState } from '../../modules';
 import { FavoriteBeerListContainerWithRouter } from '../../containers/list/FavoriteListContainer';
 import { ReviewListContainerWithRouter } from '../../containers/list/ReviewListContainer';
 
-import { DefaultProps } from '../../containers/page/HomeContainer';
+import { HomeProps } from '../../containers/page/HomeContainer';
 
-function MyBeer(): JSX.Element {
+function MyBeer({ setBeerDetail, setAllReviews }: HomeProps): JSX.Element {
   const isFavorite = useSelector((state: RootState) => state.myBeer.isFavorite);
   const isReview = useSelector((state: RootState) => state.myBeer.isReview);
 
   return (
     <>
-      {isFavorite ? <FavoriteBeerListContainerWithRouter /> : false}
-      {isReview ? <ReviewListContainerWithRouter /> : false}
+      {isFavorite ? (
+        <FavoriteBeerListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
+      {isReview ? (
+        <ReviewListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
     </>
   );
 }

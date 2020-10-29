@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import {
@@ -23,14 +24,19 @@ import {
 export const Mypage = ({
   userData,
   profile,
+  refDisplay,
   handleModal,
   getMyReviews,
   mapInputList,
   handleClickChangeNickname,
-  handleProfileUpload,
+  handleUploadProfile,
   profileInput,
   handlePostProfile,
+  handleChangeProfile,
+  handleDeleteProfile,
 }: MypageProps): JSX.Element => {
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <MypageArea className='mypageArea'>
@@ -50,22 +56,36 @@ export const Mypage = ({
                   className='uploadBtn'
                   type='file'
                   accept='image/*'
-                  onChange={handleProfileUpload}
+                  onChange={handleUploadProfile}
                 ></Upload>
               </Label>
             </ProfileTitle>
             <ProfileWrap className='profileWrap'>
               <ProfileDiv>
-                <ProfileImg
-                  className='profileImg'
+                <ProfileRef
+                  style={refDisplay ? undefined : { display: 'none' }}
+                  className='profileRef'
                   ref={profileInput}
+                ></ProfileRef>
+                <ProfileImg
+                  style={!refDisplay ? undefined : { display: 'none' }}
+                  className='profileImg'
+                  src={profile !== '' ? profile : undefined}
+                  alt=''
                 ></ProfileImg>
               </ProfileDiv>
               <BtnArea className='btnArea'>
-                <Btn className='postBtn' onClick={handlePostProfile}>
-                  등록
+                <Btn
+                  className='postBtn'
+                  onClick={
+                    profile === '' ? handlePostProfile : handleChangeProfile
+                  }
+                >
+                  {profile === '' ? `등록` : `변경`}
                 </Btn>
-                <Btn className='deleteBtn'>삭제</Btn>
+                <Btn className='deleteBtn' onClick={handleDeleteProfile}>
+                  삭제
+                </Btn>
               </BtnArea>
             </ProfileWrap>
           </ProfileArea>
@@ -189,7 +209,14 @@ const ProfileDiv = styled.div`
   width: 100px;
   height: 100px;
 `;
-const ProfileImg = styled.img`
+export const ProfileImg = styled.img`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  max-height: 100%;
+`;
+export const ProfileRef = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;

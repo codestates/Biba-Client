@@ -10,6 +10,7 @@ const CHANGE_NICKNAME = 'CHANGE_NICKNAME' as const;
 const CONFIRM_EMAIL = 'CONFIRM_EMAIL' as const;
 const CONFIRM_NICKNAME = 'CONFIRM_NICKNAME' as const;
 const CONFIRM_AGE = 'CONFIRM_AGE' as const;
+const REF_DISPLAY = 'REF_DISPLAY' as const;
 
 export interface User {
   id: number;
@@ -30,6 +31,9 @@ export interface MyReviewList {
 }
 export interface ConfirmInput {
   value: boolean;
+}
+export interface RefDisplay {
+  display: boolean;
 }
 
 // 이하로 action interface + init + action
@@ -133,6 +137,16 @@ export const checkAgeInput = (value: boolean): ConfirmInputAction => ({
   value,
 });
 
+export interface RefDisplayAction extends RefDisplay {
+  type: typeof REF_DISPLAY;
+}
+const refDisplayInit: RefDisplay = {
+  display: false,
+};
+export const setRefDisplay = (display: boolean): RefDisplayAction => ({
+  type: REF_DISPLAY,
+  display,
+});
 // ============ 이하로 reducers
 export const loginReducer = (
   state = loginInit,
@@ -184,7 +198,7 @@ export const profileReducer = (
     case DELETE_PROFILE:
       return {
         ...state,
-        profile: 'empty',
+        profile: '',
       };
 
     default:
@@ -249,6 +263,22 @@ export const confirmAgeReducer = (
       return {
         ...state,
         value: action.value,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const refDisplayReducer = (
+  state = refDisplayInit,
+  action: RefDisplayAction,
+): RefDisplay => {
+  switch (action.type) {
+    case REF_DISPLAY:
+      return {
+        ...state,
+        display: action.display,
       };
 
     default:

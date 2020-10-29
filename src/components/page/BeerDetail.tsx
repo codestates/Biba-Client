@@ -31,6 +31,8 @@ export const BeerDetail = ({
   handleInfoTab,
   handleStar,
   user_review,
+  user_input,
+  user_star,
   handleClickUsersReview,
   mainReviewList,
   handleClickAllReviews,
@@ -58,7 +60,7 @@ export const BeerDetail = ({
                   <Fav
                     id='favToggle'
                     type='checkbox'
-                    onChange={handleBookmark}
+                    onChange={() => handleBookmark()}
                     checked={bookmark}
                   ></Fav>
                   <FavLB htmlFor='favToggle'></FavLB>
@@ -569,7 +571,7 @@ const CommentArea = styled.div`
 `;
 const List = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 
   // max-width: 800px;
   width: 100%;

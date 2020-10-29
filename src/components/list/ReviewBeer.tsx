@@ -1,10 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BeerProps } from '../../modules/getbeers';
+import { BeerProps } from '../../containers/page/HomeContainer';
 
-function Review({ name, image, rate }: BeerProps): JSX.Element {
-  return <Image src={image} alt={name} />;
+function Review({
+  id,
+  name,
+  image,
+  rate,
+  setBeerDetail,
+  setAllReviews,
+}: BeerProps): JSX.Element {
+  return (
+    <Image
+      id={id}
+      src={image}
+      alt={name}
+      onClick={(e) => {
+        setBeerDetail(e);
+        setAllReviews(e);
+      }}
+    />
+  );
 }
 
 const Image = styled.img`

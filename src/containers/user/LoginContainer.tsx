@@ -8,7 +8,7 @@ import { Login } from '../../components/user/Login';
 import { User, UserState, UserProfile } from '../../modules/user';
 import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
 
-interface LoginResponse extends UserState, UserProfile {}
+export interface LoginResponse extends UserState, UserProfile {}
 export interface LoginProps {
   inputValues: {
     email: string;
@@ -49,22 +49,20 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
   };
 
   const handleLogin = (): void => {
-    console.log({
-      email: inputValues.email,
-      password: String(inputValues.password),
-    });
     axios
-      .post<LoginResponse>(`https://beer4.xyz/users/login`, {
-        email: inputValues.email,
-        password: String(inputValues.password),
-      })
+      .post<LoginResponse>(
+        `https://beer4.xyz/users/login`,
+        {
+          email: inputValues.email,
+          password: String(inputValues.password),
+        },
+        { withCredentials: true },
+      )
       .then((res) => {
-        // console.log(res);
         if (res.status === 200) {
           const { id, nickname, email } = res.data.userData;
           const { token, profile } = res.data;
           // 받은 데이터로 store 상태 업데이트
-          console.log(token);
           setLogin({ id: id, nickname: nickname, email: email }, true, token);
           setProfile(profile);
           closeModal();

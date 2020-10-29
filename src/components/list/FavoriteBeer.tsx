@@ -1,18 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export interface BeerProps {
-  id: string;
-  key: string;
-  name: string;
-  image: string;
-  rate: number;
-}
+import { BeerProps } from '../../containers/page/HomeContainer';
 
-function FavoriteBeer({ name, image, rate }: BeerProps): JSX.Element {
+function FavoriteBeer({
+  id,
+  name,
+  image,
+  rate,
+  setBeerDetail,
+  setAllReviews,
+}: BeerProps): JSX.Element {
   return (
     <BeerImage>
-      <Image src={image} alt={name} />
+      <Image
+        id={id}
+        src={image}
+        alt={name}
+        onClick={(e) => {
+          setBeerDetail(e);
+          setAllReviews(e);
+        }}
+      />
     </BeerImage>
   );
 }

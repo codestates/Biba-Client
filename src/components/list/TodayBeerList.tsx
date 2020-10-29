@@ -49,7 +49,15 @@ function TodayBeerList({
     'http://pds18.egloos.com/pds/201007/23/44/e0080644_4c49804cb9d78.jpg',
   ];
   const todayBeerList = images.map((url, index) => (
-    <Item key={index} src={url} />
+    <Item
+      id={String(index + 1)}
+      key={`todaybeer${String(index + 1)}`}
+      src={url}
+      onClick={(e) => {
+        setBeerDetail(e);
+        setAllReviews(e);
+      }}
+    />
   ));
 
   return (

@@ -18,6 +18,9 @@ export interface NavProps {
   isLogin: boolean;
   token: string;
   profile: string;
+  inputQuery: {
+    query: string;
+  };
   logout(): void;
   handleClickLogo(): void;
   handleClickLogin(): void;
@@ -84,7 +87,6 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     props.history.push('/signup');
   };
   const handleClickMypage = (): void => {
-    console.log('test');
     handleNavDisplay(false);
     props.history.push('/mypage');
   };
@@ -101,11 +103,11 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     dispatch({ type: 'SET_BEERS', beers });
   };
 
-  const [inputQuery, setInputQuery] = useState('');
+  const [inputQuery, setInputQuery] = useState({ query: '' });
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    const value = e.target.value;
-    setInputQuery(value);
+    const { value } = e.target;
+    setInputQuery({ ...inputQuery, query: value });
   };
 
   const handleClickIcon = (display: boolean): void => {
@@ -114,7 +116,7 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
 
   const handleSearch = (): void => {
     axios
-      .get<Array<BeerT>>(`https://beer4.xyz/search/${inputQuery}`)
+      .get<Array<BeerT>>(`https://beer4.xyz/search/${inputQuery.query}`)
       .then((res) => {
         if (res.status === 200) {
           const beers = res.data;
@@ -122,6 +124,9 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
           // 받은 데이터로 store 상태 업데이트
           setBeers(beers);
           dispatch({ type: 'SEARCH_BEER' });
+          setInputQuery({ ...inputQuery, query: '' });
+          handleNavDisplay(true);
+          props.history.push('/');
         }
       })
       .catch(() => {
@@ -139,6 +144,7 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       isLogin={isLogin}
       token={token}
       profile={profile}
+      inputQuery={inputQuery}
       logout={logout}
       handleClickLogo={handleClickLogo}
       handleClickLogin={handleClickLogin}

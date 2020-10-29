@@ -13,12 +13,13 @@ function WantSomeBeer({
   return (
     <Item
       id={id}
+      key={`wantsomebeer${id}`}
       onClick={(e) => {
         setBeerDetail(e);
         setAllReviews(e);
       }}
     >
-      <Sub id={id}>
+      <Sub>
         <Image className='image' src={image} alt={name} />
         <Name className='name'>{name}</Name>
       </Sub>
