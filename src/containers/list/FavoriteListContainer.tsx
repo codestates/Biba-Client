@@ -24,7 +24,7 @@ function FavoriteBeerListContainer({
 
   useEffect(() => {
     axios
-      .post<BeerT[]>(`https://beer4.xyz/bookmark`, {
+      .post<BeerT[]>(`https://beer4.xyz/bookmark/list`, {
         token: token,
       })
       .then((res) => {

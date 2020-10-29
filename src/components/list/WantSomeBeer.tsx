@@ -33,7 +33,6 @@ const Item = styled.div`
   height: 200px;
   width: 150px;
   border-radius: 8px;
-  background-color: lightgray;
   // &:hover .name {
   //   animation: fadein 1s;
   //   color: white;

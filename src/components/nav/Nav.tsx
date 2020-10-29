@@ -39,9 +39,9 @@ export const Nav = ({
           alt='this is fake logo'
           onClick={handleClickLogo}
         />
-        <TestBtns>
+        {/* <TestBtns>
           <button onClick={testLoginModal}>login modal</button>
-        </TestBtns>
+        </TestBtns> */}
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
             <SearchIcon
