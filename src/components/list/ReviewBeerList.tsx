@@ -3,8 +3,13 @@ import styled from 'styled-components';
 
 import Review from './ReviewBeer';
 import { BeerI } from '../../modules/getbeers';
+import { BeerListProps } from '../../containers/page/HomeContainer';
 
-function ReviewList({ beers }: BeerI): JSX.Element {
+function ReviewList({
+  beers,
+  setBeerDetail,
+  setAllReviews,
+}: BeerListProps): JSX.Element {
   const reviewBeerList = beers.map((beer) => (
     <Review
       id={beer.id}
@@ -12,6 +17,8 @@ function ReviewList({ beers }: BeerI): JSX.Element {
       name={beer.beer_name}
       image={beer.beer_img}
       rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   ));
   return (

@@ -11,6 +11,7 @@ const numToStar = (rate: number) => {
 };
 
 function Beer({
+  id,
   name,
   image,
   rate,
@@ -20,14 +21,7 @@ function Beer({
   const star = numToStar(rate);
   return (
     <BeerImage>
-      <Image
-        src={image}
-        alt={name}
-        onClick={(e) => {
-          setBeerDetail(e);
-          setAllReviews(e);
-        }}
-      />
+      <Image src={image} alt={name} />
       <TextContainer>
         <Text>{name}</Text>
         <Text>{star}</Text>

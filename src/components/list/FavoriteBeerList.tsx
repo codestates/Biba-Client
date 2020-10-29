@@ -5,8 +5,13 @@ import './TodayCss.css';
 
 import FavoriteBeer from './FavoriteBeer';
 import { BeerI } from '../../modules/getbeers';
+import { BeerListProps } from '../../containers/page/HomeContainer';
 
-function FavoriteBeerList({ beers }: BeerI): JSX.Element {
+function FavoriteBeerList({
+  beers,
+  setBeerDetail,
+  setAllReviews,
+}: BeerListProps): JSX.Element {
   const favoriteBeerList = beers.map((beer) => (
     <FavoriteBeer
       id={beer.id}
@@ -14,6 +19,8 @@ function FavoriteBeerList({ beers }: BeerI): JSX.Element {
       name={beer.beer_name}
       image={beer.beer_img}
       rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   ));
   const breakpointColumnsObj = {

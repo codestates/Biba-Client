@@ -4,9 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { BeerT, BEER_FAVORITE } from '../../modules/getbeers';
 import FavoriteBeerList from '../../components/list/FavoriteBeerList';
+import { HomeProps } from '../../containers/page/HomeContainer';
 import axios from 'axios';
 
-function FavoriteBeerListContainer(): JSX.Element {
+function FavoriteBeerListContainer({
+  match,
+  setBeerDetail,
+  setAllReviews,
+}: HomeProps): JSX.Element {
   const favoriteBeerList = useSelector(
     (state: RootState) => state.favoriteBeer.beers,
   );
@@ -23,10 +28,17 @@ function FavoriteBeerListContainer(): JSX.Element {
         token: token,
       })
       .then((res) => {
+        console.log(res.data);
         setFavoriteBeers(res.data);
       });
   }, []);
-  return <FavoriteBeerList beers={favoriteBeerList} />;
+  return (
+    <FavoriteBeerList
+      beers={favoriteBeerList}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  );
 }
 
 export const FavoriteBeerListContainerWithRouter = withRouter(

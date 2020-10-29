@@ -9,7 +9,11 @@ import { BeerT, BEER_REVIEW } from '../../modules/getbeers';
 
 import { HomeProps } from '../../containers/page/HomeContainer';
 
-function ReviewListContainer(): JSX.Element {
+function ReviewListContainer({
+  match,
+  setBeerDetail,
+  setAllReviews,
+}: HomeProps): JSX.Element {
   const reviewBeerList = useSelector(
     (state: RootState) => state.reviewBeer.beers,
   );
@@ -23,11 +27,18 @@ function ReviewListContainer(): JSX.Element {
     axios
       .post<BeerT[]>(`https://beer4.xyz/comment/mylist`, { token: token })
       .then((res) => {
+        console.log(res.data);
         setReviewBeers(res.data);
       });
   }, []);
 
-  return <ReviewList beers={reviewBeerList} />;
+  return (
+    <ReviewList
+      beers={reviewBeerList}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  );
 }
 
 export const ReviewListContainerWithRouter = withRouter(ReviewListContainer);

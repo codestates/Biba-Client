@@ -31,6 +31,8 @@ export const BeerDetail = ({
   handleInfoTab,
   handleStar,
   user_review,
+  user_input,
+  user_star,
   handleClickUsersReview,
   mainReviewList,
   handleClickAllReviews,
@@ -58,7 +60,7 @@ export const BeerDetail = ({
                   <Fav
                     id='favToggle'
                     type='checkbox'
-                    onChange={handleBookmark}
+                    onChange={() => handleBookmark()}
                     checked={bookmark}
                   ></Fav>
                   <FavLB htmlFor='favToggle'></FavLB>
@@ -141,12 +143,7 @@ export const BeerDetail = ({
                     : { display: 'none' }
                 }
               >
-                <P className='content'>
-                  이 맥주에는 이런 전설이 있습니다.
-                  <br />
-                  단어 몇 개까지 넣어야 보기에 괜찮을까요? 줄바꿈 어떻게 되는
-                  건지 고기와 함께하는 탄산수 타임
-                </P>
+                <P className='content'>{beerDetail.explain}</P>
               </InfoDetail1>
               <InfoDetail2
                 className='infoDetail'
@@ -158,12 +155,7 @@ export const BeerDetail = ({
                     : { display: 'none' }
                 }
               >
-                <P className='content'>
-                  이 맥주에는 이런 전설이 있습니다.
-                  <br />
-                  단어 몇 개까지 넣어야 보기에 괜찮을까요? 줄바꿈 어떻게 되는
-                  건지 고기와 함께하는 탄산수 타임
-                </P>
+                <P className='content'>{beerDetail.story}</P>
               </InfoDetail2>
               <InfoDetail3
                 className='infoDetail'
@@ -579,7 +571,7 @@ const CommentArea = styled.div`
 `;
 const List = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 
   // max-width: 800px;
   width: 100%;

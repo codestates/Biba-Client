@@ -29,13 +29,13 @@ function WantSomeBeerListContainer({
   };
 
   useEffect(() => {
-    axios.get<BeerT[]>(`https://beer4.xyz/beer/list-popular`).then((res) => {
+    axios.get<BeerT[]>(`https://beer4.xyz/category/popular`).then((res) => {
       setHotBeers(res.data);
     });
-    axios.get<BeerT[]>(`https://beer4.xyz/beer/list-recent`).then((res) => {
+    axios.get<BeerT[]>(`https://beer4.xyz/category/recent`).then((res) => {
       setLateBeers(res.data);
     });
-    axios.get<BeerT[]>(`https://beer4.xyz/beer/list-favor`).then((res) => {
+    axios.get<BeerT[]>(`https://beer4.xyz/category/germany`).then((res) => {
       setPickBeers(res.data);
     });
   }, []);

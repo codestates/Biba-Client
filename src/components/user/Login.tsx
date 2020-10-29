@@ -19,6 +19,7 @@ import {
 } from '../../components/nav/color';
 
 export const Login = ({
+  inputValues,
   handleOnChange,
   handleLogin,
   pressEnter,
@@ -39,6 +40,7 @@ export const Login = ({
           <Input
             type='text'
             name='email'
+            value={inputValues.email}
             onChange={handleOnChange}
             onKeyPress={pressEnter}
             placeholder='이메일을 입력해주세요.'
@@ -46,6 +48,7 @@ export const Login = ({
           <Input
             type='password'
             name='password'
+            value={inputValues.password}
             onChange={handleOnChange}
             onKeyPress={pressEnter}
             placeholder='비밀번호를 입력해주세요.'

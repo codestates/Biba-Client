@@ -9,7 +9,7 @@ import { RootState } from '../../modules';
 import { User, UserState, UserProfile } from '../../modules/user';
 import { ContentType } from '../../modules/nav';
 import { aReview } from '../../modules/beerdetail';
-import { Mypage } from '../../components/user/Mypage';
+import { Mypage, ProfileRef } from '../../components/user/Mypage';
 import {
   Content,
   Detail,
@@ -17,7 +17,7 @@ import {
   Input,
   ChangeBtn,
 } from '../../components/user/Mypage';
-import { passwordCheck, passwordMatch } from './userUtils';
+import { nicknameCheck, passwordCheck, passwordMatch } from './userUtils';
 
 interface IProfile extends HTMLDivElement {
   src: string | ArrayBuffer | null;
@@ -26,80 +26,35 @@ interface IProfile extends HTMLDivElement {
 export interface MypageProps {
   userData: User;
   profile: string;
+  refDisplay: boolean;
   handleModal(contentType: ContentType, display: boolean): void;
   getMyReviews(): void;
   mapInputList(): JSX.Element[];
   handleClickChangeNickname(): void;
-  handleProfileUpload(e: React.ChangeEvent<HTMLInputElement>): void;
+  handleUploadProfile(e: React.ChangeEvent<HTMLInputElement>): void;
   profileInput: React.RefObject<HTMLImageElement>;
-  handleProfilePost(): void;
+  handlePostProfile(): void;
+  handleChangeProfile(): void;
+  handleDeleteProfile(): void;
 }
 
 const MypageContainer = (props: RouterProps): JSX.Element => {
-  // profile pic 작업 중
-  const profileInput = React.useRef(null);
-  const formData = new FormData();
-
-  const handleProfileUpload = (
-    // 사진 ref에 업로드만, 전송 x 함수
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
-    const target = e.currentTarget.files as FileList;
-    console.log(target[0]);
-    formData.append('image', target[0]);
-
-    if (profileInput.current) {
-      const { current } = profileInput as React.RefObject<IProfile>;
-
-      const fr = new FileReader();
-      fr.onload = () => {
-        if (current) {
-          current.src = fr.result;
-        }
-      };
-      console.log(target);
-      fr.readAsDataURL(target[0]);
-      console.log(formData.getAll('image'));
-    }
-    setTimeout(() => console.log(profileInput), 1000);
-    // 전송 후 이미지 주소(S3 주소) 받아서 dispatch 필요
-  };
-
-  const handleProfilePost = (): void => {
-    const index = formData.getAll('image').length;
-    console.log(formData.getAll('image')[index - 1]); // 이거 전송!
-    // axios
-    //   .post(`https://beer4.xyz/users/profile`, formData)
-    //   .then((res) => console.log(res));
-  };
-
   // 최상단
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
   const { profile } = useSelector((state: RootState) => state.profile);
+  const refDisplay = useSelector(
+    (state: RootState) => state.refDisplay.display,
+  );
 
   const dispatch = useDispatch();
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
 
-  const deleteProfile = (): void => {
-    axios
-      .post('http://localhost:4000/users/deleteprofile', {
-        // 임시 주소, DB에서 프로필 삭제 요청
-        test: 'delete profile',
-      })
-      .then((res) => {
-        console.log('response: profile deleted');
-      });
-    dispatch({ type: 'DELETE_PROFILE' });
-    // store에서 profile 이미지 삭제
-  };
-
   const getMyReviews = (): void => {
     axios
-      // .get<aReview>(`http://localhost:4000/custom/mypost/4`)
       .post<aReview>(`https://beer4.xyz/comment/mylist`, {
         token: token,
       })
@@ -130,6 +85,11 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       passwordCheck(newPassword) &&
       passwordMatch(newPassword, passwordForCheck)
     ) {
+      console.log({
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        token: token,
+      });
       axios
         .post(`https://beer4.xyz/users/changepassword`, {
           currentPassword: currentPassword,
@@ -139,20 +99,165 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
         .then((res) => {
           console.log(res.data);
           // 200일 경우 vs 200 아닐 경우 분기
+          if (res.status === 200) {
+            setInputValues({
+              ...inputValues,
+              currentPassword: '',
+              newPassword: '',
+              passwordForCheck: '',
+            });
+          } else {
+            return alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+          }
+        })
+        .catch(() => {
+          setInputValues({
+            ...inputValues,
+            currentPassword: '',
+            newPassword: '',
+            passwordForCheck: '',
+          });
+          alert(`비밀번호를 확인해주세요.`);
         });
     } else if (!passwordCheck(newPassword)) {
+      setInputValues({
+        ...inputValues,
+        newPassword: '',
+      });
       return alert(
         `비밀번호를 확인해주세요.\n8자 이상의 영문, 숫자 또는 특수문자 조합이어야 합니다.`,
       );
     } else if (!passwordMatch(newPassword, passwordForCheck)) {
+      setInputValues({
+        ...inputValues,
+        newPassword: '',
+        passwordForCheck: '',
+      });
       return alert(`동일한 비밀번호를 입력해주세요.`);
     }
+  };
+
+  // ================================================ profile pic 작업 중
+  const profileInput = React.useRef(null);
+  const formData = new FormData();
+  formData.append('nickname', userData.nickname);
+  formData.append('token', token);
+  const handleUploadProfile = (
+    // 사진 ref에 업로드만, 전송 x
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    const target = e.currentTarget.files as FileList;
+    formData.append('image', target[0]);
+    // console.log('::::: target :::::', target);
+    if (profileInput.current) {
+      const { current } = profileInput as React.RefObject<IProfile>;
+      const fr = new FileReader();
+      fr.onload = () => {
+        if (current) {
+          current.src = fr.result;
+        }
+      };
+      // console.log('::::: upload :::::', formData.getAll('image'));
+      if (target[0]) {
+        fr.readAsDataURL(target[0]);
+        if (formData.getAll('image').length !== 0) {
+          dispatch({ type: 'REF_DISPLAY', display: true });
+        } else {
+          dispatch({ type: 'REF_DISPLAY', display: false });
+        }
+      }
+    }
+  };
+
+  const handlePostProfile = (): void => {
+    // console.log('::::: post :::::', formData.getAll('image'));
+    axios
+      .post(`https://beer4.xyz/users/profile`, formData)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res);
+          const { profile } = res.data;
+          dispatch({ type: 'SET_PROFILE', profile });
+          dispatch({ type: 'REF_DISPLAY', display: false });
+          alert(`프로필 사진이 등록되었습니다.`);
+        } else {
+          console.log('::::: post :::::', res);
+          alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+        }
+      })
+      .catch(() => {
+        alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+      });
+  };
+
+  const handleChangeProfile = (): void => {
+    // console.log('::::: change :::::', formData.getAll('image'));
+    if (formData.get('image') === null) {
+      console.log(formData.getAll('image'));
+      return alert(`먼저 사진을 업로드해주세요.`);
+    }
+    axios
+      .post(`https://beer4.xyz/users/profile/delete`, {
+        nickname: userData.nickname,
+      })
+      .then((res) => {
+        console.log(formData.getAll('image'));
+
+        if (res.status === 200) {
+          console.log(res);
+
+          axios
+            .post(`https://beer4.xyz/users/profile`, formData)
+            .then((res) => {
+              if (res.status === 200) {
+                const { profile } = res.data;
+                dispatch({ type: 'CHANGE_PROFILE', profile });
+                dispatch({ type: 'REF_DISPLAY', display: false });
+                alert(`프로필 사진이 변경되었습니다.`);
+              } else {
+                console.log('::::: change :::::', res);
+                alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+              }
+            })
+            .catch(() => {
+              alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+            });
+        } else {
+          console.log('::::: change :::::', res);
+          alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+        }
+      })
+      .catch(() => {
+        alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+      });
+  };
+
+  const handleDeleteProfile = (): void => {
+    axios
+      .post(`https://beer4.xyz/users/profile/delete`, {
+        nickname: userData.nickname,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res);
+          dispatch({ type: 'DELETE_PROFILE' });
+          dispatch({ type: 'REF_DISPLAY', display: false });
+          alert(`프로필 사진이 삭제되었습니다.`);
+        } else {
+          console.log('::::: delete :::::', res);
+          alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+        }
+      })
+      .catch(() => {
+        alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
+      });
+    // store에서 profile 이미지 삭제
   };
 
   const inputList: string[][] = [
     ['currentPassword', '현재 비밀번호', '사용 중인 비밀번호를 입력하세요.'],
     ['newPassword', '변경할 비밀번호', '변경할 비밀번호를 입력하세요.'],
-    ['passwordForCheck', '비밀번호 확인', '비밀번호를 다시 한번 입력하세요.'],
+    ['passwordForCheck', '비밀번호 확인', '비밀번호를 다시 입력하세요.'],
   ];
   const mapInputList = (): JSX.Element[] => {
     return inputList.map((ele) => {
@@ -162,6 +267,13 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
           <Input
             name={ele[0]}
             type='password'
+            value={
+              inputList.indexOf(ele) === 0
+                ? inputValues.currentPassword
+                : inputList.indexOf(ele) === 1
+                ? inputValues.newPassword
+                : inputValues.passwordForCheck
+            }
             onChange={handleOnChange}
             placeholder={ele[2]}
           ></Input>
@@ -184,13 +296,16 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
     <Mypage
       userData={userData}
       profile={profile}
+      refDisplay={refDisplay}
       handleModal={handleModal}
       getMyReviews={getMyReviews}
       mapInputList={mapInputList}
       handleClickChangeNickname={handleClickChangeNickname}
-      handleProfileUpload={handleProfileUpload}
+      handleUploadProfile={handleUploadProfile}
       profileInput={profileInput}
-      handleProfilePost={handleProfilePost}
+      handlePostProfile={handlePostProfile}
+      handleChangeProfile={handleChangeProfile}
+      handleDeleteProfile={handleDeleteProfile}
     />
   );
 };

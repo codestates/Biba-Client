@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -35,18 +36,18 @@ export const AppContainer = ({
     handleConfirmAge(false);
   };
 
-  const whiteList = ['login', 'signup', 'beer']; // 최종 때는 beer 빼는 걸로
+  const whiteList = ['login', 'signup', 'beer', 'mypage']; // 최종 때는 beer 빼는 걸로
   const fullList = ['/login', '/signup', '/mypage'];
   useEffect(() => {
     fullList.indexOf(location.pathname) !== -1
       ? handleNavDisplay(false)
       : handleNavDisplay(true);
-  });
+  }, [fullList, handleNavDisplay, location.pathname]);
   useEffect(() => {
     return location.pathname === 'signup' || location.pathname === 'mypage'
       ? undefined
       : handleConfirms();
-  });
+  }, [handleConfirms, location.pathname]);
   return (
     <App
       match={match}
