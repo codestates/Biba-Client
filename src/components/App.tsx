@@ -80,7 +80,7 @@ const Container = styled.div`
   display: grid;
   width: 100%;
   grid-template-rows: 3em auto auto auto 3em;
-  grid-template-columns: auto 86% auto;
+  grid-template-columns: auto 80% auto;
   grid-template-areas:
     '. . .'
     '. Nav .'

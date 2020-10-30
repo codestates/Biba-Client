@@ -64,7 +64,6 @@ const Name = styled.div`
   font-size: 14px;
   width: 100%;
   height: 50px;
-  ov
   overflow-wrap: break-word;
   word-wrap: break-word;
 `;

@@ -24,7 +24,6 @@ export const Nav = ({
   handleClickLogin,
   handleClickSignup,
   handleClickMypage,
-  testLoginModal,
   handleOnChange,
   searchbarDisplay,
   handleClickIcon,
@@ -34,14 +33,13 @@ export const Nav = ({
   return (
     <Container>
       <NavBar className='navBar'>
-        <Logo
-          src={'http://example.com/image'}
-          alt='this is fake logo'
-          onClick={handleClickLogo}
-        />
-        {/* <TestBtns>
-          <button onClick={testLoginModal}>login modal</button>
-        </TestBtns> */}
+        <LogoWrap>
+          <Logo
+            src={require('./templogo500.jpg')}
+            alt='biba logo'
+            onClick={handleClickLogo}
+          />
+        </LogoWrap>
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
             <SearchIcon
@@ -114,9 +112,21 @@ const Wrap = styled.div`
   justify-content: flex-end;
   width: 80%;
 `;
+const LogoWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+
+  margin: 1em 0 0 1em;
+`;
 const Logo = styled.img`
   cursor: pointer;
-  width: 100px;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
 `;
 
 const SearchbarArea = styled.div`
@@ -229,11 +239,4 @@ const NicknameProfile = styled.div`
   margin: 0 0 0 1em;
 
   color: ${mainGrey};
-`;
-
-const TestBtns = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
 `;
