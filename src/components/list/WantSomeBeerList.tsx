@@ -2,18 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 import Carousel from 'react-elastic-carousel';
 import './WantCss.css';
-import classNames from 'classnames';
 
 import WantSomeBeer from './WantSomeBeer';
 import { WantI } from '../../modules/getbeers';
 import { DetailProps } from '../../containers/page/HomeContainer';
 
-interface WSLBeerProps extends WantI, DetailProps {}
+interface WSLBeerProps extends WantI, DetailProps {
+  nickname: string;
+  isLogin: boolean;
+}
 
 function WantSomeBeerList({
+  isLogin,
+  nickname,
   hotBeers,
   lateBeers,
-  pickBeers,
+  wheatBeers,
+  germanBeers,
+  recommendBeers,
   setBeerDetail,
   setAllReviews,
 }: WSLBeerProps): JSX.Element {
@@ -39,49 +45,117 @@ function WantSomeBeerList({
       setAllReviews={setAllReviews}
     />
   ));
-
-  // const pickBeerList = pickBeers.map((beer) => (
-  //   <WantSomeBeer
-  //     key={beer.id}
-  //     name={beer.beer_name}
-  //     image={beer.beer_img}
-  //     rate={beer.rate}
-  //     setBeerDetail={setBeerDetail}
-  //     setAllReviews={setAllReviews}
-  //   />
-  // ));
+  const wheatBeerList = wheatBeers.map((beer) => (
+    <WantSomeBeer
+      id={beer.id}
+      key={beer.id}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  ));
+  const germanBeerList = germanBeers.map((beer) => (
+    <WantSomeBeer
+      id={beer.id}
+      key={beer.id}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  ));
+  const recommendBeerList = recommendBeers.map((beer) => (
+    <WantSomeBeer
+      id={beer.id}
+      key={beer.id}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  ));
   const breakPoint = [{ width: 1200, itemsToShow: 5 }];
 
   return (
     <Container>
       <Categories>
-        <Title>뜨거운 맥주들</Title>
         <Category>
+          <Title>뜨거운 맥주들</Title>
           <ListContainer>
-            <UlHot>
-              <Li>{hotBeerList}</Li>
-            </UlHot>
+            <Ul>
+              <Carousel
+                className='button.rec-dot button.rec-arrow'
+                breakPoints={breakPoint}
+              >
+                {hotBeerList}
+              </Carousel>
+            </Ul>
           </ListContainer>
         </Category>
-        <Title>최신 맥주들</Title>
+
+        {isLogin ? (
+          <Category>
+            <Title>
+              <Name>{nickname}</Name>님을 위한 취향저격 맥주들
+            </Title>
+            <ListContainer>
+              <Ul>
+                <Carousel
+                  className='button.rec-dot button.rec-arrow'
+                  breakPoints={breakPoint}
+                >
+                  {recommendBeerList}
+                </Carousel>
+              </Ul>
+            </ListContainer>
+          </Category>
+        ) : (
+          false
+        )}
+
         <Category>
+          <Title>최신 맥주들</Title>
           <ListContainer>
-            <UlLate>
+            <Ul>
               <Carousel
                 className='button.rec-dot button.rec-arrow'
                 breakPoints={breakPoint}
               >
                 {lateBeerList}
               </Carousel>
-            </UlLate>
+            </Ul>
           </ListContainer>
         </Category>
-        <Title>즐겨찾는 맥주들</Title>
+
         <Category>
+          <Title>밀 맥주들</Title>
           <ListContainer>
-            <UlGer>
-              <Li></Li>
-            </UlGer>
+            <Ul>
+              <Carousel
+                className='button.rec-dot button.rec-arrow'
+                breakPoints={breakPoint}
+              >
+                {wheatBeerList}
+              </Carousel>
+            </Ul>
+          </ListContainer>
+        </Category>
+
+        <Category>
+          <Title>독일 맥주들</Title>
+          <ListContainer>
+            <Ul>
+              <Carousel
+                className='button.rec-dot button.rec-arrow'
+                breakPoints={breakPoint}
+              >
+                {germanBeerList}
+              </Carousel>
+            </Ul>
           </ListContainer>
         </Category>
       </Categories>
@@ -106,18 +180,18 @@ const Category = styled.li`
 `;
 
 const ListContainer = styled.div`
+  // border: 1px solid #f2a405;
+  // border-radius: 8px;
+  box-shadow: 1px 1px 1px;
+  height: 265px;
   width: 100%;
-  position: relative;
 `;
 
-const UlHot = styled.ul`
-  padding: 0;
-  transform: translate3d(0%, 0, 0);
-`;
-const UlLate = styled.ul``;
-const UlGer = styled.ul`
-  padding: 0;
-  transform: translate3d(0%, 0, 0);
+const Ul = styled.ul`
+  margin: 0 auto;
+  padding: 10px;
+  padding-top: 20px;
+  margin-left: 5px;
 `;
 
 const Li = styled.li`
@@ -132,6 +206,10 @@ const Title = styled.h3`
   background-color: #f2a405;
   opacity: 0.9;
   color: white;
+`;
+
+const Name = styled.span`
+  color: black;
 `;
 
 export default WantSomeBeerList;
