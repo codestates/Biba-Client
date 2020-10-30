@@ -35,7 +35,7 @@ export const Nav = ({
     <Container>
       <NavBar className='navBar'>
         <Logo
-          src={require('./templogo.jpg')}
+          src={'http://example.com/image'}
           alt='this is fake logo'
           onClick={handleClickLogo}
         />
