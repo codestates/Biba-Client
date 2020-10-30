@@ -210,7 +210,7 @@ const BeerDetailContainer = ({
     const rate = Number(star.currentTarget.id);
     if (!user_star) {
       axios
-        .post(`https://beer4.xyz/comment/create`, {
+        .post(`https://beer4.xyz/comment/update`, {
           token: token,
           beer_id: beerDetail.id,
           comment: user_input,

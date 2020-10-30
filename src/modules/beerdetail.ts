@@ -1,6 +1,8 @@
 const SET_BEERDETAIL = 'SET_BEERDETAIL' as const;
+const SET_COMPAREBEER = 'SET_COMPAREBEER' as const;
 const SET_BOOKMARK = 'SET_BOOKMARK' as const;
 const SET_GRAPHDATA = 'SET_GRAPHDATA' as const;
+const SET_COMPAREDATA = 'SET_COMPAREDATA' as const;
 const SET_USERREVIEW = 'SET_USERREVIEW' as const;
 const DELETE_USERREVIEW = 'DELETE_USERREVIEW' as const;
 const SET_ALLREVIEWS = 'SET_ALLREVIEWS' as const;
@@ -25,6 +27,9 @@ export interface IBeerDetail {
 }
 export interface ObjBeerDetail {
   beerDetail: IBeerDetail;
+}
+export interface CompareBeer {
+  compareBeer: IBeerDetail;
 }
 export interface Bookmark {
   bookmark: boolean;
@@ -76,12 +81,32 @@ export interface StarStatus {
   e: boolean;
 }
 
-export // 이하로 action interface + init + action
-interface BeerDetailAction extends ObjBeerDetail {
+// 이하로 action interface + init + action
+export interface BeerDetailAction extends ObjBeerDetail {
   type: typeof SET_BEERDETAIL;
+}
+export interface CompareBeerAction extends CompareBeer {
+  type: typeof SET_COMPAREBEER;
 }
 export const beerDetailInit: ObjBeerDetail = {
   beerDetail: {
+    id: -1,
+    beer_name: '',
+    beer_img: '',
+    abv: -1,
+    ibu: -1,
+    company: '',
+    country: '',
+    style_name: '',
+    story: '',
+    explain: '',
+    source: '',
+    rate: -1,
+    tags: [],
+  },
+};
+export const compareBeerInit: CompareBeer = {
+  compareBeer: {
     id: -1,
     beer_name: '',
     beer_img: '',
@@ -101,7 +126,12 @@ export const setBeerDetail = (beerDetail: IBeerDetail): BeerDetailAction => ({
   type: SET_BEERDETAIL,
   beerDetail,
 });
-
+export const setCompareBeer = (
+  compareBeer: IBeerDetail,
+): CompareBeerAction => ({
+  type: SET_COMPAREBEER,
+  compareBeer,
+});
 export interface BookmarkAction extends Bookmark {
   type: typeof SET_BOOKMARK;
 }
@@ -114,7 +144,7 @@ export const setBookmark = (bookmark: boolean): BookmarkAction => ({
 });
 
 export interface GraphDataAction extends GraphData {
-  type: typeof SET_GRAPHDATA;
+  type: typeof SET_GRAPHDATA | typeof SET_COMPAREDATA;
 }
 const graphDataInit: GraphData = {
   sparkling: 0,
@@ -131,6 +161,20 @@ export const setGraphData = (
   body: number,
 ): GraphDataAction => ({
   type: SET_GRAPHDATA,
+  sparkling,
+  sweet,
+  bitter,
+  accessibility,
+  body,
+});
+export const setCompareData = (
+  sparkling: number,
+  sweet: number,
+  bitter: number,
+  accessibility: number,
+  body: number,
+): GraphDataAction => ({
+  type: SET_COMPAREDATA,
   sparkling,
   sweet,
   bitter,
@@ -250,7 +294,21 @@ export const beerDetailReducer = (
       return state;
   }
 };
+export const compareBeerReducer = (
+  state = compareBeerInit,
+  action: CompareBeerAction,
+): CompareBeer => {
+  switch (action.type) {
+    case SET_COMPAREBEER:
+      return {
+        ...state,
+        compareBeer: action.compareBeer,
+      };
 
+    default:
+      return state;
+  }
+};
 export const bookmarkReducer = (
   state = bookmarkInit,
   action: BookmarkAction,
@@ -272,6 +330,25 @@ export const graphDataReducer = (
 ): GraphData => {
   switch (action.type) {
     case SET_GRAPHDATA:
+      return {
+        ...state,
+        sparkling: action.sparkling,
+        sweet: action.sweet,
+        bitter: action.bitter,
+        accessibility: action.accessibility,
+        body: action.body,
+      };
+
+    default:
+      return state;
+  }
+};
+export const compareDataReducer = (
+  state = graphDataInit,
+  action: GraphDataAction,
+): GraphData => {
+  switch (action.type) {
+    case SET_COMPAREDATA:
       return {
         ...state,
         sparkling: action.sparkling,

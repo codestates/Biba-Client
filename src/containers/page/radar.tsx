@@ -1,24 +1,34 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../modules';
+import { GraphData } from '../../modules/beerdetail';
 import { BeerDetail } from '../../components/page/BeerDetail';
 
 import { Radar } from 'react-chartjs-2';
+import { ChartComponentProps } from 'react-chartjs-2';
 
 export const Chart = (): JSX.Element => {
-  const { sparkling, sweet, bitter, accessibility, body } = useSelector(
-    (state: RootState) => state.graphData,
+  const mainData = useSelector((state: RootState) => state.graphData);
+  const compareData = useSelector((state: RootState) => state.compareData);
+  const mainName = useSelector(
+    (state: RootState) => state.beerDetail.beerDetail.beer_name,
   );
-  const { beer_name } = useSelector(
-    (state: RootState) => state.beerDetail.beerDetail,
+  const compareName = useSelector(
+    (state: RootState) => state.compareBeer.compareBeer.beer_name,
   );
 
   const expData = {
     labels: ['탄산감', '달콤함', '씁쓸함', '접근성', '바디감'],
     datasets: [
       {
-        label: beer_name,
-        data: [sparkling, sweet, bitter, accessibility, body],
+        label: mainName,
+        data: [
+          mainData.sparkling,
+          mainData.sweet,
+          mainData.bitter,
+          mainData.accessibility,
+          mainData.body,
+        ],
         pointBackgroundColor: 'white',
         backgroundColor: 'rgba(255, 198, 0, 0.7)',
         borderColor: 'rgba(255, 198, 0, 0.5)',
@@ -30,22 +40,30 @@ export const Chart = (): JSX.Element => {
         pointHoverRadius: 10,
         pointHitRadius: 40,
       },
-      // {
-      //   label: beer_name,
-      //   data: [5, 4, 3, 2, 5],
-      //   backgroundColor: 'rgba(238, 102, 121, 0.7)',
-      //   borderColor: 'rgba(238, 102, 121, 0.5)',
-      //   fill: true,
-      //   borderWidth: 2,
-      //   hoverBorderWidth: 4,
-      //   pointRadius: 0,
-      //   pointBorderWidth: 3,
-      //   pointHoverRadius: 10,
-      //   pointHitRadius: 40,
-      // },
+      {
+        label: compareName,
+        data: [
+          compareData.sparkling,
+          compareData.sweet,
+          compareData.bitter,
+          compareData.accessibility,
+          compareData.body,
+        ],
+        backgroundColor: 'rgba(238, 102, 121, 0.7)',
+        borderColor: 'rgba(238, 102, 121, 0.5)',
+        fill: true,
+        borderWidth: 2,
+        hoverBorderWidth: 4,
+        pointRadius: 0,
+        pointBorderWidth: 3,
+        pointHoverRadius: 10,
+        pointHitRadius: 40,
+      },
     ],
   };
-
+  if (compareName === '') {
+    expData.datasets.pop();
+  }
   return (
     <Radar
       options={{

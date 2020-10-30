@@ -6,6 +6,7 @@ const SET_BEERS = 'SET_BEERS' as const;
 const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
 const SET_REQUESTTYPE = 'SET_REQUESTTYPE' as const;
 const SET_MYBEERTYPE = 'SET_MYBEERTYPE' as const;
+const SET_SELECTEDBEER = 'SET_SELECTEDBEER' as const;
 
 export interface SearchbarState {
   display: boolean;
@@ -42,6 +43,10 @@ export interface BeerRequest {
 export interface MyBeerList {
   option1: boolean;
   option2: boolean;
+}
+
+export interface SelectedBeer {
+  id: number;
 }
 
 // 이하로 action interface + init + action
@@ -128,6 +133,17 @@ export const setMyBeerListType = (
   type: SET_MYBEERTYPE,
   option1,
   option2,
+});
+
+interface SelectedBeerAction extends SelectedBeer {
+  type: typeof SET_SELECTEDBEER;
+}
+const selectedBeerInit: SelectedBeer = {
+  id: -1,
+};
+export const setSelectedBeer = (id: number): SelectedBeerAction => ({
+  type: SET_SELECTEDBEER,
+  id,
 });
 
 // ============ 이하로 reducers
@@ -222,6 +238,22 @@ export const myBeerListTypeReducer = (
         ...state,
         option1: action.option1,
         option2: action.option2,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const selectedBeerReducer = (
+  state = selectedBeerInit,
+  action: SelectedBeerAction,
+): SelectedBeer => {
+  switch (action.type) {
+    case SET_SELECTEDBEER:
+      return {
+        ...state,
+        id: action.id,
       };
 
     default:

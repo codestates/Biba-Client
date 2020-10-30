@@ -16,6 +16,7 @@ import {
   beerRequestReducer,
   searchBeerReducer,
   myBeerListTypeReducer,
+  selectedBeerReducer,
 } from './nav';
 import {
   todayBeerReducer,
@@ -27,8 +28,10 @@ import { changePageReducer } from './changepage';
 
 import {
   beerDetailReducer,
+  compareBeerReducer,
   bookmarkReducer,
   graphDataReducer,
+  compareDataReducer,
   userReviewReducer,
   allReviewsReducer,
   infoDisplayReducer,
@@ -57,9 +60,12 @@ export const rootReducer = combineReducers({
   reviewBeer: reviewBeerReducer,
   searchBeer: searchBeerReducer,
   myBeerListType: myBeerListTypeReducer,
+  selectedBeer: selectedBeerReducer,
   beerDetail: beerDetailReducer,
+  compareBeer: compareBeerReducer,
   bookmark: bookmarkReducer,
   graphData: graphDataReducer,
+  compareData: compareDataReducer,
   userReview: userReviewReducer,
   allReviews: allReviewsReducer,
   infoDisplay: infoDisplayReducer,

@@ -23,6 +23,9 @@ import {
 } from '../../components/nav/color';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 import { Content } from '../../components/user/Mypage';
+import { IBeerDetail } from '../../modules/beerdetail';
+import { IBeerDetailWithAll } from '../page/HomeContainer';
+import { checkStarScore } from '../page/pageUtils';
 
 export interface ModalProps {
   display: boolean;
@@ -65,11 +68,15 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const { user_review, user_star, user_input, user_rate } = useSelector(
     (state: RootState) => state.userReview,
   );
-
   const { request1, request2 } = useSelector(
     (state: RootState) => state.beerRequest,
   );
-
+  const selectedBeerId = useSelector(
+    (state: RootState) => state.selectedBeer.id,
+  );
+  const { disBasic, disStory, disMore } = useSelector(
+    (state: RootState) => state.infoDisplay,
+  );
   const dispatch = useDispatch();
   // ================================================================ Modal
   const handleModal = (contentType: ContentType, display: boolean): void => {
@@ -164,11 +171,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         });
     }
   };
-  // ================================================================ Bookmark List
-  const handleClickBookmarkList = (): void => {
-    // 서버에서 넘어오는 favorite list 보고 결정
-  };
-
   // ================================================================ User Review
   const handleClickSubmitReview = (): void => {
     // review 작성 모달 창 내에서 작동
@@ -363,12 +365,69 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const handleMyListType = (option1: boolean, option2: boolean): void => {
     dispatch({ type: 'SET_MYBEERTYPE', option1, option2 });
   };
-
   const handleRadioOption1 = (): void => {
     handleMyListType(true, false);
   };
   const handleRadioOption2 = (): void => {
     handleMyListType(false, true);
+  };
+
+  const favoriteBeerIndex = rawFavoriteBeers.map((beer) => {
+    return {
+      id: beer.id,
+      beerName: beer.beer_name,
+      image: beer.beer_img,
+    };
+  });
+  const reviewedBeerIndex = rawReviewedBeers.map((beer) => {
+    return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
+  });
+
+  const mapOption1 = favoriteBeerIndex.map((ele) => (
+    <option
+      id={ele.id}
+      key={`favBeerIndex${favoriteBeerIndex.indexOf(ele)}`}
+      value={ele.beerName}
+    >
+      {ele.beerName}
+    </option>
+  ));
+
+  const mapOption2 = reviewedBeerIndex.map((ele) => (
+    <option
+      id={ele.id}
+      key={`reviewedBeerIndex${reviewedBeerIndex.indexOf(ele)}`}
+      value={ele.beerName}
+    >
+      {ele.beerName}
+    </option>
+  ));
+
+  const setSelectedBeerId = (id: number): void => {
+    dispatch({ type: 'SET_SELECTEDBEER', id });
+  };
+
+  const handleClickBeerSelect = (): void => {
+    axios
+      .post<IBeerDetailWithAll>(`https://beer4.xyz/beer/${selectedBeerId}`, {
+        user_id: userData.id,
+        beer_id: selectedBeerId,
+      })
+      .then((res) => {
+        console.log(res.data);
+        const compareBeer: IBeerDetail = res.data;
+        dispatch({ type: 'SET_COMPAREBEER', compareBeer });
+
+        const { sparkling, sweet, bitter, accessibility, body } = res.data;
+        dispatch({
+          type: 'SET_COMPAREDATA',
+          sparkling,
+          sweet,
+          bitter,
+          accessibility,
+          body,
+        });
+      });
   };
   // ================================================================ Content
   const content = (contentType: ContentType): JSX.Element | JSX.Element[] => {
@@ -502,34 +561,12 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         </ChangeNicknameWrap>
       );
     }
-    // ==================================================== favorite beer list
+    // ==================================================== my beer list
 
     if (contentType === ContentType.MyBeerList) {
-      const favoriteBeerIndex = rawFavoriteBeers.map((beer) => {
-        return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
-      });
-      const mapOption1 = favoriteBeerIndex.map((ele) => (
-        <option
-          key={`favBeerIndex${favoriteBeerIndex.indexOf(ele)}`}
-          value={ele.beerName}
-        >
-          {ele.beerName}
-        </option>
-      ));
-      const reviewedBeerIndex = rawReviewedBeers.map((beer) => {
-        return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
-      });
-      const mapOption2 = reviewedBeerIndex.map((ele) => (
-        <option
-          key={`reviewedBeerIndex${reviewedBeerIndex.indexOf(ele)}`}
-          value={ele.beerName}
-        >
-          {ele.beerName}
-        </option>
-      ));
-
       return (
         <MyBeerListModal>
+          {console.log(option1, mapOption1)}
           <RadioWrap>
             <Radio
               id='option1'
@@ -554,13 +591,21 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
               리뷰를 남긴 맥주
             </RadioOption>
           </RadioWrap>
-
-          <select name='selectBeerName'>
+          <select
+            name='selectBeerName'
+            onChange={(e) => {
+              const targetId =
+                e.target.options[e.target.options.selectedIndex].id;
+              setSelectedBeerId(Number(targetId));
+              console.log(e.target.options[e.target.options.selectedIndex].id);
+            }}
+          >
             <option key='optionDefault' className='default'>
               맥주 이름 선택
             </option>
             {option1 ? mapOption1 : mapOption2}
           </select>
+          <button onClick={handleClickBeerSelect}>비교하기</button>
         </MyBeerListModal>
       );
     }
