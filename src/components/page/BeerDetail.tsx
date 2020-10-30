@@ -43,7 +43,6 @@ export const BeerDetail = ({
       <Container className='detailContainer'>
         <InfoTitle className='infoTitle'>
           <TitleText>맥주 상세 정보</TitleText>
-          <button onClick={compareMyBeers}>임시 모달</button>
         </InfoTitle>
         <ImgDiv>
           <Img className='infoImg' src={beerDetail.beer_img} alt='' />
@@ -70,8 +69,12 @@ export const BeerDetail = ({
               </FavToggle>
             </AveFavWrap>
             <TagWrap>{handleTag()}</TagWrap>
-
-            <InfoChart>{Chart()}</InfoChart>
+            <ChartWrap className='chartWrap'>
+              <ChartDiv className='chartDiv'>{Chart()}</ChartDiv>
+              <CompareBtn className='compareBtn' onClick={compareMyBeers}>
+                비교하기
+              </CompareBtn>
+            </ChartWrap>
           </InfoSub>
           <InfoBody className='infoBody'>
             <TabWrap className='infoTabWrap'>
@@ -189,13 +192,13 @@ export const BeerDetail = ({
         </InfoDiv>
         <RateReview className='rateReview'>
           <RatingArea className='ratingArea'>
-            <UserRate className='rate'>별점 주기</UserRate>
+            <UserRate className='rate'>내 별점</UserRate>
             <Stars className='stars'>{handleStar()}</Stars>
             <WriteComment
               className='commentBtn'
               onClick={handleClickUsersReview}
             >
-              {user_review ? `리뷰 수정하기` : `리뷰 작성하기`}
+              {user_review ? `평가 수정하기` : `맥주 평가하기`}
             </WriteComment>
           </RatingArea>
           <CommentArea className='commentArea'>
@@ -413,11 +416,22 @@ export const Tag = styled.p`
   font-weight: 500;
   color: #212121;
 `;
-
-const InfoChart = styled.div`
+const ChartWrap = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   margin: 0 0 2em 0;
+`;
+const ChartDiv = styled.div`
+  display: flex;
+
+  margin: 0 0 1.5em 0;
+`;
+const CompareBtn = styled.button`
+  display: flex;
+  align-self: flex-end;
 `;
 
 // =================================== Tab
@@ -537,7 +551,7 @@ const RatingArea = styled.div`
   align-items: center;
 `;
 const UserRate = styled.p``;
-const Stars = styled.div`
+export const Stars = styled.div`
   display: flex;
 
   margin: 0 0 0 0.5em;

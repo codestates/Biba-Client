@@ -12,8 +12,9 @@ import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
-import { aReview } from '../../modules/beerdetail';
+import { aReview, starStatusInit } from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
+
 import { nicknameCheck } from '../user/userUtils';
 import {
   mainYellow,
@@ -23,9 +24,18 @@ import {
 } from '../../components/nav/color';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 import { Content } from '../../components/user/Mypage';
+import {
+  Tag,
+  Stars,
+  StarWrap,
+  FStar,
+  EStar,
+} from '../../components/page/BeerDetail';
+
 import { IBeerDetail } from '../../modules/beerdetail';
 import { IBeerDetailWithAll } from '../page/HomeContainer';
 import { checkStarScore } from '../page/pageUtils';
+import { IProfile } from '../user/MypageContainer';
 
 export interface ModalProps {
   display: boolean;
@@ -53,32 +63,34 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
+  const { myReviews } = useSelector((state: RootState) => state.myReviews);
+  // === detail
   const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
+  const { option1, option2 } = useSelector(
+    (state: RootState) => state.myBeerListType,
+  );
   const rawFavoriteBeers = useSelector(
     (state: RootState) => state.favoriteBeer.beers,
   );
   const rawReviewedBeers = useSelector(
     (state: RootState) => state.reviewBeer.beers,
   );
-  const { option1, option2 } = useSelector(
-    (state: RootState) => state.myBeerListType,
-  );
-  const { myReviews } = useSelector((state: RootState) => state.myReviews);
-  const { allReviews } = useSelector((state: RootState) => state.allReviews);
-  const { user_review, user_star, user_input, user_rate } = useSelector(
-    (state: RootState) => state.userReview,
-  );
-  const { request1, request2 } = useSelector(
-    (state: RootState) => state.beerRequest,
-  );
   const selectedBeerId = useSelector(
     (state: RootState) => state.selectedBeer.id,
   );
-  const { disBasic, disStory, disMore } = useSelector(
-    (state: RootState) => state.infoDisplay,
+  const { user_review, user_star, user_input, user_rate } = useSelector(
+    (state: RootState) => state.userReview,
   );
+  const { a, b, c, d, e } = useSelector((state: RootState) => state.starStatus);
+  const { allReviews } = useSelector((state: RootState) => state.allReviews);
+
+  // === request
+  const { request1, request2 } = useSelector(
+    (state: RootState) => state.beerRequest,
+  );
+
   const dispatch = useDispatch();
-  // ================================================================ Modal
+  // ================================================================ Modal 함수
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
@@ -89,10 +101,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     if (e.key === 'ESC') closeModal();
   }; // 추후 추가 작업
 
-  const handleConfirmNickname = (value: boolean): void => {
-    dispatch({ type: 'CONFIRM_NICKNAME', value });
-  };
-
   const [inputValues, setInputValues] = useState({
     nickname: '',
     review: '',
@@ -100,7 +108,11 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     beerRequest: '',
   });
 
-  // ================================================================ Change Nickname
+  // ================================================================ Change Nickname 함수
+  const handleConfirmNickname = (value: boolean): void => {
+    dispatch({ type: 'CONFIRM_NICKNAME', value });
+  };
+
   const handleInputOnChange = (
     e:
       | React.ChangeEvent<HTMLTextAreaElement>
@@ -159,7 +171,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
               type: 'CHANGE_NICKNAME',
               userData: { ...userData, nickname: nickname },
             });
-            alert(`닉네임이 정상적으로 변경되었습니다.`);
+            // alert(`닉네임이 정상적으로 변경되었습니다.`);
             handleConfirmNickname(false);
             return closeModal();
           }
@@ -171,7 +183,178 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         });
     }
   };
-  // ================================================================ User Review
+
+  // ================================================================ MyBeerList 함수
+  const handleMyListType = (option1: boolean, option2: boolean): void => {
+    dispatch({ type: 'SET_MYBEERTYPE', option1, option2 });
+  };
+  const handleRadioOption1 = (): void => {
+    handleMyListType(true, false);
+  };
+  const handleRadioOption2 = (): void => {
+    handleMyListType(false, true);
+  };
+  const myBeerListImg = React.useRef(null);
+
+  const favoriteBeerIndex = rawFavoriteBeers.map((beer) => {
+    return {
+      id: beer.id,
+      beerName: beer.beer_name,
+      image: beer.beer_img,
+    };
+  });
+  const reviewedBeerIndex = rawReviewedBeers.map((beer) => {
+    return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
+  });
+
+  const mapOption1 = favoriteBeerIndex.map((ele) => (
+    <option
+      id={ele.id}
+      key={`favBeerIndex${favoriteBeerIndex.indexOf(ele)}`}
+      value={ele.beerName}
+    >
+      {ele.beerName}
+    </option>
+  ));
+
+  const mapOption2 = reviewedBeerIndex.map((ele) => (
+    <option
+      id={ele.id}
+      key={`reviewedBeerIndex${reviewedBeerIndex.indexOf(ele)}`}
+      value={ele.beerName}
+    >
+      {ele.beerName}
+    </option>
+  ));
+
+  const setSelectedBeerId = (id: number): void => {
+    dispatch({ type: 'SET_SELECTEDBEER', id });
+  };
+
+  const handleSelectBeer = (
+    // 사진 ref에 업로드만, 전송 x
+    e: React.ChangeEvent<HTMLSelectElement>,
+    option: boolean,
+  ): void => {
+    const { current } = myBeerListImg as React.RefObject<IProfile>;
+    let imgTarget: {
+      id: string;
+      beerName: string;
+      image: string;
+    }[];
+    if (option) {
+      imgTarget = favoriteBeerIndex.filter(
+        (ele) =>
+          favoriteBeerIndex.indexOf(ele) === e.target.options.selectedIndex - 1,
+      );
+    } else {
+      imgTarget = reviewedBeerIndex.filter(
+        (ele) =>
+          reviewedBeerIndex.indexOf(ele) === e.target.options.selectedIndex - 1,
+      );
+    }
+    if (current) {
+      current.src = imgTarget[0].image;
+    }
+  };
+
+  const handleClickBeerSelect = (): void => {
+    axios
+      .post<IBeerDetailWithAll>(`https://beer4.xyz/beer/${selectedBeerId}`, {
+        user_id: userData.id,
+        beer_id: selectedBeerId,
+      })
+      .then((res) => {
+        console.log(res.data);
+        const compareBeer: IBeerDetail = res.data;
+        dispatch({ type: 'SET_COMPAREBEER', compareBeer });
+
+        const { sparkling, sweet, bitter, accessibility, body } = res.data;
+        dispatch({
+          type: 'SET_COMPAREDATA',
+          sparkling,
+          sweet,
+          bitter,
+          accessibility,
+          body,
+        });
+      });
+    return closeModal();
+  };
+
+  // ================================================================ User Review 함수
+  const handleClickStar = (star: React.MouseEvent<HTMLElement>): void => {
+    if (!isLogin) {
+      return alert(`로그인 후 이용해주세요.`);
+    }
+    const { a, b, c, d, e } = checkStarScore(Number(star.currentTarget.id)); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
+    console.log(Number(star.currentTarget.id));
+    const rate = Number(star.currentTarget.id);
+    axios
+      .post(`https://beer4.xyz/comment/update`, {
+        token: token,
+        beer_id: beerDetail.id,
+        comment: user_input,
+        rate: rate,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 201) {
+          dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
+          dispatch({
+            type: 'SET_USERREVIEW',
+            user_review,
+            user_star: true,
+            user_input,
+            user_rate: rate,
+          });
+        }
+        return alert(`${beerDetail.beer_name}에 ${rate}점을 주셨습니다. Biba!`);
+      })
+      .catch(() => {
+        alert(`별점 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+      });
+  };
+
+  const handleResetStar = (star: React.MouseEvent<HTMLElement>): void => {
+    if (user_input !== '') {
+      return alert(
+        `작성된 리뷰 내용이 있습니다.\n리뷰 삭제 기능을 이용해주세요.`,
+      );
+    }
+    axios
+      .post(`https://beer4.xyz/comment/update`, {
+        token: token,
+        beer_id: beerDetail.id,
+        comment: '',
+        rate: 0,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 201) {
+          dispatch({
+            type: 'SET_STARSTATUS',
+            a: false,
+            b: false,
+            c: false,
+            d: false,
+            e: false,
+          });
+          dispatch({
+            type: 'SET_USERREVIEW',
+            user_review,
+            user_star: false,
+            user_input,
+            user_rate: -1,
+          });
+        }
+        return alert(`별점 등록이 취소되었습니다.`);
+      })
+      .catch(() => {
+        alert(`별점 삭제에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+      });
+  };
+
   const handleClickSubmitReview = (): void => {
     // review 작성 모달 창 내에서 작동
     if (!isLogin) {
@@ -184,89 +367,44 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       alert(`별점을 먼저 등록해주세요.`);
       closeModal();
     } else {
-      if (!user_review) {
-        // 새로 생성
-        console.log('review 작성 테스트');
-        console.log({
+      axios
+        .post(`https://beer4.xyz/comment/update`, {
           token: token,
           beer_id: beerDetail.id,
           comment: inputValues.review,
           rate: user_rate,
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            dispatch({
+              type: 'SET_USERREVIEW',
+              user_review: true,
+              user_star,
+              user_input: inputValues.review,
+              user_rate,
+            });
+            axios
+              .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
+              .then((res) => {
+                const rawReviews = res.data;
+                const allReviews = rawReviews.filter((ele) => {
+                  if (ele.comment !== '') return ele;
+                });
+                dispatch({ type: 'SET_ALLREVIEWS', allReviews });
+              }); // [{}, {}]
+            return closeModal();
+          }
+        })
+        .catch(() => {
+          alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
         });
-        axios
-          .post(`https://beer4.xyz/comment/update`, {
-            token: token,
-            beer_id: beerDetail.id,
-            comment: inputValues.review,
-            rate: user_rate,
-          })
-          .then((res) => {
-            console.log(res);
-            if (res.status === 201) {
-              dispatch({
-                type: 'SET_USERREVIEW',
-                user_review: true,
-                user_star,
-                user_input: inputValues.review,
-                user_rate,
-              });
-              alert(`리뷰가 등록되었습니다.`);
-              axios
-                .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
-                .then((res) => {
-                  const rawReviews = res.data;
-                  const allReviews = rawReviews.filter((ele) => {
-                    if (ele.comment !== '') return ele;
-                  });
-                  dispatch({ type: 'SET_ALLREVIEWS', allReviews });
-                }); // [{}, {}]
-              return closeModal();
-            }
-          })
-          .catch(() => {
-            alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-          });
-      } else {
-        console.log('review 수정 테스트');
-        axios
-          .post(`https://beer4.xyz/comment/update`, {
-            token: token,
-            beer_id: beerDetail.id,
-            comment: inputValues.review,
-            rate: user_rate,
-          })
-          .then((res) => {
-            console.log(res);
-            if (res.status === 201) {
-              dispatch({
-                type: 'SET_USERREVIEW',
-                user_review: true,
-                user_star,
-                user_input: inputValues.review,
-                user_rate,
-              });
-              alert(`리뷰가 수정되었습니다.`);
-              axios
-                .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
-                .then((res) => {
-                  const rawReviews = res.data;
-                  const allReviews = rawReviews.filter((ele) => {
-                    if (ele.comment !== '') return ele;
-                  });
-                  dispatch({ type: 'SET_ALLREVIEWS', allReviews });
-                }); // [{}, {}]
-              return closeModal();
-            }
-          })
-          .catch(() => {
-            alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-          });
-      }
     }
   };
 
   const handleClickDeleteReview = (): void => {
-    const result = global.confirm(`리뷰를 삭제하시겠어요?`);
+    const result = global.confirm(
+      `리뷰를 삭제하시겠어요?\n별점도 함께 삭제됩니다.`,
+    );
     if (result) {
       axios
         .post(`https://beer4.xyz/comment/delete`, {
@@ -302,7 +440,30 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         });
     }
   };
-  // ================================================================ Beer Request
+
+  const handleStar = (): JSX.Element[] => {
+    const stars = [
+      [a, 1],
+      [b, 2],
+      [c, 3],
+      [d, 4],
+      [e, 5],
+    ];
+    return stars.map((ele) => {
+      return (
+        <StarWrap
+          key={`star${ele[1]}`}
+          className='star'
+          id={`${ele[1]}`}
+          onClick={handleClickStar}
+        >
+          <FStar style={!ele[0] ? { display: 'block' } : { display: 'none' }} />
+          <EStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
+        </StarWrap>
+      );
+    });
+  };
+  // ================================================================ Beer Request 함수
   const handleRequestType = (request1: boolean, request2: boolean): void => {
     dispatch({ type: 'SET_REQUESTTYPE', request1, request2 });
   };
@@ -344,7 +505,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           })
           .then((res) => {
             if (res.status === 201) {
-              return alert(`맥주 요청이 완료되었습니다. Biba!`);
+              alert(`맥주 요청이 완료되었습니다. Biba!`);
+              return closeModal();
             } else {
               alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
               return closeModal();
@@ -361,76 +523,193 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       return alert(`내용을 작성해주세요.`);
     }
   };
-  // ================================================================ MyBeerList
-  const handleMyListType = (option1: boolean, option2: boolean): void => {
-    dispatch({ type: 'SET_MYBEERTYPE', option1, option2 });
-  };
-  const handleRadioOption1 = (): void => {
-    handleMyListType(true, false);
-  };
-  const handleRadioOption2 = (): void => {
-    handleMyListType(false, true);
-  };
-
-  const favoriteBeerIndex = rawFavoriteBeers.map((beer) => {
-    return {
-      id: beer.id,
-      beerName: beer.beer_name,
-      image: beer.beer_img,
-    };
-  });
-  const reviewedBeerIndex = rawReviewedBeers.map((beer) => {
-    return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
-  });
-
-  const mapOption1 = favoriteBeerIndex.map((ele) => (
-    <option
-      id={ele.id}
-      key={`favBeerIndex${favoriteBeerIndex.indexOf(ele)}`}
-      value={ele.beerName}
-    >
-      {ele.beerName}
-    </option>
-  ));
-
-  const mapOption2 = reviewedBeerIndex.map((ele) => (
-    <option
-      id={ele.id}
-      key={`reviewedBeerIndex${reviewedBeerIndex.indexOf(ele)}`}
-      value={ele.beerName}
-    >
-      {ele.beerName}
-    </option>
-  ));
-
-  const setSelectedBeerId = (id: number): void => {
-    dispatch({ type: 'SET_SELECTEDBEER', id });
-  };
-
-  const handleClickBeerSelect = (): void => {
-    axios
-      .post<IBeerDetailWithAll>(`https://beer4.xyz/beer/${selectedBeerId}`, {
-        user_id: userData.id,
-        beer_id: selectedBeerId,
-      })
-      .then((res) => {
-        console.log(res.data);
-        const compareBeer: IBeerDetail = res.data;
-        dispatch({ type: 'SET_COMPAREBEER', compareBeer });
-
-        const { sparkling, sweet, bitter, accessibility, body } = res.data;
-        dispatch({
-          type: 'SET_COMPAREDATA',
-          sparkling,
-          sweet,
-          bitter,
-          accessibility,
-          body,
-        });
-      });
-  };
-  // ================================================================ Content
+  // ================================================================ Content ============
   const content = (contentType: ContentType): JSX.Element | JSX.Element[] => {
+    // ==================================================== empty
+    if (contentType === ContentType.Empty) {
+      return <></>;
+    }
+    // ==================================================== login
+    if (contentType === ContentType.Login) {
+      return <LoginContainerWithRouter />;
+    }
+    // ==================================================== change nickname
+    if (contentType === ContentType.ChangeNickname) {
+      return (
+        <ChangeNicknameWrap>
+          <NicknameGuide>새로운 닉네임을 입력해주세요.</NicknameGuide>
+          <InputWithCheck>
+            <Input
+              type='text'
+              name='nickname'
+              onChange={handleNicknameOnChange}
+            ></Input>
+            <NNCheckBtn
+              onClick={handleCheckNickname}
+              style={
+                nicknameConfirm
+                  ? { background: confirmBtnColor, color: confirmTextColor }
+                  : {}
+              }
+            >
+              중복 확인
+            </NNCheckBtn>
+          </InputWithCheck>
+          <NicknameSubmitBtn onClick={handleClickChangeNickname}>
+            변경하기
+          </NicknameSubmitBtn>
+        </ChangeNicknameWrap>
+      );
+    }
+    // ==================================================== mypage all reviews
+    if (contentType === ContentType.MypageAllReviews) {
+      return myReviews.length !== 0 ? (
+        myReviews.map((ele: aReview) => (
+          <ModalSingleComment
+            key={`myReview${myReviews.indexOf(ele)}`}
+            className='singleComment'
+          >
+            <MainWrap className='commentWrap'>
+              <UserWrap className='userWrap'>
+                {ele.profile === '' || ele.profile === undefined ? (
+                  <PIcon />
+                ) : (
+                  <Profile
+                    className='profile'
+                    src={ele.profile}
+                    alt='profile'
+                  />
+                )}
+                <Nickname className='nickname'>{ele.nickname}</Nickname>
+              </UserWrap>
+              <Comment className='comment'>{ele.comment}</Comment>
+            </MainWrap>
+            <RateWrap className='rateWrap'>
+              <URStar className='userRateStar' />
+              <UserRate className='userRate'>{ele.rate}</UserRate>
+            </RateWrap>
+          </ModalSingleComment>
+        ))
+      ) : (
+        <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
+      );
+    }
+    // ==================================================== my beer list
+    if (contentType === ContentType.MyBeerList) {
+      return (
+        <MyBeerListModal>
+          <MyBeerListImgDiv>
+            <MyBeerListImg ref={myBeerListImg} />
+          </MyBeerListImgDiv>
+          <MyBeerListSelect>
+            <RadioWrap>
+              <Radio
+                id='option1'
+                type='radio'
+                name='myBeerType'
+                value='즐겨찾기에 추가한 맥주'
+                checked={option1}
+                onChange={() => handleRadioOption1()}
+              />
+              <RadioOption onClick={handleRadioOption1}>
+                즐겨찾기에 추가한 맥주
+              </RadioOption>
+              <Radio
+                id='option2'
+                type='radio'
+                name='myBeerType'
+                value='리뷰를 남긴 맥주'
+                checked={option2}
+                onChange={() => handleRadioOption2()}
+              />
+              <RadioOption onClick={handleRadioOption2}>
+                리뷰를 남긴 맥주
+              </RadioOption>
+            </RadioWrap>
+            <SelectBeer
+              name='selectBeerName'
+              onChange={(e) => {
+                const targetId =
+                  e.target.options[e.target.options.selectedIndex].id;
+                setSelectedBeerId(Number(targetId));
+                handleSelectBeer(e, option1);
+              }}
+            >
+              <DefaultOption key='optionDefault' className='default'>
+                맥주 이름 선택
+              </DefaultOption>
+              {option1 ? mapOption1 : mapOption2}
+            </SelectBeer>
+            <CompareBtn onClick={handleClickBeerSelect}>비교하기</CompareBtn>
+          </MyBeerListSelect>
+        </MyBeerListModal>
+      );
+    }
+    // ==================================================== user review
+    if (contentType === ContentType.UsersReview) {
+      return (
+        <ReviewWrap className='reviewWrap'>
+          <RateStarsWrap>
+            <RateTitle className='rate'>별점 주기</RateTitle>
+            <Stars className='stars'>{handleStar()}</Stars>
+          </RateStarsWrap>
+          <ReviewTextAreaWrap>
+            <ReviewTextArea
+              name='review'
+              defaultValue={user_review ? user_input : ''}
+              onChange={handleInputOnChange}
+              maxLength={100}
+              rows={4}
+              placeholder='리뷰를 작성해주세요.'
+              wrap='hard'
+            ></ReviewTextArea>
+            <UserReviewBtnArea>
+              <UserReviewBtn onClick={handleClickSubmitReview}>
+                {user_review ? `수정하기` : `등록하기`}
+              </UserReviewBtn>
+              {user_review ? (
+                <UserReviewBtn onClick={handleClickDeleteReview}>
+                  삭제하기
+                </UserReviewBtn>
+              ) : undefined}
+            </UserReviewBtnArea>
+          </ReviewTextAreaWrap>
+        </ReviewWrap>
+      );
+    }
+    // ==================================================== all reviews
+    if (contentType === ContentType.AllReviews) {
+      return allReviews.length !== 0 ? (
+        allReviews.map((ele: aReview) => (
+          <ModalSingleComment
+            key={`review${allReviews.indexOf(ele)}`}
+            className='singleComment'
+          >
+            <MainWrap className='commentWrap'>
+              <UserWrap className='userWrap'>
+                {ele.profile === '' || ele.profile === undefined ? (
+                  <PIcon />
+                ) : (
+                  <Profile
+                    className='profile'
+                    src={ele.profile}
+                    alt='profile'
+                  />
+                )}
+                <Nickname className='nickname'>{ele.nickname}</Nickname>
+              </UserWrap>
+              <Comment className='comment'>{ele.comment}</Comment>
+            </MainWrap>
+            <RateWrap className='rateWrap'>
+              <URStar className='userRateStar' />
+              <UserRate className='userRate'>{ele.rate}</UserRate>
+            </RateWrap>
+          </ModalSingleComment>
+        ))
+      ) : (
+        <ResultEmpty>작성된 리뷰가 없습니다.</ResultEmpty>
+      );
+    }
     // ==================================================== request beer
     if (contentType === ContentType.RequestBeer) {
       return (
@@ -490,184 +769,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         </RequestBeerModal>
       );
     }
-    // ==================================================== empty
-    if (contentType === ContentType.Empty) {
-      return <></>;
-    }
-    // ==================================================== login
-
-    if (contentType === ContentType.Login) {
-      return <LoginContainerWithRouter />;
-    }
-    // ==================================================== mypage reviews
-    if (contentType === ContentType.MypageAllReviews) {
-      return myReviews.length !== 0 ? (
-        myReviews.map((ele: aReview) => (
-          <ModalSingleComment
-            key={`myReview${myReviews.indexOf(ele)}`}
-            className='singleComment'
-          >
-            <MainWrap className='commentWrap'>
-              <UserWrap className='userWrap'>
-                {ele.profile === '' || ele.profile === undefined ? (
-                  <PIcon />
-                ) : (
-                  <Profile
-                    className='profile'
-                    src={ele.profile}
-                    alt='profile'
-                  />
-                )}
-                <Nickname className='nickname'>{ele.nickname}</Nickname>
-              </UserWrap>
-              <Comment className='comment'>{ele.comment}</Comment>
-            </MainWrap>
-            <RateWrap className='rateWrap'>
-              <URStar className='userRateStar' />
-              <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
-          </ModalSingleComment>
-        ))
-      ) : (
-        <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
-      );
-    }
-    // ==================================================== change nickname
-
-    if (contentType === ContentType.ChangeNickname) {
-      return (
-        <ChangeNicknameWrap>
-          <NicknameGuide>새로운 닉네임을 입력해주세요.</NicknameGuide>
-          <InputWithCheck>
-            <Input
-              type='text'
-              name='nickname'
-              onChange={handleNicknameOnChange}
-            ></Input>
-            <NNCheckBtn
-              onClick={handleCheckNickname}
-              style={
-                nicknameConfirm
-                  ? { background: confirmBtnColor, color: confirmTextColor }
-                  : {}
-              }
-            >
-              중복 확인
-            </NNCheckBtn>
-          </InputWithCheck>
-          <NicknameSubmitBtn onClick={handleClickChangeNickname}>
-            변경하기
-          </NicknameSubmitBtn>
-        </ChangeNicknameWrap>
-      );
-    }
-    // ==================================================== my beer list
-
-    if (contentType === ContentType.MyBeerList) {
-      return (
-        <MyBeerListModal>
-          {console.log(option1, mapOption1)}
-          <RadioWrap>
-            <Radio
-              id='option1'
-              type='radio'
-              name='myBeerType'
-              value='즐겨찾기에 추가한 맥주'
-              checked={option1}
-              onChange={() => handleRadioOption1()}
-            />
-            <RadioOption onClick={handleRadioOption1}>
-              즐겨찾기에 추가한 맥주
-            </RadioOption>
-            <Radio
-              id='option2'
-              type='radio'
-              name='myBeerType'
-              value='리뷰를 남긴 맥주'
-              checked={option2}
-              onChange={() => handleRadioOption2()}
-            />
-            <RadioOption onClick={handleRadioOption2}>
-              리뷰를 남긴 맥주
-            </RadioOption>
-          </RadioWrap>
-          <select
-            name='selectBeerName'
-            onChange={(e) => {
-              const targetId =
-                e.target.options[e.target.options.selectedIndex].id;
-              setSelectedBeerId(Number(targetId));
-              console.log(e.target.options[e.target.options.selectedIndex].id);
-            }}
-          >
-            <option key='optionDefault' className='default'>
-              맥주 이름 선택
-            </option>
-            {option1 ? mapOption1 : mapOption2}
-          </select>
-          <button onClick={handleClickBeerSelect}>비교하기</button>
-        </MyBeerListModal>
-      );
-    }
-    // ==================================================== add review
-    if (contentType === ContentType.UsersReview) {
-      return (
-        <ReviewWrap className='reviewWrap'>
-          <ReviewTextArea
-            name='review'
-            defaultValue={user_review ? user_input : ''}
-            onChange={handleInputOnChange}
-            maxLength={100}
-            rows={4}
-            placeholder='리뷰를 작성해주세요.'
-            wrap='hard'
-          ></ReviewTextArea>
-          <UserReviewBtnArea>
-            <UserReviewBtn onClick={handleClickSubmitReview}>
-              {user_review ? `수정하기` : `등록하기`}
-            </UserReviewBtn>
-            {user_review ? (
-              <UserReviewBtn onClick={handleClickDeleteReview}>
-                삭제하기
-              </UserReviewBtn>
-            ) : undefined}
-          </UserReviewBtnArea>
-        </ReviewWrap>
-      );
-    }
-    // ==================================================== all reviews
-    if (contentType === ContentType.AllReviews) {
-      return allReviews.length !== 0 ? (
-        allReviews.map((ele: aReview) => (
-          <ModalSingleComment
-            key={`review${allReviews.indexOf(ele)}`}
-            className='singleComment'
-          >
-            <MainWrap className='commentWrap'>
-              <UserWrap className='userWrap'>
-                {ele.profile === '' || ele.profile === undefined ? (
-                  <PIcon />
-                ) : (
-                  <Profile
-                    className='profile'
-                    src={ele.profile}
-                    alt='profile'
-                  />
-                )}
-                <Nickname className='nickname'>{ele.nickname}</Nickname>
-              </UserWrap>
-              <Comment className='comment'>{ele.comment}</Comment>
-            </MainWrap>
-            <RateWrap className='rateWrap'>
-              <URStar className='userRateStar' />
-              <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
-          </ModalSingleComment>
-        ))
-      ) : (
-        <ResultEmpty>작성된 리뷰가 없습니다.</ResultEmpty>
-      );
-    }
 
     return <div></div>;
   };
@@ -689,8 +790,28 @@ export const ModalContainerWithRouter = withRouter(ModalContainer);
 
 export const MyBeerListModal = styled.div`
   display: flex;
-  flex-direction: column;
 `;
+const MyBeerListImgDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+
+  border: 1px solid black;
+  overflow: hidden;
+`;
+const MyBeerListImg = styled.img`
+  display: flex;
+
+  height: 170px;
+`;
+
+const MyBeerListSelect = styled.div``;
+const SelectBeer = styled.select``;
+
+const DefaultOption = styled.option``;
+const CompareBtn = styled.button``;
 
 export const SingleComment = styled.div`
   // ModalContainer - ModalSingleComment 참고
@@ -786,10 +907,21 @@ const ResultEmpty = styled.div`
 // ============================ User Review
 const ReviewWrap = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
   justify-content: center;
 
   width: 90%;
+`;
+const RateStarsWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+const RateTitle = styled.div``;
+const ReviewTextAreaWrap = styled.div`
+  display: flex;
+  width: 100%;
 `;
 const ReviewTextArea = styled.textarea`
   resize: none;

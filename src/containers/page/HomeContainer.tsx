@@ -143,7 +143,6 @@ function HomeContainer({
     axios
       .get<aReview[]>(`https://beer4.xyz/comment/${e.currentTarget.id}`)
       .then((res) => {
-        console.log(res.data);
         const rawReviews = res.data;
         const allReviews = rawReviews.filter((ele) => {
           if (ele.comment !== '') return ele;

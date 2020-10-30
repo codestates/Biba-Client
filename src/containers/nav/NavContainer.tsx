@@ -64,7 +64,6 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     setLogout();
     handleClickTodayBeer();
     handleNavDisplay(true);
-    alert('로그아웃 되었습니다.'); // 로그아웃 시 렌더링 오류
     props.history.push('/');
   };
 

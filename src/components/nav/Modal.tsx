@@ -16,20 +16,20 @@ export const Modal = ({
   allReviews,
 }: ModalProps): JSX.Element => {
   const title = (): string => {
-    if (contentType === ContentType.MypageAllReviews) {
-      return '내가 작성한 리뷰';
-    } else if (contentType === ContentType.ChangeNickname) {
+    if (contentType === ContentType.ChangeNickname) {
       return '닉네임 변경하기';
+    } else if (contentType === ContentType.MypageAllReviews) {
+      return '내가 작성한 리뷰';
+    } else if (contentType === ContentType.MyBeerList) {
+      return '맥주 비교하기';
     } else if (contentType === ContentType.UsersReview && !user_review) {
-      return '리뷰 작성하기';
+      return '별점 주기 & 리뷰 작성하기';
     } else if (contentType === ContentType.UsersReview && user_review) {
       return '리뷰 수정하기';
     } else if (contentType === ContentType.AllReviews) {
       return '리뷰 전체보기';
     } else if (contentType === ContentType.RequestBeer) {
       return '맥주 등록 요청하기';
-    } else if (contentType === ContentType.MyBeerList) {
-      return '나의 맥주와 비교하기';
     } else {
       return '';
     }
@@ -42,10 +42,11 @@ export const Modal = ({
         style={display ? { display: 'block' } : undefined}
       >
         <ModalMask className='modalMask' onClick={closeModal}></ModalMask>
-        {contentType === ContentType.UsersReview ||
-        contentType === ContentType.Login ||
-        contentType === ContentType.RequestBeer ||
-        contentType === ContentType.ChangeNickname ? (
+        {contentType === ContentType.Login ||
+        contentType === ContentType.ChangeNickname ||
+        contentType === ContentType.MyBeerList ||
+        contentType === ContentType.UsersReview ||
+        contentType === ContentType.RequestBeer ? (
           <SmallContentArea className='contentArea'>
             <TitleWrap className='modalTitleWrap'>
               <Title>{title()}</Title>

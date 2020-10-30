@@ -21,8 +21,8 @@ export interface ModalState extends ModalContent {
 export enum ContentType {
   Empty,
   Login,
-  MypageAllReviews,
   ChangeNickname,
+  MypageAllReviews,
   MyBeerList,
   UsersReview,
   AllReviews,

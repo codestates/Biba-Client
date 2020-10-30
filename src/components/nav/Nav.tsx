@@ -18,6 +18,7 @@ import {
 export const Nav = ({
   userData,
   isLogin,
+  profile,
   inputQuery,
   logout,
   handleClickLogo,
@@ -35,7 +36,7 @@ export const Nav = ({
       <NavBar className='navBar'>
         <LogoWrap>
           <Logo
-            src={require('./templogo500.jpg')}
+            src={require('../../images/templogo.png')}
             alt='biba logo'
             onClick={handleClickLogo}
           />
@@ -78,9 +79,11 @@ export const Nav = ({
             >
               {isLogin ? `로그아웃` : `로그인`}
             </NavBtn>
-            {/* <NicknameProfile>
-              {isLogin ? `${userData.nickname}` : ``}
-            </NicknameProfile> */}
+            {isLogin ? (
+              <NicknameProfile>
+                <SmallProfile src={profile} />
+              </NicknameProfile>
+            ) : undefined}
           </BtnArea>
         </Wrap>
       </NavBar>
@@ -239,6 +242,14 @@ const NicknameProfile = styled.div`
   margin: 0 0 0 1em;
 
   color: ${mainGrey};
+`;
+
+const SmallProfile = styled.img`
+  width: 25px;
+  height: 25px;
+
+  border-radius: 50%;
+  overflow: hidden;
 `;
 
 // const TestBtns = styled.div`

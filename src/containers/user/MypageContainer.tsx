@@ -19,7 +19,7 @@ import {
 } from '../../components/user/Mypage';
 import { nicknameCheck, passwordCheck, passwordMatch } from './userUtils';
 
-interface IProfile extends HTMLDivElement {
+export interface IProfile extends HTMLDivElement {
   src: string | ArrayBuffer | null;
 }
 
@@ -109,23 +109,19 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
               newPassword: '',
               passwordForCheck: '',
             });
+            return alert(`비밀번호가 변경되었습니다.`);
           } else {
             return alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
           }
         })
         .catch(() => {
-          setInputValues({
-            ...inputValues,
-            currentPassword: '',
-            newPassword: '',
-            passwordForCheck: '',
-          });
-          alert(`비밀번호를 확인해주세요.`);
+          return alert(`비밀번호를 확인해주세요.`);
         });
     } else if (!passwordCheck(newPassword)) {
       setInputValues({
         ...inputValues,
         newPassword: '',
+        passwordForCheck: '',
       });
       return alert(
         `비밀번호를 확인해주세요.\n8자 이상의 영문, 숫자 또는 특수문자 조합이어야 합니다.`,
@@ -182,7 +178,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
           const { profile } = res.data;
           dispatch({ type: 'SET_PROFILE', profile });
           dispatch({ type: 'REF_DISPLAY', display: false });
-          alert(`프로필 사진이 등록되었습니다.`);
+          // alert(`프로필 사진이 등록되었습니다.`);
         } else {
           console.log('::::: post :::::', res);
           alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
@@ -216,7 +212,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
                 const { profile } = res.data;
                 dispatch({ type: 'CHANGE_PROFILE', profile });
                 dispatch({ type: 'REF_DISPLAY', display: false });
-                alert(`프로필 사진이 변경되었습니다.`);
+                // alert(`프로필 사진이 변경되었습니다.`);
               } else {
                 console.log('::::: change :::::', res);
                 alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
@@ -243,9 +239,13 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       .then((res) => {
         if (res.status === 200) {
           console.log(res);
+          const { current } = profileInput as React.RefObject<IProfile>;
+          if (current) {
+            current.src = null;
+          }
           dispatch({ type: 'DELETE_PROFILE' });
-          dispatch({ type: 'REF_DISPLAY', display: false });
-          alert(`프로필 사진이 삭제되었습니다.`);
+          dispatch({ type: 'REF_DISPLAY', display: true });
+          // alert(`프로필 사진이 삭제되었습니다.`);
         } else {
           console.log('::::: delete :::::', res);
           alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
