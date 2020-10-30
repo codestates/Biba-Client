@@ -2,7 +2,14 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { BEER_HOT, BEER_LATE, BEER_PICK, BeerT } from '../../modules/getbeers';
+import {
+  BEER_HOT,
+  BEER_LATE,
+  BEER_WHEAT,
+  BEER_GERMAN,
+  BEER_RECOMMEND,
+  BeerT,
+} from '../../modules/getbeers';
 import WantSomeBeerList from '../../components/list/WantSomeBeerList';
 import axios from 'axios';
 
@@ -12,9 +19,18 @@ function WantSomeBeerListContainer({
   setBeerDetail,
   setAllReviews,
 }: HomeProps): JSX.Element {
+  const { userData, isLogin } = useSelector((state: RootState) => state.login);
   const hotBeers = useSelector((state: RootState) => state.wantBeer.hotBeers);
   const lateBeers = useSelector((state: RootState) => state.wantBeer.lateBeers);
-  const pickBeers = useSelector((state: RootState) => state.wantBeer.pickBeers);
+  const wheatBeers = useSelector(
+    (state: RootState) => state.wantBeer.wheatBeers,
+  );
+  const germanBeers = useSelector(
+    (state: RootState) => state.wantBeer.germanBeers,
+  );
+  const recommendBeers = useSelector(
+    (state: RootState) => state.wantBeer.recommendBeers,
+  );
   const dispatch = useDispatch();
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -24,8 +40,14 @@ function WantSomeBeerListContainer({
   const setLateBeers = (beers: BeerT[]) => {
     dispatch({ type: BEER_LATE, beers });
   };
-  const setPickBeers = (beers: BeerT[]) => {
-    dispatch({ type: BEER_PICK, beers });
+  const setWheatBeers = (beers: BeerT[]) => {
+    dispatch({ type: BEER_WHEAT, beers });
+  };
+  const setGermanBeers = (beers: BeerT[]) => {
+    dispatch({ type: BEER_GERMAN, beers });
+  };
+  const setRecommendBeers = (beers: BeerT[]) => {
+    dispatch({ type: BEER_RECOMMEND, beers });
   };
 
   useEffect(() => {
@@ -35,16 +57,30 @@ function WantSomeBeerListContainer({
     axios.get<BeerT[]>(`https://beer4.xyz/category/recent`).then((res) => {
       setLateBeers(res.data);
     });
-    axios.get<BeerT[]>(`https://beer4.xyz/category/germany`).then((res) => {
-      setPickBeers(res.data);
+    axios.get<BeerT[]>(`https://beer4.xyz/category/wheat`).then((res) => {
+      setWheatBeers(res.data);
     });
+    axios.get<BeerT[]>(`https://beer4.xyz/category/germany`).then((res) => {
+      setGermanBeers(res.data);
+    });
+    axios
+      .post<BeerT[]>(`https://beer4.xyz/category/recommend`, {
+        user_id: userData.id,
+      })
+      .then((res) => {
+        setRecommendBeers(res.data);
+      });
   }, []);
 
   return (
     <WantSomeBeerList
+      isLogin={isLogin}
+      nickname={userData.nickname}
       hotBeers={hotBeers}
       lateBeers={lateBeers}
-      pickBeers={pickBeers}
+      wheatBeers={wheatBeers}
+      germanBeers={germanBeers}
+      recommendBeers={recommendBeers}
       setBeerDetail={setBeerDetail}
       setAllReviews={setAllReviews}
     />

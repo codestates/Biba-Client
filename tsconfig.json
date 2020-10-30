@@ -13,12 +13,24 @@
     "lib": [
       "es2017",
       "dom",
-      "dom.iterable",
+      "dom.iterable"
     ],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true
   },
-  "exclude": [ "node_modules", "build", "scripts", "acceptance-tests", "webpack", "jest", "src/setupTests.ts" ]
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
+  ],
+  "include": [
+    "src"
+  ]
 }

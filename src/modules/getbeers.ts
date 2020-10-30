@@ -1,7 +1,9 @@
 export const BEER_TODAY = 'today/BEER';
 export const BEER_HOT = 'want/BEER_HOT';
 export const BEER_LATE = 'want/BEER_LATE';
-export const BEER_PICK = 'want/BEER_PICK';
+export const BEER_WHEAT = 'want/BEER_WHEAT';
+export const BEER_GERMAN = 'want/BEER_GERMAN';
+export const BEER_RECOMMEND = 'want/BEER_RECOMMEND';
 export const BEER_FAVORITE = 'my/BEER_FAVORITE';
 export const BEER_REVIEW = 'my/BEER_REVIEW';
 
@@ -36,8 +38,18 @@ export interface BeerLate {
   beers: Array<BeerT>;
 }
 
-export interface BeerPick {
-  type: typeof BEER_PICK;
+export interface BeerWheat {
+  type: typeof BEER_WHEAT;
+  beers: Array<BeerT>;
+}
+
+export interface BeerGerman {
+  type: typeof BEER_GERMAN;
+  beers: Array<BeerT>;
+}
+
+export interface BeerRecommend {
+  type: typeof BEER_RECOMMEND;
   beers: Array<BeerT>;
 }
 
@@ -55,7 +67,9 @@ export type BeerDispatchTypes =
   | BeerToday
   | BeerHot
   | BeerLate
-  | BeerPick
+  | BeerWheat
+  | BeerGerman
+  | BeerRecommend
   | BeerFavorite
   | BeerReview;
 
@@ -70,13 +84,17 @@ const defaultBeer: BeerI = {
 export interface WantI {
   hotBeers: BeerT[];
   lateBeers: BeerT[];
-  pickBeers: BeerT[];
+  wheatBeers: BeerT[];
+  germanBeers: BeerT[];
+  recommendBeers: BeerT[];
 }
 
 const defaultWant: WantI = {
   hotBeers: [],
   lateBeers: [],
-  pickBeers: [],
+  wheatBeers: [],
+  germanBeers: [],
+  recommendBeers: [],
 };
 
 //action creators
@@ -100,9 +118,23 @@ export const lateBeerAction = (beers: BeerT[]): BeerLate => {
   };
 };
 
-export const pickBeerAction = (beers: BeerT[]): BeerPick => {
+export const wheatBeerAction = (beers: BeerT[]): BeerWheat => {
   return {
-    type: BEER_PICK,
+    type: BEER_WHEAT,
+    beers,
+  };
+};
+
+export const germanBeerAction = (beers: BeerT[]): BeerGerman => {
+  return {
+    type: BEER_GERMAN,
+    beers,
+  };
+};
+
+export const recommendBeerAction = (beers: BeerT[]): BeerRecommend => {
+  return {
+    type: BEER_RECOMMEND,
     beers,
   };
 };
@@ -152,10 +184,20 @@ export const wantBeerReducer = (
         ...state,
         lateBeers: action.beers,
       };
-    case BEER_PICK:
+    case BEER_WHEAT:
       return {
         ...state,
-        pickBeers: action.beers,
+        wheatBeers: action.beers,
+      };
+    case BEER_GERMAN:
+      return {
+        ...state,
+        germanBeers: action.beers,
+      };
+    case BEER_RECOMMEND:
+      return {
+        ...state,
+        recommendBeers: action.beers,
       };
     default:
       return state;
