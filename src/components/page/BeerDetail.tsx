@@ -19,6 +19,7 @@ import {
 export const BeerDetail = ({
   match,
   beerDetail,
+  compareMyBeers,
   bookmark,
   handleBookmark,
   handleTag,
@@ -42,6 +43,7 @@ export const BeerDetail = ({
       <Container className='detailContainer'>
         <InfoTitle className='infoTitle'>
           <TitleText>맥주 상세 정보</TitleText>
+          <button onClick={compareMyBeers}>임시 모달</button>
         </InfoTitle>
         <ImgDiv>
           <Img className='infoImg' src={beerDetail.beer_img} alt='' />

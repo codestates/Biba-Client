@@ -1,9 +1,10 @@
-const path = require("path");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: './src/index.tsx',
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: ['.ts', '.tsx', '.js'],
   },
   module: {
     rules: [
@@ -11,14 +12,14 @@ module.exports = {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "ts-loader",
+          loader: 'ts-loader',
         },
       },
     ],
   },
   output: {
-    filename: "[name].bundle.js",
-    publicPath: "/",
-    path: path.resolve(__dirname, "build"),
+    filename: '[name].bundle.js',
+    publicPath: '/',
+    path: path.resolve(__dirname, 'build'),
   },
 };

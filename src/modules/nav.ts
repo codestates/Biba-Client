@@ -5,6 +5,7 @@ const SET_MODAL = 'SET_MODAL' as const;
 const SET_BEERS = 'SET_BEERS' as const;
 const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
 const SET_REQUESTTYPE = 'SET_REQUESTTYPE' as const;
+const SET_MYBEERTYPE = 'SET_MYBEERTYPE' as const;
 
 export interface SearchbarState {
   display: boolean;
@@ -21,7 +22,7 @@ export enum ContentType {
   Login,
   MypageAllReviews,
   ChangeNickname,
-  MyBookmarks,
+  MyBeerList,
   UsersReview,
   AllReviews,
   RequestBeer,
@@ -37,6 +38,10 @@ export interface NavDisplay {
 export interface BeerRequest {
   request1: boolean;
   request2: boolean;
+}
+export interface MyBeerList {
+  option1: boolean;
+  option2: boolean;
 }
 
 // 이하로 action interface + init + action
@@ -107,6 +112,22 @@ export const setRequestType = (
   type: SET_REQUESTTYPE,
   request1,
   request2,
+});
+
+interface MyBeerListAction extends MyBeerList {
+  type: typeof SET_MYBEERTYPE;
+}
+const mybeerInit: MyBeerList = {
+  option1: true,
+  option2: false,
+};
+export const setMyBeerListType = (
+  option1: boolean,
+  option2: boolean,
+): MyBeerListAction => ({
+  type: SET_MYBEERTYPE,
+  option1,
+  option2,
 });
 
 // ============ 이하로 reducers
@@ -184,6 +205,23 @@ export const beerRequestReducer = (
         ...state,
         request1: action.request1,
         request2: action.request2,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const myBeerListTypeReducer = (
+  state = mybeerInit,
+  action: MyBeerListAction,
+): MyBeerList => {
+  switch (action.type) {
+    case SET_MYBEERTYPE:
+      return {
+        ...state,
+        option1: action.option1,
+        option2: action.option2,
       };
 
     default:

@@ -90,9 +90,9 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     props.history.push('/mypage');
   };
 
-  const handleModal = (contentType: ContentType, display: boolean): void => {
-    dispatch({ type: 'SET_MODAL', contentType, display });
-  };
+  // const handleModal = (contentType: ContentType, display: boolean): void => {
+  //   dispatch({ type: 'SET_MODAL', contentType, display });
+  // };
 
   const setBeers = (beers: BeerT[]): void => {
     dispatch({ type: 'SET_BEERS', beers });

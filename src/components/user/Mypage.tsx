@@ -208,6 +208,9 @@ const ProfileDiv = styled.div`
 
   width: 100px;
   height: 100px;
+
+  border-radius: 50%;
+  overflow: hidden;
 `;
 export const ProfileImg = styled.img`
   display: flex;
@@ -215,6 +218,9 @@ export const ProfileImg = styled.img`
   align-items: center;
   max-width: 100%;
   max-height: 100%;
+
+  border-radius: 50%;
+  overflow: hidden;
 `;
 export const ProfileRef = styled.img`
   display: flex;

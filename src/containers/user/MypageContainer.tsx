@@ -55,11 +55,14 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
 
   const getMyReviews = (): void => {
     axios
-      .post<aReview>(`https://beer4.xyz/comment/mylist`, {
+      .post<aReview[]>(`https://beer4.xyz/comment/mylist`, {
         token: token,
-      })
+      }) // 내가 리뷰를 작성한 맥주에 대해
       .then((res) => {
-        const myReviews = res.data;
+        const rawReviews = res.data;
+        const myReviews = rawReviews.filter((ele) => {
+          if (ele.comment !== '') return ele;
+        });
         dispatch({ type: 'SET_MYREVIEWS', myReviews });
         handleModal(ContentType.MypageAllReviews, true);
       }); // [{}, {}]

@@ -28,6 +28,8 @@ export const Modal = ({
       return '리뷰 전체보기';
     } else if (contentType === ContentType.RequestBeer) {
       return '맥주 등록 요청하기';
+    } else if (contentType === ContentType.MyBeerList) {
+      return '나의 맥주와 비교하기';
     } else {
       return '';
     }

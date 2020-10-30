@@ -91,7 +91,7 @@ function HomeContainer({
           user_star,
           user_input,
           user_rate,
-        }); // 삭제, 수정 버튼 추가
+        });
         const { sparkling, sweet, bitter, accessibility, body } = res.data;
         dispatch({
           type: 'SET_GRAPHDATA',

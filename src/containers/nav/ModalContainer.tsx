@@ -51,7 +51,15 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     (state: RootState) => state.confirmNickname.value,
   );
   const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
-
+  const rawFavoriteBeers = useSelector(
+    (state: RootState) => state.favoriteBeer.beers,
+  );
+  const rawReviewedBeers = useSelector(
+    (state: RootState) => state.reviewBeer.beers,
+  );
+  const { option1, option2 } = useSelector(
+    (state: RootState) => state.myBeerListType,
+  );
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
   const { user_review, user_star, user_input, user_rate } = useSelector(
@@ -351,6 +359,17 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       return alert(`내용을 작성해주세요.`);
     }
   };
+  // ================================================================ MyBeerList
+  const handleMyListType = (option1: boolean, option2: boolean): void => {
+    dispatch({ type: 'SET_MYBEERTYPE', option1, option2 });
+  };
+
+  const handleRadioOption1 = (): void => {
+    handleMyListType(true, false);
+  };
+  const handleRadioOption2 = (): void => {
+    handleMyListType(false, true);
+  };
   // ================================================================ Content
   const content = (contentType: ContentType): JSX.Element | JSX.Element[] => {
     // ==================================================== request beer
@@ -485,11 +504,64 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     }
     // ==================================================== favorite beer list
 
-    if (contentType === ContentType.MyBookmarks) {
+    if (contentType === ContentType.MyBeerList) {
+      const favoriteBeerIndex = rawFavoriteBeers.map((beer) => {
+        return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
+      });
+      const mapOption1 = favoriteBeerIndex.map((ele) => (
+        <option
+          key={`favBeerIndex${favoriteBeerIndex.indexOf(ele)}`}
+          value={ele.beerName}
+        >
+          {ele.beerName}
+        </option>
+      ));
+      const reviewedBeerIndex = rawReviewedBeers.map((beer) => {
+        return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
+      });
+      const mapOption2 = reviewedBeerIndex.map((ele) => (
+        <option
+          key={`reviewedBeerIndex${reviewedBeerIndex.indexOf(ele)}`}
+          value={ele.beerName}
+        >
+          {ele.beerName}
+        </option>
+      ));
+
       return (
-        <div>
-          <div>모달 - favorite list 보고 그래프 비교하기</div>
-        </div>
+        <MyBeerListModal>
+          <RadioWrap>
+            <Radio
+              id='option1'
+              type='radio'
+              name='myBeerType'
+              value='즐겨찾기에 추가한 맥주'
+              checked={option1}
+              onChange={() => handleRadioOption1()}
+            />
+            <RadioOption onClick={handleRadioOption1}>
+              즐겨찾기에 추가한 맥주
+            </RadioOption>
+            <Radio
+              id='option2'
+              type='radio'
+              name='myBeerType'
+              value='리뷰를 남긴 맥주'
+              checked={option2}
+              onChange={() => handleRadioOption2()}
+            />
+            <RadioOption onClick={handleRadioOption2}>
+              리뷰를 남긴 맥주
+            </RadioOption>
+          </RadioWrap>
+
+          <select name='selectBeerName'>
+            <option key='optionDefault' className='default'>
+              맥주 이름 선택
+            </option>
+            {option1 ? mapOption1 : mapOption2}
+          </select>
+        </MyBeerListModal>
       );
     }
     // ==================================================== add review
@@ -569,6 +641,11 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
 };
 
 export const ModalContainerWithRouter = withRouter(ModalContainer);
+
+export const MyBeerListModal = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 export const SingleComment = styled.div`
   // ModalContainer - ModalSingleComment 참고

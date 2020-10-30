@@ -32,6 +32,7 @@ import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllRevie
 import { starStatusInit } from '../../modules/beerdetail';
 import { BeerDetail } from '../../components/page/BeerDetail';
 import { Bookmark, IBeerDetail, aReview } from '../../modules/beerdetail';
+import { BeerT, BEER_FAVORITE, BEER_REVIEW } from '../../modules/getbeers';
 import {
   DefaultProps,
   IBeerDetailWithAll,
@@ -40,6 +41,7 @@ import { checkStarScore } from './pageUtils';
 
 export interface BeerDetailProps extends DefaultProps {
   beerDetail: IBeerDetail;
+  compareMyBeers(): void;
   bookmark: boolean;
   handleBookmark(): void;
   handleTag(): JSX.Element[];
@@ -86,6 +88,31 @@ const BeerDetailContainer = ({
   const dispatch = useDispatch();
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
+  };
+
+  const compareMyBeers = (): void => {
+    axios
+      .post<BeerT[]>(`https://beer4.xyz/bookmark/list`, {
+        token: token,
+      })
+      .then((res) => {
+        const favBeers = res.data;
+        dispatch({ type: BEER_FAVORITE, beers: favBeers });
+
+        axios
+          .post<BeerT[]>(`https://beer4.xyz/comment/mylist`, {
+            token: token,
+          })
+          .then((res) => {
+            const reviewedBeers = res.data;
+            dispatch({ type: BEER_REVIEW, beers: reviewedBeers });
+          });
+      });
+    dispatch({
+      type: 'SET_MODAL',
+      contentType: ContentType.MyBeerList,
+      display: true,
+    });
   };
 
   const handleBookmark = (): void => {
@@ -333,6 +360,7 @@ const BeerDetailContainer = ({
       history={history}
       location={location}
       beerDetail={beerDetail}
+      compareMyBeers={compareMyBeers}
       bookmark={bookmark}
       handleBookmark={handleBookmark}
       handleTag={handleTag}
