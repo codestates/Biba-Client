@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Carousel from 'react-elastic-carousel';
 import './WantCss.css';
+import classNames from 'classnames';
 
 import WantSomeBeer from './WantSomeBeer';
 import { WantI } from '../../modules/getbeers';
@@ -67,7 +68,7 @@ function WantSomeBeerList({
           <ListContainer>
             <UlLate>
               <Carousel
-                className='slider button.rec-dot button.rec-arrow'
+                className='button.rec-dot button.rec-arrow'
                 breakPoints={breakPoint}
               >
                 {lateBeerList}

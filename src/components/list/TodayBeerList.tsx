@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import './TodayCss.css';
 
 import TodayBeer from './TodayBeer';
-import { BeerT } from '../../modules/getbeers';
 import { BeerListProps } from '../../containers/page/HomeContainer';
 
 function TodayBeerList({

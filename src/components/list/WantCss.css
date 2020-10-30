@@ -1,5 +1,5 @@
 
-button.rec-dot{
+button.rec-dot {
     background-color: #f2a405;
     opacity: 0.5;
     box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
@@ -9,15 +9,13 @@ button.rec-dot{
     background-color: black;
     box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
   }
-
-button.rec-arrow{
+button.rec-arrow {
     background-color: #f2a405;
     opacity: 0.5;
-    transform: translateX(-15px);
+    box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
   }
   
-  button.rec-arrow:hover, button.rec-arrow:active, button.rec-arrow:focus  {
-    background-color: #f2a405 !important;
-    opacity: 1;
-    
+  button.rec--arrow:hover, button.rec-arrow:active, button.rec-arrow:focus {
+    background-color: black;
+    box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
   }
