@@ -67,7 +67,7 @@ function WantSomeBeerList({
           <ListContainer>
             <UlLate>
               <Carousel
-                className='slider button.rec-dot button.rec-arrow'
+                className='button.rec-dot button.rec-arrow'
                 breakPoints={breakPoint}
               >
                 {lateBeerList}
