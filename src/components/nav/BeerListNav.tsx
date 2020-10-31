@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../../modules';
 import { BeerListNavProps } from '../../containers/nav/BeerListNavContainer';
 import {
   mainGrey,
@@ -14,7 +16,7 @@ function BeerListNav({
   isLogin,
   handleClickTodayBeer,
   handleClickWantSomeBeer,
-  handleClickMyBeer,
+
   handleClickFavorite,
   handleClickReview,
   display,
@@ -22,6 +24,11 @@ function BeerListNav({
   redirectLogin,
   handleClickGuest,
 }: BeerListNavProps): JSX.Element {
+  const isFavorite = useSelector(
+    (state: RootState) => state.changePage.isFavorite,
+  );
+  const isReview = useSelector((state: RootState) => state.changePage.isReview);
+
   return (
     <ListNav style={display ? {} : { display: 'none' }}>
       <UL>
@@ -31,7 +38,9 @@ function BeerListNav({
             handleClickTodayBeer();
           }}
         >
-          <TH>Today&apos;s Beer</TH>
+          <TH>
+            <Span>Today&apos;s Beer</Span>
+          </TH>
         </ListBtn>
         <ListBtn
           onClick={() => {
@@ -39,32 +48,47 @@ function BeerListNav({
             handleClickWantSomeBeer();
           }}
         >
-          <TH>Want Some Beer?</TH>
+          <TH>
+            <Span>Want Some Beer?</Span>
+          </TH>
         </ListBtn>
         {isLogin ? (
-          <ListBtn
-            onClick={() => {
-              redirectHome();
-              handleClickMyBeer();
-            }}
-          >
-            <TH>My Beers</TH>
+          <ListBtn>
+            <RedirectBtn
+              onClick={() => {
+                handleClickFavorite();
+              }}
+            >
+              <TH>
+                <Span>My Beers</Span>
+              </TH>
+            </RedirectBtn>
             <SubUl>
               <SubLiBtn
                 onClick={() => {
-                  redirectHome();
                   handleClickFavorite();
                 }}
               >
-                <TH>Faviorite</TH>
+                {isFavorite ? (
+                  <TH>
+                    <SubSpanActive>Faviorite</SubSpanActive>
+                  </TH>
+                ) : (
+                  <TH>Faviorite</TH>
+                )}
               </SubLiBtn>
               <SubLiBtn
                 onClick={() => {
-                  redirectHome();
                   handleClickReview();
                 }}
               >
-                <TH>Review</TH>
+                {isReview ? (
+                  <TH>
+                    <SubSpanActive>Review</SubSpanActive>
+                  </TH>
+                ) : (
+                  <TH>Review</TH>
+                )}
               </SubLiBtn>
             </SubUl>
           </ListBtn>
@@ -109,14 +133,34 @@ const ListBtn = styled.li`
 `;
 
 const TH = styled.div`
-  display: inline-block;
   padding: 5px;
   color: ${mainGrey};
   font-size: 1.25rem;
+
   &:hover {
     color: ${mainYellow};
     cursor: pointer;
   }
+`;
+
+const RedirectBtn = styled.div``;
+
+const Span = styled.span`
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 1s;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom: 2px solid ${mainYellow};
+  }
+`;
+
+const SubSpanActive = styled.span`
+  padding: 2px;
+  border-radius: 8px;
+  background-color: #f2a405;
+  opacity: 0.9;
+  color: white;
 `;
 
 const SubUl = styled.ul`

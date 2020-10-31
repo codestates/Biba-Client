@@ -44,13 +44,15 @@ function SearchBeerList({
   return (
     <>
       {exist ? (
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className='my-masonry-grid'
-          columnClassName='my-masonry-grid_column'
-        >
-          {sbList}
-        </Masonry>
+        <ContentWrap>
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className='my-masonry-grid'
+            columnClassName='my-masonry-grid_column'
+          >
+            {sbList}
+          </Masonry>
+        </ContentWrap>
       ) : (
         <Container>{sbList}</Container>
       )}
@@ -63,4 +65,17 @@ const Container = styled.div`
   place-items: center;
   height: 500px;
 `;
+
+const ContentWrap = styled.div`
+  animation: fadein 3s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
 export default SearchBeerList;

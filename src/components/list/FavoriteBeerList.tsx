@@ -83,13 +83,15 @@ function FavoriteBeerList({
           </FilterBox>
         )}
       </TitleWrap>
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className='my-masonry-grid'
-        columnClassName='my-masonry-grid_column'
-      >
-        {isAbc ? abcBeerList : recentBeerList}
-      </Masonry>
+      <ContentWrap>
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className='my-masonry-grid'
+          columnClassName='my-masonry-grid_column'
+        >
+          {isAbc ? abcBeerList : recentBeerList}
+        </Masonry>
+      </ContentWrap>
     </>
   );
 }
@@ -97,6 +99,49 @@ const TitleWrap = styled.div`
   display: flex;
   justify-content: space-between;
   height: fit-content;
+`;
+
+const ContentWrap = styled.div`
+  animation: fadein 3s;
+  -moz-animation: fadein 3s; /* Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  -o-animation: fadein 3s; /* Opera */
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes fadein {
+    /* Firefox */
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes fadein {
+    /* Safari and Chrome */
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes fadein {
+    /* Opera */
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const Title = styled.h3`

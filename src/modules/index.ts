@@ -38,7 +38,6 @@ import {
   infoStatusReducer,
   starStatusReducer,
 } from './beerdetail';
-import { myBeerReducer } from './mybeer';
 
 export const rootReducer = combineReducers({
   login: loginReducer,
@@ -55,7 +54,6 @@ export const rootReducer = combineReducers({
   todayBeer: todayBeerReducer,
   wantBeer: wantBeerReducer,
   changePage: changePageReducer,
-  myBeer: myBeerReducer,
   favoriteBeer: favoriteBeerReducer,
   reviewBeer: reviewBeerReducer,
   searchBeer: searchBeerReducer,

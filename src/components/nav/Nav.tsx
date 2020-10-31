@@ -185,7 +185,14 @@ const SearchInputWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end; // 박스 내 input, btn
+  overflow: hidden;
+  animation: strecth 3s ease;
 
+  @keyframes strecth {
+    0% {
+      margin-left: 100%;
+    }
+  }
   // width: 22vw;
 `;
 
