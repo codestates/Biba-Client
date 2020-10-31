@@ -397,7 +397,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             axios
               .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
               .then((res) => {
-                const rawReviews = res.data;
+                const rawReviews = res.data.reverse();
                 const allReviews = rawReviews.filter((ele) => {
                   if (ele.comment !== '') return ele;
                 });
@@ -428,11 +428,10 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             dispatch({
               type: 'DELETE_USERREVIEW',
             });
-            alert(`리뷰가 삭제되었습니다.`);
             axios
               .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
               .then((res) => {
-                const rawReviews = res.data;
+                const rawReviews = res.data.reverse();
                 const allReviews = rawReviews.filter((ele) => {
                   if (ele.comment !== '') return ele;
                 });
@@ -474,6 +473,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       );
     });
   };
+  // ================================================================ Comment 함수
+  const setDateForm = (input: string): string => {
+    const [date, time] = input.split(' ');
+    const dateOutput = date.replace('-', '년 ').replace('-', '월 ') + '일';
+    const timeOutput = time.slice(0, 5);
+    return `${dateOutput} ${timeOutput}`;
+  };
+
   // ================================================================ Beer Request 함수
   const handleRequestType = (request1: boolean, request2: boolean): void => {
     dispatch({ type: 'SET_REQUESTTYPE', request1, request2 });
@@ -581,24 +588,32 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
-              <UserWrap className='userWrap'>
-                {ele.profile === '' || ele.profile === undefined ? (
-                  <PIcon />
-                ) : (
-                  <Profile
-                    className='profile'
-                    src={ele.profile}
-                    alt='profile'
-                  />
-                )}
-                <Nickname className='nickname'>{ele.nickname}</Nickname>
-              </UserWrap>
+              <CommentTop className='commentTop'>
+                <UserWrap className='userWrap'>
+                  {ele.profile === '' || ele.profile === undefined ? (
+                    <PIcon />
+                  ) : (
+                    <ProfileWrap>
+                      <Profile
+                        className='profile'
+                        src={ele.profile}
+                        alt='profile'
+                      />
+                    </ProfileWrap>
+                  )}
+                  <Nickname className='nickname'>{ele.nickname}</Nickname>
+                  <BeerId onClick={() => console.log(ele.id)}>{ele.id}</BeerId>
+                </UserWrap>
+              </CommentTop>
               <Comment className='comment'>{ele.comment}</Comment>
             </MainWrap>
-            <RateWrap className='rateWrap'>
-              <URStar className='userRateStar' />
-              <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
+            <ReviewRate>
+              <Date>{setDateForm(ele.createdAt)}</Date>
+              <RateWrap className='rateWrap'>
+                <URStar className='userRateStar' />
+                <UserRate className='userRate'>{ele.rate}</UserRate>
+              </RateWrap>
+            </ReviewRate>
           </ModalSingleComment>
         ))
       ) : (
@@ -709,24 +724,32 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
-              <UserWrap className='userWrap'>
-                {ele.profile === '' || ele.profile === undefined ? (
-                  <PIcon />
-                ) : (
-                  <Profile
-                    className='profile'
-                    src={ele.profile}
-                    alt='profile'
-                  />
-                )}
-                <Nickname className='nickname'>{ele.nickname}</Nickname>
-              </UserWrap>
+              <CommentTop className='commentTop'>
+                <UserWrap className='userWrap'>
+                  {ele.profile === '' || ele.profile === undefined ? (
+                    <PIcon />
+                  ) : (
+                    <ProfileWrap>
+                      <Profile
+                        className='profile'
+                        src={ele.profile}
+                        alt='profile'
+                      />
+                    </ProfileWrap>
+                  )}
+                  <Nickname className='nickname'>{ele.nickname}</Nickname>
+                </UserWrap>
+              </CommentTop>
               <Comment className='comment'>{ele.comment}</Comment>
             </MainWrap>
-            <RateWrap className='rateWrap'>
-              <URStar className='userRateStar' />
-              <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
+
+            <ReviewRate>
+              <Date>{setDateForm(ele.createdAt)}</Date>
+              <RateWrap className='rateWrap'>
+                <URStar className='userRateStar' />
+                <UserRate className='userRate'>{ele.rate}</UserRate>
+              </RateWrap>
+            </ReviewRate>
           </ModalSingleComment>
         ))
       ) : (
@@ -921,10 +944,8 @@ export const SingleComment = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  // width: 23%;
-  height: 180px;
-  min-width: 180px;
-  min-height: 120px;
+  height: 200px;
+  min-width: 200px;
 
   border: 2px solid ${mainYellow};
   border-radius: 8px;
@@ -936,13 +957,21 @@ export const SingleComment = styled.div`
 export const ModalSingleComment = styled(SingleComment)`
   /// -----------------------------------
   width: 31%;
-  min-width: 220px;
-  max-width: 250px;
+  max-width: 230px;
+
+  margin: 0.5em 0.5em 1em 0.5em;
+  padding: 0.6em;
 `;
 
 export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
+`;
+export const CommentTop = styled.div`
+  grid-row: 1 / 2;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 export const UserWrap = styled.div`
   display: flex;
@@ -951,23 +980,45 @@ export const UserWrap = styled.div`
 
   margin: 0 0 0.4em 0;
 `;
-export const Profile = styled.img`
+export const ProfileWrap = styled.div`
   display: flex;
-  width: 1.5em;
-  height: 1.5em;
+  align-items: center;
+  justify-content: center;
 
-  margin: 0 0.3em 0 0;
+  width: 1.4em;
+  height: 1.4em;
+
+  margin: 0 0.5em 0 0;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+export const Profile = styled.img`
+  height: 150%;
+  width: 150%;
+  object-fit: contain;
 `;
 export const PIcon = styled(BiUserCircle)`
   display: flex;
 
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.9em;
+  height: 1.9em;
 
-  margin: 0 0.3em 0 0;
-  color: ${mainGrey};
+  margin: 0 0.2em 0 0;
+  color: ${mainYellowOpac};
 `;
 export const Nickname = styled.div`
+  display: flex;
+
+  padding: 0.2em 0 0 0;
+
+  font-size: 0.95em;
+`;
+const BeerId = styled.div``;
+export const ReviewRate = styled.div`
+  grid-row: 3 / 4;
+  display: flex;
+`;
+export const Date = styled.div`
   display: flex;
 
   padding: 0.2em 0 0 0;
@@ -994,10 +1045,12 @@ export const UserRate = styled.div`
 `;
 
 export const Comment = styled.div`
+  grid-row: 2 / 3;
   display: flex;
 
   margin: 0 0 0 0.2em;
   font-size: 0.9em;
+  line-height: 1.2;
 `;
 
 const ResultEmpty = styled.div`

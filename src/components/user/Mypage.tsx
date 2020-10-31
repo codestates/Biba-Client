@@ -217,8 +217,6 @@ export const ProfileImg = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  // width: 120px;
-  // height: 120px;
   height: 150%;
   width: 150%;
   // max-height: 100vh;

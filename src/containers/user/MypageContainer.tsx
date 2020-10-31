@@ -59,7 +59,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
         token: token,
       }) // 내가 리뷰를 작성한 맥주에 대해
       .then((res) => {
-        const rawReviews = res.data;
+        const rawReviews = res.data.reverse();
         const myReviews = rawReviews.filter((ele) => {
           if (ele.comment !== '') return ele;
         });

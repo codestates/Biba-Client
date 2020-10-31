@@ -19,6 +19,7 @@ import {
   SingleComment,
   MainWrap,
   UserWrap,
+  ProfileWrap,
   Profile,
   PIcon,
   Nickname,
@@ -186,24 +187,28 @@ const BeerDetailContainer = ({
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
-              <UserWrap className='userWrap'>
-                {ele.profile === '' || ele.profile === undefined ? (
-                  <PIcon />
-                ) : (
-                  <Profile
-                    className='profile'
-                    src={ele.profile}
-                    alt='profile'
-                  />
-                )}
-                <Nickname className='nickname'>{ele.nickname}</Nickname>
-              </UserWrap>
-              <Comment className='comment'>{ele.comment}</Comment>
+              <DetailSingleCommentGrid>
+                <UserWrap className='userWrap'>
+                  {ele.profile === '' || ele.profile === undefined ? (
+                    <PIcon />
+                  ) : (
+                    <ProfileWrap>
+                      <Profile
+                        className='profile'
+                        src={ele.profile}
+                        alt='profile'
+                      />
+                    </ProfileWrap>
+                  )}
+                  <Nickname className='nickname'>{ele.nickname}</Nickname>
+                </UserWrap>
+                <Comment className='comment'>{ele.comment}</Comment>
+                <RateWrap className='rateWrap'>
+                  <URStar className='userRateStar' />
+                  <UserRate className='userRate'>{ele.rate}</UserRate>
+                </RateWrap>
+              </DetailSingleCommentGrid>
             </MainWrap>
-            <RateWrap className='rateWrap'>
-              <URStar className='userRateStar' />
-              <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
           </DetailSingleComment>
         );
       });
@@ -312,6 +317,11 @@ const DetailSingleComment = styled(SingleComment)`
   width: 23%;
 
   margin: 0 0.4em 0 0.4em;
+`;
+const DetailSingleCommentGrid = styled.div`
+  display: grid;
+  grid-template-rows: 20% auto 20%;
+  height: 180px;
 `;
 
 const DetailNoComment = styled(SingleComment)`

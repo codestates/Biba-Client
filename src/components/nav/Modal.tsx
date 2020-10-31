@@ -168,7 +168,11 @@ const Content = styled.div`
 `;
 const AllReviewsContent = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  align-self: center;
+  justify-self: center;
+  flex-wrap: wrap;
+  // width: 100%;
 `;

@@ -76,28 +76,35 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
     }
   };
   const handleClickLogout = (): void => {
-    dispatch({ type: 'DELETE_PROFILE' });
-    dispatch({ type: 'SET_LOGOUTSTATE' });
-    dispatch({
-      type: 'SET_INFOSTATUS',
-      tabBasic: true,
-      tabStory: false,
-      tabMore: false,
-    });
-    dispatch({
-      type: 'SET_INFODISPLAY',
-      disBasic: true,
-      disStory: true,
-      disMore: true,
-    });
-    dispatch({ type: 'SET_SELECTEDBEER', id: -1 });
-    dispatch({
-      type: 'SET_COMPAREBEER',
-      compareBeer: compareBeerInit.compareBeer,
-    });
-    // handleClickTodayBeer();
-    // handleNavDisplay(true);
-    // props.history.push('/');
+    axios
+      .get(`https://beer4.xyz/users/logout`, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          dispatch({ type: 'DELETE_PROFILE' });
+          dispatch({ type: 'SET_LOGOUTSTATE' });
+          dispatch({
+            type: 'SET_INFOSTATUS',
+            tabBasic: true,
+            tabStory: false,
+            tabMore: false,
+          });
+          dispatch({
+            type: 'SET_INFODISPLAY',
+            disBasic: true,
+            disStory: true,
+            disMore: true,
+          });
+          dispatch({ type: 'SET_SELECTEDBEER', id: -1 });
+          dispatch({
+            type: 'SET_COMPAREBEER',
+            compareBeer: compareBeerInit.compareBeer,
+          });
+          // handleClickTodayBeer();
+          // handleNavDisplay(true);
+          // props.history.push('/');
+        }
+      });
   };
   const handleClickSignup = (): void => {
     handleNavDisplay(false);
