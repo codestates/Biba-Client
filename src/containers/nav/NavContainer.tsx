@@ -10,6 +10,7 @@ import { Nav } from '../../components/nav/Nav';
 import { BeerT } from '../../modules/getbeers';
 import { beerDetailInit, compareBeerInit } from '../../modules/beerdetail';
 import { DefaultProps } from '../page/HomeContainer';
+import { queryAllByAltText } from '@testing-library/react';
 
 export interface NavProps {
   userData: {
@@ -128,23 +129,27 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
   };
 
   const handleSearch = (): void => {
-    axios
-      .get<Array<BeerT>>(`https://beer4.xyz/search/${inputQuery.query}`)
-      .then((res) => {
-        if (res.status === 200) {
-          const beers = res.data;
-          // console.log(beers);
-          // 받은 데이터로 store 상태 업데이트
-          setBeers(beers);
+    if (inputQuery.query.length < 2) {
+      alert('2자 이상 입력해주세요');
+    } else {
+      axios
+        .get<Array<BeerT>>(`https://beer4.xyz/search/${inputQuery.query}`)
+        .then((res) => {
+          if (res.status === 200) {
+            const beers = res.data;
+            // console.log(beers);
+            // 받은 데이터로 store 상태 업데이트
+            setBeers(beers);
+            dispatch({ type: 'SEARCH_BEER' });
+            setInputQuery({ ...inputQuery, query: '' });
+            handleNavDisplay(true);
+            props.history.push('/');
+          }
+        })
+        .catch(() => {
           dispatch({ type: 'SEARCH_BEER' });
-          setInputQuery({ ...inputQuery, query: '' });
-          handleNavDisplay(true);
-          props.history.push('/');
-        }
-      })
-      .catch(() => {
-        dispatch({ type: 'SEARCH_BEER' });
-      });
+        });
+    }
   };
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {

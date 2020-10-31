@@ -40,17 +40,13 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     publicPath: '/',
-<<<<<<< HEAD
-    path: path.resolve(__dirname, 'build'),
-=======
     path: path.resolve(__dirname, 'dist'),
->>>>>>> 55ddc08139473361696a77b0eb0dafb3e9f3b1df
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, '../src/index.html'),
-      inject: false,
-      filename: path.join(__dirname, '../dist/index.html'),
+      filename: 'index.html',
+      template: 'src/index.html',
+      inject: true,
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
