@@ -91,6 +91,7 @@ function BeerListNav({
 }
 
 const ListNav = styled.div`
+  font-family: 'Lato';
   left: 0;
   top: 0;
   margin-top: 2rem;
@@ -100,19 +101,18 @@ const ListNav = styled.div`
 
 const UL = styled.div`
   list-style: none;
+  padding: 0.3rem 0 0 0;
 `;
 
 const ListBtn = styled.li`
-  font-size: 1rem;
-  margin: 2rem;
+  margin: 0rem 2rem 1.25rem 1rem;
 `;
 
 const TH = styled.div`
   display: inline-block;
   padding: 5px;
   color: ${mainGrey};
-  background-color: ${lightGrey2};
-  border-radius: 10px;
+  font-size: 1.25rem;
   &:hover {
     color: ${mainYellow};
     cursor: pointer;
@@ -122,12 +122,11 @@ const TH = styled.div`
 const SubUl = styled.ul`
   list-style: none;
   transform: translateX(-20%);
+  margin: 0.5rem 0 0 1.38rem;
 `;
 
 const SubLiBtn = styled.li`
-  font-size: 1rem;
-  color: gold;
-  margin: 0.5rem;
+  margin: 0;
 `;
 
 export default BeerListNav;

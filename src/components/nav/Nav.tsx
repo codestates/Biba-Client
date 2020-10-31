@@ -145,11 +145,11 @@ const LogoWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 200px;
+  width: 140px;
   height: 100px;
   overflow: hidden;
 
-  margin: 1em 0 0 1em;
+  margin: 1em 0 0 -0.1em;
 `;
 const Logo = styled.img`
   cursor: pointer;

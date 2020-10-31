@@ -99,6 +99,7 @@ const Main = styled.div`
   display: grid;
   grid-area: Main;
   grid-template-columns: 15em auto;
+  margin: 0 0 2.5em 0;
 `;
 
 const Side = styled.div`
