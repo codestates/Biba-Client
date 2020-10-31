@@ -1,6 +1,7 @@
 export const TODAY_BEER = 'TODAY_BEER';
 export const WANTSOME_BEER = 'WANTSOME_BEER';
-export const MY_BEER = 'MY_BEER';
+export const FAVORITE = 'FAVORITE';
+export const REVIEW = 'REVIEW';
 export const SEARCH_BEER = 'SEARCH_BEER';
 
 export interface TodayBeer {
@@ -11,8 +12,12 @@ export interface WantsomeBeer {
   type: typeof WANTSOME_BEER;
 }
 
-export interface MyBeer {
-  type: typeof MY_BEER;
+export interface Favorite {
+  type: typeof FAVORITE;
+}
+
+export interface Review {
+  type: typeof REVIEW;
 }
 
 export interface SearchBeer {
@@ -22,20 +27,23 @@ export interface SearchBeer {
 export type BeerListNavDispatchTypes =
   | TodayBeer
   | WantsomeBeer
-  | MyBeer
+  | Favorite
+  | Review
   | SearchBeer;
 
 export interface PageStateI {
   isToday: boolean;
   isWant: boolean;
-  isMy: boolean;
+  isFavorite: boolean;
+  isReview: boolean;
   isSearch: boolean;
 }
 
 const defaultPage: PageStateI = {
   isToday: true,
   isWant: false,
-  isMy: false,
+  isFavorite: false,
+  isReview: false,
   isSearch: false,
 };
 
@@ -51,9 +59,15 @@ export const changeWantsomeBeerAction = (): WantsomeBeer => {
   };
 };
 
-export const changeMyBeerAction = (): MyBeer => {
+export const changeFavoriteAction = (): Favorite => {
   return {
-    type: MY_BEER,
+    type: FAVORITE,
+  };
+};
+
+export const changeReviewAction = (): Review => {
+  return {
+    type: REVIEW,
   };
 };
 
@@ -72,28 +86,40 @@ export const changePageReducer = (
       return {
         isToday: true,
         isWant: false,
-        isMy: false,
+        isFavorite: false,
+        isReview: false,
         isSearch: false,
       };
     case WANTSOME_BEER:
       return {
         isToday: false,
         isWant: true,
-        isMy: false,
+        isFavorite: false,
+        isReview: false,
         isSearch: false,
       };
-    case MY_BEER:
+    case FAVORITE:
       return {
         isToday: false,
         isWant: false,
-        isMy: true,
+        isFavorite: true,
+        isReview: false,
+        isSearch: false,
+      };
+    case REVIEW:
+      return {
+        isToday: false,
+        isWant: false,
+        isFavorite: false,
+        isReview: true,
         isSearch: false,
       };
     case SEARCH_BEER:
       return {
         isToday: false,
         isWant: false,
-        isMy: false,
+        isFavorite: false,
+        isReview: false,
         isSearch: true,
       };
     default:
