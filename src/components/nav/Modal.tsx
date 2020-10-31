@@ -23,7 +23,7 @@ export const Modal = ({
     } else if (contentType === ContentType.MyBeerList) {
       return '맥주 비교하기';
     } else if (contentType === ContentType.UsersReview && !user_review) {
-      return '별점 주기 & 리뷰 작성하기';
+      return '별점 & 리뷰 등록하기';
     } else if (contentType === ContentType.UsersReview && user_review) {
       return '리뷰 수정하기';
     } else if (contentType === ContentType.AllReviews) {

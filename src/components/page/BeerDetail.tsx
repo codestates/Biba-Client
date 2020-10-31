@@ -11,6 +11,7 @@ import {
   mainGreyOpac,
   lightGrey1,
   lightGrey2,
+  lightGrey3,
   btnOff,
   btnOffText,
   pDefault,
@@ -192,7 +193,7 @@ export const BeerDetail = ({
         </InfoDiv>
         <RateReview className='rateReview'>
           <RatingArea className='ratingArea'>
-            <UserRate className='rate'>내 별점</UserRate>
+            <UserRate className='rate'>내가 준 별점</UserRate>
             <Stars className='stars'>{handleStar()}</Stars>
             <WriteComment
               className='commentBtn'
@@ -550,7 +551,16 @@ const RatingArea = styled.div`
   display: flex;
   align-items: center;
 `;
-const UserRate = styled.p``;
+const UserRate = styled.p`
+  display: flex;
+  margin: 0;
+  padding: 0;
+
+  font-weight: 400;
+  font-size: 1.1em;
+
+  color: ${mainYellow};
+`;
 export const Stars = styled.div`
   display: flex;
 
@@ -564,12 +574,12 @@ export const StarWrap = styled.div`
 
   margin: 0 0.1em 0 0;
 `;
-export const FStar = styled(FaRegStar)`
+export const FStar = styled(FaStar)`
   width: 1.2em;
   height: 1.2em;
   color: ${mainYellow};
 `;
-export const EStar = styled(FaStar)`
+export const EStar = styled(FaRegStar)`
   width: 1.2em;
   height: 1.2em;
   color: ${mainYellow};

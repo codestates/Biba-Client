@@ -12,6 +12,7 @@ import {
   mainYellowOpac,
   mainGrey,
   mainGreyOpac,
+  lightGrey3,
 } from '../../components/nav/color';
 
 import {
@@ -89,6 +90,11 @@ const BeerDetailContainer = ({
   };
 
   const compareMyBeers = (): void => {
+    if (!isLogin) {
+      // alert(`로그인 후 이용해주세요.`);
+      handleModal(ContentType.Login, true);
+      return;
+    }
     axios
       .post<BeerT[]>(`https://beer4.xyz/bookmark/list`, {
         token: token,
@@ -116,7 +122,9 @@ const BeerDetailContainer = ({
 
   const handleBookmark = (): void => {
     if (!isLogin) {
-      return alert(`로그인 후 이용해주세요.`);
+      // alert(`로그인 후 이용해주세요.`);
+      handleModal(ContentType.Login, true);
+      return;
     }
     axios
       .post<Bookmark>(`https://beer4.xyz/bookmark`, {
@@ -210,7 +218,9 @@ const BeerDetailContainer = ({
 
   const handleClickUsersReview = (): void => {
     if (!isLogin) {
-      return alert(`로그인 후 이용해주세요.`);
+      // alert(`로그인 후 이용해주세요.`);
+      handleModal(ContentType.Login, true);
+      return;
     }
     handleModal(ContentType.UsersReview, true);
   };
@@ -255,8 +265,16 @@ const BeerDetailContainer = ({
           id={`${ele[1]}`}
           onClick={handleClickUsersReview}
         >
-          <FStar style={!ele[0] ? { display: 'block' } : { display: 'none' }} />
-          <EStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
+          <FStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
+          <EStar
+            style={
+              !ele[0]
+                ? isLogin
+                  ? { display: 'block' }
+                  : { display: 'block', color: `${lightGrey3}` }
+                : { display: 'none' }
+            }
+          />
         </StarWrap>
       );
     });

@@ -12,7 +12,11 @@ import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
-import { aReview, starStatusInit } from '../../modules/beerdetail';
+import {
+  aReview,
+  compareBeerInit,
+  starStatusInit,
+} from '../../modules/beerdetail';
 import { Modal } from '../../components/nav/Modal';
 
 import { nicknameCheck } from '../user/userUtils';
@@ -267,7 +271,10 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       .then((res) => {
         console.log(res.data);
         const compareBeer: IBeerDetail = res.data;
-        dispatch({ type: 'SET_COMPAREBEER', compareBeer });
+        dispatch({
+          type: 'SET_COMPAREBEER',
+          compareBeer: compareBeer,
+        });
 
         const { sparkling, sweet, bitter, accessibility, body } = res.data;
         dispatch({
@@ -285,7 +292,9 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   // ================================================================ User Review 함수
   const handleClickStar = (star: React.MouseEvent<HTMLElement>): void => {
     if (!isLogin) {
-      return alert(`로그인 후 이용해주세요.`);
+      // alert(`로그인 후 이용해주세요.`);
+      handleModal(ContentType.Login, true);
+      return;
     }
     const { a, b, c, d, e } = checkStarScore(Number(star.currentTarget.id)); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
     console.log(Number(star.currentTarget.id));
@@ -358,14 +367,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const handleClickSubmitReview = (): void => {
     // review 작성 모달 창 내에서 작동
     if (!isLogin) {
-      alert(`로그인 후 이용해주세요.`);
+      // alert(`로그인 후 이용해주세요.`);
       closeModal();
       handleModal(ContentType.Login, true);
+      return;
     } else if (inputValues.review === '') {
       alert(`리뷰 내용을 작성해주세요.`);
     } else if (!user_star) {
       alert(`별점을 먼저 등록해주세요.`);
-      closeModal();
     } else {
       axios
         .post(`https://beer4.xyz/comment/update`, {
@@ -457,8 +466,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           id={`${ele[1]}`}
           onClick={handleClickStar}
         >
-          <FStar style={!ele[0] ? { display: 'block' } : { display: 'none' }} />
-          <EStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
+          <FStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
+          <EStar style={!ele[0] ? { display: 'block' } : { display: 'none' }} />
         </StarWrap>
       );
     });
@@ -650,8 +659,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       return (
         <ReviewWrap className='reviewWrap'>
           <RateStarsWrap>
-            <RateTitle className='rate'>별점 주기</RateTitle>
+            <RateTitle className='rate'>별점</RateTitle>
             <Stars className='stars'>{handleStar()}</Stars>
+            <UserReviewBtn
+              onClick={handleResetStar}
+              style={user_star ? {} : { display: 'none' }}
+            >
+              별점 삭제
+            </UserReviewBtn>
           </RateStarsWrap>
           <ReviewTextAreaWrap>
             <ReviewTextArea

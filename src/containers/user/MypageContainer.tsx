@@ -136,7 +136,6 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
     }
   };
 
-  // ================================================ profile pic 작업 중
   const profileInput = React.useRef(null);
   const formData = new FormData();
   formData.append('nickname', userData.nickname);

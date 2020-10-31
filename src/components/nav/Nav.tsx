@@ -20,9 +20,9 @@ export const Nav = ({
   isLogin,
   profile,
   inputQuery,
-  logout,
   handleClickLogo,
   handleClickLogin,
+  handleClickLogout,
   handleClickSignup,
   handleClickMypage,
   handleOnChange,
@@ -74,7 +74,7 @@ export const Nav = ({
             </NavBtn>
             <NavBtn
               onClick={() => {
-                isLogin ? logout() : handleClickLogin();
+                isLogin ? handleClickLogout() : handleClickLogin();
               }}
             >
               {isLogin ? `로그아웃` : `로그인`}

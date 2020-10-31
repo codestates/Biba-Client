@@ -18,6 +18,7 @@ import {
   aReview,
   StarStatus,
   starStatusInit,
+  compareBeerInit,
 } from '../../modules/beerdetail';
 import { checkStarScore } from './pageUtils';
 import { DefaultProps, IBeerDetailWithAll } from './HomeContainer';
@@ -41,7 +42,18 @@ function MyBeerContainer({
       tabStory: false,
       tabMore: false,
     });
-    dispatch({ type: 'SET_BEERDETAIL', beerDetailInit });
+    dispatch({
+      type: 'SET_INFODISPLAY',
+      disBasic: true,
+      disStory: true,
+      disMore: true,
+    });
+    dispatch({ type: 'SET_BEERDETAIL', beerDetail: beerDetailInit.beerDetail });
+    dispatch({ type: 'SET_SELECTEDBEER', id: -1 });
+    dispatch({
+      type: 'SET_COMPAREBEER',
+      compareBeer: compareBeerInit.compareBeer,
+    });
     axios
       .post<IBeerDetailWithAll>(
         `https://beer4.xyz/beer/${e.currentTarget.id}`,
@@ -53,9 +65,9 @@ function MyBeerContainer({
       .then((res) => {
         console.log(res.data);
         const beerDetail: IBeerDetail = res.data;
-        dispatch({ type: 'SET_BEERDETAIL', beerDetail }); // store에 detail 전달
+        dispatch({ type: 'SET_BEERDETAIL', beerDetail: beerDetail }); // store에 detail 전달
         const { bookmark } = res.data;
-        dispatch({ type: 'SET_BOOKMARK', bookmark });
+        dispatch({ type: 'SET_BOOKMARK', bookmark: bookmark });
         const { user_review, user_star, user_input, user_rate } = res.data;
         dispatch({
           type: 'SET_USERREVIEW',
@@ -63,7 +75,7 @@ function MyBeerContainer({
           user_star,
           user_input,
           user_rate,
-        }); // 삭제, 수정 버튼 추가
+        });
         const { sparkling, sweet, bitter, accessibility, body } = res.data;
         dispatch({
           type: 'SET_GRAPHDATA',
@@ -77,36 +89,35 @@ function MyBeerContainer({
         dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
         history.push(`/beer/${res.data.id}`);
 
-        const { explain, story } = res.data;
+        const { explain, story } = res.data; // ex 있고 story가 없는데
         if (explain === '') {
           dispatch({
             type: 'SET_INFODISPLAY',
             disBasic: false,
-            disStory,
-            disMore,
+            disStory: disStory,
+            disMore: disMore,
           });
-          dispatch({
-            type: 'SET_INFOSTATUS',
-            tabBasic: false,
-            tabStory: true,
-            tabMore: false,
-          });
+          story !== ''
+            ? dispatch({
+                type: 'SET_INFOSTATUS',
+                tabBasic: false,
+                tabStory: true,
+                tabMore: false,
+              })
+            : dispatch({
+                type: 'SET_INFOSTATUS',
+                tabBasic: false,
+                tabStory: false,
+                tabMore: true,
+              });
         }
         if (story === '') {
           dispatch({
             type: 'SET_INFODISPLAY',
-            disBasic,
+            disBasic: disBasic,
             disStory: false,
-            disMore,
+            disMore: disMore,
           });
-          if (explain === '') {
-            dispatch({
-              type: 'SET_INFOSTATUS',
-              tabBasic: false,
-              tabStory: false,
-              tabMore: true,
-            });
-          }
         }
       });
   };

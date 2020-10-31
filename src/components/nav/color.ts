@@ -12,6 +12,7 @@ export const mainGreyOpac = 'rgba(50, 50, 50, 0.8)';
 
 export const lightGrey1 = 'rgb(248, 248, 248)';
 export const lightGrey2 = 'rgb(241, 241, 241)';
+export const lightGrey3 = 'rgb(200, 200, 200)';
 
 // const btnOff = 'rgba(50, 50, 50, 0.3)';
 // const btnOff = '#dddddd';

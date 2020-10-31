@@ -8,6 +8,8 @@ import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
 import { Nav } from '../../components/nav/Nav';
 import { BeerT } from '../../modules/getbeers';
+import { beerDetailInit, compareBeerInit } from '../../modules/beerdetail';
+import { DefaultProps } from '../page/HomeContainer';
 
 export interface NavProps {
   userData: {
@@ -21,7 +23,6 @@ export interface NavProps {
   inputQuery: {
     query: string;
   };
-  logout(): void;
   handleClickLogo(): void;
   handleClickLogin(): void;
   handleClickLogout(): void;
@@ -34,7 +35,7 @@ export interface NavProps {
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
-export const NavContainer = (props: RouterProps): JSX.Element => {
+export const NavContainer = (props: DefaultProps): JSX.Element => {
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
@@ -45,26 +46,11 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
   );
 
   const dispatch = useDispatch();
-  const setLogout = () => {
-    dispatch({ type: 'SET_LOGOUTSTATE' });
-  };
-  const removeProfile = () => {
-    dispatch({ type: 'DELETE_PROFILE' });
-  };
   const handleClickTodayBeer = (): void => {
     dispatch({ type: 'TODAY_BEER' });
   };
   const handleNavDisplay = (display: boolean) => {
     dispatch({ type: 'SET_NAVDISPLAY', display });
-  };
-
-  const logout = () => {
-    // 로그아웃 - store에서 프로필 삭제, 사용자 정보 삭제
-    removeProfile();
-    setLogout();
-    handleClickTodayBeer();
-    handleNavDisplay(true);
-    props.history.push('/');
   };
 
   const handleClickLogo = (): void => {
@@ -73,12 +59,41 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
     props.history.push('/');
   };
   const handleClickLogin = (): void => {
-    handleNavDisplay(false);
-    props.history.push('/login');
+    console.log(props.location);
+    if (props.location.pathname === '/') {
+      handleNavDisplay(false);
+      return props.history.push('/login');
+    } else {
+      dispatch({
+        type: 'SET_MODAL',
+        contentType: ContentType.Login,
+        display: true,
+      });
+    }
   };
   const handleClickLogout = (): void => {
-    logout();
-    props.history.push('/');
+    dispatch({ type: 'DELETE_PROFILE' });
+    dispatch({ type: 'SET_LOGOUTSTATE' });
+    dispatch({
+      type: 'SET_INFOSTATUS',
+      tabBasic: true,
+      tabStory: false,
+      tabMore: false,
+    });
+    dispatch({
+      type: 'SET_INFODISPLAY',
+      disBasic: true,
+      disStory: true,
+      disMore: true,
+    });
+    dispatch({ type: 'SET_SELECTEDBEER', id: -1 });
+    dispatch({
+      type: 'SET_COMPAREBEER',
+      compareBeer: compareBeerInit.compareBeer,
+    });
+    // handleClickTodayBeer();
+    // handleNavDisplay(true);
+    // props.history.push('/');
   };
   const handleClickSignup = (): void => {
     handleNavDisplay(false);
@@ -139,7 +154,6 @@ export const NavContainer = (props: RouterProps): JSX.Element => {
       token={token}
       profile={profile}
       inputQuery={inputQuery}
-      logout={logout}
       handleClickLogo={handleClickLogo}
       handleClickLogin={handleClickLogin}
       handleClickLogout={handleClickLogout}
