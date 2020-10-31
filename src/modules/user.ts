@@ -1,5 +1,3 @@
-import { aReview } from './beerdetail';
-
 const SET_LOGINSTATE = 'SET_LOGINSTATE' as const;
 const SET_LOGOUTSTATE = 'SET_LOGOUTSTATE' as const;
 const SET_PROFILE = 'SET_PROFILE' as const;
@@ -26,8 +24,18 @@ export interface UserState {
   isLogin: boolean;
   token: string;
 }
+export interface MyReview {
+  nickname: string;
+  id: number;
+  beer_name: string;
+  beer_img: string;
+  comment: string;
+  rate: number;
+  createdAt: string;
+  updatedAt: string;
+}
 export interface MyReviewList {
-  myReviews: aReview[];
+  myReviews: MyReview[];
 }
 export interface ConfirmInput {
   value: boolean;
@@ -109,7 +117,7 @@ export interface MyReviewListAction extends MyReviewList {
 const myReviewsInit: MyReviewList = {
   myReviews: [],
 };
-export const setMyReviews = (myReviews: aReview[]): MyReviewListAction => ({
+export const setMyReviews = (myReviews: MyReview[]): MyReviewListAction => ({
   type: SET_MYREVIEWS,
   myReviews,
 });

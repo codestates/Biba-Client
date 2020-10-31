@@ -234,15 +234,30 @@ const BeerDetailContainer = ({
     handleModal(ContentType.AllReviews, true);
   };
 
+  const handleClickTag = (e: React.MouseEvent<HTMLElement>): void => {
+    axios
+      .post(`https://beer4.xyz/search/tag`, {
+        tag: e.currentTarget.id,
+      })
+      .then((res) => {
+        const beers = res.data;
+        dispatch({ type: 'SET_BEERS', beers: beers });
+        dispatch({ type: 'SEARCH_BEER' });
+        dispatch({ type: 'SET_NAVDISPLAY', display: true });
+        history.push('/');
+      });
+  };
+
   const handleTag = (): JSX.Element[] | boolean => {
     const { tags } = beerDetail;
     return tags.length !== 0
       ? tags.map((ele) => {
           return (
             <Tag
+              id={ele}
               key={`tag${tags.indexOf(ele)}`}
               className='beerTag'
-              id={`tag${tags.indexOf(ele)}`}
+              onClick={handleClickTag}
             >
               {ele}
             </Tag>

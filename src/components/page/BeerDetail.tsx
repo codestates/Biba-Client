@@ -421,12 +421,12 @@ const TagSubText = styled(SubText)`
   margin: 0 0.6em 0 0;
 `;
 const TagEmpty = styled.div`
-  margin: 0 0 0.1em 0;
+  margin: 0 0 0.03em 0;
 
   font-size: 0.95em;
   color: ${lightGrey3};
 `;
-export const Tag = styled.p`
+export const Tag = styled.div`
   display: flex;
 
   // border: 1px solid ${mainYellow};

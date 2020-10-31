@@ -137,7 +137,7 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
 
   const handleSearch = (): void => {
     if (inputQuery.query.length < 2) {
-      alert('2자 이상 입력해주세요');
+      alert('2글자 이상 입력해주세요.');
     } else {
       axios
         .get<Array<BeerT>>(`https://beer4.xyz/search/${inputQuery.query}`)

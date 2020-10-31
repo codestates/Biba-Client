@@ -41,6 +41,7 @@ import { IBeerDetail } from '../../modules/beerdetail';
 import { IBeerDetailWithAll } from '../page/HomeContainer';
 import { checkStarScore } from '../page/pageUtils';
 import { IProfile } from '../user/MypageContainer';
+import { MyReview } from '../../modules/user';
 
 export interface ModalProps {
   display: boolean;
@@ -66,6 +67,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
+  const { profile } = useSelector((state: RootState) => state.profile);
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
@@ -582,28 +584,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     // ==================================================== mypage all reviews
     if (contentType === ContentType.MypageAllReviews) {
       return myReviews.length !== 0 ? (
-        myReviews.map((ele: aReview) => (
+        myReviews.map((ele: MyReview) => (
           <ModalSingleComment
             key={`myReview${myReviews.indexOf(ele)}`}
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
               <CommentTop className='commentTop'>
-                <UserWrap className='userWrap'>
-                  {ele.profile === '' || ele.profile === undefined ? (
-                    <PIcon />
-                  ) : (
-                    <ProfileWrap>
-                      <Profile
-                        className='profile'
-                        src={ele.profile}
-                        alt='profile'
-                      />
-                    </ProfileWrap>
-                  )}
-                  <Nickname className='nickname'>{ele.nickname}</Nickname>
-                  <BeerId onClick={() => console.log(ele.id)}>{ele.id}</BeerId>
-                </UserWrap>
+                <BeerName className='beerName'>{ele.beer_name}</BeerName>
               </CommentTop>
               <Comment className='comment'>{ele.comment}</Comment>
             </MainWrap>
@@ -973,6 +961,7 @@ export const CommentTop = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+export const BeerName = styled.div``;
 export const UserWrap = styled.div`
   display: flex;
   justify-content: flex-start;
