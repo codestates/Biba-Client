@@ -62,6 +62,7 @@ export const LoginContainer = (props: RouterProps): JSX.Element => {
         if (res.status === 200) {
           const { id, nickname, email } = res.data.userData;
           const { token, profile } = res.data;
+          console.log(res.headers);
           // 받은 데이터로 store 상태 업데이트
           setLogin({ id: id, nickname: nickname, email: email }, true, token);
           setProfile(profile);

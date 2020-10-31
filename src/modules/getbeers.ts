@@ -4,7 +4,8 @@ export const BEER_LATE = 'want/BEER_LATE';
 export const BEER_WHEAT = 'want/BEER_WHEAT';
 export const BEER_GERMAN = 'want/BEER_GERMAN';
 export const BEER_RECOMMEND = 'want/BEER_RECOMMEND';
-export const BEER_FAVORITE = 'my/BEER_FAVORITE';
+export const BEER_FAVORITE_ABC = 'my/BEER_FAVORITE/ABC';
+export const BEER_FAVORITE_RECENT = 'my/BEER_FAVORITE/RECENT';
 export const BEER_REVIEW = 'my/BEER_REVIEW';
 
 // interface & type & default state
@@ -53,8 +54,13 @@ export interface BeerRecommend {
   beers: Array<BeerT>;
 }
 
-export interface BeerFavorite {
-  type: typeof BEER_FAVORITE;
+export interface BeerFavoriteAbc {
+  type: typeof BEER_FAVORITE_ABC;
+  beers: Array<BeerT>;
+}
+
+export interface BeerFavoriteRecent {
+  type: typeof BEER_FAVORITE_RECENT;
   beers: Array<BeerT>;
 }
 
@@ -70,7 +76,8 @@ export type BeerDispatchTypes =
   | BeerWheat
   | BeerGerman
   | BeerRecommend
-  | BeerFavorite
+  | BeerFavoriteAbc
+  | BeerFavoriteRecent
   | BeerReview;
 
 export interface BeerI {
@@ -95,6 +102,16 @@ const defaultWant: WantI = {
   wheatBeers: [],
   germanBeers: [],
   recommendBeers: [],
+};
+
+export interface FavorI {
+  abcBeers: BeerT[];
+  recentBeers: BeerT[];
+}
+
+const defaultFavor: FavorI = {
+  abcBeers: [],
+  recentBeers: [],
 };
 
 //action creators
@@ -139,9 +156,18 @@ export const recommendBeerAction = (beers: BeerT[]): BeerRecommend => {
   };
 };
 
-export const favoriteBeerAction = (beers: BeerT[]): BeerFavorite => {
+export const favoriteBeerAbcAction = (beers: BeerT[]): BeerFavoriteAbc => {
   return {
-    type: BEER_FAVORITE,
+    type: BEER_FAVORITE_ABC,
+    beers,
+  };
+};
+
+export const favoriteBeerRecentAction = (
+  beers: BeerT[],
+): BeerFavoriteRecent => {
+  return {
+    type: BEER_FAVORITE_RECENT,
     beers,
   };
 };
@@ -205,14 +231,19 @@ export const wantBeerReducer = (
 };
 
 export const favoriteBeerReducer = (
-  state: BeerI = defaultBeer,
+  state: FavorI = defaultFavor,
   action: BeerDispatchTypes,
-): BeerI => {
+): FavorI => {
   switch (action.type) {
-    case BEER_FAVORITE:
+    case BEER_FAVORITE_ABC:
       return {
         ...state,
-        beers: action.beers,
+        abcBeers: action.beers,
+      };
+    case BEER_FAVORITE_RECENT:
+      return {
+        ...state,
+        recentBeers: action.beers,
       };
     default:
       return state;

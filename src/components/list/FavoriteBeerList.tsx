@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
 import './TodayCss.css';
+import { AiFillCaretDown } from 'react-icons/ai';
 
 import FavoriteBeer from './FavoriteBeer';
-import { BeerListProps } from '../../containers/page/HomeContainer';
+import { FavorI } from '../../modules/getbeers';
+import { DetailProps } from '../../containers/page/HomeContainer';
+
+interface FavoriteBeerProps extends FavorI, DetailProps {}
 
 function FavoriteBeerList({
-  beers,
+  abcBeers,
+  recentBeers,
   setBeerDetail,
   setAllReviews,
-}: BeerListProps): JSX.Element {
-  const favoriteBeerList = beers.map((beer) => (
+}: FavoriteBeerProps): JSX.Element {
+  const [isAbc, setIsAbc] = useState(true);
+  const abcBeerList = abcBeers.map((beer) => (
+    <FavoriteBeer
+      id={beer.id}
+      key={beer.id}
+      name={beer.beer_name}
+      image={beer.beer_img}
+      rate={beer.rate}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
+    />
+  ));
+  const recentBeerList = recentBeers.map((beer) => (
     <FavoriteBeer
       id={beer.id}
       key={beer.id}
@@ -31,17 +48,56 @@ function FavoriteBeerList({
   };
   return (
     <>
-      <Title>즐겨찾는 맥주들</Title>
+      <TitleWrap>
+        <Title>즐겨찾는 맥주들</Title>
+        {isAbc ? (
+          <FilterBox>
+            {' '}
+            <Filter
+              onClick={() => {
+                setIsAbc(false);
+              }}
+            >
+              최신순
+              <Tri />
+            </Filter>
+            <FilterActive>
+              가나다순
+              <Tri />
+            </FilterActive>
+          </FilterBox>
+        ) : (
+          <FilterBox>
+            <FilterActive>
+              최신순
+              <Tri />
+            </FilterActive>
+            <Filter
+              onClick={() => {
+                setIsAbc(true);
+              }}
+            >
+              가나다순
+              <Tri />
+            </Filter>
+          </FilterBox>
+        )}
+      </TitleWrap>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className='my-masonry-grid'
         columnClassName='my-masonry-grid_column'
       >
-        {favoriteBeerList}
+        {isAbc ? abcBeerList : recentBeers}
       </Masonry>
     </>
   );
 }
+const TitleWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: fit-content;
+`;
 
 const Title = styled.h3`
   padding: 10px;
@@ -52,4 +108,28 @@ const Title = styled.h3`
   color: white;
 `;
 
+const FilterBox = styled.div`
+  margin-top: 40px;
+`;
+
+const Filter = styled.div`
+  float: left;
+  padding-left: 5px;
+
+  &:hover {
+    font-weight: bold;
+    cursor: pointer;
+  }
+`;
+
+const FilterActive = styled.div`
+  float: left;
+  padding-left: 5px;
+  font-weight: bold;
+  color: #f2a405;
+`;
+
+const Tri = styled(AiFillCaretDown)`
+  padding-top: 4px;
+`;
 export default FavoriteBeerList;
