@@ -96,7 +96,7 @@ const BeerDetailContainer = ({
       return;
     }
     axios
-      .post<BeerT[]>(`https://beer4.xyz/bookmark/list`, {
+      .post<BeerT[]>(`https://beer4.xyz/bookmark/abc`, {
         token: token,
       })
       .then((res) => {

@@ -37,7 +37,7 @@ export const Nav = ({
       <NavBar className='navBar'>
         <LogoWrap>
           <Logo
-            src={require('../../images/bibalogo.png')}
+            src='https://s3testforcloutfront.s3.amazonaws.com/logo/bibalogo.png'
             alt='biba logo'
             onClick={handleClickLogo}
           />
@@ -145,11 +145,11 @@ const LogoWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 200px;
+  width: 140px;
   height: 100px;
   overflow: hidden;
 
-  margin: 1em 0 0 1em;
+  margin: 1em 0 0 -0.1em;
 `;
 const Logo = styled.img`
   cursor: pointer;
