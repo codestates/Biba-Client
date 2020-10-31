@@ -44,7 +44,7 @@ export interface BeerDetailProps extends DefaultProps {
   compareMyBeers(): void;
   bookmark: boolean;
   handleBookmark(): void;
-  handleTag(): JSX.Element[] | JSX.Element;
+  handleTag(): JSX.Element[] | boolean;
   disBasic: boolean;
   disStory: boolean;
   disMore: boolean;
@@ -229,23 +229,21 @@ const BeerDetailContainer = ({
     handleModal(ContentType.AllReviews, true);
   };
 
-  const handleTag = (): JSX.Element[] | JSX.Element => {
+  const handleTag = (): JSX.Element[] | boolean => {
     const { tags } = beerDetail;
-    return tags.length !== 0 ? (
-      tags.map((ele) => {
-        return (
-          <Tag
-            key={`tag${tags.indexOf(ele)}`}
-            className='beerTag'
-            id={`tag${tags.indexOf(ele)}`}
-          >
-            {ele}
-          </Tag>
-        );
-      })
-    ) : (
-      <></>
-    );
+    return tags.length !== 0
+      ? tags.map((ele) => {
+          return (
+            <Tag
+              key={`tag${tags.indexOf(ele)}`}
+              className='beerTag'
+              id={`tag${tags.indexOf(ele)}`}
+            >
+              {ele}
+            </Tag>
+          );
+        })
+      : false;
   };
 
   const handleStar = (): JSX.Element[] => {

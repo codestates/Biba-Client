@@ -120,6 +120,11 @@ const SmallContentArea = styled(ContentArea)`
   max-width: 560px;
 `;
 
+const ReviewContentArea = styled(ContentArea)`
+  // width: 62vw;
+  // align-items: center;
+`;
+
 const TitleWrap = styled.div`
   display: flex;
   align-items: center;

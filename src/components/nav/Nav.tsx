@@ -275,7 +275,7 @@ const NicknameProfile = styled.div`
 const NavPIcon = styled(PIcon)`
   width: 35px;
   height: 35px;
-  margin: 0 0 0 -0.5em;
+  margin: 0 0 0.2em -0.5em;
   padding: 0;
 `;
 const SmallProfile = styled.img`

@@ -25,6 +25,7 @@ import {
   mainYellowOpac,
   mainGrey,
   mainGreyOpac,
+  accent,
 } from '../../components/nav/color';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 import { Content } from '../../components/user/Mypage';
@@ -212,27 +213,27 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   });
 
   const mapOption1 = favoriteBeerIndex.map((ele) => (
-    <option
+    <BeerOptions
       id={ele.id}
       key={`favBeerIndex${favoriteBeerIndex.indexOf(ele)}`}
       value={ele.beerName}
     >
       {ele.beerName}
-    </option>
+    </BeerOptions>
   ));
 
   const mapOption2 = reviewedBeerIndex.map((ele) => (
-    <option
+    <BeerOptions
       id={ele.id}
       key={`reviewedBeerIndex${reviewedBeerIndex.indexOf(ele)}`}
       value={ele.beerName}
     >
       {ele.beerName}
-    </option>
+    </BeerOptions>
   ));
 
   const setSelectedBeerId = (id: number): void => {
-    dispatch({ type: 'SET_SELECTEDBEER', id });
+    dispatch({ type: 'SET_SELECTEDBEER', id: id });
   };
 
   const handleSelectBeer = (
@@ -263,30 +264,35 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   };
 
   const handleClickBeerSelect = (): void => {
-    axios
-      .post<IBeerDetailWithAll>(`https://beer4.xyz/beer/${selectedBeerId}`, {
-        user_id: userData.id,
-        beer_id: selectedBeerId,
-      })
-      .then((res) => {
-        console.log(res.data);
-        const compareBeer: IBeerDetail = res.data;
-        dispatch({
-          type: 'SET_COMPAREBEER',
-          compareBeer: compareBeer,
-        });
+    if (selectedBeerId !== -1) {
+      axios
+        .post<IBeerDetailWithAll>(`https://beer4.xyz/beer/${selectedBeerId}`, {
+          user_id: userData.id,
+          beer_id: selectedBeerId,
+        })
+        .then((res) => {
+          console.log(res.data);
+          const compareBeer: IBeerDetail = res.data;
+          dispatch({
+            type: 'SET_COMPAREBEER',
+            compareBeer: compareBeer,
+          });
 
-        const { sparkling, sweet, bitter, accessibility, body } = res.data;
-        dispatch({
-          type: 'SET_COMPAREDATA',
-          sparkling,
-          sweet,
-          bitter,
-          accessibility,
-          body,
+          const { sparkling, sweet, bitter, accessibility, body } = res.data;
+          dispatch({
+            type: 'SET_COMPAREDATA',
+            sparkling,
+            sweet,
+            bitter,
+            accessibility,
+            body,
+          });
         });
-      });
-    return closeModal();
+      setSelectedBeerId(-1);
+      return closeModal();
+    } else {
+      return alert(`비교할 맥주를 선택해주세요.`);
+    }
   };
 
   // ================================================================ User Review 함수
@@ -611,45 +617,51 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             <MyBeerListImg ref={myBeerListImg} />
           </MyBeerListImgDiv>
           <MyBeerListSelect>
-            <RadioWrap>
-              <Radio
-                id='option1'
-                type='radio'
-                name='myBeerType'
-                value='즐겨찾기에 추가한 맥주'
-                checked={option1}
-                onChange={() => handleRadioOption1()}
-              />
-              <RadioOption onClick={handleRadioOption1}>
-                즐겨찾기에 추가한 맥주
-              </RadioOption>
-              <Radio
-                id='option2'
-                type='radio'
-                name='myBeerType'
-                value='리뷰를 남긴 맥주'
-                checked={option2}
-                onChange={() => handleRadioOption2()}
-              />
-              <RadioOption onClick={handleRadioOption2}>
-                리뷰를 남긴 맥주
-              </RadioOption>
-            </RadioWrap>
-            <SelectBeer
-              name='selectBeerName'
-              onChange={(e) => {
-                const targetId =
-                  e.target.options[e.target.options.selectedIndex].id;
-                setSelectedBeerId(Number(targetId));
-                handleSelectBeer(e, option1);
-              }}
-            >
-              <DefaultOption key='optionDefault' className='default'>
-                맥주 이름 선택
-              </DefaultOption>
-              {option1 ? mapOption1 : mapOption2}
-            </SelectBeer>
-            <CompareBtn onClick={handleClickBeerSelect}>비교하기</CompareBtn>
+            <BLRadioWrap>
+              <BLRadio>
+                <Radio
+                  id='option1'
+                  type='radio'
+                  name='myBeerType'
+                  value='즐겨찾기에 추가한 맥주'
+                  checked={option1}
+                  onChange={() => handleRadioOption1()}
+                />
+                <RadioOption onClick={handleRadioOption1}>
+                  즐겨찾는 맥주
+                </RadioOption>
+              </BLRadio>
+              <BLRadio>
+                <Radio
+                  id='option2'
+                  type='radio'
+                  name='myBeerType'
+                  value='리뷰를 남긴 맥주'
+                  checked={option2}
+                  onChange={() => handleRadioOption2()}
+                />
+                <RadioOption onClick={handleRadioOption2}>
+                  리뷰한 맥주
+                </RadioOption>
+              </BLRadio>
+            </BLRadioWrap>
+            <SelectWrap>
+              <SelectBeer
+                name='selectBeerName'
+                onChange={(e) => {
+                  const targetId =
+                    e.target.options[e.target.options.selectedIndex].id;
+                  setSelectedBeerId(Number(targetId));
+                  handleSelectBeer(e, option1);
+                }}
+              >
+                <DefaultOption key='optionDefault' className='default'>
+                  맥주 이름 선택
+                </DefaultOption>
+                {option1 ? mapOption1 : mapOption2}
+              </SelectBeer>
+              <CompareBtn onClick={handleClickBeerSelect}>Biba!</CompareBtn>
+            </SelectWrap>
           </MyBeerListSelect>
         </MyBeerListModal>
       );
@@ -805,28 +817,107 @@ export const ModalContainerWithRouter = withRouter(ModalContainer);
 
 export const MyBeerListModal = styled.div`
   display: flex;
+  justify-content: flex-start;
+
+  width: 95%;
 `;
 const MyBeerListImgDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
 
-  border: 1px solid black;
+  border: 2px solid ${mainYellowOpac};
+  border-radius: 16px;
   overflow: hidden;
+
+  margin: 0 1em 0 0;
 `;
 const MyBeerListImg = styled.img`
   display: flex;
 
-  height: 170px;
+  height: 150px;
 `;
 
-const MyBeerListSelect = styled.div``;
-const SelectBeer = styled.select``;
+const MyBeerListSelect = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+const BLRadioWrap = styled.div`
+  display: flex;
+  align-items: center;
+
+  margin: 0.7em 0 0 0;
+`;
+const BLRadio = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 0.3em 0.2em 0;
+`;
+
+const SelectWrap = styled.div`
+  display: flex;
+  align-items: center;
+
+  margin: 0.5em 0 0 0;
+`;
+const SelectBeer = styled.select`
+  display: flex;
+
+  width: 12em;
+  max-width: 12em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  border: 0;
+  border-bottom: 2px solid ${mainYellowOpac};
+  border-radius: 0;
+
+  margin: 0.5em 0 0 0;
+  padding: 0 0 0.2em 0;
+
+  color: ${mainGrey};
+  &:focus,
+  &:active {
+    outline: none;
+    border-bottom-color: ${mainYellow};
+  }
+`;
 
 const DefaultOption = styled.option``;
-const CompareBtn = styled.button``;
+const BeerOptions = styled.option``;
+const CompareBtn = styled.button`
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+
+  border: 0px;
+  border-radius: 8px;
+
+  margin: 0.15em 0 0 0.6em;
+  padding: 0.4em 0.8em 0.35em 0.8em;
+
+  font-size: 1.1em;
+  letter-spacing: 0.1em;
+
+  background-color: ${mainYellow};
+  color: #fff;
+
+  &: hover {
+    background-color: ${accent};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
 
 export const SingleComment = styled.div`
   // ModalContainer - ModalSingleComment 참고
@@ -842,11 +933,12 @@ export const SingleComment = styled.div`
   border: 2px solid ${mainYellow};
   border-radius: 8px;
 
-  margin: 0.5em 0.5em 1em 0.5em;
+  margin: 0.5em 0.4em 1em 0.4em;
   padding: 0.6em;
 `; // 하나의 코멘트 wrap
 
 export const ModalSingleComment = styled(SingleComment)`
+  /// -----------------------------------
   width: 31%;
   min-width: 220px;
   max-width: 250px;
@@ -902,7 +994,7 @@ export const URStar = styled(FaStar)`
 export const UserRate = styled.div`
   display: flex;
 
-  padding: 0.1em 0.2em 0 0;
+  padding: 0.15em 0.2em 0 0;
 `;
 
 export const Comment = styled.div`
@@ -923,7 +1015,7 @@ const ResultEmpty = styled.div`
 const ReviewWrap = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: center;
 
   width: 90%;
@@ -1035,8 +1127,10 @@ const Radio = styled.input`
   }
 `;
 const RadioOption = styled.div`
-  display: flex;
   cursor: pointer;
+  display: flex;
+
+  color: ${mainGrey};
 `;
 
 const RequestTitleArea = styled.div`

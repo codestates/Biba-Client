@@ -7,6 +7,9 @@ import { Chart } from '../../containers/page/radar';
 import {
   mainYellow,
   mainYellowOpac,
+  subYellow,
+  subYellowOpac,
+  accent,
   mainGrey,
   mainGreyOpac,
   lightGrey1,
@@ -16,6 +19,7 @@ import {
   btnOffText,
   pDefault,
 } from '../../components/nav/color';
+import { JsxEmit } from 'typescript';
 
 export const BeerDetail = ({
   match,
@@ -51,11 +55,11 @@ export const BeerDetail = ({
         <InfoDiv className='infoDiv'>
           <BeerName className='beerName'>{beerDetail.beer_name}</BeerName>
           <InfoSub className='infoSub'>
-            <AveFavWrap>
-              <Average className='beerAverage'>
+            <AveFavWrap className='aveFavWrap'>
+              <SubText className='beerAverage'>
                 별점 평균
                 <Rate>{beerDetail.rate}</Rate>
-              </Average>
+              </SubText>
               <FavToggle className='favToggle'>
                 <FavTitle>즐겨찾기</FavTitle>
                 <FavWrap className='favWrap'>
@@ -69,126 +73,135 @@ export const BeerDetail = ({
                 </FavWrap>
               </FavToggle>
             </AveFavWrap>
-            <TagWrap>{handleTag()}</TagWrap>
+            <TagWrap>
+              <TagSubText>태그</TagSubText>
+              {handleTag() !== false ? (
+                handleTag()
+              ) : (
+                <TagEmpty>준비 중입니다.</TagEmpty>
+              )}
+            </TagWrap>
             <ChartWrap className='chartWrap'>
               <ChartDiv className='chartDiv'>{Chart()}</ChartDiv>
               <CompareBtn className='compareBtn' onClick={compareMyBeers}>
-                비교하기
+                맥주 비교하기
               </CompareBtn>
             </ChartWrap>
           </InfoSub>
           <InfoBody className='infoBody'>
-            <TabWrap className='infoTabWrap'>
-              <Tab
-                id='basic'
-                className='infoTab'
-                onClick={handleInfoTab}
-                style={
-                  disBasic
-                    ? tabBasic
+            <TabDetail className='tabDetail'>
+              <TabWrap className='infoTabWrap'>
+                <Tab
+                  id='basic'
+                  className='infoTab'
+                  onClick={handleInfoTab}
+                  style={
+                    disBasic
+                      ? tabBasic
+                        ? { fontWeight: 500 }
+                        : {
+                            background: `${btnOff}`,
+                            color: `${btnOffText}`,
+                            fontWeight: 400,
+                          }
+                      : { display: 'none' }
+                  }
+                >
+                  맥주 소개
+                </Tab>
+                <Divider style={disBasic ? undefined : { display: 'none' }}>
+                  &nbsp;{' '}
+                </Divider>
+                <Tab
+                  id='story'
+                  className='infoTab'
+                  onClick={handleInfoTab}
+                  style={
+                    disStory
+                      ? tabStory
+                        ? { fontWeight: 500 }
+                        : {
+                            background: `${btnOff}`,
+                            color: `${btnOffText}`,
+                            fontWeight: 400,
+                          }
+                      : { display: 'none' }
+                  }
+                >
+                  스토리
+                </Tab>
+                <Divider style={disStory ? undefined : { display: 'none' }}>
+                  &nbsp;{' '}
+                </Divider>
+                <Tab
+                  id='more'
+                  className='infoTab'
+                  onClick={handleInfoTab}
+                  style={
+                    tabMore
                       ? { fontWeight: 500 }
                       : {
                           background: `${btnOff}`,
                           color: `${btnOffText}`,
                           fontWeight: 400,
                         }
-                    : { display: 'none' }
-                }
-              >
-                맥주 소개
-              </Tab>
-              <Divider style={disBasic ? undefined : { display: 'none' }}>
-                &nbsp;{' '}
-              </Divider>
-              <Tab
-                id='story'
-                className='infoTab'
-                onClick={handleInfoTab}
-                style={
-                  disStory
-                    ? tabStory
-                      ? { fontWeight: 500 }
-                      : {
-                          background: `${btnOff}`,
-                          color: `${btnOffText}`,
-                          fontWeight: 400,
-                        }
-                    : { display: 'none' }
-                }
-              >
-                스토리
-              </Tab>
-              <Divider style={disStory ? undefined : { display: 'none' }}>
-                &nbsp;{' '}
-              </Divider>
-              <Tab
-                id='more'
-                className='infoTab'
-                onClick={handleInfoTab}
-                style={
-                  tabMore
-                    ? { fontWeight: 500 }
-                    : {
-                        background: `${btnOff}`,
-                        color: `${btnOffText}`,
-                        fontWeight: 400,
-                      }
-                }
-              >
-                상세 정보
-              </Tab>
-            </TabWrap>
-            <InfoDetailWrap>
-              <InfoDetail1
-                className='infoDetail'
-                style={
-                  disBasic
-                    ? tabBasic
-                      ? {}
+                  }
+                >
+                  상세 정보
+                </Tab>
+              </TabWrap>
+              <InfoDetailWrap>
+                <InfoDetail1
+                  className='infoDetail'
+                  style={
+                    disBasic
+                      ? tabBasic
+                        ? {}
+                        : { display: 'none' }
                       : { display: 'none' }
-                    : { display: 'none' }
-                }
-              >
-                <P className='content'>{beerDetail.explain}</P>
-              </InfoDetail1>
-              <InfoDetail2
-                className='infoDetail'
-                style={
-                  disStory
-                    ? tabStory
-                      ? {}
+                  }
+                >
+                  <P className='content'>{beerDetail.explain}</P>
+                </InfoDetail1>
+                <InfoDetail2
+                  className='infoDetail'
+                  style={
+                    disStory
+                      ? tabStory
+                        ? {}
+                        : { display: 'none' }
                       : { display: 'none' }
-                    : { display: 'none' }
-                }
-              >
-                <P className='content'>{beerDetail.story}</P>
-              </InfoDetail2>
-              <InfoDetail3
-                className='infoDetail'
-                style={tabMore ? {} : { display: 'none' }}
-              >
-                {disMore ? (
-                  <>
-                    <PWrap>
-                      <PT className='contentT'>제조사</PT>
-                      <PT className='contentT'>제조국</PT>
-                      <PT className='contentT'>스타일</PT>
-                      <PT className='contentT'>ABV</PT>
-                      <PT className='contentT'>IBU</PT>
-                    </PWrap>
-                    <PWrap>
-                      <P className='content'>{beerDetail.company}</P>
-                      <P className='content'>{beerDetail.country}</P>
-                      <P className='content'>{beerDetail.style_name}</P>
-                      <P className='content'>{beerDetail.abv}</P>
-                      <P className='content'>{beerDetail.ibu}</P>
-                    </PWrap>
-                  </>
-                ) : (
-                  <>등록된 정보가 없습니다.</>
-                )}
-              </InfoDetail3>
-            </InfoDetailWrap>
+                  }
+                >
+                  <P className='content'>{beerDetail.story}</P>
+                </InfoDetail2>
+                <InfoDetail3
+                  className='infoDetail'
+                  style={tabMore ? {} : { display: 'none' }}
+                >
+                  {disMore ? (
+                    <>
+                      <PWrap>
+                        <PT className='contentT'>제조사</PT>
+                        <PT className='contentT'>제조국</PT>
+                        <PT className='contentT'>스타일</PT>
+                        <PT className='contentT'>ABV</PT>
+                        <PT className='contentT'>IBU</PT>
+                      </PWrap>
+                      <PWrap>
+                        <P className='content'>{beerDetail.company}</P>
+                        <P className='content'>{beerDetail.country}</P>
+                        <P className='content'>{beerDetail.style_name}</P>
+                        <P className='content'>{beerDetail.abv}</P>
+                        <P className='content'>{beerDetail.ibu}</P>
+                      </PWrap>
+                    </>
+                  ) : (
+                    <>등록된 정보가 없습니다.</>
+                  )}
+                </InfoDetail3>
+              </InfoDetailWrap>
+            </TabDetail>
           </InfoBody>
         </InfoDiv>
         <RateReview className='rateReview'>
@@ -308,12 +321,12 @@ const InfoDiv = styled.div`
 `;
 
 const BeerName = styled.p`
-  margin: 0;
+  margin: 0 0 0 -0.1em;
   padding: 0 0 0.15em 0;
 
-  // font-weight: 300;
-  font-size: 1.25em;
-  // color: ${mainYellow};
+  font-weight: 600;
+  font-size: 1.4em;
+  color: ${mainYellow};
 `;
 
 // =================================== Ave
@@ -327,10 +340,10 @@ const AveFavWrap = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  margin: 0.5em 0 0.6em 0;
+  margin: 1em 0 0 0;
   padding: 0;
 `;
-const Average = styled.div`
+const SubText = styled.div`
   display: flex;
   justify-content: flex-start;
 
@@ -400,8 +413,18 @@ const FavLB = styled.label`
 const TagWrap = styled.div`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
 
-  margin: 0 0 2em 0;
+  margin: 1em 0 0 0;
+`;
+const TagSubText = styled(SubText)`
+  margin: 0 0.6em 0 0;
+`;
+const TagEmpty = styled.div`
+  margin: 0 0 0.1em 0;
+
+  font-size: 0.95em;
+  color: ${lightGrey3};
 `;
 export const Tag = styled.p`
   display: flex;
@@ -410,7 +433,7 @@ export const Tag = styled.p`
   border-radius: 6px 6px 6px 6px;
   background-color: ${mainYellowOpac};
 
-  margin: 0 0.7em 0 0;
+  margin: 0 0.7em 0.25em 0;
   padding: 0.5em 0.5em 0.3em 0.5em;
 
   font-size: 0.9em;
@@ -423,28 +446,53 @@ const ChartWrap = styled.div`
   align-items: center;
   justify-content: center;
 
-  margin: 0 0 2em 0;
+  margin: 1.2em 0 1.2em 0;
 `;
 const ChartDiv = styled.div`
   display: flex;
+  align-self: center;
 
-  margin: 0 0 1.5em 0;
+  margin: 0.8em 0 1.5em 0;
 `;
 const CompareBtn = styled.button`
+  cursor: pointer;
   display: flex;
-  align-self: flex-end;
-`;
+  align-self: center;
 
+  border: 0px;
+  border-radius: 8px;
+
+  margin: 0 0 1em 0.5em;
+  padding: 0.45em 0.8em 0.4em 0.8em;
+
+  font-size: 1.1em;
+
+  background-color: ${mainYellow};
+  color: #fff;
+
+  &: hover {
+    background-color: ${accent};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
 // =================================== Tab
 const InfoBody = styled.div`
+  display: flex;
+
+  padding: 0 0 0 0.3em;
+`;
+
+const TabDetail = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 `;
-
 const TabWrap = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 
   height: 2em;
 `;
@@ -477,9 +525,7 @@ const Tab = styled.div`
 
 const InfoDetailWrap = styled.div`
   display: flex;
-
-  // width: 20em;
-  width: 95%;
+  width: 100%;
   height: auto;
   min-height: 10em;
 
@@ -546,10 +592,14 @@ const P = styled.p`
 const RateReview = styled.div`
   grid-row: 4 / 5;
   grid-column: 2 / 5;
+
+  margin: 2em 0 0 0;
 `;
 const RatingArea = styled.div`
   display: flex;
   align-items: center;
+
+  margin: 0 0 0.6em 0.5em;
 `;
 const UserRate = styled.p`
   display: flex;
@@ -557,7 +607,7 @@ const UserRate = styled.p`
   padding: 0;
 
   font-weight: 400;
-  font-size: 1.1em;
+  font-size: 1.2em;
 
   color: ${mainYellow};
 `;
@@ -575,13 +625,13 @@ export const StarWrap = styled.div`
   margin: 0 0.1em 0 0;
 `;
 export const FStar = styled(FaStar)`
-  width: 1.2em;
-  height: 1.2em;
+  width: 1.4em;
+  height: 1.4em;
   color: ${mainYellow};
 `;
 export const EStar = styled(FaRegStar)`
-  width: 1.2em;
-  height: 1.2em;
+  width: 1.4em;
+  height: 1.4em;
   color: ${mainYellow};
 `;
 
@@ -609,11 +659,12 @@ const WriteComment = styled.button`
   cursor: pointer;
   border: 0px;
   border-radius: 8px;
-  background-color: ${mainYellow};
-  color: #fff;
 
   margin: 0 0 0.1em 0.5em;
   padding: 0.4em 0.6em 0.35em 0.6em;
+
+  background-color: ${mainYellow};
+  color: #fff;
 
   &: hover {
     background-color: ${mainGrey};

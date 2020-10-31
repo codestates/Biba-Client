@@ -7,6 +7,8 @@ export const mainYellowOpac = 'rgba(245, 147, 48, 0.5)';
 export const subYellow = 'rgba(251, 212, 75, 1)';
 export const subYellowOpac = 'rgba(251, 212, 75, 0.5)';
 
+export const accent = 'rgba(255, 198, 0, 1)';
+
 export const mainGrey = '#323232';
 export const mainGreyOpac = 'rgba(50, 50, 50, 0.8)';
 
@@ -21,3 +23,16 @@ export const btnOffText = 'rgb(241, 241, 241)';
 
 export const pDefault = '#161616';
 // 색 정의
+
+export const chartYellow1 = 'rgba(251, 212, 75, 0.7)';
+export const chartYellow2 = 'rgba(251, 212, 75, 0.5)';
+export const chartAccent1 = 'rgba(245, 147, 48, 0.8)';
+export const chartAccent2 = 'rgba(245, 147, 48, 0.7)';
+
+/*
+'rgba(245, 147, 48, 1)',
+'rgba(238, 102, 121, 1)',
+'rgba(98, 181, 229, 1)',
+'rgba(255, 198, 0, 1)',
+'rgba(91, 27, 240, 1)',
+*/

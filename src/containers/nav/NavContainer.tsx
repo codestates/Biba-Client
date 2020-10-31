@@ -59,7 +59,6 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
     props.history.push('/');
   };
   const handleClickLogin = (): void => {
-    console.log(props.location);
     if (props.location.pathname === '/login') {
       return;
     } else if (

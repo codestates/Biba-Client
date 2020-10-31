@@ -81,7 +81,7 @@ const SignupArea = styled.div`
   border: 2px solid ${mainYellowOpac};
   border-radius: 8px;
 
-  margin: 3em 0 4em 0;
+  margin: 1.5em 0 4em 0;
   padding: 2em 0 2.5em 0;
 
   // background-color: ${mainYellowOpac};

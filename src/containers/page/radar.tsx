@@ -7,6 +7,13 @@ import { BeerDetail } from '../../components/page/BeerDetail';
 import { Radar } from 'react-chartjs-2';
 import { ChartComponentProps } from 'react-chartjs-2';
 
+import {
+  chartYellow1,
+  chartYellow2,
+  chartAccent1,
+  chartAccent2,
+} from '../../components/nav/color';
+
 export const Chart = (): JSX.Element => {
   const mainData = useSelector((state: RootState) => state.graphData);
   const compareData = useSelector((state: RootState) => state.compareData);
@@ -29,9 +36,9 @@ export const Chart = (): JSX.Element => {
           mainData.accessibility,
           mainData.body,
         ],
-        pointBackgroundColor: 'rgba(255, 198, 0, 0.5)',
-        backgroundColor: 'rgba(255, 198, 0, 0.7)',
-        borderColor: 'rgba(255, 198, 0, 0.5)',
+        pointBackgroundColor: chartYellow2,
+        backgroundColor: chartYellow1,
+        borderColor: chartYellow2,
         fill: true,
         borderWidth: 2,
         hoverBorderWidth: 4,
@@ -49,9 +56,9 @@ export const Chart = (): JSX.Element => {
           compareData.accessibility,
           compareData.body,
         ],
-        pointBackgroundColor: 'rgba(238, 102, 121, 0.5)',
-        backgroundColor: 'rgba(238, 102, 121, 0.7)',
-        borderColor: 'rgba(238, 102, 121, 0.5)',
+        pointBackgroundColor: chartAccent2,
+        backgroundColor: chartAccent1,
+        borderColor: chartAccent2,
         fill: true,
         borderWidth: 2,
         hoverBorderWidth: 4,
@@ -86,47 +93,7 @@ export const Chart = (): JSX.Element => {
         },
       }}
       data={expData}
-      height={200}
+      height={240}
     />
   );
 };
-
-/*
-import React from 'react';
-import { Doughnut } from 'react-chartjs-2';
-
-const expData = {
-  labels: ['긍정적', '부정적', '보통'],
-  datasets: [
-    {
-      labels: ['긍정적', '부정적', '보통'],
-      data: [60, 13, 27],
-      borderWidth: 2,
-      hoverBorderWidth: 3,
-      backgroundColor: [
-        'rgba(238, 102, 121, 1)',
-        'rgba(98, 181, 229, 1)',
-        'rgba(255, 198, 0, 1)',
-      ],
-      fill: true,
-    },
-  ],
-};
-
-export const chart = (): JSX.Element => {
-  return (
-    <Doughnut
-      options={{
-        legend: {
-          display: true,
-          position: 'right',
-        },
-      }}
-      data={expData}
-      height={120}
-    />
-  );
-};
-
-
-*/
