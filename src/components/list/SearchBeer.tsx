@@ -48,14 +48,15 @@ const BeerImage = styled.div`
   height: 25vh;
   width: 12vw;
   text-align: center;
-  background-color: lightgray;
+  box-shadow: 1px 1px;
   border-radius: 1em;
   margin: 1em auto;
   padding: 1em;
-  color: lightgray;
+  color: white;
   &:hover {
-    animation: fadein 1s;
-    color: white;
+    animation: fadein 3s;
+    color: black;
+    cursor: pointer;
   }
   @keyframes fadein {
     from {
@@ -71,7 +72,7 @@ const Top = styled.div`
   height: 60%;
   &:hover {
     transition: all ease 1s;
-    transform: translateY(-40px);
+    transform: translateY(-30px);
   }
 `;
 const Middle = styled.div`
@@ -95,7 +96,7 @@ const Text = styled.div`
 const Image = styled.img`
   height: 100%;
   width: 50%;
-  transform: translateY(40px);
+  transform: translateY(30px);
 `;
 
 const StarWrap = styled.div`
