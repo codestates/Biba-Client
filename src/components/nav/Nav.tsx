@@ -37,7 +37,7 @@ export const Nav = ({
       <NavBar className='navBar'>
         <LogoWrap>
           <Logo
-            src={require('../../images/bibalogo.png')}
+            src='https://s3testforcloutfront.s3.amazonaws.com/logo/bibalogo.png'
             alt='biba logo'
             onClick={handleClickLogo}
           />

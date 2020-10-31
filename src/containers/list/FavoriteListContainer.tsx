@@ -48,6 +48,7 @@ function FavoriteBeerListContainer({
         setRecentFavoriteBeers(res.data);
       });
   }, []);
+
   return (
     <FavoriteBeerList
       abcBeers={abcBeers}
