@@ -32,7 +32,7 @@ import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
 import { BeerDetail } from '../../components/page/BeerDetail';
 import { Bookmark, IBeerDetail, aReview } from '../../modules/beerdetail';
-import { BeerT, BEER_FAVORITE, BEER_REVIEW } from '../../modules/getbeers';
+import { BeerT, BEER_FAVORITE_ABC, BEER_REVIEW } from '../../modules/getbeers';
 import {
   DefaultProps,
   IBeerDetailWithAll,
@@ -101,7 +101,7 @@ const BeerDetailContainer = ({
       })
       .then((res) => {
         const favBeers = res.data;
-        dispatch({ type: BEER_FAVORITE, beers: favBeers });
+        dispatch({ type: BEER_FAVORITE_ABC, beers: favBeers });
 
         axios
           .post<BeerT[]>(`https://beer4.xyz/comment/mylist`, {

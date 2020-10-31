@@ -75,7 +75,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     (state: RootState) => state.myBeerListType,
   );
   const rawFavoriteBeers = useSelector(
-    (state: RootState) => state.favoriteBeer.beers,
+    (state: RootState) => state.favoriteBeer.abcBeers,
   );
   const rawReviewedBeers = useSelector(
     (state: RootState) => state.reviewBeer.beers,

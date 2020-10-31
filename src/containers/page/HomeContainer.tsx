@@ -59,7 +59,7 @@ function HomeContainer({
   const { disBasic, disStory, disMore } = useSelector(
     (state: RootState) => state.infoDisplay,
   );
-  const { userData } = useSelector((state: RootState) => state.login);
+  const { token, userData } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
   // store에 각각 beerdetail 넣는 함수
   const setBeerDetail = (e: React.MouseEvent<HTMLElement>): void => {

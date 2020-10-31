@@ -1,8 +1,11 @@
 export const BEER_TODAY = 'today/BEER';
 export const BEER_HOT = 'want/BEER_HOT';
 export const BEER_LATE = 'want/BEER_LATE';
-export const BEER_PICK = 'want/BEER_PICK';
-export const BEER_FAVORITE = 'my/BEER_FAVORITE';
+export const BEER_WHEAT = 'want/BEER_WHEAT';
+export const BEER_GERMAN = 'want/BEER_GERMAN';
+export const BEER_RECOMMEND = 'want/BEER_RECOMMEND';
+export const BEER_FAVORITE_ABC = 'my/BEER_FAVORITE/ABC';
+export const BEER_FAVORITE_RECENT = 'my/BEER_FAVORITE/RECENT';
 export const BEER_REVIEW = 'my/BEER_REVIEW';
 
 // interface & type & default state
@@ -36,13 +39,28 @@ export interface BeerLate {
   beers: Array<BeerT>;
 }
 
-export interface BeerPick {
-  type: typeof BEER_PICK;
+export interface BeerWheat {
+  type: typeof BEER_WHEAT;
   beers: Array<BeerT>;
 }
 
-export interface BeerFavorite {
-  type: typeof BEER_FAVORITE;
+export interface BeerGerman {
+  type: typeof BEER_GERMAN;
+  beers: Array<BeerT>;
+}
+
+export interface BeerRecommend {
+  type: typeof BEER_RECOMMEND;
+  beers: Array<BeerT>;
+}
+
+export interface BeerFavoriteAbc {
+  type: typeof BEER_FAVORITE_ABC;
+  beers: Array<BeerT>;
+}
+
+export interface BeerFavoriteRecent {
+  type: typeof BEER_FAVORITE_RECENT;
   beers: Array<BeerT>;
 }
 
@@ -55,8 +73,11 @@ export type BeerDispatchTypes =
   | BeerToday
   | BeerHot
   | BeerLate
-  | BeerPick
-  | BeerFavorite
+  | BeerWheat
+  | BeerGerman
+  | BeerRecommend
+  | BeerFavoriteAbc
+  | BeerFavoriteRecent
   | BeerReview;
 
 export interface BeerI {
@@ -70,13 +91,27 @@ const defaultBeer: BeerI = {
 export interface WantI {
   hotBeers: BeerT[];
   lateBeers: BeerT[];
-  pickBeers: BeerT[];
+  wheatBeers: BeerT[];
+  germanBeers: BeerT[];
+  recommendBeers: BeerT[];
 }
 
 const defaultWant: WantI = {
   hotBeers: [],
   lateBeers: [],
-  pickBeers: [],
+  wheatBeers: [],
+  germanBeers: [],
+  recommendBeers: [],
+};
+
+export interface FavorI {
+  abcBeers: BeerT[];
+  recentBeers: BeerT[];
+}
+
+const defaultFavor: FavorI = {
+  abcBeers: [],
+  recentBeers: [],
 };
 
 //action creators
@@ -100,16 +135,39 @@ export const lateBeerAction = (beers: BeerT[]): BeerLate => {
   };
 };
 
-export const pickBeerAction = (beers: BeerT[]): BeerPick => {
+export const wheatBeerAction = (beers: BeerT[]): BeerWheat => {
   return {
-    type: BEER_PICK,
+    type: BEER_WHEAT,
     beers,
   };
 };
 
-export const favoriteBeerAction = (beers: BeerT[]): BeerFavorite => {
+export const germanBeerAction = (beers: BeerT[]): BeerGerman => {
   return {
-    type: BEER_FAVORITE,
+    type: BEER_GERMAN,
+    beers,
+  };
+};
+
+export const recommendBeerAction = (beers: BeerT[]): BeerRecommend => {
+  return {
+    type: BEER_RECOMMEND,
+    beers,
+  };
+};
+
+export const favoriteBeerAbcAction = (beers: BeerT[]): BeerFavoriteAbc => {
+  return {
+    type: BEER_FAVORITE_ABC,
+    beers,
+  };
+};
+
+export const favoriteBeerRecentAction = (
+  beers: BeerT[],
+): BeerFavoriteRecent => {
+  return {
+    type: BEER_FAVORITE_RECENT,
     beers,
   };
 };
@@ -152,10 +210,20 @@ export const wantBeerReducer = (
         ...state,
         lateBeers: action.beers,
       };
-    case BEER_PICK:
+    case BEER_WHEAT:
       return {
         ...state,
-        pickBeers: action.beers,
+        wheatBeers: action.beers,
+      };
+    case BEER_GERMAN:
+      return {
+        ...state,
+        germanBeers: action.beers,
+      };
+    case BEER_RECOMMEND:
+      return {
+        ...state,
+        recommendBeers: action.beers,
       };
     default:
       return state;
@@ -163,14 +231,19 @@ export const wantBeerReducer = (
 };
 
 export const favoriteBeerReducer = (
-  state: BeerI = defaultBeer,
+  state: FavorI = defaultFavor,
   action: BeerDispatchTypes,
-): BeerI => {
+): FavorI => {
   switch (action.type) {
-    case BEER_FAVORITE:
+    case BEER_FAVORITE_ABC:
       return {
         ...state,
-        beers: action.beers,
+        abcBeers: action.beers,
+      };
+    case BEER_FAVORITE_RECENT:
+      return {
+        ...state,
+        recentBeers: action.beers,
       };
     default:
       return state;
@@ -191,28 +264,3 @@ export const reviewBeerReducer = (
       return state;
   }
 };
-//gather beers
-//fakedata
-export const fakedata = [
-  {
-    id: 1,
-    beer_name: '사무엘 아담스',
-    beer_img:
-      'https://storage.googleapis.com/cbmpress/uploads/sites/3/2018/10/cq5dam.web_.1280.1280.jpeg',
-    rate: 5,
-  },
-  {
-    id: 2,
-    beer_name: '필스너 우르켈',
-    beer_img:
-      'https://t1.daumcdn.net/thumb/R720x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/6Eco/image/ZggWTCWAXmWOzG4ys4zLQsoI0Gc.jpg',
-    rate: 1,
-  },
-  {
-    id: 3,
-    beer_name: 'KGB',
-    beer_img:
-      'https://lh3.googleusercontent.com/proxy/JBLK7UQzjVuf_1io378X3BFEvaX3FsakDrTzdguawXeOmHIFnJb_Bt9MpJRLGCr-3pMOXusBhhL7WB_vw2CQY9KnyhjXH9PzAiQ3SkoxSWoE8HoGLZ-p6PzAsItJFL4HVL62hkP-hHHFn8gZX9CTQhpaGASPQNvbFRdKBGQv4lTYNNY4NF-BuRiS4JWUvQ0nUFW5G1iJ',
-    rate: 4,
-  },
-];

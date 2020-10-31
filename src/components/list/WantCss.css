@@ -15,7 +15,7 @@ button.rec-arrow {
     box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
   }
   
-  button.rec--arrow:hover, button.rec-arrow:active, button.rec-arrow:focus {
+  button.rec-arrow:hover, button.rec-arrow:active, button.rec-arrow:focus {
     background-color: black;
     box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
   }
