@@ -14,6 +14,7 @@ import {
   btnOffText,
   pDefault,
 } from '../../components/nav/color';
+import { PIcon } from '../../containers/nav/ModalContainer';
 
 export const Nav = ({
   userData,
@@ -43,25 +44,46 @@ export const Nav = ({
         </LogoWrap>
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
-            <SearchIcon
-              className='searchIcon'
-              onClick={() => {
-                handleClickIcon(!searchbarDisplay);
-              }}
-            />
-            {searchbarDisplay ? (
-              <SearchInputWrap className='searchInputWrap'>
-                <Input
-                  type='text'
-                  placeholder='맥주 이름을 입력해주세요.'
-                  value={inputQuery.query}
-                  onChange={handleOnChange}
-                  onKeyPress={pressEnter}
-                ></Input>
-                <SearchBtn onClick={handleSearch}>Biba!</SearchBtn>
-              </SearchInputWrap>
+            {isLogin ? (
+              <>
+                <SearchIcon
+                  className='searchIcon'
+                  style={{ cursor: 'default' }}
+                />
+                <SearchInputWrap className='searchInputWrap'>
+                  <Input
+                    type='text'
+                    placeholder='맥주 이름을 입력해주세요.'
+                    value={inputQuery.query}
+                    onChange={handleOnChange}
+                    onKeyPress={pressEnter}
+                  ></Input>
+                  <SearchBtn onClick={handleSearch}>Biba!</SearchBtn>
+                </SearchInputWrap>
+              </>
             ) : (
-              false
+              <>
+                <SearchIcon
+                  className='searchIcon'
+                  onClick={() => {
+                    handleClickIcon(!searchbarDisplay);
+                  }}
+                />
+                {searchbarDisplay ? (
+                  <SearchInputWrap className='searchInputWrap'>
+                    <Input
+                      type='text'
+                      placeholder='맥주 이름을 입력해주세요.'
+                      value={inputQuery.query}
+                      onChange={handleOnChange}
+                      onKeyPress={pressEnter}
+                    ></Input>
+                    <SearchBtn onClick={handleSearch}>Biba!</SearchBtn>
+                  </SearchInputWrap>
+                ) : (
+                  false
+                )}
+              </>
             )}
           </SearchbarArea>
           <BtnArea className='btnArea'>
@@ -81,7 +103,11 @@ export const Nav = ({
             </NavBtn>
             {isLogin ? (
               <NicknameProfile>
-                <SmallProfile src={profile} />
+                {profile === '' || profile === undefined ? (
+                  <NavPIcon />
+                ) : (
+                  <SmallProfile src={profile} />
+                )}
               </NicknameProfile>
             ) : undefined}
           </BtnArea>
@@ -239,17 +265,25 @@ const NicknameProfile = styled.div`
   align-items: center;
   justify-content: center;
 
-  margin: 0 0 0 1em;
-
-  color: ${mainGrey};
-`;
-
-const SmallProfile = styled.img`
-  width: 25px;
-  height: 25px;
-
+  width: 45px;
+  height: 45px;
+  // border: 2px solid ${mainYellow};
   border-radius: 50%;
   overflow: hidden;
+  margin: 0 0 0.2em 1em;
+`;
+const NavPIcon = styled(PIcon)`
+  width: 35px;
+  height: 35px;
+  margin: 0 0 0 -0.5em;
+  padding: 0;
+`;
+const SmallProfile = styled.img`
+  height: 150%;
+  width: 150%;
+  // max-height: 100vh;
+  // max-width: 100vh;
+  object-fit: contain;
 `;
 
 // const TestBtns = styled.div`

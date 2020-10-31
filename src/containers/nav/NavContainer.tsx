@@ -60,7 +60,12 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
   };
   const handleClickLogin = (): void => {
     console.log(props.location);
-    if (props.location.pathname === '/') {
+    if (props.location.pathname === '/login') {
+      return;
+    } else if (
+      props.location.pathname === '/' ||
+      props.location.pathname === '/signup'
+    ) {
       handleNavDisplay(false);
       return props.history.push('/login');
     } else {
