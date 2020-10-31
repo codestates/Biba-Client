@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { CgCloseO } from 'react-icons/cg';
 
@@ -9,7 +9,6 @@ import { mainGrey, mainGreyOpac, mainYellow } from '../../components/nav/color';
 export const Modal = ({
   display,
   closeModal,
-  pressEsc,
   user_review,
   contentType,
   content,

@@ -45,7 +45,7 @@ import { IProfile } from '../user/MypageContainer';
 export interface ModalProps {
   display: boolean;
   closeModal(): void;
-  pressEsc(e: React.KeyboardEvent<HTMLInputElement>): void;
+  // pressEsc(e: React.KeyboardEvent<HTMLInputElement>): void;
   user_review: boolean;
   contentType: ContentType;
   content: JSX.Element | JSX.Element[];
@@ -59,6 +59,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   // modal이 필요한 각 페이지에서 상황에 맞게 dispatch
   // 1. modal display -> true, false 지정
   // 2. 어떤 콘텐츠가 나와야하는지에 따라 ContentType 지정
+  // === user
   const { contentType, display } = useSelector(
     (state: RootState) => state.modal,
   );
@@ -88,7 +89,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   );
   const { a, b, c, d, e } = useSelector((state: RootState) => state.starStatus);
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
-
   // === request
   const { request1, request2 } = useSelector(
     (state: RootState) => state.beerRequest,
@@ -102,9 +102,9 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const closeModal = (): void => {
     handleModal(ContentType.Empty, false);
   };
-  const pressEsc = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'ESC') closeModal();
-  }; // 추후 추가 작업
+  // const pressEsc = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  //   if (e.key === 'ESC') closeModal();
+  // };
 
   const [inputValues, setInputValues] = useState({
     nickname: '',
@@ -117,7 +117,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const handleConfirmNickname = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_NICKNAME', value });
   };
-
   const handleInputOnChange = (
     e:
       | React.ChangeEvent<HTMLTextAreaElement>
@@ -211,7 +210,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const reviewedBeerIndex = rawReviewedBeers.map((beer) => {
     return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
   });
-
   const mapOption1 = favoriteBeerIndex.map((ele) => (
     <BeerOptions
       id={ele.id}
@@ -221,7 +219,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       {ele.beerName}
     </BeerOptions>
   ));
-
   const mapOption2 = reviewedBeerIndex.map((ele) => (
     <BeerOptions
       id={ele.id}
@@ -231,9 +228,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       {ele.beerName}
     </BeerOptions>
   ));
-
   const setSelectedBeerId = (id: number): void => {
-    dispatch({ type: 'SET_SELECTEDBEER', id: id });
+    dispatch({ type: 'SET_SELECTEDBEER', id });
   };
 
   const handleSelectBeer = (
@@ -804,7 +800,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     <Modal
       display={display}
       closeModal={closeModal}
-      pressEsc={pressEsc}
+      // pressEsc={pressEsc}
       user_review={user_review}
       contentType={contentType}
       content={content(contentType)}

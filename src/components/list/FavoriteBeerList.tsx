@@ -88,7 +88,7 @@ function FavoriteBeerList({
         className='my-masonry-grid'
         columnClassName='my-masonry-grid_column'
       >
-        {isAbc ? abcBeerList : recentBeers}
+        {isAbc ? abcBeerList : recentBeerList}
       </Masonry>
     </>
   );
