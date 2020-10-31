@@ -49,7 +49,7 @@ export const App = ({
               <Route exact path='/' component={HomeContainerWithRouter} />
             </Switch>
             {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (
-              //  || location.pathname.split('/').length !== 2 // 최종 때는 활성화
+              // || location.pathname.split('/').length !== 2 ? ( // 최종 때는 활성화?
               <Redirect to='/' path='*' />
             ) : (
               false
@@ -79,7 +79,7 @@ const Outer = styled.div`
 const Container = styled.div`
   display: grid;
   width: 100%;
-  grid-template-rows: 3em auto auto auto 3em;
+  grid-template-rows: 2.8em auto auto auto 3em;
   grid-template-columns: auto 80% auto;
   grid-template-areas:
     '. . .'
@@ -92,6 +92,7 @@ const Container = styled.div`
 const Nav = styled.div`
   grid-area: Nav;
   width: 100%;
+  margin: 0 0 2.2em 0;
 `;
 
 const Main = styled.div`

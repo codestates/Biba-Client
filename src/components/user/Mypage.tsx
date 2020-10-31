@@ -183,7 +183,7 @@ const DetailArea = styled.div`
 
 const ProfileArea = styled.div`
   display: grid;
-  grid-template-columns: 10em auto;
+  grid-template-columns: 9.5em auto;
 
   margin: 0 0 3em 0;
 `;
@@ -208,20 +208,33 @@ const ProfileDiv = styled.div`
 
   width: 100px;
   height: 100px;
+
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 0 0 0.5em;
 `;
 export const ProfileImg = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 100%;
-  max-height: 100%;
+  // width: 120px;
+  // height: 120px;
+  height: 150%;
+  width: 150%;
+  // max-height: 100vh;
+  // max-width: 100vh;
+  object-fit: contain;
+  margin: 0 -0.5em 0 -0.5em;
 `;
 export const ProfileRef = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 100%;
-  max-height: 100%;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+
+  margin: 0 -0.5em 0 -0.5em;
 `;
 const Label = styled.label`
   grid-column: 2 / 3;

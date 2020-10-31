@@ -14,14 +14,16 @@ import {
   btnOffText,
   pDefault,
 } from '../../components/nav/color';
+import { PIcon } from '../../containers/nav/ModalContainer';
 
 export const Nav = ({
   userData,
   isLogin,
+  profile,
   inputQuery,
-  logout,
   handleClickLogo,
   handleClickLogin,
+  handleClickLogout,
   handleClickSignup,
   handleClickMypage,
   handleOnChange,
@@ -35,32 +37,53 @@ export const Nav = ({
       <NavBar className='navBar'>
         <LogoWrap>
           <Logo
-            src={require('./templogo500.jpg')}
+            src={require('../../images/bibalogo.png')}
             alt='biba logo'
             onClick={handleClickLogo}
           />
         </LogoWrap>
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
-            <SearchIcon
-              className='searchIcon'
-              onClick={() => {
-                handleClickIcon(!searchbarDisplay);
-              }}
-            />
-            {searchbarDisplay ? (
-              <SearchInputWrap className='searchInputWrap'>
-                <Input
-                  type='text'
-                  placeholder='맥주 이름을 입력해주세요.'
-                  value={inputQuery.query}
-                  onChange={handleOnChange}
-                  onKeyPress={pressEnter}
-                ></Input>
-                <SearchBtn onClick={handleSearch}>Biba!</SearchBtn>
-              </SearchInputWrap>
+            {isLogin ? (
+              <>
+                <SearchIcon
+                  className='searchIcon'
+                  style={{ cursor: 'default' }}
+                />
+                <SearchInputWrap className='searchInputWrap'>
+                  <Input
+                    type='text'
+                    placeholder='맥주 이름을 입력해주세요.'
+                    value={inputQuery.query}
+                    onChange={handleOnChange}
+                    onKeyPress={pressEnter}
+                  ></Input>
+                  <SearchBtn onClick={handleSearch}>Biba!</SearchBtn>
+                </SearchInputWrap>
+              </>
             ) : (
-              false
+              <>
+                <SearchIcon
+                  className='searchIcon'
+                  onClick={() => {
+                    handleClickIcon(!searchbarDisplay);
+                  }}
+                />
+                {searchbarDisplay ? (
+                  <SearchInputWrap className='searchInputWrap'>
+                    <Input
+                      type='text'
+                      placeholder='맥주 이름을 입력해주세요.'
+                      value={inputQuery.query}
+                      onChange={handleOnChange}
+                      onKeyPress={pressEnter}
+                    ></Input>
+                    <SearchBtn onClick={handleSearch}>Biba!</SearchBtn>
+                  </SearchInputWrap>
+                ) : (
+                  false
+                )}
+              </>
             )}
           </SearchbarArea>
           <BtnArea className='btnArea'>
@@ -73,14 +96,20 @@ export const Nav = ({
             </NavBtn>
             <NavBtn
               onClick={() => {
-                isLogin ? logout() : handleClickLogin();
+                isLogin ? handleClickLogout() : handleClickLogin();
               }}
             >
               {isLogin ? `로그아웃` : `로그인`}
             </NavBtn>
-            {/* <NicknameProfile>
-              {isLogin ? `${userData.nickname}` : ``}
-            </NicknameProfile> */}
+            {isLogin ? (
+              <NicknameProfile>
+                {profile === '' || profile === undefined ? (
+                  <NavPIcon />
+                ) : (
+                  <SmallProfile src={profile} />
+                )}
+              </NicknameProfile>
+            ) : undefined}
           </BtnArea>
         </Wrap>
       </NavBar>
@@ -124,8 +153,8 @@ const LogoWrap = styled.div`
 `;
 const Logo = styled.img`
   cursor: pointer;
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: 140px;
   overflow: hidden;
 `;
 
@@ -236,7 +265,30 @@ const NicknameProfile = styled.div`
   align-items: center;
   justify-content: center;
 
-  margin: 0 0 0 1em;
-
-  color: ${mainGrey};
+  width: 45px;
+  height: 45px;
+  // border: 2px solid ${mainYellow};
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 0 0.2em 1em;
 `;
+const NavPIcon = styled(PIcon)`
+  width: 35px;
+  height: 35px;
+  margin: 0 0 0.2em -0.5em;
+  padding: 0;
+`;
+const SmallProfile = styled.img`
+  height: 150%;
+  width: 150%;
+  // max-height: 100vh;
+  // max-width: 100vh;
+  object-fit: contain;
+`;
+
+// const TestBtns = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: flex-start;
+// `;

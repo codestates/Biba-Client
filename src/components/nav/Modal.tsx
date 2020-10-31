@@ -16,12 +16,14 @@ export const Modal = ({
   allReviews,
 }: ModalProps): JSX.Element => {
   const title = (): string => {
-    if (contentType === ContentType.MypageAllReviews) {
-      return '내가 작성한 리뷰';
-    } else if (contentType === ContentType.ChangeNickname) {
+    if (contentType === ContentType.ChangeNickname) {
       return '닉네임 변경하기';
+    } else if (contentType === ContentType.MypageAllReviews) {
+      return '내가 작성한 리뷰';
+    } else if (contentType === ContentType.MyBeerList) {
+      return '맥주 비교하기';
     } else if (contentType === ContentType.UsersReview && !user_review) {
-      return '리뷰 작성하기';
+      return '별점 & 리뷰 등록하기';
     } else if (contentType === ContentType.UsersReview && user_review) {
       return '리뷰 수정하기';
     } else if (contentType === ContentType.AllReviews) {
@@ -40,10 +42,11 @@ export const Modal = ({
         style={display ? { display: 'block' } : undefined}
       >
         <ModalMask className='modalMask' onClick={closeModal}></ModalMask>
-        {contentType === ContentType.UsersReview ||
-        contentType === ContentType.Login ||
-        contentType === ContentType.RequestBeer ||
-        contentType === ContentType.ChangeNickname ? (
+        {contentType === ContentType.Login ||
+        contentType === ContentType.ChangeNickname ||
+        contentType === ContentType.MyBeerList ||
+        contentType === ContentType.UsersReview ||
+        contentType === ContentType.RequestBeer ? (
           <SmallContentArea className='contentArea'>
             <TitleWrap className='modalTitleWrap'>
               <Title>{title()}</Title>
@@ -115,6 +118,11 @@ const SmallContentArea = styled(ContentArea)`
   width: 560px;
   min-width: 560px;
   max-width: 560px;
+`;
+
+const ReviewContentArea = styled(ContentArea)`
+  // width: 62vw;
+  // align-items: center;
 `;
 
 const TitleWrap = styled.div`

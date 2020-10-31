@@ -36,7 +36,7 @@ export const AppContainer = ({
     handleConfirmAge(false);
   };
 
-  const whiteList = ['login', 'signup', 'beer', 'mypage']; // 최종 때는 beer 빼는 걸로
+  const whiteList = ['login', 'signup', 'beer', 'mypage'];
   const fullList = ['/login', '/signup', '/mypage'];
   useEffect(() => {
     fullList.indexOf(location.pathname) !== -1

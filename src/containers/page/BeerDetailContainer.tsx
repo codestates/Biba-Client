@@ -12,6 +12,7 @@ import {
   mainYellowOpac,
   mainGrey,
   mainGreyOpac,
+  lightGrey3,
 } from '../../components/nav/color';
 
 import {
@@ -28,10 +29,10 @@ import {
 } from './../../containers/nav/ModalContainer';
 
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav'; // Empty, Login, MypageAllReviews
-import { starStatusInit } from '../../modules/beerdetail';
+import { ContentType } from '../../modules/nav';
 import { BeerDetail } from '../../components/page/BeerDetail';
 import { Bookmark, IBeerDetail, aReview } from '../../modules/beerdetail';
+import { BeerT, BEER_FAVORITE_ABC, BEER_REVIEW } from '../../modules/getbeers';
 import {
   DefaultProps,
   IBeerDetailWithAll,
@@ -40,9 +41,10 @@ import { checkStarScore } from './pageUtils';
 
 export interface BeerDetailProps extends DefaultProps {
   beerDetail: IBeerDetail;
+  compareMyBeers(): void;
   bookmark: boolean;
   handleBookmark(): void;
-  handleTag(): JSX.Element[];
+  handleTag(): JSX.Element[] | boolean;
   disBasic: boolean;
   disStory: boolean;
   disMore: boolean;
@@ -80,7 +82,6 @@ const BeerDetailContainer = ({
   );
 
   const { a, b, c, d, e } = useSelector((state: RootState) => state.starStatus);
-  const currentStatus = [a, b, c, d, e];
 
   // 이하 함수는 리스트 페이지에 작성 -> 특정 맥주 클릭 시 get 요청 -> 스토어에 정보 들어감
   const dispatch = useDispatch();
@@ -88,9 +89,42 @@ const BeerDetailContainer = ({
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
 
+  const compareMyBeers = (): void => {
+    if (!isLogin) {
+      // alert(`로그인 후 이용해주세요.`);
+      handleModal(ContentType.Login, true);
+      return;
+    }
+    axios
+      .post<BeerT[]>(`https://beer4.xyz/bookmark/list`, {
+        token: token,
+      })
+      .then((res) => {
+        const favBeers = res.data;
+        dispatch({ type: BEER_FAVORITE_ABC, beers: favBeers });
+
+        axios
+          .post<BeerT[]>(`https://beer4.xyz/comment/mylist`, {
+            token: token,
+          })
+          .then((res) => {
+            const reviewedBeers = res.data;
+            dispatch({ type: BEER_REVIEW, beers: reviewedBeers });
+          });
+      });
+    dispatch({ type: 'SET_MYBEERTYPE', option1: true, option2: false });
+    dispatch({
+      type: 'SET_MODAL',
+      contentType: ContentType.MyBeerList,
+      display: true,
+    });
+  };
+
   const handleBookmark = (): void => {
     if (!isLogin) {
-      return alert(`로그인 후 이용해주세요.`);
+      // alert(`로그인 후 이용해주세요.`);
+      handleModal(ContentType.Login, true);
+      return;
     }
     axios
       .post<Bookmark>(`https://beer4.xyz/bookmark`, {
@@ -101,9 +135,9 @@ const BeerDetailContainer = ({
         const { bookmark } = res.data; // 추가되었을 경우 true 돌아옴
         if (res.status === 201 && (bookmark === true || bookmark === false)) {
           dispatch({ type: 'SET_BOOKMARK', bookmark }); // store에 저장된 bookmark 상태 업데이트
-          bookmark
-            ? alert(`즐겨찾기에 추가되었습니다.`)
-            : alert(`즐겨찾기에서 삭제되었습니다.`);
+          // bookmark
+          //   ? alert(`즐겨찾기에 추가되었습니다.`)
+          //   : alert(`즐겨찾기에서 삭제되었습니다.`);
         } else {
           alert(`즐겨찾기 추가에 실패하였습니다.`);
         }
@@ -140,98 +174,6 @@ const BeerDetailContainer = ({
     if (e.currentTarget.id === 'basic') setInfoTabBasic();
     if (e.currentTarget.id === 'story') setInfoTabStory();
     if (e.currentTarget.id === 'more') setInfoTabMore();
-  };
-  const handleClickStar = (star: React.MouseEvent<HTMLElement>): void => {
-    if (!isLogin) {
-      return alert(`로그인 후 이용해주세요.`);
-    }
-    if (currentStatus.indexOf(true) !== -1) {
-      if (user_input === '') {
-        axios
-          .post(`https://beer4.xyz/comment/update`, {
-            token: token,
-            beer_id: beerDetail.id,
-            comment: '',
-            rate: 0,
-          })
-          .then((res) => {
-            console.log(res);
-            if (res.status === 201) {
-              dispatch({ type: 'SET_STARSTATUS', starStatusInit });
-              dispatch({
-                type: 'SET_USERREVIEW',
-                user_review,
-                user_star: false,
-                user_input: '',
-                user_rate: -1,
-              });
-            }
-            return alert(`별점이 수정되었습니다.`);
-          })
-          .catch(() => {
-            alert(`별점 수정에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-          });
-        return undefined;
-      } else {
-        alert(`작성된 리뷰 내용이 있습니다. 리뷰를 삭제해주세요.`);
-        handleModal(ContentType.UsersReview, true);
-        return undefined;
-      }
-    }
-    const { a, b, c, d, e } = checkStarScore(Number(star.currentTarget.id)); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
-    console.log(Number(star.currentTarget.id));
-    const rate = Number(star.currentTarget.id);
-    if (!user_star) {
-      axios
-        .post(`https://beer4.xyz/comment/create`, {
-          token: token,
-          beer_id: beerDetail.id,
-          comment: user_input,
-          rate: rate,
-        })
-        .then((res) => {
-          console.log(res);
-          if (res.status === 201) {
-            dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
-            dispatch({
-              type: 'SET_USERREVIEW',
-              user_review,
-              user_star: true,
-              user_input,
-              user_rate: rate,
-            });
-          }
-          return alert(`별점이 등록되었습니다.`);
-        })
-        .catch(() => {
-          alert(`별점 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-        });
-    } else {
-      axios
-        .post(`https://beer4.xyz/comment/update`, {
-          token: token,
-          beer_id: beerDetail.id,
-          comment: user_input,
-          rate: rate,
-        })
-        .then((res) => {
-          console.log(res);
-          if (res.status === 201) {
-            dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
-            dispatch({
-              type: 'SET_USERREVIEW',
-              user_review,
-              user_star: true,
-              user_input,
-              user_rate: rate,
-            });
-          }
-          return alert(`별점이 등록되었습니다.`);
-        })
-        .catch(() => {
-          alert(`별점 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-        });
-    }
   };
 
   const mainReviewList = (): JSX.Element[] | JSX.Element => {
@@ -276,10 +218,9 @@ const BeerDetailContainer = ({
 
   const handleClickUsersReview = (): void => {
     if (!isLogin) {
-      return alert(`로그인 후 이용해주세요.`);
-    }
-    if (!user_star) {
-      return alert(`별점을 먼저 등록해주세요.`);
+      // alert(`로그인 후 이용해주세요.`);
+      handleModal(ContentType.Login, true);
+      return;
     }
     handleModal(ContentType.UsersReview, true);
   };
@@ -288,19 +229,21 @@ const BeerDetailContainer = ({
     handleModal(ContentType.AllReviews, true);
   };
 
-  const handleTag = (): JSX.Element[] => {
+  const handleTag = (): JSX.Element[] | boolean => {
     const { tags } = beerDetail;
-    return tags.map((ele) => {
-      return (
-        <Tag
-          key={`tag${tags.indexOf(ele)}`}
-          className='beerTag'
-          id={`tag${tags.indexOf(ele)}`}
-        >
-          {ele}
-        </Tag>
-      );
-    });
+    return tags.length !== 0
+      ? tags.map((ele) => {
+          return (
+            <Tag
+              key={`tag${tags.indexOf(ele)}`}
+              className='beerTag'
+              id={`tag${tags.indexOf(ele)}`}
+            >
+              {ele}
+            </Tag>
+          );
+        })
+      : false;
   };
 
   const handleStar = (): JSX.Element[] => {
@@ -318,10 +261,18 @@ const BeerDetailContainer = ({
           key={`star${ele[1]}`}
           className='star'
           id={`${ele[1]}`}
-          onClick={handleClickStar}
+          onClick={handleClickUsersReview}
         >
-          <FStar style={!ele[0] ? { display: 'block' } : { display: 'none' }} />
-          <EStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
+          <FStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
+          <EStar
+            style={
+              !ele[0]
+                ? isLogin
+                  ? { display: 'block' }
+                  : { display: 'block', color: `${lightGrey3}` }
+                : { display: 'none' }
+            }
+          />
         </StarWrap>
       );
     });
@@ -333,6 +284,7 @@ const BeerDetailContainer = ({
       history={history}
       location={location}
       beerDetail={beerDetail}
+      compareMyBeers={compareMyBeers}
       bookmark={bookmark}
       handleBookmark={handleBookmark}
       handleTag={handleTag}

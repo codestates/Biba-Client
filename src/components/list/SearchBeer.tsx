@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { EStar } from '../../components/page/BeerDetail';
+import { FStar } from '../../components/page/BeerDetail';
 import { BeerProps } from '../../containers/page/HomeContainer';
 
 function SearchBeer({
@@ -36,8 +36,8 @@ function SearchBeer({
       </Middle>
       <Bottom>
         {stars.map((index) => (
-          // <EStar key={stars[index]} />
-          <EStar key={`star${stars.indexOf(index)}`} />
+          // <FStar key={stars[index]} />
+          <FStar key={`star${stars.indexOf(index)}`} />
         ))}
       </Bottom>
     </BeerImage>

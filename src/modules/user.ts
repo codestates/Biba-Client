@@ -84,7 +84,9 @@ export interface ProfileAction extends UserProfile {
   type: typeof SET_PROFILE | typeof CHANGE_PROFILE | typeof DELETE_PROFILE;
 }
 const profileInit: UserProfile = {
-  profile: '',
+  profile:
+    'https://user-images.githubusercontent.com/65945933/97770213-abf44200-1b74-11eb-8fff-2ce30b4c443b.jpg',
+  // 'https://user-images.githubusercontent.com/65945933/97770233-b6aed700-1b74-11eb-9a42-e0a18f11bf8d.jpg',
 };
 export const setProfile = (profile: string): ProfileAction => ({
   // login 했을 때 프로필 사진 받아서 저장하기
