@@ -79,6 +79,7 @@ function WantSomeBeerList({
     />
   ));
   const breakPoint = [{ width: 1200, itemsToShow: 5 }];
+  recommendBeers = [];
 
   return (
     <Container>
@@ -103,14 +104,21 @@ function WantSomeBeerList({
               <Name>{nickname}</Name>님을 위한 취향저격 맥주들
             </Title>
             <ListContainer>
-              <Ul>
-                <Carousel
-                  className='button.rec-dot button.rec-arrow'
-                  breakPoints={breakPoint}
-                >
-                  {recommendBeerList}
-                </Carousel>
-              </Ul>
+              {recommendBeers.length === 0 ? (
+                <Hidden>
+                  좋아하는 맥주에 별점을 주시면 <Highlight>취저맥주</Highlight>{' '}
+                  추천드릴게요!
+                </Hidden>
+              ) : (
+                <Ul>
+                  <Carousel
+                    className='button.rec-dot button.rec-arrow'
+                    breakPoints={breakPoint}
+                  >
+                    {recommendBeerList}
+                  </Carousel>
+                </Ul>
+              )}
             </ListContainer>
           </Category>
         ) : (
@@ -185,6 +193,20 @@ const ListContainer = styled.div`
   box-shadow: 1px 1px 1px;
   height: 265px;
   width: 100%;
+`;
+
+const Hidden = styled.div`
+  text-align: center;
+  font-size: 2em;
+  padding: 3em 0 3em 0;
+`;
+
+const Highlight = styled.span`
+  padding: 2px;
+  border-radius: 8px;
+  background-color: #f2a405;
+  opacity: 0.9;
+  color: white;
 `;
 
 const Ul = styled.ul`

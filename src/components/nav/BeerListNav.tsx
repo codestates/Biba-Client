@@ -94,7 +94,7 @@ const ListNav = styled.div`
   font-family: 'Lato';
   left: 0;
   top: 0;
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding: 0.5rem;
   border-radius: 10px;
 `;
