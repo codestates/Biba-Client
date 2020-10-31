@@ -5,15 +5,18 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { RootState } from '../../modules';
 import BeerListNav from '../../components/nav/BeerListNav';
-import { TODAY_BEER, WANTSOME_BEER, MY_BEER } from '../../modules/changepage';
-import { FAVORITE, REVIEW } from '../../modules/mybeer';
+import {
+  TODAY_BEER,
+  WANTSOME_BEER,
+  FAVORITE,
+  REVIEW,
+} from '../../modules/changepage';
 import { ContentType } from '../../modules/nav';
 
 export interface BeerListNavProps {
   isLogin: boolean;
   handleClickTodayBeer(): void;
   handleClickWantSomeBeer(): void;
-  handleClickMyBeer(): void;
   handleClickFavorite(): void;
   handleClickReview(): void;
   display: boolean;
@@ -37,9 +40,6 @@ export const BeerListNavContainer = ({
   const handleClickWantSomeBeer = (): void => {
     dispatch({ type: WANTSOME_BEER });
   };
-  const handleClickMyBeer = (): void => {
-    dispatch({ type: MY_BEER });
-  };
   const handleClickFavorite = (): void => {
     dispatch({ type: FAVORITE });
   };
@@ -61,7 +61,6 @@ export const BeerListNavContainer = ({
       isLogin={isLogin}
       handleClickTodayBeer={handleClickTodayBeer}
       handleClickWantSomeBeer={handleClickWantSomeBeer}
-      handleClickMyBeer={handleClickMyBeer}
       handleClickFavorite={handleClickFavorite}
       handleClickReview={handleClickReview}
       display={display}

@@ -52,10 +52,8 @@ const BeerImage = styled.div`
   border-radius: 1em;
   margin: 1em auto;
   padding: 1em;
-  color: white;
   &:hover {
-    animation: fadein 3s;
-    color: black;
+    animation: fadein 2s;
     cursor: pointer;
   }
   @keyframes fadein {
@@ -96,7 +94,7 @@ const Text = styled.div`
 const Image = styled.img`
   height: 100%;
   width: 50%;
-  transform: translateY(30px);
+  transform: translateY(20px);
 `;
 
 const StarWrap = styled.div`

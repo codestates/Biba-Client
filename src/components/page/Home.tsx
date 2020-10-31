@@ -1,15 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { Route, RouterProps } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../../modules';
 
 import { TodayBeerListContainerWithRouter } from '../../containers/list/TodayBeerListContainer';
 import { WantSomeBeerListContainerWithRouter } from '../../containers/list/WantSomeBeerListContainer';
+import { FavoriteBeerListContainerWithRouter } from '../../containers/list/FavoriteListContainer';
+import { ReviewListContainerWithRouter } from '../../containers/list/ReviewListContainer';
 
 import { HomeProps } from '../../containers/page/HomeContainer';
-import { MyBeerContainerWithRouter } from '../../containers/page/MyBeerContainer';
 import { SearchBeerListContainerWithRouter } from '../../containers/list/SearchBeerListContainer';
 
 function Home({
@@ -21,7 +20,10 @@ function Home({
 }: HomeProps): JSX.Element {
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
   const isWant = useSelector((state: RootState) => state.changePage.isWant);
-  const isMy = useSelector((state: RootState) => state.changePage.isMy);
+  const isFavorite = useSelector(
+    (state: RootState) => state.changePage.isFavorite,
+  );
+  const isReview = useSelector((state: RootState) => state.changePage.isReview);
   const isSearch = useSelector((state: RootState) => state.changePage.isSearch);
   return (
     <Container>
@@ -41,7 +43,22 @@ function Home({
       ) : (
         false
       )}
-      {isMy ? <MyBeerContainerWithRouter /> : false}
+      {isFavorite ? (
+        <FavoriteBeerListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
+      {isReview ? (
+        <ReviewListContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
       {isSearch ? (
         <SearchBeerListContainerWithRouter
           setBeerDetail={setBeerDetail}
@@ -55,10 +72,8 @@ function Home({
 }
 
 const Container = styled.div`
-  // position: absolute;
   right: 0;
   top: 0;
-  // width: 80%;
   max-width: 1050px;
   min-height: 650px;
   margin: 1em auto;

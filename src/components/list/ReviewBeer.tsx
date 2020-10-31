@@ -34,17 +34,47 @@ const Item = styled.div`
   width: 150px;
   border-radius: 8px;
   box-shadow: 3px 3px 3px rgba(238, 238, 238, 0.8);
-  // &:hover .name {
-  //   animation: fadein 1s;
-  //   color: white;
-  //   @keyframes fadein {
-  //     from {
-  //       opacity: 0;
-  //     }
-  //     to {
-  //       opacity: 1;
-  //     }
-  //   }
+
+  animation: fadein 3s;
+  -moz-animation: fadein 3s; /* Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  -o-animation: fadein 3s; /* Opera */
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes fadein {
+    /* Firefox */
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes fadein {
+    /* Safari and Chrome */
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes fadein {
+    /* Opera */
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const Sub = styled.div`
