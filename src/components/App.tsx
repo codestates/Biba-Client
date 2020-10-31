@@ -99,7 +99,8 @@ const Main = styled.div`
   display: grid;
   grid-area: Main;
   grid-template-columns: 15em auto;
-  margin: 0 0 2.5em 0;
+  min-height: 600px;
+  margin: 0 0 9em 0;
 `;
 
 const Side = styled.div`
@@ -161,4 +162,5 @@ const Half = styled.div`
 
 const Footer = styled.div`
   grid-area: Footer;
+  margin: 0 0 2em 0;
 `;

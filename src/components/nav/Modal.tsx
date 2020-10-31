@@ -12,6 +12,7 @@ export const Modal = ({
   user_review,
   contentType,
   content,
+  myReviews,
   allReviews,
 }: ModalProps): JSX.Element => {
   const title = (): string => {
@@ -60,8 +61,10 @@ export const Modal = ({
               <CloseBtn className='closeBtn' onClick={closeModal} />
             </TitleWrap>
             <ContentWrap className='modalContentWrap'>
-              {contentType === ContentType.AllReviews &&
-              allReviews.length !== 0 ? (
+              {(contentType === ContentType.AllReviews &&
+                allReviews.length !== 0) ||
+              (contentType === ContentType.MypageAllReviews &&
+                myReviews.length !== 0) ? (
                 <AllReviewsContent className='modalContent'>
                   {content}
                 </AllReviewsContent>
@@ -88,6 +91,43 @@ const Container = styled.div`
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   color: ${mainGrey};
+
+  animation: fadein 0.7s;
+  -moz-animation: fadein 0.7s;
+  -webkit-animation: fadein 0.7s;
+  -o-animation: fadein 0.7s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const ModalMask = styled.div`
@@ -108,7 +148,7 @@ const ContentArea = styled.div`
   border-radius: 16px;
   width: 60vw;
   min-width: 800px;
-  max-width: 1100px;
+  max-width: 1020px;
   margin: 15% auto;
   padding: 15px 15px 20px 15px;
 `;
@@ -117,11 +157,6 @@ const SmallContentArea = styled(ContentArea)`
   width: 560px;
   min-width: 560px;
   max-width: 560px;
-`;
-
-const ReviewContentArea = styled(ContentArea)`
-  // width: 62vw;
-  // align-items: center;
 `;
 
 const TitleWrap = styled.div`
@@ -161,18 +196,23 @@ const ContentWrap = styled.div`
   width: 100%;
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-`;
 const AllReviewsContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   align-self: center;
   justify-self: center;
   flex-wrap: wrap;
-  // width: 100%;
+
+  width: 800px;
+  @media (min-width: 1720px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 `;

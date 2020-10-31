@@ -27,6 +27,7 @@ export const Mypage = ({
   refDisplay,
   handleModal,
   getMyReviews,
+  getMyRates,
   mapInputList,
   handleClickChangeNickname,
   handleUploadProfile,
@@ -113,8 +114,11 @@ export const Mypage = ({
           <Detail6 key='pfDetail6'>
             <Subtitle className='userMyReviews'>리뷰</Subtitle>
             <Content>
+              <MyReviews className='myReviews' onClick={() => getMyRates()}>
+                별점 준 맥주
+              </MyReviews>
               <MyReviews className='myReviews' onClick={() => getMyReviews()}>
-                나의 리뷰
+                리뷰 남긴 맥주
               </MyReviews>
             </Content>
           </Detail6>
@@ -301,7 +305,7 @@ const Btn = styled.button`
 
 export const Detail = styled.div`
   display: grid;
-  grid-template-columns: 10em 14em;
+  grid-template-columns: 10em 15em;
   margin: 0 0 1em 0;
 `;
 export const Detail1 = styled(Detail)`
@@ -387,7 +391,7 @@ const MyReviews = styled.button`
   border: 2px solid ${mainYellow};
   border-radius: 8px;
 
-  margin: 0;
+  margin: 0 0.5em 0 0;
   padding: 0.525em 0.6em 0.425em 0.6em;
 
   font-size: 0.9em;

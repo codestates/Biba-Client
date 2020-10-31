@@ -50,6 +50,7 @@ export interface ModalProps {
   user_review: boolean;
   contentType: ContentType;
   content: JSX.Element | JSX.Element[];
+  myReviews: MyReview[];
   allReviews: aReview[];
 }
 
@@ -665,19 +666,19 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         </MyBeerListModal>
       );
     }
-    // ==================================================== user review
+    // ==================================================== add review
     if (contentType === ContentType.UsersReview) {
       return (
         <ReviewWrap className='reviewWrap'>
           <RateStarsWrap>
             <RateTitle className='rate'>별점</RateTitle>
             <Stars className='stars'>{handleStar()}</Stars>
-            <UserReviewBtn
+            <DeleteStarBtn
               onClick={handleResetStar}
               style={user_star ? {} : { display: 'none' }}
             >
               별점 삭제
-            </UserReviewBtn>
+            </DeleteStarBtn>
           </RateStarsWrap>
           <ReviewTextAreaWrap>
             <ReviewTextArea
@@ -815,6 +816,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       user_review={user_review}
       contentType={contentType}
       content={content(contentType)}
+      myReviews={myReviews}
       allReviews={allReviews}
     />
   );
@@ -927,7 +929,6 @@ const CompareBtn = styled.button`
 `;
 
 export const SingleComment = styled.div`
-  // ModalContainer - ModalSingleComment 참고
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1062,8 +1063,14 @@ const RateStarsWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin: 0.2em 0 0.5em 0;
 `;
-const RateTitle = styled.div``;
+const RateTitle = styled.div`
+  margin: 0 0 0.12em 0.2em;
+  font-size: 1.1em;
+
+  color: ${mainGrey};
+`;
 const ReviewTextAreaWrap = styled.div`
   display: flex;
   width: 100%;
@@ -1099,7 +1106,7 @@ const UserReviewBtn = styled.button`
   border: 0px;
   border-radius: 8px;
 
-  margin: 0.3em 0 0 0.5em;
+  margin: 0 0 0.3em 0.5em;
   padding: 0.5em 0.6em 0.35em 0.6em;
 
   font-size: 0.95em;
@@ -1107,6 +1114,33 @@ const UserReviewBtn = styled.button`
   color: #fff;
   &:hover {
     background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const DeleteStarBtn = styled.button`
+  cursor: pointer;
+
+  display: inline-block;
+  width: 5em;
+  height: 1.8em;
+  border: 1.5px solid ${mainYellowOpac};
+  border-radius: 4px;
+
+  margin: 0 0 0.15em 0.4em;
+  padding: 0.2em;
+
+  font-size: 0.8em;
+  // font-weight: 300;
+  text-align: center;
+  background-color: #fff;
+  color: ${mainGreyOpac};
+
+  &:hover {
+    background-color: ${mainYellowOpac};
     color: white;
   }
   &:focus {

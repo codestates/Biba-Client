@@ -17,7 +17,12 @@ import {
   lightGrey3,
   btnOff,
   btnOffText,
+  tabColor,
   pDefault,
+  chartAccent2,
+  chartYellow1,
+  chartAccent1,
+  chartYellow2,
 } from '../../components/nav/color';
 import { JsxEmit } from 'typescript';
 
@@ -98,12 +103,8 @@ export const BeerDetail = ({
                   style={
                     disBasic
                       ? tabBasic
-                        ? { fontWeight: 500 }
-                        : {
-                            background: `${btnOff}`,
-                            color: `${btnOffText}`,
-                            fontWeight: 400,
-                          }
+                        ? { background: `${mainYellow}` }
+                        : {}
                       : { display: 'none' }
                   }
                 >
@@ -119,12 +120,8 @@ export const BeerDetail = ({
                   style={
                     disStory
                       ? tabStory
-                        ? { fontWeight: 500 }
-                        : {
-                            background: `${btnOff}`,
-                            color: `${btnOffText}`,
-                            fontWeight: 400,
-                          }
+                        ? { background: `${mainYellow}` }
+                        : {}
                       : { display: 'none' }
                   }
                 >
@@ -137,15 +134,7 @@ export const BeerDetail = ({
                   id='more'
                   className='infoTab'
                   onClick={handleInfoTab}
-                  style={
-                    tabMore
-                      ? { fontWeight: 500 }
-                      : {
-                          background: `${btnOff}`,
-                          color: `${btnOffText}`,
-                          fontWeight: 400,
-                        }
-                  }
+                  style={tabMore ? { background: `${mainYellow}` } : {}}
                 >
                   상세 정보
                 </Tab>
@@ -261,13 +250,13 @@ const InfoTitle = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
 `;
-
 const TitleText = styled.p`
   margin: 0;
   padding: 0;
   font-size: 1.4em;
+  font-weight: 600;
 
-  background-color: #fff;
+  color: ${mainYellow};
 `;
 // =================================== Pic
 const ImgDiv = styled.div`
@@ -326,7 +315,7 @@ const BeerName = styled.p`
 
   font-weight: 600;
   font-size: 1.4em;
-  color: ${mainYellow};
+  color: ${accent};
 `;
 
 // =================================== Ave
@@ -427,18 +416,22 @@ const TagEmpty = styled.div`
   color: ${lightGrey3};
 `;
 export const Tag = styled.div`
+  cursor: pointer;
   display: flex;
 
   // border: 1px solid ${mainYellow};
   border-radius: 6px 6px 6px 6px;
-  background-color: ${mainYellowOpac};
+  background-color: ${chartYellow2};
 
   margin: 0 0.7em 0.25em 0;
   padding: 0.5em 0.5em 0.3em 0.5em;
 
-  font-size: 0.9em;
-  font-weight: 500;
-  color: #212121;
+  font-size: 0.92em;
+  font-weight: 600;
+  color: ${mainGrey};
+  &:hover {
+    background-color: ${chartAccent2};
+  }
 `;
 const ChartWrap = styled.div`
   display: flex;
@@ -489,6 +482,7 @@ const TabDetail = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 95%;
 `;
 const TabWrap = styled.div`
   display: flex;
@@ -509,7 +503,7 @@ const Tab = styled.div`
 
   height: 1.7em;
 
-  background-color: ${mainYellow};
+  background-color: ${tabColor};
   // border: 2px solid ${mainGrey};
   border-bottom: 0px;
   border-radius: 8px 8px 0 0;
@@ -518,7 +512,12 @@ const Tab = styled.div`
   padding: 1em 0.5em 0.8em 0.5em;
 
   font-size: 0.95em;
+  font-weight: 500;
   color: #fff;
+  &:hover {
+    font-weight: 400;
+    background: ${btnOff};
+  }
 `;
 
 // =================================== Tab: DESCRIPTION
@@ -533,13 +532,13 @@ const InfoDetailWrap = styled.div`
   border-radius: 0 8px 8px 8px;
 
   // background-color: ${lightGrey1};
-  background-color: ${mainYellowOpac};
+  background-color: ${lightGrey2};
 `;
 const InfoDetail1 = styled.div`
   display: flex;
 
   padding: 0.8em 0.7em 0 0.7em;
-
+  width: 100%;
   font-size: 0.95em;
   line-height: 1.5;
 `;
@@ -547,14 +546,14 @@ const InfoDetail2 = styled.div`
   display: flex;
 
   padding: 0.8em 0.7em 0 0.7em;
-
+  width: 100%;
   font-size: 0.95em;
   line-height: 1.5;
 `;
 const InfoDetail3 = styled.div`
   display: flex;
-  justify-content: space-between;
-
+  justify-content: flex-start;
+  width: 100%;
   padding: 0.9em 0 0 0.7em;
 
   font-size: 0.95em;

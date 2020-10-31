@@ -29,6 +29,7 @@ export interface MypageProps {
   refDisplay: boolean;
   handleModal(contentType: ContentType, display: boolean): void;
   getMyReviews(): void;
+  getMyRates(): void;
   mapInputList(): JSX.Element[];
   handleClickChangeNickname(): void;
   handleUploadProfile(e: React.ChangeEvent<HTMLInputElement>): void;
@@ -60,10 +61,21 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       }) // 내가 리뷰를 작성한 맥주에 대해
       .then((res) => {
         const rawReviews = res.data.reverse();
-        const myReviews = rawReviews.filter((ele) => {
+        const withComments = rawReviews.filter((ele) => {
           if (ele.comment !== '') return ele;
         });
-        dispatch({ type: 'SET_MYREVIEWS', myReviews });
+        dispatch({ type: 'SET_MYREVIEWS', myReviews: withComments });
+        handleModal(ContentType.MypageAllReviews, true);
+      }); // [{}, {}]
+  };
+  const getMyRates = (): void => {
+    axios
+      .post<aReview[]>(`https://beer4.xyz/comment/mylist`, {
+        token: token,
+      }) // 내가 리뷰를 작성한 맥주에 대해
+      .then((res) => {
+        const rawReviews = res.data.reverse();
+        dispatch({ type: 'SET_MYREVIEWS', myReviews: rawReviews });
         handleModal(ContentType.MypageAllReviews, true);
       }); // [{}, {}]
   };
@@ -301,6 +313,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       refDisplay={refDisplay}
       handleModal={handleModal}
       getMyReviews={getMyReviews}
+      getMyRates={getMyRates}
       mapInputList={mapInputList}
       handleClickChangeNickname={handleClickChangeNickname}
       handleUploadProfile={handleUploadProfile}
