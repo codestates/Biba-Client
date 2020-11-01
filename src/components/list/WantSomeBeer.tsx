@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BeerProps } from '../../containers/page/HomeContainer';
+import { mainGrey } from '../../components/nav/color';
 
 function WantSomeBeer({
   id,
@@ -44,6 +45,8 @@ const Item = styled.div`
   //       opacity: 1;
   //     }
   //   }
+  color: ${mainGrey};
+  font-weight: 500;
 `;
 
 const Sub = styled.div`
@@ -54,7 +57,7 @@ const Sub = styled.div`
   justify-content: center;
   align-content: center;
   align-items: center;
-  color: black;
+
   overflow: hidden;
 `;
 
@@ -63,7 +66,6 @@ const Name = styled.div`
   font-size: 14px;
   width: 100%;
   height: 50px;
-  ov
   overflow-wrap: break-word;
   word-wrap: break-word;
 `;

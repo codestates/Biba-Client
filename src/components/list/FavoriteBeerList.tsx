@@ -7,6 +7,7 @@ import { AiFillCaretDown } from 'react-icons/ai';
 import FavoriteBeer from './FavoriteBeer';
 import { FavorI } from '../../modules/getbeers';
 import { DetailProps } from '../../containers/page/HomeContainer';
+import { mainYellow2 } from '../nav/color';
 
 interface FavoriteBeerProps extends FavorI, DetailProps {}
 
@@ -148,7 +149,7 @@ const Title = styled.h3`
   padding: 10px;
   border-radius: 8px;
   display: inline-block;
-  background-color: #f2a405;
+  background-color: ${mainYellow2};
   opacity: 0.9;
   color: white;
 `;
@@ -171,7 +172,7 @@ const FilterActive = styled.div`
   float: left;
   padding-left: 5px;
   font-weight: bold;
-  color: #f2a405;
+  color: ${mainYellow2};
 `;
 
 const Tri = styled(AiFillCaretDown)`

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { ContentType } from '../../modules/nav';
-import { mainYellow, mainYellowOpac } from '../nav/color';
+import { mainGrey, mainYellow, mainYellowOpac } from '../nav/color';
 
 export interface BeerProps {
   id: string;
@@ -35,6 +35,8 @@ const Box = styled.div`
   border-radius: 1em;
   border: 3px solid ${mainYellowOpac};
   text-align: center;
+  color: ${mainGrey};
+  font-weight: 500;
 `;
 
 const H3 = styled.div`
@@ -52,7 +54,7 @@ const Button = styled.button`
   color: white;
   background-color: ${mainYellow};
   &:hover {
-    background-color: #000;
+    background-color: ${mainGrey};
   }
 `;
 

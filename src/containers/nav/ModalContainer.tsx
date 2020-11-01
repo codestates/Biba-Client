@@ -26,6 +26,7 @@ import {
   mainGrey,
   mainGreyOpac,
   accent,
+  lightGrey3,
 } from '../../components/nav/color';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 import { Content } from '../../components/user/Mypage';
@@ -41,6 +42,7 @@ import { IBeerDetail } from '../../modules/beerdetail';
 import { IBeerDetailWithAll } from '../page/HomeContainer';
 import { checkStarScore } from '../page/pageUtils';
 import { IProfile } from '../user/MypageContainer';
+import { MyReview } from '../../modules/user';
 
 export interface ModalProps {
   display: boolean;
@@ -49,6 +51,7 @@ export interface ModalProps {
   user_review: boolean;
   contentType: ContentType;
   content: JSX.Element | JSX.Element[];
+  myReviews: MyReview[];
   allReviews: aReview[];
 }
 
@@ -66,6 +69,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
+  const { profile } = useSelector((state: RootState) => state.profile);
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
   );
@@ -334,7 +338,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       );
     }
     axios
-      .post(`https://beer4.xyz/comment/update`, {
+      .post(`https://beer4.xyz/comment/delete`, {
         token: token,
         beer_id: beerDetail.id,
         comment: '',
@@ -428,7 +432,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             dispatch({
               type: 'DELETE_USERREVIEW',
             });
-            alert(`리뷰가 삭제되었습니다.`);
             axios
               .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
               .then((res) => {
@@ -474,6 +477,14 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       );
     });
   };
+  // ================================================================ Comment 함수
+  const setDateForm = (input: string): string => {
+    const [date, time] = input.split(' ');
+    const dateOutput = date.replace('-', '년 ').replace('-', '월 ') + '일';
+    const timeOutput = time.slice(0, 5);
+    return `${dateOutput} ${timeOutput}`;
+  };
+
   // ================================================================ Beer Request 함수
   const handleRequestType = (request1: boolean, request2: boolean): void => {
     dispatch({ type: 'SET_REQUESTTYPE', request1, request2 });
@@ -573,33 +584,55 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       );
     }
     // ==================================================== mypage all reviews
-    if (contentType === ContentType.MypageAllReviews) {
+    if (contentType === ContentType.MyPageAllRates) {
       return myReviews.length !== 0 ? (
-        myReviews.map((ele: aReview) => (
-          <ModalSingleComment
+        myReviews.map((ele: MyReview) => (
+          <ModalSingleCommentM1
             key={`myReview${myReviews.indexOf(ele)}`}
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
-              <UserWrap className='userWrap'>
-                {ele.profile === '' || ele.profile === undefined ? (
-                  <PIcon />
-                ) : (
-                  <Profile
-                    className='profile'
-                    src={ele.profile}
-                    alt='profile'
-                  />
-                )}
-                <Nickname className='nickname'>{ele.nickname}</Nickname>
-              </UserWrap>
+              <CommentTopM1 className='commentTop'>
+                <MyRatesImgDiv>
+                  <MyRatesImg className='beerThumbnail' src={ele.beer_img} />
+                </MyRatesImgDiv>
+                <BeerName className='beerName'>{ele.beer_name}</BeerName>
+              </CommentTopM1>
+            </MainWrap>
+            <ReviewRate>
+              <DateString>{setDateForm(ele.createdAt)}</DateString>
+              <RateWrap className='rateWrap'>
+                <URStar className='userRateStar' />
+                <UserRate className='userRate'>{ele.rate}</UserRate>
+              </RateWrap>
+            </ReviewRate>
+          </ModalSingleCommentM1>
+        ))
+      ) : (
+        <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
+      );
+    }
+    if (contentType === ContentType.MyPageAllReviews) {
+      return myReviews.length !== 0 ? (
+        myReviews.map((ele: MyReview) => (
+          <ModalSingleCommentM2
+            key={`myReview${myReviews.indexOf(ele)}`}
+            className='singleComment'
+          >
+            <MainWrap className='commentWrap'>
+              <CommentTopM2 className='commentTop'>
+                <BeerName className='beerName'>{ele.beer_name}</BeerName>
+              </CommentTopM2>
               <Comment className='comment'>{ele.comment}</Comment>
             </MainWrap>
-            <RateWrap className='rateWrap'>
-              <URStar className='userRateStar' />
-              <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
-          </ModalSingleComment>
+            <ReviewRate>
+              <DateString>{setDateForm(ele.createdAt)}</DateString>
+              <RateWrap className='rateWrap'>
+                <URStar className='userRateStar' />
+                <UserRate className='userRate'>{ele.rate}</UserRate>
+              </RateWrap>
+            </ReviewRate>
+          </ModalSingleCommentM2>
         ))
       ) : (
         <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
@@ -662,19 +695,19 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         </MyBeerListModal>
       );
     }
-    // ==================================================== user review
+    // ==================================================== add review
     if (contentType === ContentType.UsersReview) {
       return (
         <ReviewWrap className='reviewWrap'>
           <RateStarsWrap>
             <RateTitle className='rate'>별점</RateTitle>
             <Stars className='stars'>{handleStar()}</Stars>
-            <UserReviewBtn
+            <DeleteStarBtn
               onClick={handleResetStar}
               style={user_star ? {} : { display: 'none' }}
             >
               별점 삭제
-            </UserReviewBtn>
+            </DeleteStarBtn>
           </RateStarsWrap>
           <ReviewTextAreaWrap>
             <ReviewTextArea
@@ -704,30 +737,37 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     if (contentType === ContentType.AllReviews) {
       return allReviews.length !== 0 ? (
         allReviews.map((ele: aReview) => (
-          <ModalSingleComment
+          <ModalSingleCommentA
             key={`review${allReviews.indexOf(ele)}`}
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
-              <UserWrap className='userWrap'>
-                {ele.profile === '' || ele.profile === undefined ? (
-                  <PIcon />
-                ) : (
-                  <Profile
-                    className='profile'
-                    src={ele.profile}
-                    alt='profile'
-                  />
-                )}
-                <Nickname className='nickname'>{ele.nickname}</Nickname>
-              </UserWrap>
+              <CommentTopA className='commentTop'>
+                <UserWrap className='userWrap'>
+                  {ele.profile === '' || ele.profile === undefined ? (
+                    <PIcon />
+                  ) : (
+                    <ProfileWrap>
+                      <Profile
+                        className='profile'
+                        src={ele.profile}
+                        alt='profile'
+                      />
+                    </ProfileWrap>
+                  )}
+                  <Nickname className='nickname'>{ele.nickname}</Nickname>
+                </UserWrap>
+              </CommentTopA>
               <Comment className='comment'>{ele.comment}</Comment>
             </MainWrap>
-            <RateWrap className='rateWrap'>
-              <URStar className='userRateStar' />
-              <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
-          </ModalSingleComment>
+            <ReviewRate>
+              <DateString>{setDateForm(ele.createdAt)}</DateString>
+              <RateWrap className='rateWrap'>
+                <URStar className='userRateStar' />
+                <UserRate className='userRate'>{ele.rate}</UserRate>
+              </RateWrap>
+            </ReviewRate>
+          </ModalSingleCommentA>
         ))
       ) : (
         <ResultEmpty>작성된 리뷰가 없습니다.</ResultEmpty>
@@ -804,6 +844,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       user_review={user_review}
       contentType={contentType}
       content={content(contentType)}
+      myReviews={myReviews}
       allReviews={allReviews}
     />
   );
@@ -916,15 +957,12 @@ const CompareBtn = styled.button`
 `;
 
 export const SingleComment = styled.div`
-  // ModalContainer - ModalSingleComment 참고
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  // width: 23%;
-  height: 180px;
-  min-width: 180px;
-  min-height: 120px;
+  height: 200px;
+  min-width: 200px;
 
   border: 2px solid ${mainYellow};
   border-radius: 8px;
@@ -933,16 +971,86 @@ export const SingleComment = styled.div`
   padding: 0.6em;
 `; // 하나의 코멘트 wrap
 
-export const ModalSingleComment = styled(SingleComment)`
+export const ModalSingleCommentA = styled(SingleComment)`
   /// -----------------------------------
   width: 31%;
-  min-width: 220px;
-  max-width: 250px;
-`;
+  max-width: 230px;
 
+  margin: 0.5em 0.5em 1em 0.5em;
+  padding: 0.6em;
+`;
+export const ModalSingleCommentM1 = styled(SingleComment)`
+  /// -----------------------------------
+  width: 31%;
+  height: 250px;
+  max-width: 230px;
+
+  margin: 0.5em 0.5em 1em 0.5em;
+  padding: 0.6em;
+`;
+export const ModalSingleCommentM2 = styled(SingleComment)`
+  /// -----------------------------------
+  width: 31%;
+  height: 200px;
+  max-width: 230px;
+
+  margin: 0.5em 0.5em 1em 0.5em;
+  padding: 0.6em;
+`;
 export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
+`;
+export const CommentTopA = styled.div`
+  grid-row: 1 / 2;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+export const CommentTopM1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+export const CommentTopM2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  margin: 0.4em 0 0.7em 0;
+`;
+const MyRatesImgDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+
+  // border: 2px solid ${mainYellowOpac};
+  border-radius: 16px;
+  overflow: hidden;
+
+  margin: 0.2em 0 1em 0;
+`;
+const MyRatesImg = styled.img`
+  display: flex;
+  height: 140px;
+`;
+export const BeerName = styled.div`
+  display: inline-block;
+
+  width: 200px;
+  margin: 0 0 0.25em 0;
+
+  font-size: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  // word-wrap: break-word;
+  // clear: both;
 `;
 export const UserWrap = styled.div`
   display: flex;
@@ -951,21 +1059,31 @@ export const UserWrap = styled.div`
 
   margin: 0 0 0.4em 0;
 `;
-export const Profile = styled.img`
+export const ProfileWrap = styled.div`
   display: flex;
-  width: 1.5em;
-  height: 1.5em;
+  align-items: center;
+  justify-content: center;
 
-  margin: 0 0.3em 0 0;
+  width: 1.4em;
+  height: 1.4em;
+
+  margin: 0 0.5em 0 0;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+export const Profile = styled.img`
+  height: 150%;
+  width: 150%;
+  object-fit: contain;
 `;
 export const PIcon = styled(BiUserCircle)`
   display: flex;
 
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.9em;
+  height: 1.9em;
 
-  margin: 0 0.3em 0 0;
-  color: ${mainGrey};
+  margin: 0 0.2em 0 0;
+  color: ${mainYellowOpac};
 `;
 export const Nickname = styled.div`
   display: flex;
@@ -974,30 +1092,53 @@ export const Nickname = styled.div`
 
   font-size: 0.95em;
 `;
+export const ReviewRate = styled.div`
+  grid-row: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.1em 0 0.1em;
+`;
+export const DateString = styled.div`
+  display: flex;
+
+  margin: 0.15em 0 0 0.2em;
+
+  font-size: 0.9em;
+  color: ${mainGreyOpac};
+`;
 
 export const RateWrap = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  align-self: flex-end;
+  align-self: center;
+  margin: 0.1em 0 0 0;
 `;
 export const URStar = styled(FaStar)`
   display: flex;
 
-  margin: 0 0.25em 0 0;
+  width: 1.1em;
+  height: 1.1em;
+  margin: 0 0.3em 0 0;
   color: ${mainYellow};
 `;
 export const UserRate = styled.div`
   display: flex;
-
-  padding: 0.15em 0.2em 0 0;
+  padding: 0.05em 0.2em 0 0;
+  font-size: 1.1em;
+  color: ${mainYellow};
 `;
 
 export const Comment = styled.div`
+  grid-row: 2 / 3;
   display: flex;
 
   margin: 0 0 0 0.2em;
   font-size: 0.9em;
+  line-height: 1.2;
+
+  color: ${mainGrey};
 `;
 
 const ResultEmpty = styled.div`
@@ -1007,7 +1148,7 @@ const ResultEmpty = styled.div`
   height: 150px;
 `;
 
-// ============================ User Review
+// ============================ Add Review
 const ReviewWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -1020,8 +1161,14 @@ const RateStarsWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin: 0.2em 0 0.5em 0;
 `;
-const RateTitle = styled.div``;
+const RateTitle = styled.div`
+  margin: 0 0 0.12em 0.2em;
+  font-size: 1.1em;
+
+  color: ${mainGrey};
+`;
 const ReviewTextAreaWrap = styled.div`
   display: flex;
   width: 100%;
@@ -1057,7 +1204,7 @@ const UserReviewBtn = styled.button`
   border: 0px;
   border-radius: 8px;
 
-  margin: 0.3em 0 0 0.5em;
+  margin: 0 0 0.3em 0.5em;
   padding: 0.5em 0.6em 0.35em 0.6em;
 
   font-size: 0.95em;
@@ -1065,6 +1212,33 @@ const UserReviewBtn = styled.button`
   color: #fff;
   &:hover {
     background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const DeleteStarBtn = styled.button`
+  cursor: pointer;
+
+  display: inline-block;
+  width: 5em;
+  height: 1.8em;
+  border: 1.5px solid ${mainYellowOpac};
+  border-radius: 4px;
+
+  margin: 0 0 0.15em 0.4em;
+  padding: 0.2em;
+
+  font-size: 0.8em;
+  // font-weight: 300;
+  text-align: center;
+  background-color: #fff;
+  color: ${mainGreyOpac};
+
+  &:hover {
+    background-color: ${mainYellowOpac};
     color: white;
   }
   &:focus {

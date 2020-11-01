@@ -1,21 +1,21 @@
 
 button.rec-dot {
-    background-color: #f2a405;
+    background-color:rgba(255, 198, 0, 1);
     opacity: 0.5;
-    box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
+    box-shadow:0 0 1px 3px rgba(245, 147, 48, 0.5) !important;
   }
   
   button.rec-dot:hover, button.rec-dot:active, button.rec-dot:focus {
-    background-color: black;
-    box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
+    background-color: white;
+    box-shadow:0 0 1px 3px rgba(245, 147, 48, 0.5) !important;
   }
 button.rec-arrow {
-    background-color: #f2a405;
+    background-color:rgba(255, 198, 0, 1);
     opacity: 0.5;
-    box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
+    box-shadow:0 0 1px 3px rgba(245, 147, 48, 0.5) !important;
   }
   
   button.rec-arrow:hover, button.rec-arrow:active, button.rec-arrow:focus {
-    background-color: black;
-    box-shadow:0 0 1px 3px rgb(197, 145, 0) !important;
+    background-color: white;
+    box-shadow:0 0 1px 3px rgba(245, 147, 48, 0.5) !important;
   }

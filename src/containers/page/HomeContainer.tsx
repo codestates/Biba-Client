@@ -70,6 +70,7 @@ function HomeContainer({
       tabStory: false,
       tabMore: false,
     });
+    console.log('test');
     dispatch({
       type: 'SET_INFODISPLAY',
       disBasic: true,
@@ -122,29 +123,51 @@ function HomeContainer({
           dispatch({
             type: 'SET_INFODISPLAY',
             disBasic: false,
-            disStory: disStory,
-            disMore: disMore,
+            disStory: true,
+            disMore: true,
           });
-          story !== ''
-            ? dispatch({
-                type: 'SET_INFOSTATUS',
-                tabBasic: false,
-                tabStory: true,
-                tabMore: false,
-              })
-            : dispatch({
-                type: 'SET_INFOSTATUS',
-                tabBasic: false,
-                tabStory: false,
-                tabMore: true,
-              });
-        }
-        if (story === '') {
+          if (story === '') {
+            // 둘 다 없음
+            dispatch({
+              type: 'SET_INFODISPLAY',
+              disBasic: false,
+              disStory: false,
+              disMore: true,
+            });
+            dispatch({
+              type: 'SET_INFOSTATUS',
+              tabBasic: false,
+              tabStory: false,
+              tabMore: true,
+            });
+          } else {
+            // ex만 없음
+            dispatch({
+              type: 'SET_INFOSTATUS',
+              tabBasic: false,
+              tabStory: true,
+              tabMore: false,
+            });
+            dispatch({
+              type: 'SET_INFODISPLAY',
+              disBasic: false,
+              disStory: true,
+              disMore: true,
+            });
+          }
+        } else if (story === '') {
+          // st만 없음
+          dispatch({
+            type: 'SET_INFOSTATUS',
+            tabBasic: true,
+            tabStory: false,
+            tabMore: false,
+          });
           dispatch({
             type: 'SET_INFODISPLAY',
-            disBasic: disBasic,
+            disBasic: true,
             disStory: false,
-            disMore: disMore,
+            disMore: true,
           });
         }
       });
@@ -154,6 +177,7 @@ function HomeContainer({
     axios
       .get<aReview[]>(`https://beer4.xyz/comment/${e.currentTarget.id}`)
       .then((res) => {
+        console.log(res.data);
         const rawReviews = res.data;
         const allReviews = rawReviews.filter((ele) => {
           if (ele.comment !== '') return ele;

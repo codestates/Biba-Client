@@ -19,6 +19,7 @@ import {
   SingleComment,
   MainWrap,
   UserWrap,
+  ProfileWrap,
   Profile,
   PIcon,
   Nickname,
@@ -26,6 +27,8 @@ import {
   URStar,
   UserRate,
   Comment,
+  ReviewRate,
+  DateString,
 } from './../../containers/nav/ModalContainer';
 
 import { RootState } from '../../modules';
@@ -175,7 +178,11 @@ const BeerDetailContainer = ({
     if (e.currentTarget.id === 'story') setInfoTabStory();
     if (e.currentTarget.id === 'more') setInfoTabMore();
   };
-
+  const setDateForm = (input: string): string => {
+    const [date, time] = input.split(' ');
+    const dateOutput = date.replace('-', '년 ').replace('-', '월 ') + '일';
+    return `${dateOutput}`;
+  };
   const mainReviewList = (): JSX.Element[] | JSX.Element => {
     if (allReviews.length !== 0) {
       const mainReviews = allReviews.slice(0, 4);
@@ -186,24 +193,33 @@ const BeerDetailContainer = ({
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
-              <UserWrap className='userWrap'>
-                {ele.profile === '' || ele.profile === undefined ? (
-                  <PIcon />
-                ) : (
-                  <Profile
-                    className='profile'
-                    src={ele.profile}
-                    alt='profile'
-                  />
-                )}
-                <Nickname className='nickname'>{ele.nickname}</Nickname>
-              </UserWrap>
-              <Comment className='comment'>{ele.comment}</Comment>
+              <DetailSingleCommentGrid>
+                <UserWrap className='userWrap'>
+                  {ele.profile === '' || ele.profile === undefined ? (
+                    <PIcon />
+                  ) : (
+                    <ProfileWrap>
+                      <Profile
+                        className='profile'
+                        src={ele.profile}
+                        alt='profile'
+                      />
+                    </ProfileWrap>
+                  )}
+                  <Nickname className='nickname'>{ele.nickname}</Nickname>
+                </UserWrap>
+                <Comment className='comment'>{ele.comment}</Comment>
+
+                <ReviewRate>
+                  <DateString>{setDateForm(ele.createdAt)}</DateString>
+
+                  <RateWrap className='rateWrap'>
+                    <URStar className='userRateStar' />
+                    <UserRate className='userRate'>{ele.rate}</UserRate>
+                  </RateWrap>
+                </ReviewRate>
+              </DetailSingleCommentGrid>
             </MainWrap>
-            <RateWrap className='rateWrap'>
-              <URStar className='userRateStar' />
-              <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
           </DetailSingleComment>
         );
       });
@@ -229,15 +245,30 @@ const BeerDetailContainer = ({
     handleModal(ContentType.AllReviews, true);
   };
 
+  const handleClickTag = (e: React.MouseEvent<HTMLElement>): void => {
+    axios
+      .post(`https://beer4.xyz/search/tag`, {
+        tag: e.currentTarget.id,
+      })
+      .then((res) => {
+        const beers = res.data;
+        dispatch({ type: 'SET_BEERS', beers: beers });
+        dispatch({ type: 'SEARCH_BEER' });
+        dispatch({ type: 'SET_NAVDISPLAY', display: true });
+        history.push('/');
+      });
+  };
+
   const handleTag = (): JSX.Element[] | boolean => {
     const { tags } = beerDetail;
     return tags.length !== 0
       ? tags.map((ele) => {
           return (
             <Tag
+              id={ele}
               key={`tag${tags.indexOf(ele)}`}
               className='beerTag'
-              id={`tag${tags.indexOf(ele)}`}
+              onClick={handleClickTag}
             >
               {ele}
             </Tag>
@@ -312,6 +343,11 @@ const DetailSingleComment = styled(SingleComment)`
   width: 23%;
 
   margin: 0 0.4em 0 0.4em;
+`;
+const DetailSingleCommentGrid = styled.div`
+  display: grid;
+  grid-template-rows: 20% auto 20%;
+  height: 180px;
 `;
 
 const DetailNoComment = styled(SingleComment)`

@@ -156,11 +156,7 @@ const Span = styled.span`
 `;
 
 const SubSpanActive = styled.span`
-  padding: 2px;
-  border-radius: 8px;
-  background-color: #f2a405;
-  opacity: 0.9;
-  color: white;
+  color: ${mainYellow};
 `;
 
 const SubUl = styled.ul`

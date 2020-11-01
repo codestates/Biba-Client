@@ -28,6 +28,7 @@ export interface MypageProps {
   profile: string;
   refDisplay: boolean;
   handleModal(contentType: ContentType, display: boolean): void;
+  getMyRates(): void;
   getMyReviews(): void;
   mapInputList(): JSX.Element[];
   handleClickChangeNickname(): void;
@@ -52,7 +53,17 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
-
+  const getMyRates = (): void => {
+    axios
+      .post<aReview[]>(`https://beer4.xyz/comment/mylist`, {
+        token: token,
+      }) // 내가 리뷰를 작성한 맥주에 대해
+      .then((res) => {
+        const rawReviews = res.data;
+        dispatch({ type: 'SET_MYREVIEWS', myReviews: rawReviews });
+        handleModal(ContentType.MyPageAllRates, true);
+      }); // [{}, {}]
+  };
   const getMyReviews = (): void => {
     axios
       .post<aReview[]>(`https://beer4.xyz/comment/mylist`, {
@@ -60,13 +71,14 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       }) // 내가 리뷰를 작성한 맥주에 대해
       .then((res) => {
         const rawReviews = res.data;
-        const myReviews = rawReviews.filter((ele) => {
+        const withComments = rawReviews.filter((ele) => {
           if (ele.comment !== '') return ele;
         });
-        dispatch({ type: 'SET_MYREVIEWS', myReviews });
-        handleModal(ContentType.MypageAllReviews, true);
+        dispatch({ type: 'SET_MYREVIEWS', myReviews: withComments });
+        handleModal(ContentType.MyPageAllReviews, true);
       }); // [{}, {}]
   };
+
   const handleClickChangeNickname = (): void => {
     handleModal(ContentType.ChangeNickname, true);
   };
@@ -179,7 +191,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
           dispatch({ type: 'REF_DISPLAY', display: false });
           // alert(`프로필 사진이 등록되었습니다.`);
         } else {
-          console.log('::::: post :::::', res);
+          // console.log('::::: post :::::', res);
           alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
         }
       })
@@ -213,7 +225,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
                 dispatch({ type: 'REF_DISPLAY', display: false });
                 // alert(`프로필 사진이 변경되었습니다.`);
               } else {
-                console.log('::::: change :::::', res);
+                // console.log('::::: change :::::', res);
                 alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
               }
             })
@@ -221,7 +233,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
               alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
             });
         } else {
-          console.log('::::: change :::::', res);
+          // console.log('::::: change :::::', res);
           alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
         }
       })
@@ -246,7 +258,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
           dispatch({ type: 'REF_DISPLAY', display: true });
           // alert(`프로필 사진이 삭제되었습니다.`);
         } else {
-          console.log('::::: delete :::::', res);
+          // console.log('::::: delete :::::', res);
           alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
         }
       })
@@ -300,6 +312,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       profile={profile}
       refDisplay={refDisplay}
       handleModal={handleModal}
+      getMyRates={getMyRates}
       getMyReviews={getMyReviews}
       mapInputList={mapInputList}
       handleClickChangeNickname={handleClickChangeNickname}

@@ -12,12 +12,15 @@ export const Modal = ({
   user_review,
   contentType,
   content,
+  myReviews,
   allReviews,
 }: ModalProps): JSX.Element => {
   const title = (): string => {
     if (contentType === ContentType.ChangeNickname) {
       return '닉네임 변경하기';
-    } else if (contentType === ContentType.MypageAllReviews) {
+    } else if (contentType === ContentType.MyPageAllRates) {
+      return '별점 준 맥주';
+    } else if (contentType === ContentType.MyPageAllReviews) {
       return '내가 작성한 리뷰';
     } else if (contentType === ContentType.MyBeerList) {
       return '맥주 비교하기';
@@ -60,8 +63,12 @@ export const Modal = ({
               <CloseBtn className='closeBtn' onClick={closeModal} />
             </TitleWrap>
             <ContentWrap className='modalContentWrap'>
-              {contentType === ContentType.AllReviews &&
-              allReviews.length !== 0 ? (
+              {(contentType === ContentType.AllReviews &&
+                allReviews.length !== 0) ||
+              (contentType === ContentType.MyPageAllReviews &&
+                myReviews.length !== 0) ||
+              (contentType === ContentType.MyPageAllRates &&
+                myReviews.length !== 0) ? (
                 <AllReviewsContent className='modalContent'>
                   {content}
                 </AllReviewsContent>
@@ -88,6 +95,43 @@ const Container = styled.div`
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   color: ${mainGrey};
+
+  animation: fadein 0.7s;
+  -moz-animation: fadein 0.7s;
+  -webkit-animation: fadein 0.7s;
+  -o-animation: fadein 0.7s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const ModalMask = styled.div`
@@ -108,7 +152,7 @@ const ContentArea = styled.div`
   border-radius: 16px;
   width: 60vw;
   min-width: 800px;
-  max-width: 1100px;
+  max-width: 1020px;
   margin: 15% auto;
   padding: 15px 15px 20px 15px;
 `;
@@ -117,11 +161,6 @@ const SmallContentArea = styled(ContentArea)`
   width: 560px;
   min-width: 560px;
   max-width: 560px;
-`;
-
-const ReviewContentArea = styled(ContentArea)`
-  // width: 62vw;
-  // align-items: center;
 `;
 
 const TitleWrap = styled.div`
@@ -158,17 +197,28 @@ const ContentWrap = styled.div`
   display: flex;
   align-self: center;
   justify-content: center;
+  margin: 0;
+  padding: 0;
   width: 100%;
+`;
+
+const AllReviewsContent = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: center;
+  justify-self: center;
+  flex-wrap: wrap;
+
+  width: 742px;
+  @media (min-width: 1720px) {
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-`;
-const AllReviewsContent = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: 100%;
 `;
