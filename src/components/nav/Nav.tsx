@@ -43,7 +43,7 @@ export const Nav = ({
             onClick={handleClickLogo}
           />
         </LogoWrap>
-        {/* <ClickHere /> */}
+
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
             {isLogin ? (
@@ -65,12 +65,17 @@ export const Nav = ({
               </>
             ) : (
               <>
-                <SearchIcon
-                  className='searchIcon'
-                  onClick={() => {
-                    handleClickIcon(!searchbarDisplay);
-                  }}
-                />
+                <IconWrap>
+                  <SearchIcon
+                    className='searchIcon'
+                    onClick={() => {
+                      handleClickIcon(!searchbarDisplay);
+                    }}
+                  />
+                  <ClickHere
+                    style={searchbarDisplay ? { opacity: 0 } : { opacity: 1 }}
+                  />
+                </IconWrap>
                 {searchbarDisplay ? (
                   <SearchInputWrap className='searchInputWrap'>
                     <Input
@@ -181,11 +186,46 @@ const SearchbarArea = styled.div`
   // background-color: ${mainYellowOpac};
 `;
 
+const IconWrap = styled.div`
+  display: flex;
+  flex-direcion: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 1.5em;
+  heigth: 30em;
+  overflow-x: visible;
+  left: -60px;
+  margin: 2em 0 0 0;
+`;
+const ClickHere = styled(GiClick)`
+  display: flex;
+  position: relative;
+  width: 1.9em;
+  height: 1.9em;
+  color: rgba(91, 27, 240, 0.9);
+  margin: -5px -30px 5px 6px;
+
+  animation: blinkingText 1.2s infinite;
+  @keyframes blinkingText {
+    0% {
+    }
+    40% {
+      color: transparent;
+    }
+    50% {
+      color: transparent;
+    }
+    100% {
+    }
+  }
+`;
+
 const SearchIcon = styled(BiSearchAlt)`
   cursor: pointer;
   display: flex;
+  z-index: 1;
 
-  width: 1.5em;
+  width: 3em;
   height: 1.5em;
   color: #545454;
 `;
@@ -194,14 +234,13 @@ const SearchInputWrap = styled.div`
   align-items: center;
   justify-content: flex-end; // 박스 내 input, btn
   overflow: hidden;
-  animation: strecth 3s ease;
+  animation: strecth 2s cubic-bezier(0.74, 0.09, 0.2, 0.92) forwards;
 
   @keyframes strecth {
     0% {
       margin-left: 100%;
     }
   }
-  // width: 22vw;
 `;
 
 const Input = styled.input`
@@ -299,11 +338,4 @@ const SmallProfile = styled.img`
   // max-height: 100vh;
   // max-width: 100vh;
   object-fit: contain;
-`;
-
-const ClickHere = styled(GiClick)`
-  position: absolute;
-  width: 2em;
-  height: 2em;
-  color: ${mainYellow};
 `;
