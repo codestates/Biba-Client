@@ -56,6 +56,7 @@ function BeerListNav({
           <ListBtn>
             <RedirectBtn
               onClick={() => {
+                redirectHome();
                 handleClickFavorite();
               }}
             >
@@ -66,6 +67,7 @@ function BeerListNav({
             <SubUl>
               <SubLiBtn
                 onClick={() => {
+                  redirectHome();
                   handleClickFavorite();
                 }}
               >
@@ -79,6 +81,7 @@ function BeerListNav({
               </SubLiBtn>
               <SubLiBtn
                 onClick={() => {
+                  redirectHome();
                   handleClickReview();
                 }}
               >
