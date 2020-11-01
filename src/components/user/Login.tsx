@@ -22,6 +22,7 @@ export const Login = ({
   inputValues,
   handleOnChange,
   handleLogin,
+  handleGoogleLogin,
   pressEnter,
   redirectToSignup,
 }: LoginProps): JSX.Element => {
@@ -58,7 +59,9 @@ export const Login = ({
           <SmallBtn className='loginBtn' onClick={handleLogin}>
             로그인
           </SmallBtn>
-          <LongBtn className='googleLoginBtn'>구글 로그인</LongBtn>
+          <LongBtn className='googleLoginBtn' onClick={handleGoogleLogin}>
+            구글 로그인
+          </LongBtn>
           <LongBtn className='kakaoLoginBtn'>카카오 로그인</LongBtn>
           <Redirect className='signupBtn' onClick={redirectToSignup}>
             Biba 가입하러 가기
