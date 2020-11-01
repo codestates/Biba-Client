@@ -56,6 +56,9 @@ const Button = styled.button`
   &:hover {
     background-color: ${mainGrey};
   }
+  &:focus {
+    outline: none;
+  }
 `;
 
 export default RequsetBeer;
