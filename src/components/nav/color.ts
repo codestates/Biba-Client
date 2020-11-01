@@ -1,6 +1,7 @@
 // export const mainYellow = '#ffad13'; // 임시로 쓴 색
 // export const mainYellow = '#fbd44b'; // 이미지에서 노란색
 export const mainYellow = '#f59330'; // 이미지에서 주황색
+export const mainYellow2 = 'rgba(245, 147, 48, 0.85)'; // 이미지에서 주황색
 
 // export const mainYellowOpac = 'rgba(255, 173, 19, 0.5)';
 export const mainYellowOpac = 'rgba(245, 147, 48, 0.5)';

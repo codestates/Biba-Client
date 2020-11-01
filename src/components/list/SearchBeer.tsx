@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FStar } from '../../components/page/BeerDetail';
 import { BeerProps } from '../../containers/page/HomeContainer';
-
+import { mainGrey } from '../../components/nav/color';
 function SearchBeer({
   id,
   name,
@@ -64,6 +64,8 @@ const BeerImage = styled.div`
       opacity: 1;
     }
   }
+  color: ${mainGrey};
+  font-weight: 500;
 `;
 
 const Top = styled.div`

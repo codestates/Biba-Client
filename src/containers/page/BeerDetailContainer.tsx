@@ -27,6 +27,8 @@ import {
   URStar,
   UserRate,
   Comment,
+  ReviewRate,
+  DateString,
 } from './../../containers/nav/ModalContainer';
 
 import { RootState } from '../../modules';
@@ -176,7 +178,11 @@ const BeerDetailContainer = ({
     if (e.currentTarget.id === 'story') setInfoTabStory();
     if (e.currentTarget.id === 'more') setInfoTabMore();
   };
-
+  const setDateForm = (input: string): string => {
+    const [date, time] = input.split(' ');
+    const dateOutput = date.replace('-', '년 ').replace('-', '월 ') + '일';
+    return `${dateOutput}`;
+  };
   const mainReviewList = (): JSX.Element[] | JSX.Element => {
     if (allReviews.length !== 0) {
       const mainReviews = allReviews.slice(0, 4);
@@ -203,10 +209,15 @@ const BeerDetailContainer = ({
                   <Nickname className='nickname'>{ele.nickname}</Nickname>
                 </UserWrap>
                 <Comment className='comment'>{ele.comment}</Comment>
-                <RateWrap className='rateWrap'>
-                  <URStar className='userRateStar' />
-                  <UserRate className='userRate'>{ele.rate}</UserRate>
-                </RateWrap>
+
+                <ReviewRate>
+                  <DateString>{setDateForm(ele.createdAt)}</DateString>
+
+                  <RateWrap className='rateWrap'>
+                    <URStar className='userRateStar' />
+                    <UserRate className='userRate'>{ele.rate}</UserRate>
+                  </RateWrap>
+                </ReviewRate>
               </DetailSingleCommentGrid>
             </MainWrap>
           </DetailSingleComment>

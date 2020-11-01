@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BeerProps } from '../../containers/page/HomeContainer';
+import { mainGrey } from '../../components/nav/color';
 
 const numToStar = (rate: number) => {
   let result = '';
@@ -49,6 +50,8 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: ${mainGrey};
+  font-weight: 500;
 `;
 
 const Text = styled.div`

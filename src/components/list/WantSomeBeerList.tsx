@@ -6,6 +6,7 @@ import './WantCss.css';
 import WantSomeBeer from './WantSomeBeer';
 import { WantI } from '../../modules/getbeers';
 import { DetailProps } from '../../containers/page/HomeContainer';
+import { mainGrey, mainYellow2 } from '../nav/color';
 
 interface WSLBeerProps extends WantI, DetailProps {
   nickname: string;
@@ -79,7 +80,6 @@ function WantSomeBeerList({
     />
   ));
   const breakPoint = [{ width: 1200, itemsToShow: 5 }];
-  recommendBeers = [];
 
   return (
     <Container>
@@ -229,7 +229,7 @@ const Category = styled.li`
 `;
 
 const ListContainer = styled.div`
-  // border: 1px solid #f2a405;
+  // border: 1px solid ${mainYellow2};
   // border-radius: 8px;
   box-shadow: 1px 1px 1px;
   height: 265px;
@@ -240,12 +240,13 @@ const Hidden = styled.div`
   text-align: center;
   font-size: 2em;
   padding: 3em 0 3em 0;
+  color: ${mainGrey};
 `;
 
 const Highlight = styled.span`
   padding: 2px;
   border-radius: 8px;
-  background-color: #f2a405;
+  background-color: ${mainYellow2};
   opacity: 0.9;
   color: white;
 `;
@@ -266,13 +267,14 @@ const Title = styled.h3`
   padding: 10px;
   border-radius: 8px;
   display: inline-block;
-  background-color: #f2a405;
+  background-color: ${mainYellow2};
   opacity: 0.9;
   color: white;
 `;
 
 const Name = styled.span`
   color: black;
+  letter-spacing: 2px;
 `;
 
 export default WantSomeBeerList;

@@ -5,6 +5,7 @@ import './TodayCss.css';
 
 import Review from './ReviewBeer';
 import { BeerListProps } from '../../containers/page/HomeContainer';
+import { mainYellow2 } from '../nav/color';
 
 function ReviewList({
   beers,
@@ -46,7 +47,7 @@ const Title = styled.h3`
   padding: 10px;
   border-radius: 8px;
   display: inline-block;
-  background-color: #f2a405;
+  background-color: ${mainYellow2};
   opacity: 0.9;
   color: white;
 `;

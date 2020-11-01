@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
+import { GiClick } from 'react-icons/gi';
 
 import { NavProps } from '../../containers/nav/NavContainer';
 import {
@@ -37,11 +38,12 @@ export const Nav = ({
       <NavBar className='navBar'>
         <LogoWrap>
           <Logo
-            src='https://s3testforcloutfront.s3.amazonaws.com/logo/bibalogo.png'
+            src='https://biba-beer-png1.s3.amazonaws.com/IMG_8331.JPG'
             alt='biba logo'
             onClick={handleClickLogo}
           />
         </LogoWrap>
+        {/* <ClickHere /> */}
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
             {isLogin ? (
@@ -143,19 +145,25 @@ const Wrap = styled.div`
 `;
 const LogoWrap = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 140px;
-  height: 100px;
-  overflow: hidden;
+  align-items: center;
 
-  margin: 1em 0 0 -0.1em;
+  width: 100px;
+  height: 100px;
+
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 0 0 1.5em;
 `;
 const Logo = styled.img`
   cursor: pointer;
-  width: 140px;
-  height: 140px;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  // margin: 0 -0.5em 0 -0.5em;
 `;
 
 const SearchbarArea = styled.div`
@@ -293,9 +301,9 @@ const SmallProfile = styled.img`
   object-fit: contain;
 `;
 
-// const TestBtns = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: flex-start;
-// `;
+const ClickHere = styled(GiClick)`
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  color: ${mainYellow};
+`;

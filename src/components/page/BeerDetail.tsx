@@ -315,7 +315,7 @@ const BeerName = styled.p`
 
   font-weight: 600;
   font-size: 1.4em;
-  color: ${accent};
+  color: ${mainGrey};
 `;
 
 // =================================== Ave

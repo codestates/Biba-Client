@@ -26,6 +26,7 @@ import {
   mainGrey,
   mainGreyOpac,
   accent,
+  lightGrey3,
 } from '../../components/nav/color';
 import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 import { Content } from '../../components/user/Mypage';
@@ -337,7 +338,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       );
     }
     axios
-      .post(`https://beer4.xyz/comment/update`, {
+      .post(`https://beer4.xyz/comment/delete`, {
         token: token,
         beer_id: beerDetail.id,
         comment: '',
@@ -400,7 +401,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             axios
               .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
               .then((res) => {
-                const rawReviews = res.data.reverse();
+                const rawReviews = res.data;
                 const allReviews = rawReviews.filter((ele) => {
                   if (ele.comment !== '') return ele;
                 });
@@ -434,7 +435,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             axios
               .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
               .then((res) => {
-                const rawReviews = res.data.reverse();
+                const rawReviews = res.data;
                 const allReviews = rawReviews.filter((ele) => {
                   if (ele.comment !== '') return ele;
                 });
@@ -583,27 +584,55 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       );
     }
     // ==================================================== mypage all reviews
-    if (contentType === ContentType.MypageAllReviews) {
+    if (contentType === ContentType.MyPageAllRates) {
       return myReviews.length !== 0 ? (
         myReviews.map((ele: MyReview) => (
-          <ModalSingleComment
+          <ModalSingleCommentM1
             key={`myReview${myReviews.indexOf(ele)}`}
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
-              <CommentTop className='commentTop'>
+              <CommentTopM1 className='commentTop'>
+                <MyRatesImgDiv>
+                  <MyRatesImg className='beerThumbnail' src={ele.beer_img} />
+                </MyRatesImgDiv>
                 <BeerName className='beerName'>{ele.beer_name}</BeerName>
-              </CommentTop>
-              <Comment className='comment'>{ele.comment}</Comment>
+              </CommentTopM1>
             </MainWrap>
             <ReviewRate>
-              <Date>{setDateForm(ele.createdAt)}</Date>
+              <DateString>{setDateForm(ele.createdAt)}</DateString>
               <RateWrap className='rateWrap'>
                 <URStar className='userRateStar' />
                 <UserRate className='userRate'>{ele.rate}</UserRate>
               </RateWrap>
             </ReviewRate>
-          </ModalSingleComment>
+          </ModalSingleCommentM1>
+        ))
+      ) : (
+        <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
+      );
+    }
+    if (contentType === ContentType.MyPageAllReviews) {
+      return myReviews.length !== 0 ? (
+        myReviews.map((ele: MyReview) => (
+          <ModalSingleCommentM2
+            key={`myReview${myReviews.indexOf(ele)}`}
+            className='singleComment'
+          >
+            <MainWrap className='commentWrap'>
+              <CommentTopM2 className='commentTop'>
+                <BeerName className='beerName'>{ele.beer_name}</BeerName>
+              </CommentTopM2>
+              <Comment className='comment'>{ele.comment}</Comment>
+            </MainWrap>
+            <ReviewRate>
+              <DateString>{setDateForm(ele.createdAt)}</DateString>
+              <RateWrap className='rateWrap'>
+                <URStar className='userRateStar' />
+                <UserRate className='userRate'>{ele.rate}</UserRate>
+              </RateWrap>
+            </ReviewRate>
+          </ModalSingleCommentM2>
         ))
       ) : (
         <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
@@ -708,12 +737,12 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     if (contentType === ContentType.AllReviews) {
       return allReviews.length !== 0 ? (
         allReviews.map((ele: aReview) => (
-          <ModalSingleComment
+          <ModalSingleCommentA
             key={`review${allReviews.indexOf(ele)}`}
             className='singleComment'
           >
             <MainWrap className='commentWrap'>
-              <CommentTop className='commentTop'>
+              <CommentTopA className='commentTop'>
                 <UserWrap className='userWrap'>
                   {ele.profile === '' || ele.profile === undefined ? (
                     <PIcon />
@@ -728,18 +757,17 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
                   )}
                   <Nickname className='nickname'>{ele.nickname}</Nickname>
                 </UserWrap>
-              </CommentTop>
+              </CommentTopA>
               <Comment className='comment'>{ele.comment}</Comment>
             </MainWrap>
-
             <ReviewRate>
-              <Date>{setDateForm(ele.createdAt)}</Date>
+              <DateString>{setDateForm(ele.createdAt)}</DateString>
               <RateWrap className='rateWrap'>
                 <URStar className='userRateStar' />
                 <UserRate className='userRate'>{ele.rate}</UserRate>
               </RateWrap>
             </ReviewRate>
-          </ModalSingleComment>
+          </ModalSingleCommentA>
         ))
       ) : (
         <ResultEmpty>작성된 리뷰가 없습니다.</ResultEmpty>
@@ -943,7 +971,7 @@ export const SingleComment = styled.div`
   padding: 0.6em;
 `; // 하나의 코멘트 wrap
 
-export const ModalSingleComment = styled(SingleComment)`
+export const ModalSingleCommentA = styled(SingleComment)`
   /// -----------------------------------
   width: 31%;
   max-width: 230px;
@@ -951,18 +979,79 @@ export const ModalSingleComment = styled(SingleComment)`
   margin: 0.5em 0.5em 1em 0.5em;
   padding: 0.6em;
 `;
+export const ModalSingleCommentM1 = styled(SingleComment)`
+  /// -----------------------------------
+  width: 31%;
+  height: 250px;
+  max-width: 230px;
 
+  margin: 0.5em 0.5em 1em 0.5em;
+  padding: 0.6em;
+`;
+export const ModalSingleCommentM2 = styled(SingleComment)`
+  /// -----------------------------------
+  width: 31%;
+  height: 200px;
+  max-width: 230px;
+
+  margin: 0.5em 0.5em 1em 0.5em;
+  padding: 0.6em;
+`;
 export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
 `;
-export const CommentTop = styled.div`
+export const CommentTopA = styled.div`
   grid-row: 1 / 2;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 `;
-export const BeerName = styled.div``;
+export const CommentTopM1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+export const CommentTopM2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  margin: 0.4em 0 0.7em 0;
+`;
+const MyRatesImgDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+
+  // border: 2px solid ${mainYellowOpac};
+  border-radius: 16px;
+  overflow: hidden;
+
+  margin: 0.2em 0 1em 0;
+`;
+const MyRatesImg = styled.img`
+  display: flex;
+  height: 140px;
+`;
+export const BeerName = styled.div`
+  display: inline-block;
+
+  width: 200px;
+  margin: 0 0 0.25em 0;
+
+  font-size: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  // word-wrap: break-word;
+  // clear: both;
+`;
 export const UserWrap = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -1003,35 +1092,42 @@ export const Nickname = styled.div`
 
   font-size: 0.95em;
 `;
-const BeerId = styled.div``;
 export const ReviewRate = styled.div`
   grid-row: 3 / 4;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.1em 0 0.1em;
 `;
-export const Date = styled.div`
+export const DateString = styled.div`
   display: flex;
 
-  padding: 0.2em 0 0 0;
+  margin: 0.15em 0 0 0.2em;
 
-  font-size: 0.95em;
+  font-size: 0.9em;
+  color: ${mainGreyOpac};
 `;
 
 export const RateWrap = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  align-self: flex-end;
+  align-self: center;
+  margin: 0.1em 0 0 0;
 `;
 export const URStar = styled(FaStar)`
   display: flex;
 
-  margin: 0 0.25em 0 0;
+  width: 1.1em;
+  height: 1.1em;
+  margin: 0 0.3em 0 0;
   color: ${mainYellow};
 `;
 export const UserRate = styled.div`
   display: flex;
-
-  padding: 0.15em 0.2em 0 0;
+  padding: 0.05em 0.2em 0 0;
+  font-size: 1.1em;
+  color: ${mainYellow};
 `;
 
 export const Comment = styled.div`
@@ -1041,6 +1137,8 @@ export const Comment = styled.div`
   margin: 0 0 0 0.2em;
   font-size: 0.9em;
   line-height: 1.2;
+
+  color: ${mainGrey};
 `;
 
 const ResultEmpty = styled.div`
@@ -1050,7 +1148,7 @@ const ResultEmpty = styled.div`
   height: 150px;
 `;
 
-// ============================ User Review
+// ============================ Add Review
 const ReviewWrap = styled.div`
   display: flex;
   flex-direction: column;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BeerProps } from '../../containers/page/HomeContainer';
+import { mainGrey } from '../../components/nav/color';
 
 function FavoriteBeer({
   id,
@@ -45,6 +46,8 @@ const Item = styled.div`
   //       opacity: 1;
   //     }
   //   }
+  color: ${mainGrey};
+  font-weight: 500;
 `;
 
 const Sub = styled.div`

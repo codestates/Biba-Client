@@ -18,7 +18,9 @@ export const Modal = ({
   const title = (): string => {
     if (contentType === ContentType.ChangeNickname) {
       return '닉네임 변경하기';
-    } else if (contentType === ContentType.MypageAllReviews) {
+    } else if (contentType === ContentType.MyPageAllRates) {
+      return '별점 준 맥주';
+    } else if (contentType === ContentType.MyPageAllReviews) {
       return '내가 작성한 리뷰';
     } else if (contentType === ContentType.MyBeerList) {
       return '맥주 비교하기';
@@ -63,7 +65,9 @@ export const Modal = ({
             <ContentWrap className='modalContentWrap'>
               {(contentType === ContentType.AllReviews &&
                 allReviews.length !== 0) ||
-              (contentType === ContentType.MypageAllReviews &&
+              (contentType === ContentType.MyPageAllReviews &&
+                myReviews.length !== 0) ||
+              (contentType === ContentType.MyPageAllRates &&
                 myReviews.length !== 0) ? (
                 <AllReviewsContent className='modalContent'>
                   {content}
@@ -193,21 +197,23 @@ const ContentWrap = styled.div`
   display: flex;
   align-self: center;
   justify-content: center;
+  margin: 0;
+  padding: 0;
   width: 100%;
 `;
 
 const AllReviewsContent = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   align-self: center;
   justify-self: center;
   flex-wrap: wrap;
 
-  width: 800px;
+  width: 742px;
   @media (min-width: 1720px) {
     width: 100%;
-    justify-content: flex-start;
+    margin: 0;
   }
 `;
 
