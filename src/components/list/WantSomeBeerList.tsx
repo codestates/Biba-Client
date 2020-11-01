@@ -80,6 +80,7 @@ function WantSomeBeerList({
     />
   ));
   const breakPoint = [{ width: 1200, itemsToShow: 5 }];
+  recommendBeers = [];
 
   return (
     <Container>
