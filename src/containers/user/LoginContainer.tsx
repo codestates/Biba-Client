@@ -26,6 +26,7 @@ export interface LoginProps {
   };
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   handleLogin(): void;
+  handleGoogleLogin(): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
   redirectToSignup(): void;
 }
@@ -177,6 +178,13 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
       });
   };
 
+  const handleGoogleLogin = () => {
+    axios
+      .get('http://localhost:4000/auth/google')
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
+  };
+
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleLogin();
   };
@@ -190,6 +198,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
       inputValues={inputValues}
       handleOnChange={handleOnChange}
       handleLogin={handleLogin}
+      handleGoogleLogin={handleGoogleLogin}
       pressEnter={pressEnter}
       redirectToSignup={redirectToSignup}
     />
