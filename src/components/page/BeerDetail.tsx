@@ -191,9 +191,9 @@ export const BeerDetail = ({
                 </InfoDetail3>
               </InfoDetailWrap>
               <Source>
-                {beerDetail.source !== ''
+                {beerDetail.source.length > 5
                   ? `출처 - ${beerDetail.source}`
-                  : false}
+                  : ``}
               </Source>
             </TabDetail>
           </InfoBody>

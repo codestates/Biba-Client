@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { FaCopyright } from 'react-icons/fa';
 import { BiBeer } from 'react-icons/bi';
+import { FooterProps } from '../../containers/nav/FooterContainer';
 
 import {
   mainGrey,
@@ -12,7 +13,7 @@ import {
   mainYellowOpac,
 } from '../../components/nav/color';
 
-export const Footer = (): JSX.Element => {
+export const Footer = ({ count }: FooterProps): JSX.Element => {
   return (
     <Container>
       <FooterArea>
@@ -27,6 +28,11 @@ export const Footer = (): JSX.Element => {
             <CopyRight /> 2020. Non-Alcohol all rights reserved.
           </AboutText2>
         </About>
+        <Count>
+          Total Visit
+          <Beer2 /> &nbsp;
+          <CountNumber>{count}</CountNumber>
+        </Count>
       </FooterArea>
     </Container>
   );
@@ -40,8 +46,8 @@ const Container = styled.div`
 
 const FooterArea = styled.div`
   display: flex;
-  align-items: flex-start;
-  justify-items: flex-start;
+  align-items: flex-end;
+  justify-content: space-between;
 
   width: 100%;
   padding: 0.3em;
@@ -79,4 +85,25 @@ const CopyRight = styled(FaCopyright)`
   height: 1.3em;
   margin: 0em 0.2em 0 0;
   color: ${mainYellowOpac};
+`;
+
+const Count = styled.div`
+  display: flex;
+  align-items: center;
+  font-family: 'Lato';
+  font-size: 0.95em;
+  color: rgba(50, 50, 50, 0.6);
+`;
+const Beer2 = styled(BiBeer)`
+  width: 1.1em;
+  height: 1.1em;
+  margin: 0.1em 0 0 0.1em;
+  color: rgba(50, 50, 50, 0.6);
+`;
+const CountNumber = styled.div`
+  font-family: 'Noto Sans KR';
+  font-size: 1em;
+  font-weight: 500;
+  margin: 0.21em 0 0 0;
+  color: ${mainYellow};
 `;

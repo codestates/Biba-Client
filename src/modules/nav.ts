@@ -7,6 +7,7 @@ const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
 const SET_REQUESTTYPE = 'SET_REQUESTTYPE' as const;
 const SET_MYBEERTYPE = 'SET_MYBEERTYPE' as const;
 const SET_SELECTEDBEER = 'SET_SELECTEDBEER' as const;
+const SET_VISITCOUNT = 'SET_VISITCOUNT' as const;
 
 export interface SearchbarState {
   display: boolean;
@@ -50,6 +51,9 @@ export interface SelectedBeer {
   id: number;
 }
 
+export interface VisitCount {
+  count: number | string;
+}
 // 이하로 action interface + init + action
 interface SearchbarStateAction extends SearchbarState {
   type: typeof SET_SEARCHBAR;
@@ -147,6 +151,16 @@ export const setSelectedBeer = (id: number): SelectedBeerAction => ({
   id,
 });
 
+interface VisitCountAction extends VisitCount {
+  type: typeof SET_VISITCOUNT;
+}
+const setVisitCountInit: VisitCount = {
+  count: '',
+};
+export const setVisitedCount = (count: number | string): VisitCountAction => ({
+  type: SET_VISITCOUNT,
+  count,
+});
 // ============ 이하로 reducers
 export const searchbarReducer = (
   state = searchbarInit,
@@ -255,6 +269,22 @@ export const selectedBeerReducer = (
       return {
         ...state,
         id: action.id,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const visitCountReducer = (
+  state = setVisitCountInit,
+  action: VisitCountAction,
+): VisitCount => {
+  switch (action.type) {
+    case SET_VISITCOUNT:
+      return {
+        ...state,
+        count: action.count,
       };
 
     default:

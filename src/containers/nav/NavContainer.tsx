@@ -11,6 +11,7 @@ import { BeerT } from '../../modules/getbeers';
 import { beerDetailInit, compareBeerInit } from '../../modules/beerdetail';
 import { DefaultProps } from '../page/HomeContainer';
 import { queryAllByAltText } from '@testing-library/react';
+import { useEffect } from 'react';
 
 export interface NavProps {
   userData: {
@@ -158,29 +159,44 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
         });
     }
   };
+  const handleCount = (): void => {
+    axios.get(`https://beer4.xyz/count`).then((res) => {
+      console.log(res);
+      const currentCount = res.data.totalVisits;
+      dispatch({ type: 'SET_VISITCOUNT', count: currentCount });
+    });
+  };
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleSearch();
   };
 
   return (
-    <Nav
-      userData={userData}
-      isLogin={isLogin}
-      token={token}
-      profile={profile}
-      inputQuery={inputQuery}
-      handleClickLogo={handleClickLogo}
-      handleClickLogin={handleClickLogin}
-      handleClickLogout={handleClickLogout}
-      handleClickSignup={handleClickSignup}
-      handleClickMypage={handleClickMypage}
-      handleOnChange={handleOnChange}
-      searchbarDisplay={searchbarDisplay}
-      handleClickIcon={handleClickIcon}
-      handleSearch={handleSearch}
-      pressEnter={pressEnter}
-    />
+    <>
+      {
+        (useEffect(() => {
+          handleCount();
+        }),
+        [])
+      }
+      <Nav
+        userData={userData}
+        isLogin={isLogin}
+        token={token}
+        profile={profile}
+        inputQuery={inputQuery}
+        handleClickLogo={handleClickLogo}
+        handleClickLogin={handleClickLogin}
+        handleClickLogout={handleClickLogout}
+        handleClickSignup={handleClickSignup}
+        handleClickMypage={handleClickMypage}
+        handleOnChange={handleOnChange}
+        searchbarDisplay={searchbarDisplay}
+        handleClickIcon={handleClickIcon}
+        handleSearch={handleSearch}
+        pressEnter={pressEnter}
+      />
+    </>
   );
 };
 
