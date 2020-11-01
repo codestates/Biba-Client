@@ -91,7 +91,7 @@ const Container = styled.div`
   top: 0;
   width: 100vw;
   height: 100vh;
-  overflow: auto;
+  overflow-y: initial;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   color: ${mainGrey};
@@ -151,9 +151,11 @@ const ContentArea = styled.div`
   border: 1px solid #888;
   border-radius: 16px;
   width: 60vw;
+  max-height: 60vh;
+  overflow-y: auto;
   min-width: 800px;
   max-width: 1020px;
-  margin: 15% auto;
+  margin: 12% auto;
   padding: 15px 15px 20px 15px;
 `;
 

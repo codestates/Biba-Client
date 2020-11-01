@@ -190,6 +190,11 @@ export const BeerDetail = ({
                   )}
                 </InfoDetail3>
               </InfoDetailWrap>
+              <Source>
+                {beerDetail.source !== ''
+                  ? `출처 - ${beerDetail.source}`
+                  : false}
+              </Source>
             </TabDetail>
           </InfoBody>
         </InfoDiv>
@@ -403,7 +408,6 @@ const TagWrap = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
   margin: 1em 0 0 0;
 `;
 const TagSubText = styled(SubText)`
@@ -411,21 +415,16 @@ const TagSubText = styled(SubText)`
 `;
 const TagEmpty = styled.div`
   margin: 0 0 0.03em 0;
-
   font-size: 0.95em;
   color: ${lightGrey3};
 `;
 export const Tag = styled.div`
   cursor: pointer;
   display: flex;
-
-  // border: 1px solid ${mainYellow};
   border-radius: 6px 6px 6px 6px;
   background-color: ${chartYellow2};
-
   margin: 0 0.7em 0.25em 0;
   padding: 0.5em 0.5em 0.3em 0.5em;
-
   font-size: 0.92em;
   font-weight: 600;
   color: ${mainGrey};
@@ -438,7 +437,6 @@ const ChartWrap = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   margin: 1.2em 0 1.2em 0;
 `;
 const ChartDiv = styled.div`
@@ -451,18 +449,13 @@ const CompareBtn = styled.button`
   cursor: pointer;
   display: flex;
   align-self: center;
-
   border: 0px;
   border-radius: 8px;
-
   margin: 0 0 1em 0.5em;
   padding: 0.45em 0.8em 0.4em 0.8em;
-
   font-size: 1.1em;
-
   background-color: ${mainYellow};
   color: #fff;
-
   &: hover {
     background-color: ${accent};
     color: white;
@@ -474,10 +467,8 @@ const CompareBtn = styled.button`
 // =================================== Tab
 const InfoBody = styled.div`
   display: flex;
-
   padding: 0 0 0 0.3em;
 `;
-
 const TabDetail = styled.div`
   display: flex;
   flex-direction: column;
@@ -487,30 +478,21 @@ const TabDetail = styled.div`
 const TabWrap = styled.div`
   display: flex;
   justify-content: flex-start;
-
   height: 2em;
 `;
-
 const Divider = styled.p``;
 const Tab = styled.div`
   cursor: pointer;
-
   display: flex;
   align-self: center;
   align-items: center;
-
   z-index: 1; // border 여부에 따라 변경
-
   height: 1.7em;
-
   background-color: ${tabColor};
-  // border: 2px solid ${mainGrey};
   border-bottom: 0px;
   border-radius: 8px 8px 0 0;
-
   margin: 0 0 -0.35em 0;
   padding: 1em 0.5em 0.8em 0.5em;
-
   font-size: 0.95em;
   font-weight: 500;
   color: #fff;
@@ -521,22 +503,16 @@ const Tab = styled.div`
 `;
 
 // =================================== Tab: DESCRIPTION
-
 const InfoDetailWrap = styled.div`
   display: flex;
   width: 100%;
   height: auto;
   min-height: 10em;
-
-  // border: 2px solid ${mainGrey};
   border-radius: 0 8px 8px 8px;
-
-  // background-color: ${lightGrey1};
   background-color: ${lightGrey2};
 `;
 const InfoDetail1 = styled.div`
   display: flex;
-
   padding: 0.8em 0.7em 0 0.7em;
   width: 100%;
   font-size: 0.95em;
@@ -544,7 +520,6 @@ const InfoDetail1 = styled.div`
 `;
 const InfoDetail2 = styled.div`
   display: flex;
-
   padding: 0.8em 0.7em 0 0.7em;
   width: 100%;
   font-size: 0.95em;
@@ -555,34 +530,36 @@ const InfoDetail3 = styled.div`
   justify-content: flex-start;
   width: 100%;
   padding: 0.9em 0 0 0.7em;
-
   font-size: 0.95em;
 `;
 const PWrap = styled.div`
   display: flex;
   flex-direction: column;
-
   margin: 0 2em 0 0;
+`;
+const Source = styled.div`
+  display: flex;
+  align-self: flex-end;
+  font-size: 0.8em;
+  font-weight: 400;
+  color: ${lightGrey3};
+  margin: 0.5em 0.3em 0 0;
+  opacity: 0.8;
 `;
 // =================================== Tab: TEXT
 
 const PT = styled.p`
   display: flex;
-
   margin: 0 0 0.7em 0;
   padding: 0;
-
   font-weight: 400;
-
   color: ${pDefault};
 `;
 
 const P = styled.p`
   display: flex;
-
   margin: 0 0 0.7em 0;
   padding: 0;
-
   color: ${pDefault};
 `;
 
@@ -591,36 +568,29 @@ const P = styled.p`
 const RateReview = styled.div`
   grid-row: 4 / 5;
   grid-column: 2 / 5;
-
   margin: 2em 0 0 0;
 `;
 const RatingArea = styled.div`
   display: flex;
   align-items: center;
-
   margin: 0 0 0.6em 0.5em;
 `;
 const UserRate = styled.p`
   display: flex;
   margin: 0;
   padding: 0;
-
   font-weight: 400;
   font-size: 1.2em;
-
   color: ${mainYellow};
 `;
 export const Stars = styled.div`
   display: flex;
-
   margin: 0 0 0 0.5em;
   padding: 0 0 0.3em 0;
 `;
-
 export const StarWrap = styled.div`
   cursor: pointer;
   display: flex;
-
   margin: 0 0.1em 0 0;
 `;
 export const FStar = styled(FaStar)`
@@ -633,13 +603,11 @@ export const EStar = styled(FaRegStar)`
   height: 1.4em;
   color: ${mainYellow};
 `;
-
 const CommentArea = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: flex-end;
-
   width: 100%;
   margin: 0;
   padding: 0;
@@ -647,13 +615,10 @@ const CommentArea = styled.div`
 const List = styled.div`
   display: flex;
   justify-content: flex-start;
-
   // max-width: 800px;
   width: 100%;
-
   margin: 0 0 1.2em 0;
 `;
-
 const WriteComment = styled.button`
   cursor: pointer;
   border: 0px;

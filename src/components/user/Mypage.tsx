@@ -112,7 +112,7 @@ export const Mypage = ({
           </Detail>
 
           <Detail6 key='pfDetail6'>
-            <Subtitle className='userMyReviews'>리뷰</Subtitle>
+            <Subtitle className='userMyReviews'>별점 & 리뷰</Subtitle>
             <Content>
               <MyReviews className='myReviews' onClick={() => getMyRates()}>
                 별점 준 맥주
