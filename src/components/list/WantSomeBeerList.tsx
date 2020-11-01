@@ -174,7 +174,6 @@ function WantSomeBeerList({
 const Container = styled.div`
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
 
   animation: fadein 3s;
   -moz-animation: fadein 3s; /* Firefox */
@@ -231,7 +230,6 @@ const Category = styled.li`
 const ListContainer = styled.div`
   // border: 1px solid ${mainYellow2};
   // border-radius: 8px;
-  box-shadow: 1px 1px 1px;
   height: 265px;
   width: 100%;
 `;
