@@ -50,8 +50,6 @@ const BeerImage = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 25vh;
-  width: 13vw;
-  max-width: 180px;
   text-align: center;
   box-shadow: 1px 1px;
   border-radius: 1em;
@@ -76,7 +74,7 @@ const BeerImage = styled.div`
 const ImageWrap = styled.div`
   display: flex;
   justify-content: center;
-
+  max-width: 180px;
   overflow: hidden;
   &:hover {
     transition: all ease 1s;
@@ -90,11 +88,6 @@ const Image = styled.img`
   align-items: center;
   height: 85%;
   padding: 0.3em 0 0.1em 0;
-  &:hover {
-    transition: all ease 1s;
-    transform: translateY(-5px);
-    cursor: pointer;
-  }
 `;
 const Middle = styled.div`
   display: flex;
