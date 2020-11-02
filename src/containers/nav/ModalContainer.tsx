@@ -180,6 +180,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
               userData: { ...userData, nickname: nickname },
             });
             // alert(`닉네임이 정상적으로 변경되었습니다.`);
+            setInputValues({ ...inputValues, nickname: '' });
             handleConfirmNickname(false);
             return closeModal();
           }
@@ -324,10 +325,12 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             user_rate: rate,
           });
         }
-        return alert(`${beerDetail.beer_name}에 ${rate}점을 주셨습니다. Biba!`);
+        alert(`${beerDetail.beer_name}에 ${rate}점을 주셨습니다. Biba!`);
+        return closeModal();
       })
       .catch(() => {
         alert(`별점 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+        return closeModal();
       });
   };
 
@@ -363,10 +366,12 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             user_rate: -1,
           });
         }
-        return alert(`별점 등록이 취소되었습니다.`);
+        alert(`별점 등록이 취소되었습니다.`);
+        return closeModal();
       })
       .catch(() => {
         alert(`별점 삭제에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
+        return closeModal();
       });
   };
 
@@ -398,6 +403,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
               user_input: inputValues.review,
               user_rate,
             });
+            setInputValues({ ...inputValues, review: '' });
             axios
               .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
               .then((res) => {
@@ -507,6 +513,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           })
           .then((res) => {
             if (res.status === 201) {
+              setInputValues({ ...inputValues, beerName: '', beerRequest: '' });
               alert(`맥주 추천이 완료되었습니다. Biba!`);
               return closeModal();
             } else {
@@ -527,6 +534,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           })
           .then((res) => {
             if (res.status === 201) {
+              setInputValues({ ...inputValues, beerName: '', beerRequest: '' });
               alert(`맥주 요청이 완료되었습니다. Biba!`);
               return closeModal();
             } else {
@@ -564,6 +572,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             <Input
               type='text'
               name='nickname'
+              value={inputValues.nickname}
               onChange={handleNicknameOnChange}
             ></Input>
             <NNCheckBtn
@@ -712,7 +721,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           <ReviewTextAreaWrap>
             <ReviewTextArea
               name='review'
-              defaultValue={user_review ? user_input : ''}
+              value={user_review ? user_input : inputValues.review}
               onChange={handleInputOnChange}
               maxLength={100}
               rows={4}
@@ -809,7 +818,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             <Subtitle className='subtitle'>맥주 이름</Subtitle>
             <RequestTitle
               name='beerName'
-              defaultValue=''
+              value={inputValues.beerName}
               onChange={handleInputOnChange}
               placeholder='맥주 이름을 작성해주세요.'
             />
@@ -818,7 +827,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             <Subtitle className='subtitle'>내용</Subtitle>
             <RequestBody
               name='beerRequest'
-              defaultValue=''
+              value={inputValues.beerRequest}
               onChange={handleInputOnChange}
               maxLength={100}
               rows={4}
