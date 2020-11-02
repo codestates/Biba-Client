@@ -50,7 +50,7 @@ export const Nav = ({
               <>
                 <SearchIcon
                   className='searchIcon'
-                  style={{ cursor: 'default' }}
+                  style={{ cursor: 'default', width: '1.5em' }}
                 />
                 <SearchInputWrap className='searchInputWrap'>
                   <Input
