@@ -180,7 +180,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
 
   const handleGoogleLogin = () => {
     axios
-      .get('https://beer4.xyz/auth/google')
+      .get('http://localhost:4000/auth/google')
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
   };
