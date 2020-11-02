@@ -81,7 +81,7 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
     axios
       .get(`https://beer4.xyz/users/logout`, { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           dispatch({ type: 'DELETE_PROFILE' });
           dispatch({ type: 'SET_LOGOUTSTATE' });
@@ -161,7 +161,7 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
   };
   const handleCount = (): void => {
     axios.get(`https://beer4.xyz/count`).then((res) => {
-      console.log(res);
+      // console.log(res);
       const currentCount = res.data.totalVisits;
       dispatch({ type: 'SET_VISITCOUNT', count: currentCount });
     });

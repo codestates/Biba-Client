@@ -70,7 +70,7 @@ function HomeContainer({
       tabStory: false,
       tabMore: false,
     });
-    console.log('test');
+    // console.log('test');
     dispatch({
       type: 'SET_INFODISPLAY',
       disBasic: true,
@@ -92,7 +92,7 @@ function HomeContainer({
         },
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         const beerDetail: IBeerDetail = res.data;
         dispatch({ type: 'SET_BEERDETAIL', beerDetail: beerDetail }); // store에 detail 전달
         const { bookmark } = res.data;
@@ -177,7 +177,7 @@ function HomeContainer({
     axios
       .get<aReview[]>(`https://beer4.xyz/comment/${e.currentTarget.id}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         const rawReviews = res.data;
         const allReviews = rawReviews.filter((ele) => {
           if (ele.comment !== '') return ele;

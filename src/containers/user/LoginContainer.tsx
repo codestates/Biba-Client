@@ -78,7 +78,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
         if (res.status === 200) {
           const { id, nickname, email } = res.data.userData;
           const { token, profile } = res.data;
-          console.log(res.headers);
+          // console.log(res.headers);
           // 받은 데이터로 store 상태 업데이트
           setLogin({ id: id, nickname: nickname, email: email }, true, token);
           setProfile(profile);
@@ -103,7 +103,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
                 },
               )
               .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 const beerDetail: IBeerDetail = res.data;
                 dispatch({ type: 'SET_BEERDETAIL', beerDetail: beerDetail }); // store에 detail 전달
                 const { bookmark } = res.data;
@@ -179,10 +179,9 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   };
 
   const handleGoogleLogin = () => {
-    axios
-      .get('https://beer4.xyz/auth/google')
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e));
+    axios.get('https://beer4.xyz/auth/google');
+    // .then((res) => console.log(res))
+    // .catch((e) => console.log(e));
   };
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {

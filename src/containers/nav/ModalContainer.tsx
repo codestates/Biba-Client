@@ -272,7 +272,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           beer_id: selectedBeerId,
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           const compareBeer: IBeerDetail = res.data;
           dispatch({
             type: 'SET_COMPAREBEER',
@@ -304,7 +304,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       return;
     }
     const { a, b, c, d, e } = checkStarScore(Number(star.currentTarget.id)); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
-    console.log(Number(star.currentTarget.id));
+    // console.log(Number(star.currentTarget.id));
     const rate = Number(star.currentTarget.id);
     axios
       .post(`https://beer4.xyz/comment/update`, {
@@ -314,7 +314,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         rate: rate,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 201) {
           dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
           dispatch({
@@ -348,7 +348,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
         rate: 0,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 201) {
           dispatch({
             type: 'SET_STARSTATUS',
@@ -433,7 +433,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           token: token,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status === 201) {
             dispatch({
               type: 'DELETE_USERREVIEW',
@@ -502,7 +502,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     handleRequestType(false, true);
   };
   const handleClickSubmitRequest = (): void => {
-    console.log(inputValues, request1, request2);
+    // console.log(inputValues, request1, request2);
     if (inputValues.beerName !== '' && inputValues.beerRequest !== '') {
       if (request1) {
         axios
