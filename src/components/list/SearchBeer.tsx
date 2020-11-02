@@ -50,12 +50,13 @@ const BeerImage = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 25vh;
-  width: 11vw;
+  width: 13vw;
+  max-width: 180px;
   text-align: center;
   box-shadow: 1px 1px;
   border-radius: 1em;
   margin: 1em auto;
-  padding: 1em;
+  padding: 1em 0.5em 1.5em 0.5em;
   &:hover {
     animation: fadein 2s;
     cursor: pointer;
@@ -81,7 +82,7 @@ const ImageWrap = styled.div`
     transition: all ease 1s;
     transform: translateY(-30px);
   }
-  padding: 0.5em 0 0 0;
+  padding: 0.6em 0 0 0;
 `;
 const Image = styled.img`
   display: flex;
@@ -102,8 +103,9 @@ const Middle = styled.div`
   align-items: center;
 `;
 const Bottom = styled.div`
-  height: 1.5em;
-  min-height: 1.5em;
+  height: 1.2em;
+  min-height: 1.2em;
+  margin: 0.2em 0 0 0;
 `;
 
 const Text = styled.div`
