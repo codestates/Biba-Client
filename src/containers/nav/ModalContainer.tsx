@@ -325,8 +325,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             user_rate: rate,
           });
         }
-        alert(`${beerDetail.beer_name}에 ${rate}점을 주셨습니다. Biba!`);
-        return closeModal();
+        return alert(`${beerDetail.beer_name}에 ${rate}점을 주셨습니다. Biba!`);
+        // return closeModal();
       })
       .catch(() => {
         alert(`별점 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
@@ -383,7 +383,8 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
       handleModal(ContentType.Login, true);
       return;
     } else if (inputValues.review === '') {
-      alert(`리뷰 내용을 작성해주세요.`);
+      // alert(`리뷰 내용을 작성해주세요.`);
+      closeModal();
     } else if (!user_star) {
       alert(`별점을 먼저 등록해주세요.`);
     } else {
@@ -572,7 +573,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             <Input
               type='text'
               name='nickname'
-              value={inputValues.nickname}
+              defaultValue={inputValues.nickname}
               onChange={handleNicknameOnChange}
             ></Input>
             <NNCheckBtn
@@ -721,7 +722,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
           <ReviewTextAreaWrap>
             <ReviewTextArea
               name='review'
-              value={user_review ? user_input : inputValues.review}
+              defaultValue={user_review ? user_input : inputValues.review}
               onChange={handleInputOnChange}
               maxLength={100}
               rows={4}
@@ -818,7 +819,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             <Subtitle className='subtitle'>맥주 이름</Subtitle>
             <RequestTitle
               name='beerName'
-              value={inputValues.beerName}
+              defaultValue={inputValues.beerName}
               onChange={handleInputOnChange}
               placeholder='맥주 이름을 작성해주세요.'
             />
@@ -827,7 +828,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
             <Subtitle className='subtitle'>내용</Subtitle>
             <RequestBody
               name='beerRequest'
-              value={inputValues.beerRequest}
+              defaultValue={inputValues.beerRequest}
               onChange={handleInputOnChange}
               maxLength={100}
               rows={4}

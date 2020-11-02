@@ -102,9 +102,9 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
             type: 'SET_COMPAREBEER',
             compareBeer: compareBeerInit.compareBeer,
           });
-          // handleClickTodayBeer();
-          // handleNavDisplay(true);
-          // props.history.push('/');
+          handleClickTodayBeer();
+          handleNavDisplay(true);
+          props.history.push('/');
         }
       });
   };
