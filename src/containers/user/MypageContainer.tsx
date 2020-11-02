@@ -100,11 +100,6 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       passwordCheck(newPassword) &&
       passwordMatch(newPassword, passwordForCheck)
     ) {
-      console.log({
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-        token: token,
-      });
       axios
         .post(`https://beer4.xyz/users/changepassword`, {
           currentPassword: currentPassword,
@@ -112,7 +107,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
           token: token,
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           // 200일 경우 vs 200 아닐 경우 분기
           if (res.status === 200) {
             setInputValues({
@@ -185,7 +180,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       .post(`https://beer4.xyz/users/profile`, formData)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
+          // console.log(res);
           const { profile } = res.data;
           dispatch({ type: 'SET_PROFILE', profile });
           dispatch({ type: 'REF_DISPLAY', display: false });
@@ -203,7 +198,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
   const handleChangeProfile = (): void => {
     // console.log('::::: change :::::', formData.getAll('image'));
     if (formData.get('image') === null) {
-      console.log(formData.getAll('image'));
+      // console.log(formData.getAll('image'));
       return alert(`먼저 사진을 업로드해주세요.`);
     }
     axios
@@ -211,10 +206,10 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
         nickname: userData.nickname,
       })
       .then((res) => {
-        console.log(formData.getAll('image'));
+        // console.log(formData.getAll('image'));
 
         if (res.status === 200) {
-          console.log(res);
+          // console.log(res);
 
           axios
             .post(`https://beer4.xyz/users/profile`, formData)
@@ -249,7 +244,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
+          // console.log(res);
           const { current } = profileInput as React.RefObject<IProfile>;
           if (current) {
             current.src = null;

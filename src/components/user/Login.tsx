@@ -59,10 +59,10 @@ export const Login = ({
           <SmallBtn className='loginBtn' onClick={handleLogin}>
             로그인
           </SmallBtn>
-          <LongBtn className='googleLoginBtn' onClick={handleGoogleLogin}>
+          {/* <LongBtn className='googleLoginBtn' onClick={handleGoogleLogin}>
             구글 로그인
           </LongBtn>
-          <LongBtn className='kakaoLoginBtn'>카카오 로그인</LongBtn>
+          <LongBtn className='kakaoLoginBtn'>카카오 로그인</LongBtn> */}
           <Redirect className='signupBtn' onClick={redirectToSignup}>
             Biba 가입하러 가기
           </Redirect>
@@ -98,7 +98,7 @@ const LoginArea = styled.div`
   border-radius: 8px;
 
   margin: 3em 0 4em 0;
-  padding: 2em 0 2.5em 0;
+  padding: 1.8em 0 2.6em 0;
 
   // background-color: ${mainYellowOpac};
 `;
@@ -159,8 +159,8 @@ const SmallBtn = styled.button`
   border: 0.5px solid white;
   border-radius: 8px;
 
-  margin: 0.15em 0 1em 0;
-  padding: 0.525em 0.6em 0.425em 0.6em;
+  margin: 0.8em 0 0 0;
+  padding: 0.6em 0.6em 0.55em 0.6em;
 
   font-size: 1em;
   // font-weight: 300;
@@ -214,7 +214,7 @@ const Redirect = styled.div`
   display: flex;
   align-self: center;
 
-  margin: 1.5em 0 0 0;
+  margin: 1.8em 0 0 0;
 
   text-decoration: underline;
   font-size: 1.05em;

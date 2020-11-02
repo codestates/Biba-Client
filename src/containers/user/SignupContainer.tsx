@@ -180,7 +180,7 @@ const SignupContainer = ({
   };
 
   const handleClickGoogleSignup = (): void => {
-    axios.get('https://beer4.xyz/auth/google').then((res) => console.log(res));
+    // axios.get('https://beer4.xyz/auth/google').then((res) => console.log(res));
   };
 
   const inputList: string[][] = [

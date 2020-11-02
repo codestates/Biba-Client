@@ -48,7 +48,7 @@ export const Signup = ({
             Biba! 회원가입
           </SignupBtn>
         </InputArea>
-        <BtnArea className='btnArea'>
+        {/* <BtnArea className='btnArea'>
           <SocialBtn
             className='googleSignupBtn'
             onClick={handleClickGoogleSignup}
@@ -58,7 +58,7 @@ export const Signup = ({
           <SocialBtn className='kakaoSignupBtn'>
             카카오 아이디로 회원가입
           </SocialBtn>
-        </BtnArea>
+        </BtnArea> */}
       </SignupArea>
     </Container>
   );
@@ -76,13 +76,13 @@ const SignupArea = styled.div`
   justify-content: center;
 
   width: 500px;
-  height: 520px;
+  height: 460px;
 
   border: 2px solid ${mainYellowOpac};
   border-radius: 8px;
 
   margin: 1.5em 0 4em 0;
-  padding: 2em 0 2.5em 0;
+  padding: 1.8em 0 2.3em 0;
 
   // background-color: ${mainYellowOpac};
 `;
@@ -102,7 +102,7 @@ const InputArea = styled.div`
   flex-wrap: wrap;
   flex-direction: column;
 
-  margin: 0.5em 0 0.5em 0;
+  margin: 0.8em 0 0.5em 0;
 `;
 
 export const InputWithCheck = styled.div`
@@ -117,7 +117,7 @@ export const Input = styled.input`
   border-radius: 8px;
   width: 15em;
 
-  margin: 0 0.6em 0.5em 0.6em;
+  margin: 0 0.6em 0.6em 0.6em;
   padding: 0.4em 0.5em 0.3em 0.5em;
 
   font-size: 0.95em;
@@ -191,8 +191,8 @@ const SignupBtn = styled.button`
   border: 0.5px solid white;
   border-radius: 8px;
 
-  margin: 0.7em 0 0 0;
-  padding: 0.525em 0.6em 0.425em 0.6em;
+  margin: 0.6em 0 0 0;
+  padding: 0.7em 0.6em 0.65em 0.6em;
 
   font-size: 1em;
   // font-weight: 300;

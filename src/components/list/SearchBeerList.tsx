@@ -40,7 +40,7 @@ function SearchBeerList({
     800: 2,
     500: 1,
   };
-  console.log(sbList);
+  // console.log(sbList);
   return (
     <>
       {exist ? (

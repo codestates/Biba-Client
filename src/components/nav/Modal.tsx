@@ -163,7 +163,7 @@ const SmallContentArea = styled(ContentArea)`
   width: 560px;
   min-width: 560px;
   max-width: 560px;
-  overflow-y: hidden;
+  overflow-y: auto;
 `;
 
 const TitleWrap = styled.div`
