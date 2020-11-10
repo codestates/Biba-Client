@@ -101,6 +101,11 @@ const LoginArea = styled.div`
   padding: 1.8em 0 2.6em 0;
 
   // background-color: ${mainYellowOpac};
+  @media (max-width: 768px) {
+    width: 70vw;
+    border: 0;
+    margin: 2em 0 0 0;
+  }
 `;
 
 const ModalLoginArea = styled(LoginArea)`
@@ -115,6 +120,10 @@ const Title = styled.div`
   margin: 0.5em 0 0.5em 0;
   font-size: 1.7em;
   font-weight: bold;
+  color: ${mainGrey};
+  @media (max-width: 768px) {
+    font-size: 1.5em;
+  }
 `;
 
 const InputArea = styled.div`
@@ -140,6 +149,9 @@ const Input = styled.input`
   background-color: ${lightGrey1};
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    font-size: 0.9em;
   }
 `;
 
@@ -225,5 +237,8 @@ const Redirect = styled.div`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    font-size: 0.95em;
   }
 `;

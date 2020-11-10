@@ -62,20 +62,6 @@ export const App = ({
   );
 };
 
-const Outer = styled.div`
-  @media all and (max-width: 1610px) {
-    color: #656565;
-    width: 1600px;
-  }
-  margin: 0 auto;
-
-  @media all and (min-width: 1025px) {
-    color: #656565;
-    width: 100%;
-  }
-  margin: 0 auto;
-`;
-
 const Container = styled.div`
   display: grid;
   width: 100%;
@@ -87,7 +73,7 @@ const Container = styled.div`
     '. Main .'
     '. Footer .'
     '. . .';
-`; // 내용 1320 여백 합쳐서 맥스 1920 그 이후로는 좌우 여백만 늘어나는 걸로
+`;
 
 const Nav = styled.div`
   grid-area: Nav;
@@ -109,7 +95,7 @@ const Side = styled.div`
 
   @media (max-width: 768px) {
     display: none;
-  } ;
+  }
 `;
 
 const Full = styled.div`
@@ -167,7 +153,7 @@ const Half = styled.div`
     grid-area: Main;
     grid-column: 1 / 3;
     margin: 0 0 9em 0;
-  } ;
+  }
 `;
 
 const Footer = styled.div`

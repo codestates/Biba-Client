@@ -2,7 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
 import { GiClick } from 'react-icons/gi';
+import { CgClose } from 'react-icons/cg';
+import { BiBeer } from 'react-icons/bi';
 
+import { LoginContainerWithRouter } from '../../containers/user/LoginContainer';
 import { NavProps } from '../../containers/nav/NavContainer';
 import {
   mainYellow,
@@ -15,7 +18,8 @@ import {
   btnOffText,
   pDefault,
 } from '../../components/nav/color';
-import { PIcon } from '../../containers/nav/ModalContainer';
+import { Nickname, PIcon } from '../../containers/nav/ModalContainer';
+import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 
 export const Nav = ({
   userData,
@@ -31,6 +35,8 @@ export const Nav = ({
   searchbarDisplay,
   handleClickIcon,
   handleSearch,
+  menuDisplay,
+  handleClickHiddenMenu,
   pressEnter,
 }: NavProps): JSX.Element => {
   return (
@@ -118,6 +124,48 @@ export const Nav = ({
               </NicknameProfile>
             ) : undefined}
           </BtnArea>
+          <MenuIconWrap>
+            <Hamberger onClick={() => handleClickHiddenMenu(!menuDisplay)} />
+          </MenuIconWrap>
+          <ModalMask
+            className='modalMask'
+            onClick={() => handleClickHiddenMenu(false)}
+            style={
+              menuDisplay
+                ? {
+                    opacity: 1,
+                    visibility: 'visible',
+                    transition: 'visibility 0.7s linear, opacity 0.7s linear',
+                  }
+                : {
+                    opacity: 0,
+                    visibility: 'hidden',
+                    transition: 'visibility 0.7s linear, opacity 0.7s linear',
+                  }
+            }
+          ></ModalMask>
+          <SideNav style={menuDisplay ? { right: '0' } : { right: '-100%' }}>
+            <CloseBtn onClick={() => handleClickHiddenMenu(false)} />
+            {isLogin ? (
+              <SideNavUserInfo>
+                <SideNavProfileWrap>
+                  {profile === '' || profile === undefined ? (
+                    <NavPIcon2 />
+                  ) : (
+                    <SideNavProfile src={profile} />
+                  )}
+                </SideNavProfileWrap>
+                <InfoText>
+                  <SideNickname>
+                    <BeerIcon />
+                    {userData.nickname}
+                  </SideNickname>
+                </InfoText>
+              </SideNavUserInfo>
+            ) : (
+              <LoginContainerWithRouter />
+            )}
+          </SideNav>
         </Wrap>
       </NavBar>
     </Container>
@@ -153,8 +201,10 @@ const LogoWrap = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  width: 10vw;
+  height: 10vw;
 
   border-radius: 50%;
   overflow: hidden;
@@ -289,7 +339,9 @@ const BtnArea = styled.div`
 
   width: auto;
   height: 3em;
-  // border: 1px solid black;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const NavBtn = styled.button`
@@ -338,4 +390,112 @@ const SmallProfile = styled.img`
   // max-height: 100vh;
   // max-width: 100vh;
   object-fit: contain;
+`;
+const MenuIconWrap = styled.div``;
+const Hamberger = styled(HiOutlineMenuAlt3)`
+  @media (max-width: 768px) {
+    display: flex;
+    width: 1.5em;
+    height: 1.5em;
+    color: purple;
+  }
+  display: none;
+`;
+const ModalMask = styled.div`
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
+const CloseBtn = styled(CgClose)`
+  display: flex;
+  width: 2em;
+  height: 2em;
+
+  &:hover {
+    cursor: pointer;
+    color: #989898;
+    text-decoration: none;
+  }
+  color: ${mainGrey};
+`;
+const SideNav = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: -100%;
+    overflow-x: hidden;
+    overflow: hidden;
+    height: 100vh;
+    // width: 80vw;
+    width: 320px;
+
+    background-color: white;
+    box-shadow: -5px 0 1em rgba(0, 0, 0, 0.1);
+    // visibility: visible;
+    transition: right 0.7s ease-in;
+  }
+`;
+const NavPIcon2 = styled(PIcon)`
+  width: 35px;
+  height: 35px;
+  margin: 0 0 0.2em -0.5em;
+  padding: 0;
+`;
+const SideNavUserInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2em 0 0 0.5em;
+
+  color: ${mainGrey};
+`;
+const SideNavProfileWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 6em;
+  height: 6em;
+  // border: 2px solid ${mainYellow};
+  border-radius: 50%;
+  overflow: hidden;
+`;
+const SideNavProfile = styled.img`
+  height: 150%;
+  width: 150%;
+  // max-height: 100vh;
+  // max-width: 100vh;
+  object-fit: contain;
+`;
+const InfoText = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  margin: 0.8em 0 0 0;
+`;
+const SideNickname = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.1em;
+`;
+const BeerIcon = styled(BiBeer)`
+  width: 1.2em;
+  height: 1.2em;
+  margin: 0 0.3em 0.1em 0;
+  color: ${mainYellowOpac};
 `;
