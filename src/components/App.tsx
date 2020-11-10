@@ -22,56 +22,56 @@ export const App = ({
   whiteList,
 }: AppProps): JSX.Element => {
   return (
-    <Outer className='outer'>
-      <Container className='appContainer'>
-        <Nav>
-          <Route component={NavContainerWithRouter} />
-          <Route component={ModalContainerWithRouter} />
-        </Nav>
-        <Main>
-          <Side>
-            <Route component={BeerListNavContainerWithRouter} />
-          </Side>
-          <Full>
-            <Switch>
-              <Route path='/login' component={LoginContainerWithRouter} />
-              <Route path='/signup' component={SignupContainerWithRouter} />
-              {isLogin ? (
-                <Route path='/mypage' component={MypageContainerWithRouter} />
-              ) : (
-                <Redirect exact to='/' />
-              )}
-            </Switch>
-          </Full>
-          <Half>
-            <Switch>
-              <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
-              <Route exact path='/' component={HomeContainerWithRouter} />
-            </Switch>
-            {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (
-              // || location.pathname.split('/').length !== 2 ? ( // 최종 때는 활성화?
-              <Redirect to='/' path='*' />
+    <Container className='appContainer'>
+      <Nav>
+        <Route component={NavContainerWithRouter} />
+        <Route component={ModalContainerWithRouter} />
+      </Nav>
+      <Main className='main'>
+        <Side>
+          <Route component={BeerListNavContainerWithRouter} />
+        </Side>
+        <Full>
+          <Switch>
+            <Route path='/login' component={LoginContainerWithRouter} />
+            <Route path='/signup' component={SignupContainerWithRouter} />
+            {isLogin ? (
+              <Route path='/mypage' component={MypageContainerWithRouter} />
             ) : (
-              false
+              <Redirect exact to='/' />
             )}
-          </Half>
-        </Main>
-        <Footer>
-          <Route component={FooterContainerithRouter} />
-        </Footer>
-      </Container>
-    </Outer>
+          </Switch>
+        </Full>
+        <Half>
+          <Switch>
+            <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
+            <Route exact path='/' component={HomeContainerWithRouter} />
+          </Switch>
+          {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (
+            // || location.pathname.split('/').length !== 2 ? ( // 최종 때는 활성화?
+            <Redirect to='/' path='*' />
+          ) : (
+            false
+          )}
+        </Half>
+      </Main>
+      <Footer>
+        <Route component={FooterContainerithRouter} />
+      </Footer>
+    </Container>
   );
 };
 
 const Outer = styled.div`
-  @media (max-width: 1320px) {
+  @media all and (max-width: 1610px) {
     color: #656565;
-    width: 1320px;
+    width: 1600px;
   }
-  @media (min-width: 1920px) {
+  margin: 0 auto;
+
+  @media all and (min-width: 1025px) {
     color: #656565;
-    width: 1920px;
+    width: 100%;
   }
   margin: 0 auto;
 `;
@@ -106,6 +106,10 @@ const Main = styled.div`
 const Side = styled.div`
   grid-area: Main;
   grid-column: 1 / 2;
+
+  @media (max-width: 768px) {
+    display: none;
+  } ;
 `;
 
 const Full = styled.div`
@@ -158,6 +162,12 @@ const Half = styled.div`
       opacity: 1;
     }
   }
+
+  @media (max-width: 768px) {
+    grid-area: Main;
+    grid-column: 1 / 3;
+    margin: 0 0 9em 0;
+  } ;
 `;
 
 const Footer = styled.div`
