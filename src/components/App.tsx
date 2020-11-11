@@ -54,6 +54,9 @@ export const App = ({
             false
           )}
         </Half>
+        <Float>
+          <Route component={BeerListNavContainerWithRouter} />
+        </Float>
       </Main>
       <Footer>
         <Route component={FooterContainerithRouter} />
@@ -61,20 +64,6 @@ export const App = ({
     </Container>
   );
 };
-
-const Outer = styled.div`
-  @media all and (max-width: 1610px) {
-    color: #656565;
-    width: 1600px;
-  }
-  margin: 0 auto;
-
-  @media all and (min-width: 1025px) {
-    color: #656565;
-    width: 100%;
-  }
-  margin: 0 auto;
-`;
 
 const Container = styled.div`
   display: grid;
@@ -110,6 +99,25 @@ const Side = styled.div`
   @media (max-width: 768px) {
     display: none;
   } ;
+`;
+
+const Float = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    height: 8vh;
+    width: 50%;
+    z-index: 1;
+    border-radius: 50px;
+    background-color: white;
+    box-shadow: 0.5px 0.5px 1px 1px rgba(50, 50, 50, 0.3);
+    bottom: 5vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
 `;
 
 const Full = styled.div`
