@@ -42,6 +42,16 @@ const Item = styled.img`
     transform: scale(1.1);
     cursor: pointer;
   }
+
+  @media (max-width: 414px) {
+    width: 140px;
+    margin-left: 20px;
+  }
+
+  @media (max-width: 360px) {
+    width: 120px;
+    margin-left: 20px;
+  }
 `;
 
 // const BeerImage = styled.div`

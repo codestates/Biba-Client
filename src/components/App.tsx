@@ -118,6 +118,21 @@ const Float = styled.div`
     left: 0;
     right: 0;
   }
+
+  @media (max-width: 414px) {
+    display: block;
+    position: fixed;
+    height: 8vh;
+    width: 65%;
+    z-index: 1;
+    border-radius: 50px;
+    background-color: white;
+    box-shadow: 0.5px 0.5px 1px 1px rgba(50, 50, 50, 0.3);
+    bottom: 5vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
 `;
 
 const Full = styled.div`
