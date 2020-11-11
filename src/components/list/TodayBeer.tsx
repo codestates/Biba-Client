@@ -36,6 +36,7 @@ const Item = styled.img`
   width: 200px;
   border-radius: 10px;
   margin-bottom: 10px;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px lightgray;
   &:hover {
     transition: all ease 1s;
     transform: scale(1.1);

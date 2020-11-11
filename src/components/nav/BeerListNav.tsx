@@ -11,12 +11,14 @@ import {
   lightGrey1,
   lightGrey2,
 } from '../../components/nav/color';
+import { BiBeer } from 'react-icons/bi';
+import { MdFavorite, MdRateReview } from 'react-icons/md';
+import { IoMdList } from 'react-icons/io';
 
 function BeerListNav({
   isLogin,
   handleClickTodayBeer,
   handleClickWantSomeBeer,
-
   handleClickFavorite,
   handleClickReview,
   display,
@@ -24,6 +26,8 @@ function BeerListNav({
   redirectLogin,
   handleClickGuest,
 }: BeerListNavProps): JSX.Element {
+  const isToday = useSelector((state: RootState) => state.changePage.isToday);
+  const isWant = useSelector((state: RootState) => state.changePage.isWant);
   const isFavorite = useSelector(
     (state: RootState) => state.changePage.isFavorite,
   );
@@ -39,7 +43,11 @@ function BeerListNav({
           }}
         >
           <TH>
-            <Span>Today&apos;s Beer</Span>
+            {isToday ? (
+              <SubSpanActive>Today&apos;s Beer</SubSpanActive>
+            ) : (
+              <Span>Today&apos;s Beer</Span>
+            )}
           </TH>
         </ListBtn>
         <ListBtn
@@ -49,7 +57,11 @@ function BeerListNav({
           }}
         >
           <TH>
-            <Span>Want Some Beer?</Span>
+            {isWant ? (
+              <SubSpanActive>Want Some Beer?</SubSpanActive>
+            ) : (
+              <Span>Want Some Beer?</Span>
+            )}
           </TH>
         </ListBtn>
         {isLogin ? (
@@ -113,6 +125,61 @@ function BeerListNav({
           </ListBtn>
         )}
       </UL>
+      <FNav className='fnav'>
+        <NavBtn
+          onClick={() => {
+            redirectHome();
+            handleClickTodayBeer();
+          }}
+        >
+          {isToday ? <BeerActive /> : <BiBeer />}
+        </NavBtn>
+        <NavBtn
+          onClick={() => {
+            redirectHome();
+            handleClickWantSomeBeer();
+          }}
+        >
+          {isWant ? <WantActive /> : <IoMdList />}
+        </NavBtn>
+        {isLogin ? (
+          <>
+            <NavBtn
+              onClick={() => {
+                redirectHome();
+                handleClickFavorite();
+              }}
+            >
+              {isFavorite ? <FavoriteActive /> : <MdFavorite />}
+            </NavBtn>
+            <NavBtn
+              onClick={() => {
+                redirectHome();
+                handleClickReview();
+              }}
+            >
+              {isReview ? <ReviewActive /> : <MdRateReview />}
+            </NavBtn>
+          </>
+        ) : (
+          <>
+            <NavBtn
+              onClick={() => {
+                handleClickGuest();
+              }}
+            >
+              <MdFavorite />
+            </NavBtn>
+            <NavBtn
+              onClick={() => {
+                handleClickGuest();
+              }}
+            >
+              <MdRateReview />
+            </NavBtn>
+          </>
+        )}
+      </FNav>
     </ListNav>
   );
 }
@@ -124,11 +191,19 @@ const ListNav = styled.div`
   margin-top: 1rem;
   padding: 0.5rem;
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 `;
 
 const UL = styled.div`
   list-style: none;
   padding: 0.3rem 0 0 0;
+
+  @media (max-width: 768px) {
+    display: none;
+  } ;
 `;
 
 const ListBtn = styled.li`
@@ -172,4 +247,35 @@ const SubLiBtn = styled.li`
   margin: 0;
 `;
 
+const FNav = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-around;
+    algin-items: center;
+    padding-top: 10px;
+  } ;
+`;
+
+const NavBtn = styled.div`
+  font-size: 1.8em;
+  color: rgba(50, 50, 50, 0.5);
+`;
+
+const BeerActive = styled(BiBeer)`
+  color: black;
+`;
+
+const WantActive = styled(IoMdList)`
+  color: black;
+`;
+
+const FavoriteActive = styled(MdFavorite)`
+  color: black;
+`;
+
+const ReviewActive = styled(MdRateReview)`
+  color: black;
+`;
 export default BeerListNav;
