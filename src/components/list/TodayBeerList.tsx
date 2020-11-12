@@ -28,7 +28,6 @@ function TodayBeerList({
     1660: 4,
     1310: 3,
     1025: 2,
-    700: 1,
   };
 
   return (
