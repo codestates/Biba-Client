@@ -20,7 +20,7 @@ import {
   btnOffText,
   pDefault,
 } from '../../components/nav/color';
-import { Nickname, PIcon } from '../../containers/nav/ModalContainer';
+import { Nickname, PIcon } from '../../containers/modal/ModalContainer';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 
 export const Nav = ({
@@ -58,12 +58,12 @@ export const Nav = ({
               <>
                 <SearchIcon
                   className='searchIcon'
-                  style={{ cursor: 'default', width: '1.5em' }}
+                  style={{ cursor: 'default' }}
                 />
                 <SearchInputWrap className='searchInputWrap'>
                   <Input
                     type='text'
-                    placeholder='맥주 이름을 입력해주세요.'
+                    placeholder='검색어를 입력해주세요.'
                     value={inputQuery.query}
                     onChange={handleOnChange}
                     onKeyPress={pressEnter}
@@ -76,6 +76,7 @@ export const Nav = ({
                 <IconWrap>
                   <SearchIcon
                     className='searchIcon'
+                    style={{ cursor: 'default', width: '3em' }}
                     onClick={() => {
                       handleClickIcon(!searchbarDisplay);
                     }}
@@ -88,7 +89,7 @@ export const Nav = ({
                   <SearchInputWrap className='searchInputWrap'>
                     <Input
                       type='text'
-                      placeholder='맥주 이름을 입력해주세요.'
+                      placeholder='검색어를 입력해주세요.'
                       value={inputQuery.query}
                       onChange={handleOnChange}
                       onKeyPress={pressEnter}
@@ -101,6 +102,22 @@ export const Nav = ({
               </>
             )}
           </SearchbarArea>
+          <SearchbarArea2 className='searchbarArea2'>
+            <SearchInputWrap className='searchInputWrap'>
+              <SearchIcon
+                className='searchIcon'
+                style={{ cursor: 'default' }}
+              />
+              <Input
+                type='text'
+                placeholder='검색어를 입력해주세요.'
+                value={inputQuery.query}
+                onChange={handleOnChange}
+                onKeyPress={pressEnter}
+              ></Input>
+              <SearchBtn onClick={handleSearch}>GO</SearchBtn>
+            </SearchInputWrap>
+          </SearchbarArea2>
           <BtnArea className='btnArea'>
             <NavBtn
               onClick={() => {
@@ -126,6 +143,7 @@ export const Nav = ({
               </NicknameProfile>
             ) : undefined}
           </BtnArea>
+
           <MenuIconWrap>
             <Hamberger onClick={() => handleClickHiddenMenu(!menuDisplay)} />
           </MenuIconWrap>
@@ -184,7 +202,7 @@ export const Nav = ({
               <LoginContainerWithRouter />
             )}
             <SideFooter
-              style={menuDisplay ? { right: '30px' } : { right: '-100%' }}
+              style={menuDisplay ? { right: '25px' } : { right: '-100%' }}
             >
               <FooterContainerithRouter />
             </SideFooter>
@@ -211,6 +229,9 @@ const NavBar = styled.div`
   padding: 0.3em 0.7em 0.3em 0.3em;
 
   color: #fff;
+  @media (max-width: 768px) {
+    padding: 0.3em 0 0 0;
+  }
 `;
 
 const Wrap = styled.div`
@@ -232,6 +253,16 @@ const LogoWrap = styled.div`
   border-radius: 50%;
   overflow: hidden;
   margin: 0 0 0 1.5em;
+  @media (max-width: 768px) {
+    margin: 0 0 0 0.8em;
+    min-width: 45px;
+    min-height: 45px;
+  }
+  @media (max-width: 375px) {
+    margin: 0 0 0 0.6em;
+    min-width: 30px;
+    min-height: 30px;
+  }
 `;
 const Logo = styled.img`
   cursor: pointer;
@@ -242,6 +273,15 @@ const Logo = styled.img`
   width: 100%;
   object-fit: contain;
   // margin: 0 -0.5em 0 -0.5em;
+`;
+const SearchbarArea2 = styled.div`
+  display: none;
+
+  @media (max-width: 1080px) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
 `;
 
 const SearchbarArea = styled.div`
@@ -257,6 +297,9 @@ const SearchbarArea = styled.div`
   margin: 0 0.5em 0.1em 0;
   padding: 0.5em 0.8em 0.5em 0.8em;
   // background-color: ${mainYellowOpac};
+  @media (max-width: 1080px) {
+    display: none;
+  }
 `;
 
 const IconWrap = styled.div`
@@ -298,9 +341,16 @@ const SearchIcon = styled(BiSearchAlt)`
   display: flex;
   z-index: 1;
 
-  width: 3em;
+  width: 1.5em;
   height: 1.5em;
   color: #545454;
+  @media (max-width: 414px) {
+    width: 1.2em;
+    height: 1.2em;
+  }
+  @media (max-width: 375px) {
+    display: none;
+  }
 `;
 const SearchInputWrap = styled.div`
   display: flex;
@@ -320,6 +370,7 @@ const Input = styled.input`
   display: flex;
 
   width: 16vw;
+  min-width: 260px;
   border: 0px solid ${mainYellow};
   border-radius: 8px;
   margin: 0 0.8em 0 0.6em;
@@ -329,6 +380,24 @@ const Input = styled.input`
   background-color: ${lightGrey1};
   &:focus {
     outline: none;
+  }
+  @media (max-width: 1080px) {
+    width: 200px;
+    height: 2em;
+    min-width: 200px;
+    margin: 0 0.3em 0 0.4em;
+    font-size: 0.95em;
+  }
+  @media (max-width: 414px) {
+    height: 2.2em;
+    margin: 0 -2.2em 0 0.3em;
+  }
+  @media (max-width: 360px) {
+    width: 180px;
+    min-width: 180px;
+    height: 2.1em;
+    margin: 0 -2.4em 0 0.3em;
+    font-size: 0.9em;
   }
 `;
 
@@ -352,6 +421,19 @@ const SearchBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 1080px) {
+    margin: 0 1em 0.05em 0.05em;
+    padding: 0.375em 0.5em 0.3em 0.5em;
+  }
+  @media (max-width: 414px) {
+    margin: 0 0.8em 0.05em 0;
+    padding: 0.4em 0.5em 0.3em 0.5em;
+
+    font-size: 0.8em;
+  }
+  @media (max-width: 360px) {
+    padding: 0.3em 0.4em 0.2em 0.4em;
+  }
 `;
 
 const BtnArea = styled.div`
@@ -362,7 +444,7 @@ const BtnArea = styled.div`
 
   width: auto;
   height: 3em;
-  @media (max-width: 768px) {
+  @media (max-width: 1080px) {
     display: none;
   }
 `;
@@ -416,17 +498,24 @@ const SmallProfile = styled.img`
 `;
 const MenuIconWrap = styled.div``;
 const Hamberger = styled(HiOutlineMenuAlt3)`
-  @media (max-width: 768px) {
+  display: none;
+  @media (max-width: 1080px) {
     display: flex;
     width: 1.5em;
     height: 1.5em;
-    color: purple;
+    margin: 0 0.4em 0 0;
+    color: ${mainYellow};
   }
-  display: none;
+  @media (max-width: 375px) {
+    margin: 0 0.2em 0 0;
+  }
+  @media (max-width: 360px) {
+    margin: 0;
+  }
 `;
 const ModalMask = styled.div`
   display: none;
-  @media (max-width: 768px) {
+  @media (max-width: 1080px) {
     display: block;
     position: fixed;
     z-index: 8;
@@ -454,7 +543,7 @@ const CloseBtn = styled(CgClose)`
 const SideNav = styled.div`
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1080px) {
     display: block;
 
     position: fixed;
@@ -471,6 +560,10 @@ const SideNav = styled.div`
     box-shadow: -5px 0 1em rgba(0, 0, 0, 0.1);
     // visibility: visible;
     transition: right 0.7s ease-in;
+  }
+
+  @media (max-width: 360px) {
+    width: 280px;
   }
 `;
 const NavPIcon2 = styled(PIcon)`
@@ -551,7 +644,10 @@ const BeerIcon = styled(BiBeer)`
 const SideFooter = styled.div`
   position: fixed;
   right: -100%;
-  bottom: 30px;
+  bottom: 25px;
   right: -100%;
   transition: right 0.7s ease-in;
+  @media (max-width: 360px) {
+    bottom: 20px;
+  }
 `;
