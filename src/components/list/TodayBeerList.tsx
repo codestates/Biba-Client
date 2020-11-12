@@ -43,18 +43,6 @@ function TodayBeerList({
   );
 }
 
-const Item = styled.img`
-  width: 200px;
-  border-radius: 10px;
-  box-shadow: 3px 3px lightgray;
-  margin-bottom: 10px;
-  &:hover {
-    transition: all ease 1s;
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
 const ContentWrap = styled.div`
   animation: fadein 3s;
   -moz-animation: fadein 3s; /* Firefox */
