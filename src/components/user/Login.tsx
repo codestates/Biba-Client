@@ -151,7 +151,8 @@ const Input = styled.input`
     outline: none;
   }
   @media (max-width: 768px) {
-    font-size: 0.9em;
+    width: 13em;
+    margin: 0 0.6em 0.5em 0.6em;
   }
 `;
 
@@ -185,6 +186,10 @@ const SmallBtn = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    width: 6em;
+    margin: 0.4em 0 0 0;
   }
 `;
 

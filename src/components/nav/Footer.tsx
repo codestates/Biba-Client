@@ -51,6 +51,9 @@ const FooterArea = styled.div`
 
   width: 100%;
   padding: 0.3em;
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 const About = styled.div`
   display: flex;
@@ -68,10 +71,16 @@ const AboutText = styled.div`
   line-height: 1.5;
   font-weight: 500;
   color: ${mainYellowOpac};
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const AboutText2 = styled(AboutText)`
   font-size: 0.8em;
   margin: 0.7em 0 0 0;
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;
 const Beer = styled(BiBeer)`
   width: 1.3em;

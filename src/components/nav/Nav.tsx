@@ -6,6 +6,8 @@ import { CgClose } from 'react-icons/cg';
 import { BiBeer } from 'react-icons/bi';
 
 import { LoginContainerWithRouter } from '../../containers/user/LoginContainer';
+import { FooterContainerithRouter } from '../../containers/nav/FooterContainer';
+
 import { NavProps } from '../../containers/nav/NavContainer';
 import {
   mainYellow,
@@ -160,11 +162,32 @@ export const Nav = ({
                     <BeerIcon />
                     {userData.nickname}
                   </SideNickname>
+                  <SideBtn
+                    onClick={() => {
+                      handleClickMypage();
+                      handleClickHiddenMenu(false);
+                    }}
+                  >
+                    마이페이지
+                  </SideBtn>
+                  <SideBtn
+                    onClick={() => {
+                      handleClickLogout();
+                      handleClickHiddenMenu(false);
+                    }}
+                  >
+                    로그아웃
+                  </SideBtn>
                 </InfoText>
               </SideNavUserInfo>
             ) : (
               <LoginContainerWithRouter />
             )}
+            <SideFooter
+              style={menuDisplay ? { right: '30px' } : { right: '-100%' }}
+            >
+              <FooterContainerithRouter />
+            </SideFooter>
           </SideNav>
         </Wrap>
       </NavBar>
@@ -349,7 +372,6 @@ const NavBtn = styled.button`
   border: 0px;
   border-radius: 8px;
   background-color: ${mainYellow};
-  color: #fff;
 
   margin: 0 0em 0.1em 0.5em;
   padding: 0.4em 0.7em 0.35em 0.7em;
@@ -357,6 +379,7 @@ const NavBtn = styled.button`
   font-size: 1.1em;
   font-weight: 300;
 
+  color: #fff;
   &:hover {
     background-color: ${mainGrey};
     color: white;
@@ -406,6 +429,7 @@ const ModalMask = styled.div`
   @media (max-width: 768px) {
     display: block;
     position: fixed;
+    z-index: 8;
     top: 0;
     right: 0;
     bottom: 0;
@@ -415,15 +439,17 @@ const ModalMask = styled.div`
 `;
 const CloseBtn = styled(CgClose)`
   display: flex;
-  width: 2em;
-  height: 2em;
+  width: 1.6em;
+  height: 1.6em;
 
+  margin: 1em 0 0 1em;
+
+  color: ${mainGrey};
   &:hover {
     cursor: pointer;
     color: #989898;
     text-decoration: none;
   }
-  color: ${mainGrey};
 `;
 const SideNav = styled.div`
   display: none;
@@ -458,7 +484,7 @@ const SideNavUserInfo = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 2em 0 0 0.5em;
+  margin: 2.5em 0 0 0.5em;
 
   color: ${mainGrey};
 `;
@@ -484,18 +510,48 @@ const InfoText = styled.div`
   display: flex;
   flex-direction: column;
 
-  margin: 0.8em 0 0 0;
+  margin: 1em 0 0 0;
 `;
 const SideNickname = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 
+  margin: 0 0 1em 0;
   font-size: 1.1em;
+`;
+const SideBtn = styled.button`
+  cursor: pointer;
+  border: 0px;
+  border-radius: 8px;
+  background-color: ${mainYellow};
+
+  width: 130px;
+  margin: 0 0em 0.6em 0.5em;
+  padding: 0.45em 0.7em 0.35em 0.7em;
+
+  font-size: 1em;
+  font-weight: 300;
+
+  color: #fff;
+  &:hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 const BeerIcon = styled(BiBeer)`
   width: 1.2em;
   height: 1.2em;
   margin: 0 0.3em 0.1em 0;
   color: ${mainYellowOpac};
+`;
+const SideFooter = styled.div`
+  position: fixed;
+  right: -100%;
+  bottom: 30px;
+  right: -100%;
+  transition: right 0.7s ease-in;
 `;
