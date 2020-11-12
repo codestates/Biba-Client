@@ -9,16 +9,14 @@ import { BiUserCircle } from 'react-icons/bi';
 
 import { MDChangeNicknameContainer } from './ChangeNicknameContainer';
 import { MDMyBeerListContainer } from './MyBeerListContainer';
+import { MDUsersReviewContainer } from './UsersReviewContainer';
 
 import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
-import {
-  aReview,
-  compareBeerInit,
-  starStatusInit,
-} from '../../modules/beerdetail';
+import { aReview } from '../../modules/beerdetail';
+
 import { Modal } from '../../components/modal/Modal';
 
 import {
@@ -38,7 +36,6 @@ import {
   EStar,
 } from '../../components/page/BeerDetail';
 
-import { checkStarScore } from '../page/pageUtils';
 import { MyReview, User } from '../../modules/user';
 
 export interface ModalProps {
@@ -56,16 +53,13 @@ export interface ModalContentProps {
   userData: User;
   isLogin: boolean;
   token: string;
+  handleModal(contentType: ContentType, display: boolean): void;
   closeModal(): void;
-  handleInputOnChange(
-    e:
-      | React.ChangeEvent<HTMLTextAreaElement>
-      | React.ChangeEvent<HTMLInputElement>,
-  ): void;
 }
 
-const confirmBtnColor = '#989898';
-const confirmTextColor = 'lightGrey';
+export interface ModalReviewContentProps extends ModalContentProps {
+  setDateForm(input: string): string;
+}
 
 export const ModalContainer = (): JSX.Element => {
   // modal이 필요한 각 페이지에서 상황에 맞게 dispatch
@@ -81,12 +75,10 @@ export const ModalContainer = (): JSX.Element => {
 
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   // === detail
-  const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
 
   const { user_review, user_star, user_input, user_rate } = useSelector(
     (state: RootState) => state.userReview,
   );
-  const { a, b, c, d, e } = useSelector((state: RootState) => state.starStatus);
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
   // === request
   const { request1, request2 } = useSelector(
@@ -107,210 +99,21 @@ export const ModalContainer = (): JSX.Element => {
 
   const [inputValues, setInputValues] = useState({
     // nickname: '',
-    review: '',
+    // review: '',
     beerName: '',
     beerRequest: '',
   });
 
-  const handleInputOnChange = (
-    e:
-      | React.ChangeEvent<HTMLTextAreaElement>
-      | React.ChangeEvent<HTMLInputElement>,
-  ): void => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setInputValues({ ...inputValues, [name]: value });
-  };
+  // const handleInputOnChange = (
+  //   e:
+  //     | React.ChangeEvent<HTMLTextAreaElement>
+  //     | React.ChangeEvent<HTMLInputElement>,
+  // ): void => {
+  //   e.preventDefault();
+  //   const { name, value } = e.target;
+  //   setInputValues({ ...inputValues, [name]: value });
+  // };
 
-  // ================================================================ User Review 함수
-  const handleClickStar = (star: React.MouseEvent<HTMLElement>): void => {
-    if (!isLogin) {
-      // alert(`로그인 후 이용해주세요.`);
-      handleModal(ContentType.Login, true);
-      return;
-    }
-    const { a, b, c, d, e } = checkStarScore(Number(star.currentTarget.id)); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
-    // console.log(Number(star.currentTarget.id));
-    const rate = Number(star.currentTarget.id);
-    axios
-      .post(`https://beer4.xyz/comment/update`, {
-        token: token,
-        beer_id: beerDetail.id,
-        comment: user_input,
-        rate: rate,
-      })
-      .then((res) => {
-        // console.log(res);
-        if (res.status === 201) {
-          dispatch({ type: 'SET_STARSTATUS', a, b, c, d, e }); // 최초 진입 시 내가 준 별점 store에 저장
-          dispatch({
-            type: 'SET_USERREVIEW',
-            user_review,
-            user_star: true,
-            user_input,
-            user_rate: rate,
-          });
-        }
-        return alert(`${beerDetail.beer_name}에 ${rate}점을 주셨습니다. Biba!`);
-        // return closeModal();
-      })
-      .catch(() => {
-        alert(`별점 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-        return closeModal();
-      });
-  };
-
-  const handleResetStar = (star: React.MouseEvent<HTMLElement>): void => {
-    if (user_input !== '') {
-      return alert(
-        `작성된 리뷰 내용이 있습니다.\n리뷰 삭제 기능을 이용해주세요.`,
-      );
-    }
-    axios
-      .post(`https://beer4.xyz/comment/delete`, {
-        token: token,
-        beer_id: beerDetail.id,
-        comment: '',
-        rate: 0,
-      })
-      .then((res) => {
-        // console.log(res);
-        if (res.status === 201) {
-          dispatch({
-            type: 'SET_STARSTATUS',
-            a: false,
-            b: false,
-            c: false,
-            d: false,
-            e: false,
-          });
-          dispatch({
-            type: 'SET_USERREVIEW',
-            user_review,
-            user_star: false,
-            user_input,
-            user_rate: -1,
-          });
-        }
-        alert(`별점 등록이 취소되었습니다.`);
-        return closeModal();
-      })
-      .catch(() => {
-        alert(`별점 삭제에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-        return closeModal();
-      });
-  };
-
-  const handleClickSubmitReview = (): void => {
-    // review 작성 모달 창 내에서 작동
-    if (!isLogin) {
-      // alert(`로그인 후 이용해주세요.`);
-      closeModal();
-      handleModal(ContentType.Login, true);
-      return;
-    } else if (inputValues.review === '') {
-      // alert(`리뷰 내용을 작성해주세요.`);
-      closeModal();
-    } else if (!user_star) {
-      alert(`별점을 먼저 등록해주세요.`);
-    } else {
-      axios
-        .post(`https://beer4.xyz/comment/update`, {
-          token: token,
-          beer_id: beerDetail.id,
-          comment: inputValues.review,
-          rate: user_rate,
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            dispatch({
-              type: 'SET_USERREVIEW',
-              user_review: true,
-              user_star,
-              user_input: inputValues.review,
-              user_rate,
-            });
-            setInputValues({ ...inputValues, review: '' });
-            axios
-              .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
-              .then((res) => {
-                const rawReviews = res.data;
-                const allReviews = rawReviews.filter((ele) => {
-                  if (ele.comment !== '') return ele;
-                });
-                dispatch({ type: 'SET_ALLREVIEWS', allReviews });
-              }); // [{}, {}]
-            return closeModal();
-          }
-        })
-        .catch(() => {
-          alert(`리뷰 등록에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-        });
-    }
-  };
-
-  const handleClickDeleteReview = (): void => {
-    const result = global.confirm(
-      `리뷰를 삭제하시겠어요?\n별점도 함께 삭제됩니다.`,
-    );
-    if (result) {
-      axios
-        .post(`https://beer4.xyz/comment/delete`, {
-          beer_id: beerDetail.id,
-          token: token,
-        })
-        .then((res) => {
-          // console.log(res);
-          if (res.status === 201) {
-            dispatch({
-              type: 'DELETE_USERREVIEW',
-            });
-            axios
-              .get<aReview[]>(`https://beer4.xyz/comment/${beerDetail.id}`)
-              .then((res) => {
-                const rawReviews = res.data;
-                const allReviews = rawReviews.filter((ele) => {
-                  if (ele.comment !== '') return ele;
-                });
-                dispatch({ type: 'SET_ALLREVIEWS', allReviews });
-                dispatch({
-                  type: 'SET_STARSTATUS',
-                  a: false,
-                  b: false,
-                  c: false,
-                  d: false,
-                  e: false,
-                });
-              }); // [{}, {}]
-            return closeModal();
-          }
-        });
-    }
-  };
-
-  const handleStar = (): JSX.Element[] => {
-    const stars = [
-      [a, 1],
-      [b, 2],
-      [c, 3],
-      [d, 4],
-      [e, 5],
-    ];
-    return stars.map((ele) => {
-      return (
-        <StarWrap
-          key={`star${ele[1]}`}
-          className='star'
-          id={`${ele[1]}`}
-          onClick={handleClickStar}
-        >
-          <FStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
-          <EStar style={!ele[0] ? { display: 'block' } : { display: 'none' }} />
-        </StarWrap>
-      );
-    });
-  };
-  // ================================================================ Comment 함수
   const setDateForm = (input: string): string => {
     const [date, time] = input.split(' ');
     const dateOutput = date.replace('-', '년 ').replace('-', '월 ') + '일';
@@ -397,8 +200,32 @@ export const ModalContainer = (): JSX.Element => {
           userData={userData}
           isLogin={isLogin}
           token={token}
+          handleModal={handleModal}
           closeModal={closeModal}
-          handleInputOnChange={handleInputOnChange}
+        />
+      );
+    }
+    // ==================================================== my beer list
+    if (contentType === ContentType.MyBeerList) {
+      return (
+        <MDMyBeerListContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
+        />
+      );
+    }
+    // ==================================================== add review
+    if (contentType === ContentType.UsersReview) {
+      return (
+        <MDUsersReviewContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
         />
       );
     }
@@ -457,56 +284,7 @@ export const ModalContainer = (): JSX.Element => {
         <ResultEmpty>작성한 리뷰가 없습니다.</ResultEmpty>
       );
     }
-    // ==================================================== my beer list
-    if (contentType === ContentType.MyBeerList) {
-      return (
-        <MDMyBeerListContainer
-          userData={userData}
-          isLogin={isLogin}
-          token={token}
-          closeModal={closeModal}
-          handleInputOnChange={handleInputOnChange}
-        />
-      );
-    }
-    // ==================================================== add review
-    if (contentType === ContentType.UsersReview) {
-      return (
-        <ReviewWrap className='reviewWrap'>
-          <RateStarsWrap>
-            <RateTitle className='rate'>별점</RateTitle>
-            <Stars className='stars'>{handleStar()}</Stars>
-            <DeleteStarBtn
-              onClick={handleResetStar}
-              style={user_star ? {} : { display: 'none' }}
-            >
-              별점 삭제
-            </DeleteStarBtn>
-          </RateStarsWrap>
-          <ReviewTextAreaWrap>
-            <ReviewTextArea
-              name='review'
-              defaultValue={user_review ? user_input : inputValues.review}
-              onChange={handleInputOnChange}
-              maxLength={100}
-              rows={4}
-              placeholder='리뷰를 작성해주세요.'
-              wrap='hard'
-            ></ReviewTextArea>
-            <UserReviewBtnArea>
-              <UserReviewBtn onClick={handleClickSubmitReview}>
-                {user_review ? `수정하기` : `등록하기`}
-              </UserReviewBtn>
-              {user_review ? (
-                <UserReviewBtn onClick={handleClickDeleteReview}>
-                  삭제하기
-                </UserReviewBtn>
-              ) : undefined}
-            </UserReviewBtnArea>
-          </ReviewTextAreaWrap>
-        </ReviewWrap>
-      );
-    }
+
     // ==================================================== all reviews
     if (contentType === ContentType.AllReviews) {
       return allReviews.length !== 0 ? (
@@ -584,7 +362,7 @@ export const ModalContainer = (): JSX.Element => {
             <RequestTitle
               name='beerName'
               defaultValue={inputValues.beerName}
-              onChange={handleInputOnChange}
+              // onChange={handleInputOnChange}
               placeholder='맥주 이름을 작성해주세요.'
             />
           </RequestTitleArea>
@@ -593,7 +371,7 @@ export const ModalContainer = (): JSX.Element => {
             <RequestBody
               name='beerRequest'
               defaultValue={inputValues.beerRequest}
-              onChange={handleInputOnChange}
+              // onChange={handleInputOnChange}
               maxLength={100}
               rows={4}
               placeholder='내용을 작성해주세요.'
@@ -818,103 +596,6 @@ const ResultEmpty = styled.div`
   height: 150px;
 `;
 
-// ============================ Add Review
-const ReviewWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  width: 90%;
-`;
-const RateStarsWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin: 0.2em 0 0.5em 0;
-`;
-const RateTitle = styled.div`
-  margin: 0 0 0.12em 0.2em;
-  font-size: 1.1em;
-
-  color: ${mainGrey};
-`;
-const ReviewTextAreaWrap = styled.div`
-  display: flex;
-  width: 100%;
-`;
-const ReviewTextArea = styled.textarea`
-  resize: none;
-  border: 2px solid ${mainYellow};
-  border-radius: 8px;
-
-  width: 80%;
-
-  padding: 0.5em 0.4em 0.5em 0.4em;
-  line-height: 1.5;
-  font-size: 0.95em;
-
-  &:focus {
-    outline: none;
-  }
-`;
-const UserReviewBtnArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-`;
-
-const UserReviewBtn = styled.button`
-  cursor: pointer;
-
-  display: flex;
-  align-self: flex-end;
-
-  border: 0px;
-  border-radius: 8px;
-
-  margin: 0 0 0.3em 0.5em;
-  padding: 0.5em 0.6em 0.35em 0.6em;
-
-  font-size: 0.95em;
-  background-color: ${mainYellow};
-  color: #fff;
-  &:hover {
-    background-color: ${mainGrey};
-    color: white;
-  }
-  &:focus {
-    outline: none;
-  }
-`;
-
-const DeleteStarBtn = styled.button`
-  cursor: pointer;
-
-  display: inline-block;
-  width: 5em;
-  height: 1.8em;
-  border: 1.5px solid ${mainYellowOpac};
-  border-radius: 4px;
-
-  margin: 0 0 0.15em 0.4em;
-  padding: 0.2em;
-
-  font-size: 0.8em;
-  // font-weight: 300;
-  text-align: center;
-  background-color: #fff;
-  color: ${mainGreyOpac};
-
-  &:hover {
-    background-color: ${mainYellowOpac};
-    color: white;
-  }
-  &:focus {
-    outline: none;
-  }
-`;
 // ============================ Request Beer
 const RequestBeerModal = styled.div`
   display: flex;

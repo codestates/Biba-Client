@@ -32,7 +32,6 @@ export const MDMyBeerListContainer = ({
   isLogin,
   token,
   closeModal,
-  handleInputOnChange,
 }: ModalContentProps): JSX.Element => {
   const { option1, option2 } = useSelector(
     (state: RootState) => state.myBeerListType,
