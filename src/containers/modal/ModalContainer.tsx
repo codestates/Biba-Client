@@ -7,7 +7,9 @@ import axios from 'axios';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { BiUserCircle } from 'react-icons/bi';
 
-import { ChangeNicknameContainer } from './ChangeNicknameContainer';
+import { MDChangeNicknameContainer } from './ChangeNicknameContainer';
+import { MDMyBeerListContainer } from './MyBeerListContainer';
+
 import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
@@ -36,10 +38,7 @@ import {
   EStar,
 } from '../../components/page/BeerDetail';
 
-import { IBeerDetail } from '../../modules/beerdetail';
-import { IBeerDetailWithAll } from '../page/HomeContainer';
 import { checkStarScore } from '../page/pageUtils';
-import { IProfile } from '../user/MypageContainer';
 import { MyReview, User } from '../../modules/user';
 
 export interface ModalProps {
@@ -83,18 +82,7 @@ export const ModalContainer = (): JSX.Element => {
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   // === detail
   const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
-  const { option1, option2 } = useSelector(
-    (state: RootState) => state.myBeerListType,
-  );
-  const rawFavoriteBeers = useSelector(
-    (state: RootState) => state.favoriteBeer.abcBeers,
-  );
-  const rawReviewedBeers = useSelector(
-    (state: RootState) => state.reviewBeer.beers,
-  );
-  const selectedBeerId = useSelector(
-    (state: RootState) => state.selectedBeer.id,
-  );
+
   const { user_review, user_star, user_input, user_rate } = useSelector(
     (state: RootState) => state.userReview,
   );
@@ -118,7 +106,7 @@ export const ModalContainer = (): JSX.Element => {
   // };
 
   const [inputValues, setInputValues] = useState({
-    nickname: '',
+    // nickname: '',
     review: '',
     beerName: '',
     beerRequest: '',
@@ -132,109 +120,6 @@ export const ModalContainer = (): JSX.Element => {
     e.preventDefault();
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
-  };
-
-  // ================================================================ MyBeerList 함수
-  const handleMyListType = (option1: boolean, option2: boolean): void => {
-    dispatch({ type: 'SET_MYBEERTYPE', option1, option2 });
-  };
-  const handleRadioOption1 = (): void => {
-    handleMyListType(true, false);
-  };
-  const handleRadioOption2 = (): void => {
-    handleMyListType(false, true);
-  };
-  const myBeerListImg = React.useRef(null);
-
-  const favoriteBeerIndex = rawFavoriteBeers.map((beer) => {
-    return {
-      id: beer.id,
-      beerName: beer.beer_name,
-      image: beer.beer_img,
-    };
-  });
-  const reviewedBeerIndex = rawReviewedBeers.map((beer) => {
-    return { id: beer.id, beerName: beer.beer_name, image: beer.beer_img };
-  });
-  const mapOption1 = favoriteBeerIndex.map((ele) => (
-    <BeerOptions
-      id={ele.id}
-      key={`favBeerIndex${favoriteBeerIndex.indexOf(ele)}`}
-      value={ele.beerName}
-    >
-      {ele.beerName}
-    </BeerOptions>
-  ));
-  const mapOption2 = reviewedBeerIndex.map((ele) => (
-    <BeerOptions
-      id={ele.id}
-      key={`reviewedBeerIndex${reviewedBeerIndex.indexOf(ele)}`}
-      value={ele.beerName}
-    >
-      {ele.beerName}
-    </BeerOptions>
-  ));
-  const setSelectedBeerId = (id: number): void => {
-    dispatch({ type: 'SET_SELECTEDBEER', id });
-  };
-
-  const handleSelectBeer = (
-    // 사진 ref에 업로드만, 전송 x
-    e: React.ChangeEvent<HTMLSelectElement>,
-    option: boolean,
-  ): void => {
-    const { current } = myBeerListImg as React.RefObject<IProfile>;
-    let imgTarget: {
-      id: string;
-      beerName: string;
-      image: string;
-    }[];
-    if (option) {
-      imgTarget = favoriteBeerIndex.filter(
-        (ele) =>
-          favoriteBeerIndex.indexOf(ele) === e.target.options.selectedIndex - 1,
-      );
-    } else {
-      imgTarget = reviewedBeerIndex.filter(
-        (ele) =>
-          reviewedBeerIndex.indexOf(ele) === e.target.options.selectedIndex - 1,
-      );
-    }
-    if (current) {
-      current.src = imgTarget[0].image;
-    }
-  };
-
-  const handleClickBeerSelect = (): void => {
-    if (selectedBeerId !== -1) {
-      axios
-        .post<IBeerDetailWithAll>(`https://beer4.xyz/beer/${selectedBeerId}`, {
-          user_id: userData.id,
-          beer_id: selectedBeerId,
-        })
-        .then((res) => {
-          // console.log(res.data);
-          const compareBeer: IBeerDetail = res.data;
-          dispatch({
-            type: 'SET_COMPAREBEER',
-            compareBeer: compareBeer,
-          });
-
-          const { sparkling, sweet, bitter, accessibility, body } = res.data;
-          dispatch({
-            type: 'SET_COMPAREDATA',
-            sparkling,
-            sweet,
-            bitter,
-            accessibility,
-            body,
-          });
-        });
-      setSelectedBeerId(-1);
-      return closeModal();
-    } else {
-      return alert(`비교할 맥주를 선택해주세요.`);
-    }
   };
 
   // ================================================================ User Review 함수
@@ -508,7 +393,7 @@ export const ModalContainer = (): JSX.Element => {
     // ==================================================== change nickname
     if (contentType === ContentType.ChangeNickname) {
       return (
-        <ChangeNicknameContainer
+        <MDChangeNicknameContainer
           userData={userData}
           isLogin={isLogin}
           token={token}
@@ -575,58 +460,13 @@ export const ModalContainer = (): JSX.Element => {
     // ==================================================== my beer list
     if (contentType === ContentType.MyBeerList) {
       return (
-        <MyBeerListModal>
-          <MyBeerListImgDiv>
-            <MyBeerListImg ref={myBeerListImg} />
-          </MyBeerListImgDiv>
-          <MyBeerListSelect>
-            <BLRadioWrap>
-              <BLRadio>
-                <Radio
-                  id='option1'
-                  type='radio'
-                  name='myBeerType'
-                  value='즐겨찾기에 추가한 맥주'
-                  checked={option1}
-                  onChange={() => handleRadioOption1()}
-                />
-                <RadioOption onClick={handleRadioOption1}>
-                  즐겨찾는 맥주
-                </RadioOption>
-              </BLRadio>
-              <BLRadio>
-                <Radio
-                  id='option2'
-                  type='radio'
-                  name='myBeerType'
-                  value='리뷰를 남긴 맥주'
-                  checked={option2}
-                  onChange={() => handleRadioOption2()}
-                />
-                <RadioOption onClick={handleRadioOption2}>
-                  리뷰한 맥주
-                </RadioOption>
-              </BLRadio>
-            </BLRadioWrap>
-            <SelectWrap>
-              <SelectBeer
-                name='selectBeerName'
-                onChange={(e) => {
-                  const targetId =
-                    e.target.options[e.target.options.selectedIndex].id;
-                  setSelectedBeerId(Number(targetId));
-                  handleSelectBeer(e, option1);
-                }}
-              >
-                <DefaultOption key='optionDefault' className='default'>
-                  맥주 이름 선택
-                </DefaultOption>
-                {option1 ? mapOption1 : mapOption2}
-              </SelectBeer>
-              <CompareBtn onClick={handleClickBeerSelect}>Biba!</CompareBtn>
-            </SelectWrap>
-          </MyBeerListSelect>
-        </MyBeerListModal>
+        <MDMyBeerListContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          closeModal={closeModal}
+          handleInputOnChange={handleInputOnChange}
+        />
       );
     }
     // ==================================================== add review
@@ -785,110 +625,6 @@ export const ModalContainer = (): JSX.Element => {
 };
 
 export const ModalContainerWithRouter = withRouter(ModalContainer);
-
-export const MyBeerListModal = styled.div`
-  display: flex;
-  justify-content: flex-start;
-
-  width: 95%;
-`;
-const MyBeerListImgDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 180px;
-  height: 180px;
-
-  border: 2px solid ${mainYellowOpac};
-  border-radius: 16px;
-  overflow: hidden;
-
-  margin: 0 1em 0 0;
-`;
-const MyBeerListImg = styled.img`
-  display: flex;
-
-  height: 150px;
-`;
-
-const MyBeerListSelect = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-`;
-const BLRadioWrap = styled.div`
-  display: flex;
-  align-items: center;
-
-  margin: 0.7em 0 0 0;
-`;
-const BLRadio = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin: 0 0.3em 0.2em 0;
-`;
-
-const SelectWrap = styled.div`
-  display: flex;
-  align-items: center;
-
-  margin: 0.5em 0 0 0;
-`;
-const SelectBeer = styled.select`
-  display: flex;
-
-  width: 12em;
-  max-width: 12em;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  border: 0;
-  border-bottom: 2px solid ${mainYellowOpac};
-  border-radius: 0;
-
-  margin: 0.5em 0 0 0;
-  padding: 0 0 0.2em 0;
-
-  color: ${mainGrey};
-  &:focus,
-  &:active {
-    outline: none;
-    border-bottom-color: ${mainYellow};
-  }
-`;
-
-const DefaultOption = styled.option``;
-const BeerOptions = styled.option``;
-const CompareBtn = styled.button`
-  cursor: pointer;
-  display: flex;
-  align-self: center;
-
-  border: 0px;
-  border-radius: 8px;
-
-  margin: 0.15em 0 0 0.6em;
-  padding: 0.4em 0.8em 0.35em 0.8em;
-
-  font-size: 1.1em;
-  letter-spacing: 0.1em;
-
-  background-color: ${mainYellow};
-  color: #fff;
-
-  &: hover {
-    background-color: ${accent};
-    color: white;
-  }
-  &:focus {
-    outline: none;
-  }
-`;
 
 export const SingleComment = styled.div`
   display: flex;
@@ -1198,7 +934,7 @@ const RadioWrap = styled.div`
 
   margin: 0 1em 0 0;
 `;
-const Radio = styled.input`
+export const Radio = styled.input`
   cursor: pointer;
 
   appearance: none;
@@ -1230,7 +966,7 @@ const Radio = styled.input`
     outline: none;
   }
 `;
-const RadioOption = styled.div`
+export const RadioOption = styled.div`
   cursor: pointer;
   display: flex;
 

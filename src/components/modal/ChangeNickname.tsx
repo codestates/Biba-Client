@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { NicknameChangeProps } from '../../containers/modal/ChangeNicknameContainer';
+import { MDNicknameChangeProps } from '../../containers/modal/ChangeNicknameContainer';
 
 import { InputWithCheck, Input } from '../../components/user/Signup';
 import {
@@ -16,13 +16,13 @@ import {
 const confirmBtnColor = '#989898';
 const confirmTextColor = 'lightGrey';
 
-export const ChangeNickname = ({
+export const MDChangeNickname = ({
   nicknameConfirm,
   inputValues,
   handleNicknameOnChange,
   handleCheckNickname,
   handleClickChangeNickname,
-}: NicknameChangeProps): JSX.Element => {
+}: MDNicknameChangeProps): JSX.Element => {
   return (
     <ChangeNicknameWrap>
       <NicknameGuide>새로운 닉네임을 입력해주세요.</NicknameGuide>

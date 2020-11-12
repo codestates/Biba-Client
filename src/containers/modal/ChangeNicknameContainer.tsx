@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import styled from 'styled-components';
 import axios from 'axios';
 
-import { ChangeNickname } from '../../components/modal/ChangeNickname';
+import { MDChangeNickname } from '../../components/modal/ChangeNickname';
 import { RootState } from '../../modules';
 import { nicknameCheck } from '../user/userUtils';
 import { ModalContentProps } from './ModalContainer';
 
-export interface NicknameChangeProps {
+export interface MDNicknameChangeProps {
   nicknameConfirm: boolean;
   inputValues: {
     nickname: string;
@@ -19,7 +18,7 @@ export interface NicknameChangeProps {
   handleClickChangeNickname(): void;
 }
 
-export const ChangeNicknameContainer = ({
+export const MDChangeNicknameContainer = ({
   userData,
   isLogin,
   token,
@@ -101,7 +100,7 @@ export const ChangeNicknameContainer = ({
   };
 
   return (
-    <ChangeNickname
+    <MDChangeNickname
       nicknameConfirm={nicknameConfirm}
       inputValues={inputValues}
       handleNicknameOnChange={handleNicknameOnChange}
