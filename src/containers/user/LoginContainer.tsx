@@ -37,6 +37,9 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   const { disBasic, disStory, disMore } = useSelector(
     (state: RootState) => state.infoDisplay,
   );
+  const menuDisplay = useSelector(
+    (state: RootState) => state.menuDisplay.display,
+  );
   const dispatch = useDispatch();
   const setLogin = (userData: User, isLogin: boolean, token: string) => {
     dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
@@ -52,6 +55,9 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   };
   const closeModal = (): void => {
     handleModalClose(ContentType.Empty, false);
+  };
+  const handleClickHiddenMenu = (display: boolean): void => {
+    dispatch({ type: 'SET_MENUDISPLAY', display: display });
   };
 
   const [inputValues, setInputValues] = useState({
@@ -76,6 +82,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
       )
       .then((res) => {
         if (res.status === 200) {
+          if (menuDisplay) handleClickHiddenMenu(false);
           const { id, nickname, email } = res.data.userData;
           const { token, profile } = res.data;
           // console.log(res.headers);
@@ -188,6 +195,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
     if (e.key === 'Enter') handleLogin();
   };
   const redirectToSignup = (): void => {
+    if (menuDisplay) handleClickHiddenMenu(false);
     closeModal();
     props.history.push('/signup');
   };

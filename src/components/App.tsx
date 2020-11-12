@@ -76,7 +76,7 @@ const Container = styled.div`
     '. Main .'
     '. Footer .'
     '. . .';
-`; // 내용 1320 여백 합쳐서 맥스 1920 그 이후로는 좌우 여백만 늘어나는 걸로
+`;
 
 const Nav = styled.div`
   grid-area: Nav;
@@ -90,6 +90,9 @@ const Main = styled.div`
   grid-template-columns: 15em auto;
   min-height: 600px;
   margin: 0 0 9em 0;
+  @media (max-width: 768px) {
+    margin: 0 0 4em 0;
+  }
 `;
 
 const Side = styled.div`
@@ -98,7 +101,7 @@ const Side = styled.div`
 
   @media (max-width: 768px) {
     display: none;
-  } ;
+  }
 `;
 
 const Float = styled.div`
@@ -189,11 +192,14 @@ const Half = styled.div`
   @media (max-width: 768px) {
     grid-area: Main;
     grid-column: 1 / 3;
-    margin: 0 0 9em 0;
-  } ;
+    margin: 0 0 4em 0;
+  }
 `;
 
 const Footer = styled.div`
   grid-area: Footer;
   margin: 0 0 2em 0;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
