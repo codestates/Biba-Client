@@ -29,7 +29,7 @@ import {
   Comment,
   ReviewRate,
   DateString,
-} from './../../containers/nav/ModalContainer';
+} from '../modal/ModalContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';

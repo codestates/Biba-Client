@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { RouterProps } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,6 +7,7 @@ import axios from 'axios';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { BiUserCircle } from 'react-icons/bi';
 
+import { ChangeNicknameContainer } from './ChangeNicknameContainer';
 import { LoginContainerWithRouter } from '../user/LoginContainer';
 
 import { RootState } from '../../modules';
@@ -17,9 +17,8 @@ import {
   compareBeerInit,
   starStatusInit,
 } from '../../modules/beerdetail';
-import { Modal } from '../../components/nav/Modal';
+import { Modal } from '../../components/modal/Modal';
 
-import { nicknameCheck } from '../user/userUtils';
 import {
   mainYellow,
   mainYellowOpac,
@@ -28,7 +27,6 @@ import {
   accent,
   lightGrey3,
 } from '../../components/nav/color';
-import { InputWithCheck, Input, CheckBtn } from '../../components/user/Signup';
 import { Content } from '../../components/user/Mypage';
 import {
   Tag,
@@ -42,7 +40,7 @@ import { IBeerDetail } from '../../modules/beerdetail';
 import { IBeerDetailWithAll } from '../page/HomeContainer';
 import { checkStarScore } from '../page/pageUtils';
 import { IProfile } from '../user/MypageContainer';
-import { MyReview } from '../../modules/user';
+import { MyReview, User } from '../../modules/user';
 
 export interface ModalProps {
   display: boolean;
@@ -55,10 +53,22 @@ export interface ModalProps {
   allReviews: aReview[];
 }
 
+export interface ModalContentProps {
+  userData: User;
+  isLogin: boolean;
+  token: string;
+  closeModal(): void;
+  handleInputOnChange(
+    e:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>,
+  ): void;
+}
+
 const confirmBtnColor = '#989898';
 const confirmTextColor = 'lightGrey';
 
-export const ModalContainer = (props: RouterProps): JSX.Element => {
+export const ModalContainer = (): JSX.Element => {
   // modal이 필요한 각 페이지에서 상황에 맞게 dispatch
   // 1. modal display -> true, false 지정
   // 2. 어떤 콘텐츠가 나와야하는지에 따라 ContentType 지정
@@ -69,10 +79,7 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
-  const { profile } = useSelector((state: RootState) => state.profile);
-  const nicknameConfirm = useSelector(
-    (state: RootState) => state.confirmNickname.value,
-  );
+
   const { myReviews } = useSelector((state: RootState) => state.myReviews);
   // === detail
   const { beerDetail } = useSelector((state: RootState) => state.beerDetail);
@@ -117,10 +124,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     beerRequest: '',
   });
 
-  // ================================================================ Change Nickname 함수
-  const handleConfirmNickname = (value: boolean): void => {
-    dispatch({ type: 'CONFIRM_NICKNAME', value });
-  };
   const handleInputOnChange = (
     e:
       | React.ChangeEvent<HTMLTextAreaElement>
@@ -129,68 +132,6 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     e.preventDefault();
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
-  };
-  const handleNicknameOnChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
-    e.preventDefault();
-    if (nicknameConfirm && e.currentTarget.name === 'nickname') {
-      handleConfirmNickname(false);
-    }
-    const { name, value } = e.target;
-    setInputValues({ ...inputValues, [name]: value });
-  };
-  const handleCheckNickname = (): void => {
-    if (inputValues.nickname !== '') {
-      if (nicknameCheck(inputValues.nickname)) {
-        axios
-          .post(`https://beer4.xyz/users/checknickname`, {
-            nickname: inputValues.nickname,
-          })
-          .then((res) => {
-            if (res.status === 200) {
-              alert(`사용할 수 있는 닉네임입니다.`);
-              handleConfirmNickname(true);
-            }
-          })
-          .catch(() => {
-            alert(`이미 존재하는 닉네임입니다.\n다른 닉네임을 사용해주세요.`);
-          });
-      } else {
-        alert(
-          `닉네임을 확인해주세요.\n4~12자리의 한글, 영어 또는 숫자 조합이어야 합니다.`,
-        );
-      }
-    } else {
-      alert(`닉네임을 입력해주세요.`);
-    }
-  };
-  const handleClickChangeNickname = (): void => {
-    const { nickname } = inputValues;
-    if (nicknameCheck(nickname) && nicknameConfirm) {
-      axios
-        .post(`https://beer4.xyz/users/changenickname`, {
-          token: token,
-          nickname: inputValues.nickname,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            dispatch({
-              type: 'CHANGE_NICKNAME',
-              userData: { ...userData, nickname: nickname },
-            });
-            // alert(`닉네임이 정상적으로 변경되었습니다.`);
-            setInputValues({ ...inputValues, nickname: '' });
-            handleConfirmNickname(false);
-            return closeModal();
-          }
-        })
-        .catch(() => {
-          alert(`닉네임 변경에 실패하였습니다. 잠시 후에 다시 시도해주세요.`);
-          handleConfirmNickname(false);
-          return closeModal();
-        });
-    }
   };
 
   // ================================================================ MyBeerList 함수
@@ -567,30 +508,13 @@ export const ModalContainer = (props: RouterProps): JSX.Element => {
     // ==================================================== change nickname
     if (contentType === ContentType.ChangeNickname) {
       return (
-        <ChangeNicknameWrap>
-          <NicknameGuide>새로운 닉네임을 입력해주세요.</NicknameGuide>
-          <InputWithCheck>
-            <Input
-              type='text'
-              name='nickname'
-              defaultValue={inputValues.nickname}
-              onChange={handleNicknameOnChange}
-            ></Input>
-            <NNCheckBtn
-              onClick={handleCheckNickname}
-              style={
-                nicknameConfirm
-                  ? { background: confirmBtnColor, color: confirmTextColor }
-                  : {}
-              }
-            >
-              중복 확인
-            </NNCheckBtn>
-          </InputWithCheck>
-          <NicknameSubmitBtn onClick={handleClickChangeNickname}>
-            변경하기
-          </NicknameSubmitBtn>
-        </ChangeNicknameWrap>
+        <ChangeNicknameContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          closeModal={closeModal}
+          handleInputOnChange={handleInputOnChange}
+        />
       );
     }
     // ==================================================== mypage all reviews
@@ -1383,74 +1307,6 @@ const RequestSubmitBtn = styled.button`
   &:hover {
     background-color: ${mainGrey};
     color: white;
-  }
-  &:focus {
-    outline: none;
-  }
-`;
-
-// ============================ Change Nickname
-const ChangeNicknameWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  height: 9em;
-`;
-
-const NicknameGuide = styled.div`
-  margin: 0 0 0.6em 0;
-  padding: 0 0 0 0.8em;
-`;
-const NNCheckBtn = styled.button`
-  cursor: pointer;
-  border: 0px;
-  border-radius: 8px;
-
-  margin: 0 0 0.6em 0;
-  padding: 0.55em 0.6em 0.45em 0.6em;
-
-  font-size: 0.85em;
-  // font-weight: 300;
-  background-color: ${mainYellow};
-  color: #fff;
-
-  &:hover {
-    background-color: ${mainGrey};
-    color: white;
-  }
-  &:focus {
-    outline: none;
-  }
-`;
-
-const NicknameSubmitBtn = styled.button`
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-self: center;
-  width: 8em;
-
-  border: 2px solid ${mainYellowOpac};
-  border-radius: 8px;
-
-  margin: 0.7em 0 0.3em 0;
-  padding: 0.5em 0.6em 0.4em 0.6em;
-
-  font-size: 1em;
-  font-weight: 500;
-  // background-color: ${mainYellow};
-  // color: #fff;
-  background-color: #fff;
-  color: ${mainGrey};
-
-  &:hover {
-    border: 2px solid rgba(0, 0, 0, 0);
-    font-weight: 400;
-    background-color: ${mainGrey};
-    color: #fff;
   }
   &:focus {
     outline: none;

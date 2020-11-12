@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { HomeContainerWithRouter } from '../containers/page/HomeContainer';
 import { NavContainerWithRouter } from '../containers/nav/NavContainer';
 import { BeerListNavContainerWithRouter } from '../containers/nav/BeerListNavContainer';
-import { ModalContainerWithRouter } from '../containers/nav/ModalContainer';
+import { ModalContainerWithRouter } from '../containers/modal/ModalContainer';
 import { LoginContainerWithRouter } from '../containers/user/LoginContainer';
 import { SignupContainerWithRouter } from '../containers/user/SignupContainer';
 import { MypageContainerWithRouter } from '../containers/user/MypageContainer';
