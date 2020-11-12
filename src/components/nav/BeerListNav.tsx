@@ -34,97 +34,99 @@ function BeerListNav({
   const isReview = useSelector((state: RootState) => state.changePage.isReview);
 
   return (
-    <ListNav style={display ? {} : { display: 'none' }}>
-      <UL>
-        <ListBtn
-          onClick={() => {
-            redirectHome();
-            handleClickTodayBeer();
-          }}
-        >
-          <TH>
-            {isToday ? (
-              <SubSpanActive>Today&apos;s Beer</SubSpanActive>
-            ) : (
-              <Span>Today&apos;s Beer</Span>
-            )}
-          </TH>
-        </ListBtn>
-        <ListBtn
-          onClick={() => {
-            redirectHome();
-            handleClickWantSomeBeer();
-          }}
-        >
-          <TH>
-            {isWant ? (
-              <SubSpanActive>Want Some Beer?</SubSpanActive>
-            ) : (
-              <Span>Want Some Beer?</Span>
-            )}
-          </TH>
-        </ListBtn>
-        {isLogin ? (
-          <ListBtn>
-            <RedirectBtn
-              onClick={() => {
-                redirectHome();
-                handleClickFavorite();
-              }}
-            >
-              <TH>
-                <Span>My Beers</Span>
-              </TH>
-            </RedirectBtn>
-            <SubUl>
-              <SubLiBtn
+    <>
+      <ListNav style={display ? {} : { display: 'none' }}>
+        <UL>
+          <ListBtn
+            onClick={() => {
+              redirectHome();
+              handleClickTodayBeer();
+            }}
+          >
+            <TH>
+              {isToday ? (
+                <SubSpanActive>Today&apos;s Beer</SubSpanActive>
+              ) : (
+                <Span>Today&apos;s Beer</Span>
+              )}
+            </TH>
+          </ListBtn>
+          <ListBtn
+            onClick={() => {
+              redirectHome();
+              handleClickWantSomeBeer();
+            }}
+          >
+            <TH>
+              {isWant ? (
+                <SubSpanActive>Want Some Beer?</SubSpanActive>
+              ) : (
+                <Span>Want Some Beer?</Span>
+              )}
+            </TH>
+          </ListBtn>
+          {isLogin ? (
+            <ListBtn>
+              <RedirectBtn
                 onClick={() => {
                   redirectHome();
                   handleClickFavorite();
                 }}
               >
-                {isFavorite ? (
-                  <TH>
-                    <SubSpanActive>Faviorite</SubSpanActive>
-                  </TH>
-                ) : (
+                <TH>
+                  <Span>My Beers</Span>
+                </TH>
+              </RedirectBtn>
+              <SubUl>
+                <SubLiBtn
+                  onClick={() => {
+                    redirectHome();
+                    handleClickFavorite();
+                  }}
+                >
+                  {isFavorite ? (
+                    <TH>
+                      <SubSpanActive>Faviorite</SubSpanActive>
+                    </TH>
+                  ) : (
+                    <TH>Faviorite</TH>
+                  )}
+                </SubLiBtn>
+                <SubLiBtn
+                  onClick={() => {
+                    redirectHome();
+                    handleClickReview();
+                  }}
+                >
+                  {isReview ? (
+                    <TH>
+                      <SubSpanActive>Review</SubSpanActive>
+                    </TH>
+                  ) : (
+                    <TH>Review</TH>
+                  )}
+                </SubLiBtn>
+              </SubUl>
+            </ListBtn>
+          ) : (
+            <ListBtn
+              onClick={() => {
+                handleClickGuest();
+              }}
+            >
+              <TH>My Beers</TH>
+              <SubUl>
+                <SubLiBtn>
                   <TH>Faviorite</TH>
-                )}
-              </SubLiBtn>
-              <SubLiBtn
-                onClick={() => {
-                  redirectHome();
-                  handleClickReview();
-                }}
-              >
-                {isReview ? (
-                  <TH>
-                    <SubSpanActive>Review</SubSpanActive>
-                  </TH>
-                ) : (
+                </SubLiBtn>
+                <SubLiBtn>
                   <TH>Review</TH>
-                )}
-              </SubLiBtn>
-            </SubUl>
-          </ListBtn>
-        ) : (
-          <ListBtn
-            onClick={() => {
-              handleClickGuest();
-            }}
-          >
-            <TH>My Beers</TH>
-            <SubUl>
-              <SubLiBtn>
-                <TH>Faviorite</TH>
-              </SubLiBtn>
-              <SubLiBtn>
-                <TH>Review</TH>
-              </SubLiBtn>
-            </SubUl>
-          </ListBtn>
-        )}
-      </UL>
+                </SubLiBtn>
+              </SubUl>
+            </ListBtn>
+          )}
+        </UL>
+      </ListNav>
       <FNav className='fnav'>
         <NavBtn
           onClick={() => {
@@ -180,7 +182,7 @@ function BeerListNav({
           </>
         )}
       </FNav>
-    </ListNav>
+    </>
   );
 }
 
@@ -254,7 +256,7 @@ const FNav = styled.div`
     display: flex;
     justify-content: space-around;
     algin-items: center;
-    padding-top: 10px;
+    padding: 0;
   } ;
 `;
 
