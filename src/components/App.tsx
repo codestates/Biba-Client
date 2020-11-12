@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { HomeContainerWithRouter } from '../containers/page/HomeContainer';
 import { NavContainerWithRouter } from '../containers/nav/NavContainer';
 import { BeerListNavContainerWithRouter } from '../containers/nav/BeerListNavContainer';
+import { FloatNavContainerWithRouter } from '../containers/nav/FloatNavContainer';
 import { ModalContainerWithRouter } from '../containers/nav/ModalContainer';
 import { LoginContainerWithRouter } from '../containers/user/LoginContainer';
 import { SignupContainerWithRouter } from '../containers/user/SignupContainer';
@@ -55,7 +56,7 @@ export const App = ({
           )}
         </Half>
         <Float>
-          <Route component={BeerListNavContainerWithRouter} />
+          <Route component={FloatNavContainerWithRouter} />
         </Float>
       </Main>
       <Footer>

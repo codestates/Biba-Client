@@ -48,6 +48,11 @@ const Item = styled.img`
     margin-left: 20px;
   }
 
+  @media (max-width: 375px) {
+    width: 140px;
+    margin-left: 10px;
+  }
+
   @media (max-width: 360px) {
     width: 120px;
     margin-left: 20px;
