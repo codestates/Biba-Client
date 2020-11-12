@@ -20,7 +20,7 @@ import {
   btnOffText,
   pDefault,
 } from '../../components/nav/color';
-import { Nickname, PIcon } from '../../containers/nav/ModalContainer';
+import { Nickname, PIcon } from '../../containers/modal/ModalContainer';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 
 export const Nav = ({
@@ -101,6 +101,21 @@ export const Nav = ({
               </>
             )}
           </SearchbarArea>
+          <SearchbarArea2 className='searchbarArea2'>
+            <SearchInputWrap className='searchInputWrap'>
+              <Input
+                type='text'
+                placeholder='맥주 이름을 입력해주세요.'
+                value={inputQuery.query}
+                onChange={handleOnChange}
+                onKeyPress={pressEnter}
+              ></Input>
+              <SearchIcon
+                className='searchIcon'
+                style={{ cursor: 'default', width: '1.5em' }}
+              />
+            </SearchInputWrap>
+          </SearchbarArea2>
           <BtnArea className='btnArea'>
             <NavBtn
               onClick={() => {
@@ -126,6 +141,7 @@ export const Nav = ({
               </NicknameProfile>
             ) : undefined}
           </BtnArea>
+
           <MenuIconWrap>
             <Hamberger onClick={() => handleClickHiddenMenu(!menuDisplay)} />
           </MenuIconWrap>
@@ -243,6 +259,13 @@ const Logo = styled.img`
   object-fit: contain;
   // margin: 0 -0.5em 0 -0.5em;
 `;
+const SearchbarArea2 = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
 
 const SearchbarArea = styled.div`
   display: flex;
@@ -257,6 +280,9 @@ const SearchbarArea = styled.div`
   margin: 0 0.5em 0.1em 0;
   padding: 0.5em 0.8em 0.5em 0.8em;
   // background-color: ${mainYellowOpac};
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const IconWrap = styled.div`
