@@ -81,6 +81,9 @@ const AboutText2 = styled(AboutText)`
   @media (max-width: 768px) {
     display: flex;
   }
+  @media (max-width: 360px) {
+    font-size: 0.7em;
+  }
 `;
 const Beer = styled(BiBeer)`
   width: 1.3em;
@@ -102,6 +105,9 @@ const Count = styled.div`
   font-family: 'Lato';
   font-size: 0.95em;
   color: rgba(50, 50, 50, 0.6);
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
 `;
 const Beer2 = styled(BiBeer)`
   width: 1.1em;

@@ -77,12 +77,22 @@ const Container = styled.div`
     '. Main .'
     '. Footer .'
     '. . .';
+  @media (max-width: 768px) {
+    grid-template-rows: 2em auto auto auto 3em;
+    grid-template-columns: auto 86% auto;
+  }
 `;
 
 const Nav = styled.div`
   grid-area: Nav;
   width: 100%;
   margin: 0 0 2.2em 0;
+  @media (max-width: 768px) {
+    margin: 0 0 1em 0;
+  }
+  @media (max-width: 414px) {
+    margin: 0 0 0.4em 0;
+  }
 `;
 
 const Main = styled.div`
