@@ -242,7 +242,7 @@ const BeerDetailContainer = ({
   };
 
   const handleClickAllReviews = (): void => {
-    handleModal(ContentType.AllReviews, true);
+    handleModal(ContentType.DetailAllReviews, true);
   };
 
   const handleClickTag = (e: React.MouseEvent<HTMLElement>): void => {

@@ -28,7 +28,7 @@ export enum ContentType {
   MyPageAllReviews,
   MyBeerList,
   UsersReview,
-  AllReviews,
+  DetailAllReviews,
   RequestBeer,
 }
 export interface BtnColor {
