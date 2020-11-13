@@ -1,44 +1,23 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# About
+![biba](https://user-images.githubusercontent.com/65945933/98622763-9ab5ed00-234d-11eb-9eff-c0fe0b403bc5.png)
 
-## Available Scripts
+What are you drinking? Biba!
 
-In the project directory, you can run:
+### 🍻 마트, 편의점 맥주를 한눈에
 
-### `yarn start`
+요즘 뜨거운 맥주와 내 취향에 맞는 맥주를 한눈에 확인해 볼 수 있습니다!
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 🧡 내 입맛에 딱 맞는 취향저격 맥주
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+유저가 평가한 별점 바탕으로 개인화된 추천 서비스
 
-### `yarn test`
+당신의 맥주취향을 찾아드립니다.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🗃️ 나만의 맥주 저장소
 
-### `yarn build`
+맛있게 마셨던 맥주, 마셔보고 싶은 맥주 모두 보관함에 저장하고 기록할 수 있습니다. 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+여러분의 경험을 공유해 주세요.
+<br/><br/>
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### [BIBA! 바로가기](https://biba.website)
