@@ -28,7 +28,7 @@ export const Modal = ({
       return '별점 & 리뷰 등록하기';
     } else if (contentType === ContentType.UsersReview && user_review) {
       return '리뷰 수정하기';
-    } else if (contentType === ContentType.AllReviews) {
+    } else if (contentType === ContentType.DetailAllReviews) {
       return '리뷰 전체보기';
     } else if (contentType === ContentType.RequestBeer) {
       return '맥주 등록 요청하기';
@@ -63,7 +63,7 @@ export const Modal = ({
               <CloseBtn className='closeBtn' onClick={closeModal} />
             </TitleWrap>
             <ContentWrap className='modalContentWrap'>
-              {(contentType === ContentType.AllReviews &&
+              {(contentType === ContentType.DetailAllReviews &&
                 allReviews.length !== 0) ||
               (contentType === ContentType.MyPageAllReviews &&
                 myReviews.length !== 0) ||

@@ -23,7 +23,6 @@ export const MDChangeNicknameContainer = ({
   isLogin,
   token,
   closeModal,
-  handleInputOnChange,
 }: ModalContentProps): JSX.Element => {
   const nicknameConfirm = useSelector(
     (state: RootState) => state.confirmNickname.value,
@@ -32,7 +31,6 @@ export const MDChangeNicknameContainer = ({
   const [inputValues, setInputValues] = useState({
     nickname: '',
   });
-  // ================================================================ Change Nickname 함수
   const handleConfirmNickname = (value: boolean): void => {
     dispatch({ type: 'CONFIRM_NICKNAME', value });
   };

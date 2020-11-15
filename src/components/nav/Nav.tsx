@@ -277,7 +277,7 @@ const Logo = styled.img`
 const SearchbarArea2 = styled.div`
   display: none;
 
-  @media (max-width: 1080px) {
+  @media (max-width: 768px) {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -297,7 +297,7 @@ const SearchbarArea = styled.div`
   margin: 0 0.5em 0.1em 0;
   padding: 0.5em 0.8em 0.5em 0.8em;
   // background-color: ${mainYellowOpac};
-  @media (max-width: 1080px) {
+  @media (max-width: 768px) {
     display: none;
   }
 `;
