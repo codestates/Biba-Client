@@ -11,7 +11,7 @@ const numToStar = (rate: number) => {
   return result;
 };
 
-function Beer({
+function TodayBeer({
   id,
   name,
   image,
@@ -21,30 +21,58 @@ function Beer({
 }: BeerProps): JSX.Element {
   const star = numToStar(rate);
   return (
-    <BeerImage>
-      <Image src={image} alt={name} />
-      <TextContainer>
-        <Text>{name}</Text>
-        <Text>{star}</Text>
-      </TextContainer>
-    </BeerImage>
+    <Item
+      id={id}
+      src={image}
+      onClick={(e) => {
+        setBeerDetail(e);
+        setAllReviews(e);
+      }}
+    ></Item>
   );
 }
 
-const BeerImage = styled.div`
-  height: 30vh;
-  width: 100%;
-  text-align: center;
-  border: 1px solid gray;
-  border-radius: 1em;
-  margin: 1em auto;
-  padding: 1em;
+const Item = styled.img`
+  width: 200px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px lightgray;
   &:hover {
     transition: all ease 1s;
     transform: scale(1.1);
     cursor: pointer;
   }
+
+  @media (max-width: 414px) {
+    width: 140px;
+    margin-left: 20px;
+  }
+
+  @media (max-width: 375px) {
+    width: 140px;
+    margin-left: 10px;
+  }
+
+  @media (max-width: 360px) {
+    width: 120px;
+    margin-left: 20px;
+  }
 `;
+
+// const BeerImage = styled.div`
+//   height: 30vh;
+//   width: 100%;
+//   text-align: center;
+//   border: 1px solid gray;
+//   border-radius: 1em;
+//   margin: 1em auto;
+//   padding: 1em;
+//   &:hover {
+//     transition: all ease 1s;
+//     transform: scale(1.1);
+//     cursor: pointer;
+//   }
+// `;
 
 const TextContainer = styled.div`
   display: flex;
@@ -59,12 +87,7 @@ const Text = styled.div`
   margin-top: 10px;
 `;
 
-const Image = styled.img`
-  height: 80%;
-  width: 50%;
-`;
-
-export default Beer;
+export default TodayBeer;
 
 // 가운데 정렬 css
 //부모 태그

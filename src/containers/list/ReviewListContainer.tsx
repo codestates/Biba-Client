@@ -6,7 +6,6 @@ import { RootState } from '../../modules';
 import ReviewList from '../../components/list/ReviewBeerList';
 import axios from 'axios';
 import { BeerT, BEER_REVIEW } from '../../modules/getbeers';
-
 import { HomeProps } from '../../containers/page/HomeContainer';
 
 function ReviewListContainer({
@@ -27,7 +26,7 @@ function ReviewListContainer({
     axios
       .post<BeerT[]>(`https://beer4.xyz/comment/mylist`, { token: token })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setReviewBeers(res.data);
       });
   }, []);

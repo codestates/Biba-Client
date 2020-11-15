@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FStar } from '../../components/page/BeerDetail';
 import { BeerProps } from '../../containers/page/HomeContainer';
 import { mainGrey } from '../../components/nav/color';
+
 function SearchBeer({
   id,
   name,
@@ -28,9 +29,9 @@ function SearchBeer({
         setAllReviews(e);
       }}
     >
-      <Top>
-        <Image src={image} alt={name} />
-      </Top>
+      <ImageWrap>
+        <Image className='image' src={image} alt={name} />
+      </ImageWrap>
       <Middle>
         <Text>{name}</Text>
       </Middle>
@@ -45,13 +46,16 @@ function SearchBeer({
 }
 
 const BeerImage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   height: 25vh;
-  width: 12vw;
   text-align: center;
   box-shadow: 1px 1px;
   border-radius: 1em;
   margin: 1em auto;
-  padding: 1em;
+  padding: 1em 0.5em 1.5em 0.5em;
   &:hover {
     animation: fadein 2s;
     cursor: pointer;
@@ -68,40 +72,41 @@ const BeerImage = styled.div`
   font-weight: 500;
 `;
 
-const Top = styled.div`
-  height: 60%;
+const ImageWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  max-width: 180px;
+  overflow: hidden;
   &:hover {
     transition: all ease 1s;
     transform: translateY(-30px);
   }
+  padding: 0.6em 0 0 0;
+`;
+const Image = styled.img`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85%;
+  padding: 0.3em 0 0.1em 0;
 `;
 const Middle = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
-  height: 30%;
 `;
 const Bottom = styled.div`
-  height: 10%;
+  height: 1.2em;
+  min-height: 1.2em;
+  margin: 0.2em 0 0 0;
 `;
 
 const Text = styled.div`
   overflow-wrap: break-word;
   word-wrap: break-word;
-  transform: translateY(10px);
   z-index: -1;
-`;
-
-const Image = styled.img`
-  height: 100%;
-  width: 50%;
-  transform: translateY(20px);
-`;
-
-const StarWrap = styled.div`
-  display: flex;
-  justify-content: center;
+  font-size: 14px;
 `;
 
 export default SearchBeer;

@@ -51,6 +51,9 @@ const FooterArea = styled.div`
 
   width: 100%;
   padding: 0.3em;
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 const About = styled.div`
   display: flex;
@@ -68,10 +71,19 @@ const AboutText = styled.div`
   line-height: 1.5;
   font-weight: 500;
   color: ${mainYellowOpac};
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const AboutText2 = styled(AboutText)`
   font-size: 0.8em;
   margin: 0.7em 0 0 0;
+  @media (max-width: 768px) {
+    display: flex;
+  }
+  @media (max-width: 360px) {
+    font-size: 0.7em;
+  }
 `;
 const Beer = styled(BiBeer)`
   width: 1.3em;
@@ -93,6 +105,9 @@ const Count = styled.div`
   font-family: 'Lato';
   font-size: 0.95em;
   color: rgba(50, 50, 50, 0.6);
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
 `;
 const Beer2 = styled(BiBeer)`
   width: 1.1em;

@@ -8,6 +8,7 @@ const SET_REQUESTTYPE = 'SET_REQUESTTYPE' as const;
 const SET_MYBEERTYPE = 'SET_MYBEERTYPE' as const;
 const SET_SELECTEDBEER = 'SET_SELECTEDBEER' as const;
 const SET_VISITCOUNT = 'SET_VISITCOUNT' as const;
+const SET_MENUDISPLAY = 'SET_MENUDISPLAY' as const;
 
 export interface SearchbarState {
   display: boolean;
@@ -27,7 +28,7 @@ export enum ContentType {
   MyPageAllReviews,
   MyBeerList,
   UsersReview,
-  AllReviews,
+  DetailAllReviews,
   RequestBeer,
 }
 export interface BtnColor {
@@ -53,6 +54,10 @@ export interface SelectedBeer {
 
 export interface VisitCount {
   count: number | string;
+}
+
+export interface MenuDisplay {
+  display: boolean;
 }
 // 이하로 action interface + init + action
 interface SearchbarStateAction extends SearchbarState {
@@ -160,6 +165,17 @@ const setVisitCountInit: VisitCount = {
 export const setVisitedCount = (count: number | string): VisitCountAction => ({
   type: SET_VISITCOUNT,
   count,
+});
+
+interface MenuDisplayAction extends MenuDisplay {
+  type: typeof SET_MENUDISPLAY;
+}
+const menuDisplayInit: MenuDisplay = {
+  display: false,
+};
+export const setMenuDisplay = (display: boolean): MenuDisplayAction => ({
+  type: SET_MENUDISPLAY,
+  display,
 });
 // ============ 이하로 reducers
 export const searchbarReducer = (
@@ -285,6 +301,22 @@ export const visitCountReducer = (
       return {
         ...state,
         count: action.count,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const menuDisplayReducer = (
+  state = menuDisplayInit,
+  action: MenuDisplayAction,
+): MenuDisplay => {
+  switch (action.type) {
+    case SET_MENUDISPLAY:
+      return {
+        ...state,
+        display: action.display,
       };
 
     default:

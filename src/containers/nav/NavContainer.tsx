@@ -34,6 +34,8 @@ export interface NavProps {
   searchbarDisplay: boolean;
   handleClickIcon(display: boolean): void;
   handleSearch(): void;
+  menuDisplay: boolean;
+  handleClickHiddenMenu(display: boolean): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
@@ -42,7 +44,9 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
     (state: RootState) => state.login,
   );
   const { profile } = useSelector((state: RootState) => state.profile);
-  const { display } = useSelector((state: RootState) => state.navDisplay);
+  const menuDisplay = useSelector(
+    (state: RootState) => state.menuDisplay.display,
+  );
   const searchbarDisplay = useSelector(
     (state: RootState) => state.searchbar.display,
   );
@@ -81,7 +85,7 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
     axios
       .get(`https://beer4.xyz/users/logout`, { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           dispatch({ type: 'DELETE_PROFILE' });
           dispatch({ type: 'SET_LOGOUTSTATE' });
@@ -102,9 +106,9 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
             type: 'SET_COMPAREBEER',
             compareBeer: compareBeerInit.compareBeer,
           });
-          // handleClickTodayBeer();
-          // handleNavDisplay(true);
-          // props.history.push('/');
+          handleClickTodayBeer();
+          handleNavDisplay(true);
+          props.history.push('/');
         }
       });
   };
@@ -161,10 +165,13 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
   };
   const handleCount = (): void => {
     axios.get(`https://beer4.xyz/count`).then((res) => {
-      console.log(res);
+      // console.log(res);
       const currentCount = res.data.totalVisits;
       dispatch({ type: 'SET_VISITCOUNT', count: currentCount });
     });
+  };
+  const handleClickHiddenMenu = (display: boolean): void => {
+    dispatch({ type: 'SET_MENUDISPLAY', display: display });
   };
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -194,6 +201,8 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
         searchbarDisplay={searchbarDisplay}
         handleClickIcon={handleClickIcon}
         handleSearch={handleSearch}
+        menuDisplay={menuDisplay}
+        handleClickHiddenMenu={handleClickHiddenMenu}
         pressEnter={pressEnter}
       />
     </>

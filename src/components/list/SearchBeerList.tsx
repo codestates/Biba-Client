@@ -2,8 +2,6 @@ import React from 'react';
 import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
 import './TodayCss.css';
-
-import { BeerI } from '../../modules/getbeers';
 import { BeerListProps } from '../../containers/page/HomeContainer';
 
 import SearchBeer from './SearchBeer';
@@ -40,7 +38,7 @@ function SearchBeerList({
     800: 2,
     500: 1,
   };
-  console.log(sbList);
+  // console.log(sbList);
   return (
     <>
       {exist ? (

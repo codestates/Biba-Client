@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { BeerProps } from '../../containers/page/HomeContainer';
 import { mainGrey } from '../../components/nav/color';
 
@@ -20,17 +19,20 @@ function Review({
         setAllReviews(e);
       }}
     >
-      <Sub>
+      <ImageWrap>
         <Image className='image' src={image} alt={name} />
-        <Name className='name'>{name}</Name>
-      </Sub>
+      </ImageWrap>
+      <Name className='name'>{name}</Name>
     </Item>
   );
 }
 
 const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   float: left;
-  padding-top: 20px;
   height: 200px;
   width: 150px;
   border-radius: 8px;
@@ -80,36 +82,35 @@ const Item = styled.div`
   font-weight: 500;
 `;
 
-const Sub = styled.div`
-  height: 100%;
-  width: 100%;
+const ImageWrap = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-content: center;
-  align-items: center;
-  color: black;
-  overflow: hidden;
-`;
+  align-items: flex-start;
 
-const Name = styled.div`
-  text-align: center;
-  font-size: 14px;
+  height: 80%;
   width: 100%;
-  height: 50px;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-`;
 
+  overflow: hidden;
+  margin: 0 0 -0.2em 0;
+`;
 const Image = styled.img`
-  height: 60%;
-  width: 40%;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 89%;
+  padding: 1.1em 0 0.1em 0;
   &:hover {
     transition: all ease 1s;
     transform: translateY(-5px);
     cursor: pointer;
   }
+`;
+const Name = styled.div`
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 `;
 
 export default Review;

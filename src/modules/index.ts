@@ -18,6 +18,7 @@ import {
   myBeerListTypeReducer,
   selectedBeerReducer,
   visitCountReducer,
+  menuDisplayReducer,
 } from './nav';
 import {
   todayBeerReducer,
@@ -61,6 +62,7 @@ export const rootReducer = combineReducers({
   myBeerListType: myBeerListTypeReducer,
   selectedBeer: selectedBeerReducer,
   visitCount: visitCountReducer,
+  menuDisplay: menuDisplayReducer,
   beerDetail: beerDetailReducer,
   compareBeer: compareBeerReducer,
   bookmark: bookmarkReducer,

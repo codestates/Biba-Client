@@ -37,6 +37,9 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   const { disBasic, disStory, disMore } = useSelector(
     (state: RootState) => state.infoDisplay,
   );
+  const menuDisplay = useSelector(
+    (state: RootState) => state.menuDisplay.display,
+  );
   const dispatch = useDispatch();
   const setLogin = (userData: User, isLogin: boolean, token: string) => {
     dispatch({ type: 'SET_LOGINSTATE', userData, isLogin, token });
@@ -52,6 +55,9 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   };
   const closeModal = (): void => {
     handleModalClose(ContentType.Empty, false);
+  };
+  const handleClickHiddenMenu = (display: boolean): void => {
+    dispatch({ type: 'SET_MENUDISPLAY', display: display });
   };
 
   const [inputValues, setInputValues] = useState({
@@ -76,9 +82,10 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
       )
       .then((res) => {
         if (res.status === 200) {
+          if (menuDisplay) handleClickHiddenMenu(false);
           const { id, nickname, email } = res.data.userData;
           const { token, profile } = res.data;
-          console.log(res.headers);
+          // console.log(res.headers);
           // 받은 데이터로 store 상태 업데이트
           setLogin({ id: id, nickname: nickname, email: email }, true, token);
           setProfile(profile);
@@ -103,7 +110,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
                 },
               )
               .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 const beerDetail: IBeerDetail = res.data;
                 dispatch({ type: 'SET_BEERDETAIL', beerDetail: beerDetail }); // store에 detail 전달
                 const { bookmark } = res.data;
@@ -179,16 +186,23 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   };
 
   const handleGoogleLogin = () => {
+<<<<<<< HEAD
     axios
       .get('http://localhost:4000/auth/google')
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
+=======
+    axios.get('https://beer4.xyz/auth/google');
+    // .then((res) => console.log(res))
+    // .catch((e) => console.log(e));
+>>>>>>> 5cc1359383882c1aa11d82ebaa2828ad0c6088b1
   };
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleLogin();
   };
   const redirectToSignup = (): void => {
+    if (menuDisplay) handleClickHiddenMenu(false);
     closeModal();
     props.history.push('/signup');
   };

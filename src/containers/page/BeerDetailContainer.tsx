@@ -29,7 +29,7 @@ import {
   Comment,
   ReviewRate,
   DateString,
-} from './../../containers/nav/ModalContainer';
+} from '../modal/ModalContainer';
 
 import { RootState } from '../../modules';
 import { ContentType } from '../../modules/nav';
@@ -242,7 +242,7 @@ const BeerDetailContainer = ({
   };
 
   const handleClickAllReviews = (): void => {
-    handleModal(ContentType.AllReviews, true);
+    handleModal(ContentType.DetailAllReviews, true);
   };
 
   const handleClickTag = (e: React.MouseEvent<HTMLElement>): void => {
