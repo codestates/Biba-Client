@@ -12,7 +12,6 @@ import {
 } from '../../modules/getbeers';
 import WantSomeBeerList from '../../components/list/WantSomeBeerList';
 import axios from 'axios';
-
 import { HomeProps } from '../../containers/page/HomeContainer';
 
 function WantSomeBeerListContainer({

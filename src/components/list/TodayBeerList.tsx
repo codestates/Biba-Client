@@ -2,7 +2,6 @@ import React from 'react';
 import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
 import './TodayCss.css';
-
 import TodayBeer from './TodayBeer';
 import { BeerListProps } from '../../containers/page/HomeContainer';
 

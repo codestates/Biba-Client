@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Carousel from 'react-elastic-carousel';
 import './WantCss.css';
-
 import WantSomeBeer from './WantSomeBeer';
 import { WantI } from '../../modules/getbeers';
 import { DetailProps } from '../../containers/page/HomeContainer';

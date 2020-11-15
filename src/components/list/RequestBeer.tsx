@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ContentType } from '../../modules/nav';
 import { mainGrey, mainYellow, mainYellowOpac } from '../nav/color';
 

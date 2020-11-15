@@ -6,7 +6,6 @@ import { RootState } from '../../modules';
 import { BeerT, BEER_TODAY } from '../../modules/getbeers';
 import { HomeProps } from '../../containers/page/HomeContainer';
 import axios from 'axios';
-
 import TodayBeerList from '../../components/list/TodayBeerList';
 import LoadingAnimation from '../../components/page/LoadingAnimation';
 

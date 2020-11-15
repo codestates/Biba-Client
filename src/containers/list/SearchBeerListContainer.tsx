@@ -1,10 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import SearchBeerList from '../../components/list/SearchBeerList';
-
 import { HomeProps } from '../../containers/page/HomeContainer';
 
 function SearchBeerListContainer({

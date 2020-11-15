@@ -6,7 +6,6 @@ import { RootState } from '../../modules';
 import ReviewList from '../../components/list/ReviewBeerList';
 import axios from 'axios';
 import { BeerT, BEER_REVIEW } from '../../modules/getbeers';
-
 import { HomeProps } from '../../containers/page/HomeContainer';
 
 function ReviewListContainer({

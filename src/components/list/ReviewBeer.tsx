@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { BeerProps } from '../../containers/page/HomeContainer';
 import { mainGrey } from '../../components/nav/color';
 
