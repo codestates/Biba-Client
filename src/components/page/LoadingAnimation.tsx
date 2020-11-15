@@ -14,14 +14,14 @@ function LoadingAnimation(): JSX.Element {
     },
   };
 
-  const { promiseInProgress } = usePromiseTracker();
+  const { promiseInProgress } = usePromiseTracker({ delay: 500 });
 
   return (
     <>
       {promiseInProgress === true ? (
         <Wrap>
           <Loading>
-            <Lottie options={defaultOptions} height={200} width={200} />
+            <Lottie options={defaultOptions} height='90%' width='90%' />
           </Loading>
         </Wrap>
       ) : null}

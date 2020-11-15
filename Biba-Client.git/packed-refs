@@ -1,0 +1,21 @@
+# pack-refs with: peeled fully-peeled sorted 
+9886f40b53bb1dcfe742e4d23c9ef2ec6968298c refs/heads/CSS/Category-1027
+3486fc2260887b2d963426e523e4f783ec118198 refs/heads/CSS/Home-1112
+bd0227aea5aca0992cae018635dfc31de343f579 refs/heads/CSS/Home-Category-1030
+ff82243c6a88d88e0ce2f5ecff8c5c1879c47d51 refs/heads/CSS/Home-MyBeer
+74567cf3f22b91576b2ae7626c8115f7ba5b45fd refs/heads/CSS/Home-TodayBeer
+6f8aee55d772c3623206ee3a18979cbce57f858f refs/heads/CSS/RequestBeer
+cc26c86aacac19ff91b1441dc8520665874e01e8 refs/heads/CSS/Resoponsive-1110
+4117391a865a19a7767f8d2fa632a9294dd13832 refs/heads/Component/Home-MyBeer-1021
+345c30dfc9c52d4437cedf5f98fa90bdd94d665a refs/heads/Component/Search-RequestBeer-1021
+4a0d1fd1c4ffce74f7dfc9cf3e55cfca148f6d54 refs/heads/Debug/DetailClickXMyBeer-1101
+77da66055f228756c853bc41787227d03688c239 refs/heads/Debug/SearchItemHover-1102
+b8bdc871df7eeb9fc4fa1c14cca9325aba373b20 refs/heads/Debug/WSB-1101
+4d5a3ecab0bf947d3629432966575ee59d718aab refs/heads/Deploy/Webpack
+6dfe9a5332119438766c19dc45a757b2c6c1d155 refs/heads/Feature/Favorite-Filter-1031
+49e4eae1cdca8ea358617b8b268219a4b906a9ca refs/heads/Feature/Home-Login
+b854af25034fd42478c402b63b8f7f991e021e02 refs/heads/Feature/Nav-UpdateSearch-1031
+9409034c37a4e22c2ee7bee6e75607c8f8968fe4 refs/heads/Feature/WSB-HiddenCoponent-1031
+17ca3b4913b311038d00b60fce51b797fd732616 refs/heads/Update/Home-DeleteMyBeer-1031
+9e73a1b1f34490e0912cf6216407b763ebe488d1 refs/heads/dev
+0ace4cfbd8d4d6ca3be0121df6fe636f5d81b9df refs/heads/main
