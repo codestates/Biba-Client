@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler, SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { RouterProps } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Login } from '../../components/user/Login';
 import { RootState } from '../../modules';
 import { User, UserState, UserProfile } from '../../modules/user';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import {
   aReview,
   beerDetailInit,
@@ -186,16 +186,9 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   };
 
   const handleGoogleLogin = () => {
-<<<<<<< HEAD
-    axios
-      .get('http://localhost:4000/auth/google')
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e));
-=======
     axios.get('https://beer4.xyz/auth/google');
     // .then((res) => console.log(res))
     // .catch((e) => console.log(e));
->>>>>>> 5cc1359383882c1aa11d82ebaa2828ad0c6088b1
   };
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {

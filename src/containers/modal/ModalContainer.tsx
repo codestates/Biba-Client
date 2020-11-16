@@ -18,7 +18,7 @@ import { MDDetailAllReviewsContainer } from './DetailAllReviewsContainer';
 import { MDRequestBeerContainer } from './RequestBeerContainer';
 
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import { aReview } from '../../modules/beerdetail';
 
 import { Modal } from '../../components/modal/Modal';

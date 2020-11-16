@@ -13,6 +13,8 @@ import { MypageContainerWithRouter } from '../containers/user/MypageContainer';
 import { FooterContainerithRouter } from '../containers/nav/FooterContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
+import { MobileSearchContainerWithRouter } from '../containers/page/MobileSearchContainer';
+
 import { AppProps } from '../containers/AppContainer';
 
 export const App = ({
@@ -46,6 +48,10 @@ export const App = ({
         <Half>
           <Switch>
             <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
+            <Route
+              path='/msearch'
+              component={MobileSearchContainerWithRouter}
+            />
             <Route exact path='/' component={HomeContainerWithRouter} />
           </Switch>
           {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import { Nav } from '../../components/nav/Nav';
 import { BeerT } from '../../modules/getbeers';
 import { beerDetailInit, compareBeerInit } from '../../modules/beerdetail';
@@ -36,6 +36,8 @@ export interface NavProps {
   handleSearch(): void;
   menuDisplay: boolean;
   handleClickHiddenMenu(display: boolean): void;
+  mobileModalDisplay: boolean;
+  handleMobileModal(contentType: ContentType, display: boolean): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
@@ -50,6 +52,9 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
   const searchbarDisplay = useSelector(
     (state: RootState) => state.searchbar.display,
   );
+  const mobileModalDisplay = useSelector(
+    (state: RootState) => state.mobileModal.display,
+  );
 
   const dispatch = useDispatch();
   const handleClickTodayBeer = (): void => {
@@ -57,6 +62,9 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
   };
   const handleNavDisplay = (display: boolean) => {
     dispatch({ type: 'SET_NAVDISPLAY', display });
+  };
+  const handleMobileModal = (contentType: ContentType, display: boolean) => {
+    dispatch({ type: 'SET_MOBILE_MODAL', contentType, display });
   };
 
   const handleClickLogo = (): void => {
@@ -203,6 +211,8 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
         handleSearch={handleSearch}
         menuDisplay={menuDisplay}
         handleClickHiddenMenu={handleClickHiddenMenu}
+        mobileModalDisplay={mobileModalDisplay}
+        handleMobileModal={handleMobileModal}
         pressEnter={pressEnter}
       />
     </>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import { mainGrey, mainYellow, mainYellowOpac } from '../nav/color';
 
 export interface BeerProps {

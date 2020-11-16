@@ -32,7 +32,7 @@ import {
 } from '../modal/ModalContainer';
 
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import { BeerDetail } from '../../components/page/BeerDetail';
 import { Bookmark, IBeerDetail, aReview } from '../../modules/beerdetail';
 import { BeerT, BEER_FAVORITE_ABC, BEER_REVIEW } from '../../modules/getbeers';

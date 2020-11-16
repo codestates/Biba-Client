@@ -11,7 +11,7 @@ import {
   FAVORITE,
   REVIEW,
 } from '../../modules/changepage';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 
 export interface BeerListNavProps {
   isLogin: boolean;

@@ -8,7 +8,7 @@ import axios from 'axios';
 import Home from '../../components/page/Home';
 import { RootState } from '../../modules';
 import { BeerT } from '../../modules/getbeers';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import {
   IBeerDetail,
   beerDetailInit,

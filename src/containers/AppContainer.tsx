@@ -36,8 +36,8 @@ export const AppContainer = ({
     handleConfirmAge(false);
   };
 
-  const whiteList = ['login', 'signup', 'beer', 'mypage'];
-  const fullList = ['/login', '/signup', '/mypage'];
+  const whiteList = ['login', 'signup', 'beer', 'mypage', 'msearch'];
+  const fullList = ['/login', '/signup', '/mypage', '/msearch'];
   useEffect(() => {
     fullList.indexOf(location.pathname) !== -1
       ? handleNavDisplay(false)

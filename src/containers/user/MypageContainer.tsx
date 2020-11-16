@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { RootState } from '../../modules';
 import { User, UserState, UserProfile } from '../../modules/user';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import { aReview } from '../../modules/beerdetail';
 import { Mypage, ProfileRef } from '../../components/user/Mypage';
 import {
