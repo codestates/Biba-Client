@@ -40,22 +40,23 @@ export const App = ({
             <Route path='/signup' component={SignupContainerWithRouter} />
             {isLogin ? (
               <Route path='/mypage' component={MypageContainerWithRouter} />
+            ) : whiteList.indexOf(location.pathname) === -1 ? (
+              <Redirect to='/' path='*' />
             ) : (
-              <Redirect exact to='/' />
+              false
             )}
           </Switch>
         </Full>
         <Half>
           <Switch>
-            <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
             <Route
               path='/msearch'
               component={MobileSearchContainerWithRouter}
             />
+            <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
             <Route exact path='/' component={HomeContainerWithRouter} />
           </Switch>
-          {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (
-            // || location.pathname.split('/').length !== 2 ? ( // 최종 때는 활성화?
+          {whiteList.indexOf(location.pathname) === -1 ? (
             <Redirect to='/' path='*' />
           ) : (
             false

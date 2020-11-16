@@ -36,15 +36,17 @@ export const AppContainer = ({
     handleConfirmAge(false);
   };
 
-  const whiteList = ['login', 'signup', 'beer', 'mypage', 'msearch'];
-  const fullList = ['/login', '/signup', '/mypage', '/msearch'];
+  const whiteList = ['/login', '/signup', '/beer', '/msearch'];
+  const fullList = ['/login', '/signup', '/mypage'];
   useEffect(() => {
     fullList.indexOf(location.pathname) !== -1
       ? handleNavDisplay(false)
       : handleNavDisplay(true);
   }, [fullList, handleNavDisplay, location.pathname]);
   useEffect(() => {
-    return location.pathname === 'signup' || location.pathname === 'mypage'
+    return location.pathname === 'signup' ||
+      location.pathname === 'mypage' ||
+      location.pathname === 'msearch'
       ? undefined
       : handleConfirms();
   }, [handleConfirms, location.pathname]);
