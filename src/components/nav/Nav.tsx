@@ -374,10 +374,8 @@ const Input = styled.input`
   &:focus {
     outline: none;
   }
-  @media (max-width: 1024px) {
-    width: 200px;
+  @media (max-width: 1244px) {
     height: 2em;
-    min-width: 200px;
     margin: 0 0.3em 0 0.4em;
     font-size: 0.95em;
   }
@@ -403,8 +401,8 @@ const SearchBtn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 1024px) {
-    margin: 0 1em 0.05em 0.05em;
+  @media (max-width: 1244px) {
+    margin: 0 0 0.05em 0.05em;
     padding: 0.375em 0.5em 0.3em 0.5em;
   }
 `;
@@ -417,7 +415,7 @@ const BtnArea = styled.div`
 
   width: auto;
   height: 3em;
-  @media (max-width: 1024px) {
+  @media (max-width: 1244px) {
     display: none;
   }
 `;
@@ -469,15 +467,9 @@ const SmallProfile = styled.img`
   // max-width: 100vh;
   object-fit: contain;
 `;
-const MenuIconWrap = styled.div`
-  display: none;
-  @media (max-width: 768px) {
-    display: block;
-  }
-`;
 const Hamberger = styled(HiOutlineMenuAlt3)`
   display: none;
-  @media (max-width: 1024px) {
+  @media (max-width: 1244px) {
     display: flex;
     width: 1.5em;
     height: 1.5em;
@@ -487,7 +479,7 @@ const Hamberger = styled(HiOutlineMenuAlt3)`
 `;
 const ModalMask = styled.div`
   display: none;
-  @media (max-width: 1024px) {
+  @media (max-width: 1244px) {
     display: block;
     position: fixed;
     z-index: 8;
@@ -537,7 +529,7 @@ const MobileModal = styled.div`
 const SideNav = styled.div`
   display: none;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1244px) {
     display: block;
 
     position: fixed;

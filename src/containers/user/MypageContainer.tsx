@@ -326,6 +326,10 @@ export const SubmitBtnArea = styled.div`
   display: grid;
   grid-template-columns: 10em 14em;
   margin: 0.8em 0 0.5em 0;
+  @media (max-width: 414px) {
+    grid-template-columns: 8em auto;
+    margin: 0.4em 0 0.5em 0;
+  }
 `;
 export const SubmitBtn = styled.div`
   display: flex;

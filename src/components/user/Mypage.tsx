@@ -96,7 +96,7 @@ export const Mypage = ({
             <Content>{userData.email}</Content>
           </Detail1>
           {mapInputList()}
-          <Detail key='pfDetail5'>
+          <Detail5 key='pfDetail5'>
             <Subtitle5 className='userNickname'>닉네임</Subtitle5>
             {userData.nickname}
             <NNSubmitBtnArea>
@@ -109,43 +109,27 @@ export const Mypage = ({
                 </ChangeBtn>
               </SubmitBtn>
             </NNSubmitBtnArea>
-          </Detail>
+          </Detail5>
 
           <Detail6 key='pfDetail6'>
-            <Subtitle className='userMyReviews'>별점 & 리뷰</Subtitle>
-            <Content>
-              <MyReviews className='myReviews' onClick={() => getMyRates()}>
+            <Subtitle6 className='userMyReviews'>별점 & 리뷰</Subtitle6>
+            <ReviewBtnWrap>
+              <MyReviewsBtn className='myReviews' onClick={() => getMyRates()}>
                 별점 준 맥주
-              </MyReviews>
-              <MyReviews className='myReviews' onClick={() => getMyReviews()}>
+              </MyReviewsBtn>
+              <MyReviewsBtn
+                className='myReviews'
+                onClick={() => getMyReviews()}
+              >
                 리뷰 남긴 맥주
-              </MyReviews>
-            </Content>
+              </MyReviewsBtn>
+            </ReviewBtnWrap>
           </Detail6>
         </DetailArea>
       </MypageArea>
     </Container>
   );
 };
-
-/*
-<Detail key='pfDetail5'>
-  <Subtitle5 className='userNickname'>닉네임</Subtitle5>
-  <Content5>
-  {userData.nickname}
-  <NNSubmitBtnArea>
-    <SubmitBtn>
-      <ChangeBtn
-        className='nicknameChangeBtn'
-        onClick={handleClickChangeNickname}
-      >
-        닉네임 변경하기
-      </ChangeBtn>
-    </SubmitBtn>
-  </NNSubmitBtnArea>
-  </Content5>
-</Detail>
-*/
 
 const Container = styled.div`
   display: flex;
@@ -156,9 +140,27 @@ const Container = styled.div`
 const MypageArea = styled.div`
   display: grid;
   grid-template-rows: 7em 30em auto;
-  grid-template-columns: 37% auto;
+  grid-template-columns: 35% auto;
 
   width: 100%;
+  @media (max-width: 1244px) {
+    grid-template-columns: 28% auto;
+  }
+  @media (max-width: 812px) {
+    grid-template-columns: 25% auto;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 21% auto;
+  }
+  @media (max-width: 414px) {
+    grid-template-rows: 6em 27em auto;
+    grid-template-columns: 0vw 86vw;
+    margin: 0 0 4em 0.5em;
+  }
+  @media (max-width: 375px) {
+    grid-template-rows: 5em 27em auto;
+    margin: 0 0 4em 0.2em;
+  }
 `;
 
 const Title = styled.div`
@@ -175,6 +177,9 @@ const Title = styled.div`
   font-weight: 600;
   line-height: 1.3;
   color: ${mainYellow};
+  @media (max-width: 414px) {
+    font-size: 1.5em;
+  }
 `;
 
 const DetailArea = styled.div`
@@ -190,13 +195,19 @@ const ProfileArea = styled.div`
   grid-template-columns: 9.5em auto;
 
   margin: 0 0 3em 0;
+  @media (max-width: 414px) {
+    grid-template-columns: 7.5em auto;
+    margin: 0 0 2em 0;
+  }
 `;
 const ProfileTitle = styled.div`
   grid-column: 1 / 2;
   display: flex;
   align-self: flex-end;
-
   align-items: flex-end;
+  @media (max-width: 414px) {
+    font-size: 0.9em;
+  }
 `;
 const ProfileWrap = styled.div`
   grid-column: 2 / 3;
@@ -210,8 +221,8 @@ const ProfileDiv = styled.div`
   align-items: center;
   border: 2px solid ${mainYellowOpac};
 
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
 
   border-radius: 50%;
   overflow: hidden;
@@ -223,8 +234,6 @@ export const ProfileImg = styled.img`
   align-items: center;
   height: 150%;
   width: 150%;
-  // max-height: 100vh;
-  // max-width: 100vh;
   object-fit: contain;
   margin: 0 -0.5em 0 -0.5em;
 `;
@@ -253,7 +262,6 @@ const Label = styled.label`
   padding: 0.2em;
 
   font-size: 0.8em;
-  // font-weight: 300;
   text-align: center;
   background-color: #fff;
   color: ${mainGreyOpac};
@@ -301,15 +309,26 @@ const Btn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 414px) {
+    font-size: 13px;
+  }
 `;
 
 export const Detail = styled.div`
   display: grid;
   grid-template-columns: 10em 15em;
   margin: 0 0 1em 0;
+  @media (max-width: 414px) {
+    grid-template-columns: 8em auto;
+    margin: 0 0 0.5em 0;
+    font-size: 0.9em;
+  }
 `;
 export const Detail1 = styled(Detail)`
   margin: 0 0 1.5em 0;
+`;
+const Detail5 = styled(Detail)`
+  margin: 0.3em 0 0.5em 0;
 `;
 export const Subtitle = styled.div`
   display: flex;
@@ -318,7 +337,13 @@ export const Subtitle = styled.div`
 `;
 const Subtitle5 = styled(Subtitle)`
   align-items: flex-start;
-`; // added
+`;
+const Subtitle6 = styled(Subtitle)`
+  @media (max-width: 375px) {
+    align-items: flex-start;
+    margin: 0.5em 0 0 0;
+  }
+`;
 export const Input = styled.input`
   display: flex;
 
@@ -335,17 +360,35 @@ export const Input = styled.input`
   &:focus {
     outline: none;
   }
+  @media (max-width: 375px) {
+    font-size: 0.9em;
+    padding: 0.45em 0.5em 0.35em 0.5em;
+    margin: -0.1em 0 0.1em 0;
+    width: 14.5em;
+  }
 `;
 export const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
 `;
+const ReviewBtnWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  @media (max-width: 375px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
 const NNSubmitBtnArea = styled.div`
   display: grid;
   grid-template-columns: 10em 14em;
   margin: 0.4em 0 0.5em 0;
-`; // added
+  @media (max-width: 414px) {
+    grid-template-columns: 8em auto;
+  }
+`;
 export const ChangeBtn = styled.button`
   cursor: pointer;
   display: flex;
@@ -372,15 +415,18 @@ export const ChangeBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 414px) {
+    padding: 0.625em 0.7em 0.525em 0.7em;
+  }
 `;
 // const ChangeNNBtn = styled(ChangeBtn)`
 //   margin: 0 0 0 0.6em;
 // `;
 const Detail6 = styled(Detail)`
-  margin: 0.3em 0 1em 0;
+  margin: 0.5em 0 1em 0;
 `;
 
-const MyReviews = styled.button`
+const MyReviewsBtn = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -407,5 +453,8 @@ const MyReviews = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 375px) {
+    margin: 0 0 0.3em 0;
   }
 `;
