@@ -4,7 +4,7 @@ export const emailCheck = (email: string): boolean => {
 };
 
 export const nicknameCheck = (nickname: string): boolean => {
-  const nicknameExp = /^[A-Za-z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{4,12}$/;
+  const nicknameExp = /^[A-Za-z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{4,8}$/;
   return nicknameExp.test(nickname) ? true : false;
 };
 
@@ -36,7 +36,7 @@ export const checkInput = (
       );
     }
     return alert(
-      `닉네임을 확인해주세요.\n4~12자리의 한글, 영어 또는 숫자 조합이어야 합니다.`,
+      `닉네임을 확인해주세요.\n4~8자리의 한글, 영어 또는 숫자 조합이어야 합니다.`,
     );
   }
   return alert('이메일을 확인해주세요.');

@@ -62,7 +62,7 @@ export const MDChangeNicknameContainer = ({
           });
       } else {
         alert(
-          `닉네임을 확인해주세요.\n4~12자리의 한글, 영어 또는 숫자 조합이어야 합니다.`,
+          `닉네임을 확인해주세요.\n4~8자리의 한글, 영어 또는 숫자 조합이어야 합니다.`,
         );
       }
     } else {
