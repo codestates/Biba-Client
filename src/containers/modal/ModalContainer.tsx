@@ -202,6 +202,9 @@ export const SingleComment = styled.div`
 
   margin: 0.5em 0.4em 1em 0.4em;
   padding: 0.6em;
+  @media (max-width: 414px) {
+    height: 185px;
+  }
 `;
 export const MainWrap = styled.div`
   display: flex;

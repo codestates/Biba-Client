@@ -85,7 +85,7 @@ const Container = styled.div`
     '. Footer .'
     '. . .';
   @media (max-width: 768px) {
-    grid-template-rows: 2em auto auto auto 3em;
+    grid-template-rows: 1.5em auto auto auto 3em;
     grid-template-columns: auto 86% auto;
   }
 `;
@@ -110,6 +110,9 @@ const Main = styled.div`
   margin: 0 0 9em 0;
   @media (max-width: 768px) {
     margin: 0 0 4em 0;
+  }
+  @media (max-width: 414px) {
+    margin: 0;
   }
 `;
 

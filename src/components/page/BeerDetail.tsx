@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
+import { ContentType } from '../../modules/modal';
 import { BeerDetailProps } from '../../containers/page/BeerDetailContainer';
 import { Chart } from '../../containers/page/radar';
 import {
@@ -24,13 +25,14 @@ import {
   chartAccent1,
   chartYellow2,
 } from '../../components/nav/color';
-import { JsxEmit } from 'typescript';
 
 export const BeerDetail = ({
-  match,
+  isLogin,
   beerDetail,
   compareMyBeers,
   bookmark,
+  handleModal,
+  handleBottomModal,
   handleBookmark,
   handleTag,
   disBasic,
@@ -51,48 +53,80 @@ export const BeerDetail = ({
   return (
     <Outer className='detailOuter'>
       <Container className='detailContainer'>
-        <InfoTitle className='infoTitle'>
+        <DetailTitle className='detailTitle'>
           <TitleText>맥주 상세 정보</TitleText>
-        </InfoTitle>
-        <ImgDiv>
-          <Img className='infoImg' src={beerDetail.beer_img} alt='' />
+        </DetailTitle>
+        <ImgDiv className='detailImgDiv'>
+          <Img className='detailBeerImg' src={beerDetail.beer_img} alt='' />
         </ImgDiv>
         <InfoDiv className='infoDiv'>
           <BeerName className='beerName'>{beerDetail.beer_name}</BeerName>
-          <InfoSub className='infoSub'>
-            <AveFavWrap className='aveFavWrap'>
-              <SubText className='beerAverage'>
-                별점 평균
-                <Rate>{beerDetail.rate}</Rate>
-              </SubText>
-              <FavToggle className='favToggle'>
-                <FavTitle>즐겨찾기</FavTitle>
-                <FavWrap className='favWrap'>
-                  <Fav
-                    id='favToggle'
-                    type='checkbox'
-                    onChange={() => handleBookmark()}
-                    checked={bookmark}
-                  ></Fav>
-                  <FavLB htmlFor='favToggle'></FavLB>
-                </FavWrap>
-              </FavToggle>
-            </AveFavWrap>
-            <TagWrap>
-              <TagSubText>태그</TagSubText>
-              {handleTag() !== false ? (
-                handleTag()
-              ) : (
-                <TagEmpty>준비 중입니다.</TagEmpty>
-              )}
-            </TagWrap>
-            <ChartWrap className='chartWrap'>
-              <ChartDiv className='chartDiv'>{Chart()}</ChartDiv>
-              <CompareBtn className='compareBtn' onClick={compareMyBeers}>
-                맥주 비교하기
-              </CompareBtn>
-            </ChartWrap>
-          </InfoSub>
+          <AveFavWrap className='aveFavWrap'>
+            <SubText className='beerAverage'>
+              별점 평균
+              <Rate>{beerDetail.rate}</Rate>
+            </SubText>
+            <FavToggle className='favToggle'>
+              <FavTitle>즐겨찾기</FavTitle>
+              <FavWrap className='favWrap'>
+                <Fav
+                  id='favToggle'
+                  type='checkbox'
+                  onChange={() => {
+                    handleBookmark();
+                    return isLogin
+                      ? false
+                      : handleModal(ContentType.Login, true);
+                  }}
+                  checked={bookmark}
+                ></Fav>
+                <FavLB htmlFor='favToggle'></FavLB>
+                <MFav
+                  id='mobileFavToggle'
+                  type='checkbox'
+                  onChange={() => {
+                    handleBookmark();
+                    return isLogin
+                      ? false
+                      : handleBottomModal(ContentType.Login, true);
+                  }}
+                  checked={bookmark}
+                ></MFav>
+                <MFavLB htmlFor='mobileFavToggle'></MFavLB>
+              </FavWrap>
+            </FavToggle>
+          </AveFavWrap>
+          <TagWrap>
+            <TagSubText>태그</TagSubText>
+            {handleTag() !== false ? (
+              handleTag()
+            ) : (
+              <TagEmpty>준비 중입니다.</TagEmpty>
+            )}
+          </TagWrap>
+          <ChartWrap className='chartWrap'>
+            <ChartDiv className='chartDiv'>{Chart()}</ChartDiv>
+            <CompareBtn
+              className='compareBtn'
+              onClick={() => {
+                compareMyBeers();
+                return isLogin ? false : handleModal(ContentType.Login, true);
+              }}
+            >
+              맥주 비교하기
+            </CompareBtn>
+            <MCompareBtn
+              className='compareBtn'
+              onClick={() => {
+                compareMyBeers();
+                return isLogin
+                  ? false
+                  : handleBottomModal(ContentType.Login, true);
+              }}
+            >
+              맥주 비교하기
+            </MCompareBtn>
+          </ChartWrap>
           <InfoBody className='infoBody'>
             <TabDetail className='tabDetail'>
               <TabWrap className='infoTabWrap'>
@@ -211,12 +245,20 @@ export const BeerDetail = ({
           </RatingArea>
           <CommentArea className='commentArea'>
             <List className='commentList'>{mainReviewList()}</List>
-            <CommentAll
-              className='commentAllBtn'
-              onClick={handleClickAllReviews}
-            >
-              리뷰 전체보기
-            </CommentAll>
+            <MBtnWrap>
+              <MWriteComment
+                className='commentBtn'
+                onClick={handleClickUsersReview}
+              >
+                {user_review ? `평가 수정하기` : `맥주 평가하기`}
+              </MWriteComment>
+              <CommentAll
+                className='commentAllBtn'
+                onClick={handleClickAllReviews}
+              >
+                리뷰 전체보기
+              </CommentAll>
+            </MBtnWrap>
           </CommentArea>
         </RateReview>
       </Container>
@@ -238,6 +280,15 @@ const Outer = styled.div`
   width: 100%;
 
   padding: 0 0 0 1vw;
+  @media (max-width: 414px) {
+    width: 86vw;
+    padding: 0;
+    margin: 0 0 0.8em 0;
+    // border: 1px solid lime;
+  }
+  @media (max-width: 375px) {
+    margin: 0;
+  }
 `;
 
 const Container = styled.div`
@@ -246,9 +297,14 @@ const Container = styled.div`
   grid-template-columns: 2vw auto 2vw 350px 3em;
 
   min-height: 32em;
+  @media (max-width: 414px) {
+    width: 86vw;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
-const InfoTitle = styled.div`
+const DetailTitle = styled.div`
   grid-row: 2 / 3;
   grid-column: 2 / 3;
   display: flex;
@@ -275,21 +331,25 @@ const ImgDiv = styled.div`
 
   width: 32vw;
   height: 32vw;
-  @media (max-width: 1320px) {
-    min-width: 400px;
-    min-height: 400px;
-  }
+  border-radius: 16px;
+
+  margin: 0 4em 0 0;
+  padding: 0 1em 0.5em 0;
+
   @media (min-width: 1920px) {
     max-width: 620px;
     max-height: 620px;
   }
-
-  // border: 2px solid ${mainGrey};
-  border-radius: 16px;
-  // background-color: ${mainYellowOpac};
-
-  margin: 0 4em 0 0;
-  padding: 0 1em 0.5em 0;
+  @media (max-width: 1320px) {
+    min-width: 400px;
+    min-height: 400px;
+  }
+  @media (max-width: 414px) {
+    min-width: 86vw;
+    min-height: 86vw;
+    margin: 1.5em 0 2.5em 0;
+    padding: 0;
+  }
 `;
 
 const Img = styled.img`
@@ -303,6 +363,9 @@ const Img = styled.img`
   border-radius: 8px;
 
   padding: 2em 0 2em 0;
+  @media (max-width: 414px) {
+    padding: 1em 0 1em 0;
+  }
 `;
 
 // =================================== Title
@@ -325,10 +388,6 @@ const BeerName = styled.p`
 
 // =================================== Ave
 
-const InfoSub = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 const AveFavWrap = styled.div`
   display: flex;
   align-items: center;
@@ -359,6 +418,9 @@ const FavToggle = styled.div`
   justify-content: flex-end;
 
   margin: 0 0 0.2em 0;
+  @media (max-width: 414px) {
+    padding: 0 0.5em 0 0;
+  }
 `;
 const FavTitle = styled.div``;
 const FavWrap = styled.div`
@@ -378,6 +440,10 @@ const Fav = styled.input`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 414px) {
+    pointer-events: none;
+    z-index: -100;
   }
 `;
 const FavLB = styled.label`
@@ -401,6 +467,56 @@ const FavLB = styled.label`
     transition: all 0.4s ease;
     border-radius: 100px;
   }
+  @media (max-width: 414px) {
+    pointer-events: none;
+    display: none;
+  }
+`;
+const MFav = styled.input`
+  pointer-events: none;
+  display: none;
+  &:checked + label {
+    background-color: ${mainYellow};
+    border-radius: 14px;
+  }
+  &:checked + label:before {
+    -webkit-transform: translateX(12px);
+    -ms-transform: translateX(12px);
+    transform: translateX(12px);
+    border-radius: 20px;
+  }
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 414px) {
+    pointer-events: auto;
+  }
+`;
+const MFavLB = styled.label`
+  cursor: pointer;
+
+  display: none;
+  position: relative;
+  width: 32px;
+  height: 20px;
+  background-color: ${mainGrey};
+  border-radius: 20px;
+
+  &::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    left: 2px;
+    bottom: 2px;
+    position: absolute;
+    background-color: #fff;
+    transition: all 0.4s ease;
+    border-radius: 100px;
+  }
+  @media (max-width: 414px) {
+    pointer-events: auto;
+    display: flex;
+  }
 `;
 
 // =================================== Tag Chart
@@ -409,6 +525,9 @@ const TagWrap = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin: 1em 0 0 0;
+  @media (max-width: 414px) {
+    margin: 1em 0 1.6em 0;
+  }
 `;
 const TagSubText = styled(SubText)`
   margin: 0 0.6em 0 0;
@@ -438,6 +557,9 @@ const ChartWrap = styled.div`
   align-items: center;
   justify-content: center;
   margin: 1.2em 0 1.2em 0;
+  @media (max-width: 414px) {
+    margin: 1.2em 0 2em 0;
+  }
 `;
 const ChartDiv = styled.div`
   display: flex;
@@ -463,24 +585,65 @@ const CompareBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 414px) {
+    pointer-events: none;
+    display: none;
+  }
+`;
+const MCompareBtn = styled.button`
+  pointer-events: none;
+  cursor: pointer;
+  display: none;
+  align-self: center;
+  border: 0px;
+  border-radius: 8px;
+  margin: 0 0 1em 0.5em;
+  padding: 0.45em 0.8em 0.4em 0.8em;
+  font-size: 1.1em;
+  background-color: ${mainYellow};
+  color: #fff;
+  &: hover {
+    background-color: ${accent};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 414px) {
+    pointer-events: auto;
+    display: flex;
+    margin: 0.7em 0 1em 0.5em;
+  }
 `;
 // =================================== Tab
 const InfoBody = styled.div`
   display: flex;
   padding: 0 0 0 0.3em;
+  @media (max-width: 414px) {
+    justify-content: center;
+    padding: 0;
+    margin: 0 0 0.2em 0;
+  }
 `;
 const TabDetail = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 95%;
+  @media (max-width: 414px) {
+    width: 97%;
+  }
 `;
 const TabWrap = styled.div`
   display: flex;
   justify-content: flex-start;
   height: 2em;
 `;
-const Divider = styled.p``;
+const Divider = styled.p`
+  @media (max-width: 414px) {
+    font-size: 1.2em;
+  }
+`;
 const Tab = styled.div`
   cursor: pointer;
   display: flex;
@@ -500,6 +663,10 @@ const Tab = styled.div`
     font-weight: 400;
     background: ${btnOff};
   }
+  @media (max-width: 414px) {
+    padding: 1.1em 0.7em 0.85em 0.7em;
+    font-size: 1em;
+  }
 `;
 
 // =================================== Tab: DESCRIPTION
@@ -507,9 +674,13 @@ const InfoDetailWrap = styled.div`
   display: flex;
   width: 100%;
   height: auto;
+  z-index: 1;
   min-height: 10em;
   border-radius: 0 8px 8px 8px;
   background-color: ${lightGrey2};
+  @media (max-width: 414px) {
+    min-height: 10.5em;
+  }
 `;
 const InfoDetail1 = styled.div`
   display: flex;
@@ -517,6 +688,9 @@ const InfoDetail1 = styled.div`
   width: 100%;
   font-size: 0.95em;
   line-height: 1.5;
+  @media (max-width: 414px) {
+    font-size: 1.05em;
+  }
 `;
 const InfoDetail2 = styled.div`
   display: flex;
@@ -524,6 +698,9 @@ const InfoDetail2 = styled.div`
   width: 100%;
   font-size: 0.95em;
   line-height: 1.5;
+  @media (max-width: 414px) {
+    font-size: 1.05em;
+  }
 `;
 const InfoDetail3 = styled.div`
   display: flex;
@@ -531,6 +708,9 @@ const InfoDetail3 = styled.div`
   width: 100%;
   padding: 0.9em 0 0 0.7em;
   font-size: 0.95em;
+  @media (max-width: 414px) {
+    font-size: 1.05em;
+  }
 `;
 const PWrap = styled.div`
   display: flex;
@@ -547,7 +727,6 @@ const Source = styled.div`
   opacity: 0.8;
 `;
 // =================================== Tab: TEXT
-
 const PT = styled.p`
   display: flex;
   margin: 0 0 0.7em 0;
@@ -564,7 +743,6 @@ const P = styled.p`
 `;
 
 // =================================== Rate & Review
-
 const RateReview = styled.div`
   grid-row: 4 / 5;
   grid-column: 2 / 5;
@@ -574,6 +752,9 @@ const RatingArea = styled.div`
   display: flex;
   align-items: center;
   margin: 0 0 0.6em 0.5em;
+  @media (max-width: 414px) {
+    margin: 0 0 0.8em 0.2em;
+  }
 `;
 const UserRate = styled.p`
   display: flex;
@@ -618,6 +799,10 @@ const List = styled.div`
   // max-width: 800px;
   width: 100%;
   margin: 0 0 1.2em 0;
+  @media (max-width: 414px) {
+    margin: 0 0.5em 1.2em 0.5em;
+    overflow-x: scroll;
+  }
 `;
 const WriteComment = styled.button`
   cursor: pointer;
@@ -636,6 +821,41 @@ const WriteComment = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 414px) {
+    display: none;
+    pointer-events: none;
+  }
+`;
+const MBtnWrap = styled.div`
+  display: none;
+  @media (max-width: 414px) {
+    display: flex;
+    align-self: flex-end;
+  }
+`;
+const MWriteComment = styled.button`
+  pointer-events: none;
+  display: none;
+  border: 0px;
+  border-radius: 8px;
+
+  background-color: ${mainYellow};
+  color: #fff;
+
+  &: hover {
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 414px) {
+    cursor: pointer;
+    pointer-events: auto;
+    display: flex;
+    margin: 0 0.5em 0 0;
+    padding: 0.4em 0.6em 0.35em 0.6em;
   }
 `;
 const CommentAll = styled.button`

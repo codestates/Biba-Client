@@ -19,7 +19,7 @@ import {
   visitCountReducer,
   menuDisplayReducer,
 } from './nav';
-import { modalReducer, mobileModalReducer } from './modal';
+import { modalReducer, bottomModalReducer } from './modal';
 import {
   todayBeerReducer,
   wantBeerReducer,
@@ -51,7 +51,7 @@ export const rootReducer = combineReducers({
   refDisplay: refDisplayReducer,
   searchbar: searchbarReducer,
   modal: modalReducer,
-  mobileModal: mobileModalReducer,
+  bottomModal: bottomModalReducer,
   navDisplay: navDisplayReducer,
   beerRequest: beerRequestReducer,
   todayBeer: todayBeerReducer,

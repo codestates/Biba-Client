@@ -54,15 +54,6 @@ export const Nav = ({
             onClick={handleClickLogo}
           />
         </LogoWrap>
-        <div>
-          <button
-            onClick={() => handleBottomModal(ContentType.Login, true)}
-            style={{ width: '10px' }}
-          >
-            {' '}
-          </button>
-          {/* 위의 함수 floating nav에 붙이기 - 비로그인 시 작동 */}
-        </div>
         <ModalMask
           className='modalMask'
           onClick={() => {
@@ -230,42 +221,6 @@ export const Nav = ({
   );
 };
 
-/*
-{isLogin ? (
-  <SubNavUserInfo>
-    <SubNavProfileWrap>
-      {profile === '' || profile === undefined ? (
-        <NavPIcon2 />
-      ) : (
-        <SubNavProfile src={profile} />
-      )}
-    </SubNavProfileWrap>
-    <InfoText>
-      <SubNickname>
-        <BeerIcon />
-        {userData.nickname}
-      </SubNickname>
-      <SubBtn
-        onClick={() => {
-          handleClickMypage();
-          handleClickHiddenMenu(false);
-        }}
-      >
-        마이페이지
-      </SubBtn>
-      <SubBtn
-        onClick={() => {
-          handleClickLogout();
-          handleClickHiddenMenu(false);
-        }}
-      >
-        로그아웃
-      </SubBtn>
-    </InfoText>
-  </SubNavUserInfo>
-) : 
-*/
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -316,7 +271,7 @@ const LogoWrap = styled.div`
     min-height: 55px;
   }
   @media (max-width: 414px) {
-    margin: 0;
+    margin: 0 0.5em 0 0;
     min-width: 45px;
     min-height: 45px;
   }

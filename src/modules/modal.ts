@@ -1,5 +1,5 @@
 const SET_MODAL = 'SET_MODAL' as const;
-const SET_MOBILE_MODAL = 'SET_MOBILE_MODAL' as const;
+const SET_BOTTOM_MODAL = 'SET_BOTTOM_MODAL' as const;
 
 export enum ContentType {
   Empty,
@@ -19,7 +19,7 @@ export interface ModalContent {
 export interface ModalState extends ModalContent {
   display: boolean;
 }
-export interface MobileModalState extends ModalContent {
+export interface BottomModalState extends ModalContent {
   display: boolean;
 }
 
@@ -39,18 +39,18 @@ export const setModal = (
   display,
 });
 
-interface MobileModalStateAction extends MobileModalState {
-  type: typeof SET_MOBILE_MODAL;
+interface BottomModalStateAction extends BottomModalState {
+  type: typeof SET_BOTTOM_MODAL;
 }
-const mobileModalInit: MobileModalState = {
+const bottomModalInit: BottomModalState = {
   contentType: ContentType.Empty,
   display: false,
 };
-export const setMobileModal = (
+export const setBottomModal = (
   contentType: ContentType,
   display: boolean,
-): MobileModalStateAction => ({
-  type: SET_MOBILE_MODAL,
+): BottomModalStateAction => ({
+  type: SET_BOTTOM_MODAL,
   contentType,
   display,
 });
@@ -58,7 +58,7 @@ export const setMobileModal = (
 export const modalReducer = (
   state = modalInit,
   action: ModalStateAction,
-): MobileModalState => {
+): BottomModalState => {
   switch (action.type) {
     case SET_MODAL:
       return {
@@ -72,12 +72,12 @@ export const modalReducer = (
   }
 };
 
-export const mobileModalReducer = (
-  state = mobileModalInit,
-  action: MobileModalStateAction,
-): MobileModalState => {
+export const bottomModalReducer = (
+  state = bottomModalInit,
+  action: BottomModalStateAction,
+): BottomModalState => {
   switch (action.type) {
-    case SET_MOBILE_MODAL:
+    case SET_BOTTOM_MODAL:
       return {
         ...state,
         contentType: action.contentType,

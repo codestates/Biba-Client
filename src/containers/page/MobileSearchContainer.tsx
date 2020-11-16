@@ -9,7 +9,7 @@ import { DefaultProps } from '../page/HomeContainer';
 
 import { MobileSearch } from '../../components/page/MobileSearch';
 
-export interface MobileSearchProps {
+export interface MobileSearchProps extends DefaultProps {
   inputQuery: {
     query: string;
   };
@@ -57,6 +57,9 @@ export const MobileSearchContainer = (props: DefaultProps): JSX.Element => {
   };
   return (
     <MobileSearch
+      match={props.match}
+      history={props.history}
+      location={props.location}
       inputQuery={inputQuery}
       handleOnChange={handleOnChange}
       handleSearch={handleSearch}

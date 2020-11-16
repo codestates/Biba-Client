@@ -15,6 +15,7 @@ import {
 import { MobileSearchProps } from '../../containers/page/MobileSearchContainer';
 
 export const MobileSearch = ({
+  location,
   inputQuery,
   handleOnChange,
   handleSearch,
@@ -22,6 +23,7 @@ export const MobileSearch = ({
 }: MobileSearchProps): JSX.Element => {
   return (
     <MobileSearchContainer>
+      {console.log(location.pathname)}
       <MobileSearchInputWrap className='searchInputWrap'>
         <MobileInput
           type='text'
