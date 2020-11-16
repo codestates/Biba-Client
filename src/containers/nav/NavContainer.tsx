@@ -36,8 +36,8 @@ export interface NavProps {
   handleSearch(): void;
   menuDisplay: boolean;
   handleClickHiddenMenu(display: boolean): void;
-  mobileModalDisplay: boolean;
-  handleMobileModal(contentType: ContentType, display: boolean): void;
+  bottomModalDisplay: boolean;
+  handleBottomModal(contentType: ContentType, display: boolean): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
@@ -52,8 +52,8 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
   const searchbarDisplay = useSelector(
     (state: RootState) => state.searchbar.display,
   );
-  const mobileModalDisplay = useSelector(
-    (state: RootState) => state.mobileModal.display,
+  const bottomModalDisplay = useSelector(
+    (state: RootState) => state.bottomModal.display,
   );
 
   const dispatch = useDispatch();
@@ -63,8 +63,8 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
   const handleNavDisplay = (display: boolean) => {
     dispatch({ type: 'SET_NAVDISPLAY', display });
   };
-  const handleMobileModal = (contentType: ContentType, display: boolean) => {
-    dispatch({ type: 'SET_MOBILE_MODAL', contentType, display });
+  const handleBottomModal = (contentType: ContentType, display: boolean) => {
+    dispatch({ type: 'SET_BOTTOM_MODAL', contentType, display });
   };
 
   const handleClickLogo = (): void => {
@@ -211,8 +211,8 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
         handleSearch={handleSearch}
         menuDisplay={menuDisplay}
         handleClickHiddenMenu={handleClickHiddenMenu}
-        mobileModalDisplay={mobileModalDisplay}
-        handleMobileModal={handleMobileModal}
+        bottomModalDisplay={bottomModalDisplay}
+        handleBottomModal={handleBottomModal}
         pressEnter={pressEnter}
       />
     </>

@@ -40,8 +40,8 @@ export const Nav = ({
   handleSearch,
   menuDisplay,
   handleClickHiddenMenu,
-  mobileModalDisplay,
-  handleMobileModal,
+  bottomModalDisplay,
+  handleBottomModal,
   pressEnter,
 }: NavProps): JSX.Element => {
   return (
@@ -54,6 +54,98 @@ export const Nav = ({
             onClick={handleClickLogo}
           />
         </LogoWrap>
+        <div>
+          <button
+            onClick={() => handleBottomModal(ContentType.Login, true)}
+            style={{ width: '10px' }}
+          >
+            {' '}
+          </button>
+          {/* 위의 함수 floating nav에 붙이기 - 비로그인 시 작동 */}
+        </div>
+        <ModalMask
+          className='modalMask'
+          onClick={() => {
+            handleClickHiddenMenu(false);
+            handleBottomModal(ContentType.Empty, false);
+          }}
+          style={
+            menuDisplay || bottomModalDisplay
+              ? {
+                  opacity: 1,
+                  visibility: 'visible',
+                  transition: 'visibility 0.8s linear, opacity 0.8s linear',
+                }
+              : {
+                  opacity: 0,
+                  visibility: 'hidden',
+                  transition: 'visibility 0.8s linear, opacity 0.8s linear',
+                }
+          }
+        ></ModalMask>
+
+        <SideNav style={menuDisplay ? { right: '0' } : { right: '-100%' }}>
+          <CloseBtn onClick={() => handleClickHiddenMenu(false)} />
+          {isLogin ? (
+            <SubNavUserInfo>
+              <SubNavProfileWrap>
+                {profile === '' || profile === undefined ? (
+                  <NavPIcon2 />
+                ) : (
+                  <SubNavProfile src={profile} />
+                )}
+              </SubNavProfileWrap>
+              <InfoText>
+                <SubNickname>
+                  <BeerIcon />
+                  {userData.nickname}
+                </SubNickname>
+                <SubBtn
+                  onClick={() => {
+                    handleClickMypage();
+                    handleClickHiddenMenu(false);
+                  }}
+                >
+                  마이페이지
+                </SubBtn>
+                <SubBtn
+                  onClick={() => {
+                    handleClickLogout();
+                    handleClickHiddenMenu(false);
+                  }}
+                >
+                  로그아웃
+                </SubBtn>
+              </InfoText>
+            </SubNavUserInfo>
+          ) : (
+            <LoginContainerWithRouter />
+          )}
+          <SubFooter
+            style={menuDisplay ? { bottom: '25px' } : { bottom: '-100%' }}
+          >
+            <FooterContainerithRouter />
+          </SubFooter>
+        </SideNav>
+
+        <MobileModal
+          style={bottomModalDisplay ? { bottom: '0' } : { bottom: '-100%' }}
+        >
+          <CloseBtn
+            onClick={() => {
+              handleClickHiddenMenu(false);
+              handleBottomModal(ContentType.Empty, false);
+            }}
+          />
+          <LoginContainerWithRouter />
+          <SubFooter
+            style={
+              bottomModalDisplay ? { bottom: '25px' } : { bottom: '-100%' }
+            }
+          >
+            <FooterContainerithRouter />
+          </SubFooter>
+        </MobileModal>
 
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
@@ -131,97 +223,7 @@ export const Nav = ({
             ) : undefined}
           </BtnArea>
 
-          <div>
-            <button onClick={() => handleMobileModal(ContentType.Login, true)}>
-              login modal
-            </button>
-            {/* 위의 함수 floating nav에 붙이기 - 비로그인 시 작동 */}
-          </div>
           <Hamberger onClick={() => handleClickHiddenMenu(!menuDisplay)} />
-
-          <ModalMask
-            className='modalMask'
-            onClick={() => {
-              handleClickHiddenMenu(false);
-              handleMobileModal(ContentType.Empty, false);
-            }}
-            style={
-              menuDisplay || mobileModalDisplay
-                ? {
-                    opacity: 1,
-                    visibility: 'visible',
-                    transition: 'visibility 0.8s linear, opacity 0.8s linear',
-                  }
-                : {
-                    opacity: 0,
-                    visibility: 'hidden',
-                    transition: 'visibility 0.8s linear, opacity 0.8s linear',
-                  }
-            }
-          ></ModalMask>
-
-          <SideNav style={menuDisplay ? { right: '0' } : { right: '-100%' }}>
-            <CloseBtn onClick={() => handleClickHiddenMenu(false)} />
-            {isLogin ? (
-              <SubNavUserInfo>
-                <SubNavProfileWrap>
-                  {profile === '' || profile === undefined ? (
-                    <NavPIcon2 />
-                  ) : (
-                    <SubNavProfile src={profile} />
-                  )}
-                </SubNavProfileWrap>
-                <InfoText>
-                  <SubNickname>
-                    <BeerIcon />
-                    {userData.nickname}
-                  </SubNickname>
-                  <SubBtn
-                    onClick={() => {
-                      handleClickMypage();
-                      handleClickHiddenMenu(false);
-                    }}
-                  >
-                    마이페이지
-                  </SubBtn>
-                  <SubBtn
-                    onClick={() => {
-                      handleClickLogout();
-                      handleClickHiddenMenu(false);
-                    }}
-                  >
-                    로그아웃
-                  </SubBtn>
-                </InfoText>
-              </SubNavUserInfo>
-            ) : (
-              <LoginContainerWithRouter />
-            )}
-            <SubFooter
-              style={menuDisplay ? { bottom: '25px' } : { bottom: '-100%' }}
-            >
-              <FooterContainerithRouter />
-            </SubFooter>
-          </SideNav>
-
-          <MobileModal
-            style={mobileModalDisplay ? { bottom: '0' } : { bottom: '-100%' }}
-          >
-            <CloseBtn
-              onClick={() => {
-                handleClickHiddenMenu(false);
-                handleMobileModal(ContentType.Empty, false);
-              }}
-            />
-            <LoginContainerWithRouter />
-            <SubFooter
-              style={
-                mobileModalDisplay ? { bottom: '25px' } : { bottom: '-100%' }
-              }
-            >
-              <FooterContainerithRouter />
-            </SubFooter>
-          </MobileModal>
         </Wrap>
       </NavBar>
     </Container>
@@ -281,6 +283,7 @@ const NavBar = styled.div`
 
   color: #fff;
   @media (max-width: 768px) {
+    justify-content: flex-end;
     padding: 0.3em 0 0 0;
   }
 `;
@@ -289,7 +292,10 @@ const Wrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 80%;
+  width: 70%;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const LogoWrap = styled.div`
   display: flex;
@@ -306,13 +312,13 @@ const LogoWrap = styled.div`
   margin: 0 0 0 1.5em;
   @media (max-width: 768px) {
     margin: 0 0 0 0.8em;
+    min-width: 55px;
+    min-height: 55px;
+  }
+  @media (max-width: 414px) {
+    margin: 0;
     min-width: 45px;
     min-height: 45px;
-  }
-  @media (max-width: 375px) {
-    margin: 0 0 0 0.6em;
-    min-width: 30px;
-    min-height: 30px;
   }
 `;
 const Logo = styled.img`
@@ -339,9 +345,6 @@ const SearchbarArea = styled.div`
   margin: 0 0.5em 0.1em 0;
   padding: 0.5em 0.8em 0.5em 0.8em;
   // background-color: ${mainYellowOpac};
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 
 const IconWrap = styled.div`
@@ -386,9 +389,6 @@ const SearchIcon = styled(BiSearchAlt)`
   width: 1.5em;
   height: 1.5em;
   color: #545454;
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 const SearchInputWrap = styled.div`
   display: flex;
@@ -528,9 +528,6 @@ const Hamberger = styled(HiOutlineMenuAlt3)`
     height: 1.5em;
     margin: 0 0.4em 0 0;
     color: ${mainYellow};
-  }
-  @media (max-width: 768px) {
-    display: none;
   }
 `;
 const ModalMask = styled.div`
