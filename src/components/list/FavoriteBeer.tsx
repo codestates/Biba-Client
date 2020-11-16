@@ -39,6 +39,15 @@ const Item = styled.div`
   box-shadow: 3px 3px 3px rgba(238, 238, 238, 0.8);
   color: ${mainGrey};
   font-weight: 500;
+  animation: fadein 3s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const ImageWrap = styled.div`
