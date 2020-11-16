@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { BeerListNavProps } from '../../containers/nav/BeerListNavContainer';
-import { BiBeer } from 'react-icons/bi';
-import { MdFavorite, MdRateReview } from 'react-icons/md';
-import { IoMdList } from 'react-icons/io';
+import { FloatNavProps } from '../../containers/nav/FloatNavContainer';
+import { AiOutlineHome, AiOutlineInbox } from 'react-icons/ai';
+import { CgProfile } from 'react-icons/cg';
+import { RiSearch2Line } from 'react-icons/ri';
 
 function FloatNav({
   isLogin,
@@ -14,17 +13,19 @@ function FloatNav({
   handleClickWantSomeBeer,
   handleClickFavorite,
   handleClickReview,
+  handleClickMypage,
+  handleClickMyBeer,
   display,
   redirectHome,
   redirectLogin,
   handleClickGuest,
-}: BeerListNavProps): JSX.Element {
+}: FloatNavProps): JSX.Element {
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
   const isWant = useSelector((state: RootState) => state.changePage.isWant);
-  const isFavorite = useSelector(
-    (state: RootState) => state.changePage.isFavorite,
+  const isMyBeer = useSelector(
+    (state: RootState) => state.changePage.isMybeerM,
   );
-  const isReview = useSelector((state: RootState) => state.changePage.isReview);
+  const isMyPage = useSelector((state: RootState) => state.changePage.isMy);
 
   return (
     <FNav className='fnav'>
@@ -34,7 +35,7 @@ function FloatNav({
           handleClickTodayBeer();
         }}
       >
-        {isToday ? <BeerActive /> : <BiBeer />}
+        {isToday ? <BeerActive /> : <AiOutlineHome />}
       </NavBtn>
       <NavBtn
         onClick={() => {
@@ -42,25 +43,25 @@ function FloatNav({
           handleClickWantSomeBeer();
         }}
       >
-        {isWant ? <WantActive /> : <IoMdList />}
+        {isWant ? <SearchActive /> : <RiSearch2Line />}
       </NavBtn>
       {isLogin ? (
         <>
           <NavBtn
             onClick={() => {
               redirectHome();
-              handleClickFavorite();
+              handleClickMyBeer();
             }}
           >
-            {isFavorite ? <FavoriteActive /> : <MdFavorite />}
+            {isMyBeer ? <MyBeerActive /> : <AiOutlineInbox />}
           </NavBtn>
           <NavBtn
             onClick={() => {
               redirectHome();
-              handleClickReview();
+              handleClickMypage();
             }}
           >
-            {isReview ? <ReviewActive /> : <MdRateReview />}
+            {isMyPage ? <ProfileActive /> : <CgProfile />}
           </NavBtn>
         </>
       ) : (
@@ -70,14 +71,14 @@ function FloatNav({
               handleClickGuest();
             }}
           >
-            <MdFavorite />
+            <AiOutlineInbox />
           </NavBtn>
           <NavBtn
             onClick={() => {
               handleClickGuest();
             }}
           >
-            <MdRateReview />
+            <CgProfile />
           </NavBtn>
         </>
       )}
@@ -100,19 +101,19 @@ const NavBtn = styled.div`
   color: rgba(50, 50, 50, 0.5);
 `;
 
-const BeerActive = styled(BiBeer)`
+const BeerActive = styled(AiOutlineHome)`
   color: black;
 `;
 
-const WantActive = styled(IoMdList)`
+const SearchActive = styled(RiSearch2Line)`
   color: black;
 `;
 
-const FavoriteActive = styled(MdFavorite)`
+const MyBeerActive = styled(AiOutlineInbox)`
   color: black;
 `;
 
-const ReviewActive = styled(MdRateReview)`
+const ProfileActive = styled(CgProfile)`
   color: black;
 `;
 export default FloatNav;

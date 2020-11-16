@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Carousel from 'react-elastic-carousel';
-import './WantCss.css';
+import '../../css/WantCss.css';
 import WantSomeBeer from './WantSomeBeer';
 import { WantI } from '../../modules/getbeers';
 import { DetailProps } from '../../containers/page/HomeContainer';
@@ -78,7 +78,11 @@ function WantSomeBeerList({
       setAllReviews={setAllReviews}
     />
   ));
-  const breakPoint = [{ width: 1200, itemsToShow: 5 }];
+  const breakPoint = [
+    { width: 768, itemsToShow: 2 },
+    { width: 414, itemsToShow: 3 },
+    { width: 375, itemsToShow: 4 },
+  ];
 
   return (
     <Container>
@@ -100,7 +104,7 @@ function WantSomeBeerList({
         {isLogin ? (
           <Category>
             <Title>
-              <Name>{nickname}</Name>님을 위한 취향저격 맥주들
+              <Name>{nickname}</Name>님의 취저 맥주들
             </Title>
             <ListContainer>
               {recommendBeers.length === 0 ? (
@@ -175,38 +179,8 @@ const Container = styled.div`
   width: 100%;
 
   animation: fadein 3s;
-  -moz-animation: fadein 3s; /* Firefox */
-  -webkit-animation: fadein 3s; /* Safari and Chrome */
-  -o-animation: fadein 3s; /* Opera */
 
   @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @-moz-keyframes fadein {
-    /* Firefox */
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @-webkit-keyframes fadein {
-    /* Safari and Chrome */
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @-o-keyframes fadein {
-    /* Opera */
     from {
       opacity: 0;
     }
@@ -238,6 +212,18 @@ const Hidden = styled.div`
   font-size: 2em;
   padding: 3em 0 3em 0;
   color: ${mainGrey};
+
+  @media (max-width: 768px) {
+    font-size: 1.8em;
+  }
+
+  @media (max-width: 414px) {
+    font-size: 1.6em;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 1.5em;
+  }
 `;
 
 const Highlight = styled.span`

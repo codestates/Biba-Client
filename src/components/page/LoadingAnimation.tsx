@@ -37,7 +37,7 @@ const Wrap = styled.div`
   bottom: 0;
   background-color: lightgray;
   opacity: 0.6;
-  z-index: 9;
+  z-index: 99;
 `;
 
 const Loading = styled.div`
@@ -45,7 +45,7 @@ const Loading = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10;
+  z-index: 100;
   background-color: black;
   border-radius: 50%;
   width: 13.5vw;

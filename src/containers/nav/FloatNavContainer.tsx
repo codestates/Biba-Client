@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { DefaultProps } from '../page/HomeContainer';
 
 import { RootState } from '../../modules';
 import FloatNav from '../../components/nav/FloatNav';
@@ -9,30 +10,35 @@ import {
   WANTSOME_BEER,
   FAVORITE,
   REVIEW,
+  MYPAGE,
+  MOBILE_SEARCH,
+  MOBILE_MYBEER,
 } from '../../modules/changepage';
 import { ContentType } from '../../modules/nav';
+import MobileMyBeer from '../../components/mobile/MobileMyBeer';
 
-export interface BeerListNavProps {
+export interface FloatNavProps {
   isLogin: boolean;
   handleClickTodayBeer(): void;
   handleClickWantSomeBeer(): void;
   handleClickFavorite(): void;
   handleClickReview(): void;
+  handleClickMypage(): void;
+  handleClickMyBeer(): void;
   display: boolean;
   redirectHome(): void;
   redirectLogin(): void;
   handleClickGuest(): void;
 }
 
-export const FloatNavContainer = ({
-  match,
-  history,
-  location,
-}: RouteComponentProps): JSX.Element => {
+export const FloatNavContainer = (props: DefaultProps): JSX.Element => {
   const { isLogin } = useSelector((state: RootState) => state.login);
   const { display } = useSelector((state: RootState) => state.navDisplay);
   const dispatch = useDispatch();
 
+  const handleNavDisplay = (display: boolean) => {
+    dispatch({ type: 'SET_NAVDISPLAY', display });
+  };
   const handleClickTodayBeer = (): void => {
     dispatch({ type: TODAY_BEER });
   };
@@ -45,6 +51,14 @@ export const FloatNavContainer = ({
   const handleClickReview = (): void => {
     dispatch({ type: REVIEW });
   };
+  const handleClickMypage = (): void => {
+    dispatch({ type: MYPAGE });
+    handleNavDisplay(false);
+    props.history.push('/mypage');
+  };
+  const handleClickMyBeer = (): void => {
+    dispatch({ type: MOBILE_MYBEER });
+  };
   const handleClickGuest = (): void => {
     dispatch({
       type: 'SET_MODAL',
@@ -53,8 +67,8 @@ export const FloatNavContainer = ({
     });
   };
 
-  const redirectHome = () => history.push('/');
-  const redirectLogin = () => history.push('/login');
+  const redirectHome = () => props.history.push('/');
+  const redirectLogin = () => props.history.push('/login');
   return (
     <FloatNav
       isLogin={isLogin}
@@ -62,6 +76,8 @@ export const FloatNavContainer = ({
       handleClickWantSomeBeer={handleClickWantSomeBeer}
       handleClickFavorite={handleClickFavorite}
       handleClickReview={handleClickReview}
+      handleClickMypage={handleClickMypage}
+      handleClickMyBeer={handleClickMyBeer}
       display={display}
       redirectHome={redirectHome}
       redirectLogin={redirectLogin}

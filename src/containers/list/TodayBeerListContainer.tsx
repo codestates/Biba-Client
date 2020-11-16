@@ -7,6 +7,7 @@ import { BeerT, BEER_TODAY } from '../../modules/getbeers';
 import { HomeProps } from '../../containers/page/HomeContainer';
 import axios from 'axios';
 import TodayBeerList from '../../components/list/TodayBeerList';
+import MobileHome from '../../components/mobile/MobileHome';
 import LoadingAnimation from '../../components/page/LoadingAnimation';
 
 function TodayBeerListContainer({
@@ -32,6 +33,11 @@ function TodayBeerListContainer({
   return (
     <>
       <TodayBeerList
+        beers={todayBeers}
+        setBeerDetail={setBeerDetail}
+        setAllReviews={setAllReviews}
+      />
+      <MobileHome
         beers={todayBeers}
         setBeerDetail={setBeerDetail}
         setAllReviews={setAllReviews}
