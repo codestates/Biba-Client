@@ -7,7 +7,7 @@ import axios from 'axios';
 import { BeerT } from '../../modules/getbeers';
 import { DefaultProps } from '../page/HomeContainer';
 
-import { MobileSearch } from '../../components/page/MobileSearch';
+import { MobileSearch } from '../../components/mobile/MobileSearch';
 
 export interface MobileSearchProps extends DefaultProps {
   inputQuery: {

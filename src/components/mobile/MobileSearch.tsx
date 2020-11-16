@@ -10,9 +10,9 @@ import {
   btnOff,
   btnOffText,
   pDefault,
-} from '../../components/nav/color';
+} from '../nav/color';
 
-import { MobileSearchProps } from '../../containers/page/MobileSearchContainer';
+import { MobileSearchProps } from '../../containers/mobile/MobileSearchContainer';
 
 export const MobileSearch = ({
   location,
@@ -34,58 +34,46 @@ export const MobileSearch = ({
         ></MobileInput>
         <MobileSearchBtn onClick={handleSearch}>Biba!</MobileSearchBtn>
       </MobileSearchInputWrap>
-      <div>인기 검색어 태그</div>
-      <div>추천 맥주 리스트</div>
+      <SearchTags>인기 검색어 태그</SearchTags>
+      <SearchRecommend>추천 맥주 리스트</SearchRecommend>
     </MobileSearchContainer>
   );
 };
+
 const MobileSearchContainer = styled.div`
   display: none;
 
   @media (max-width: 414px) {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2em 0 0 0;
   }
 `;
 const MobileSearchInputWrap = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end; // 박스 내 input, btn
+  justify-content: center;
   overflow: hidden;
-  animation: strecth 2s cubic-bezier(0.74, 0.09, 0.2, 0.92) forwards;
-
-  @keyframes strecth {
-    0% {
-      margin-left: 100%;
-    }
-  }
 `;
 
 const MobileInput = styled.input`
   display: flex;
 
-  width: 16vw;
-  min-width: 260px;
+  width: 68vw;
   border: 0px solid ${mainYellow};
   border-radius: 8px;
-  margin: 0 0.8em 0 0.6em;
-  padding: 0.4em 0.5em 0.3em 0.5em;
-
-  font-size: 0.9em;
+  margin: 0 0.4em 0 0.4em;
+  padding: 0.45em 0.55em 0.35em 0.55em;
+  font-size: 0.95em;
   background-color: ${lightGrey1};
+
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
-    height: 2.2em;
-    margin: 0 -2.2em 0 0.3em;
-  }
-  @media (max-width: 360px) {
-    width: 180px;
-    min-width: 180px;
-    height: 2.1em;
-    margin: 0 -2.4em 0 0.3em;
-    font-size: 0.9em;
+  @media (max-width: 320px) {
+    width: 65vw;
   }
 `;
 
@@ -93,12 +81,9 @@ const MobileSearchBtn = styled.button`
   cursor: pointer;
   border: 0px;
   border-radius: 8px;
-
   margin: 0 0 0.05em 0;
   padding: 0.4em 0.6em 0.3em 0.6em;
-
   font-size: 0.95em;
-  // font-weight: 300;
   background-color: ${mainYellow};
   color: #fff;
 
@@ -109,13 +94,15 @@ const MobileSearchBtn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
-    margin: 0 0.8em 0.05em 0;
-    padding: 0.4em 0.5em 0.3em 0.5em;
+`;
 
-    font-size: 0.8em;
-  }
-  @media (max-width: 360px) {
-    padding: 0.3em 0.4em 0.2em 0.4em;
-  }
+const SearchTags = styled.div`
+  display: flex;
+  width: 78vw;
+  margin: 1.5em 0 0 0;
+`;
+const SearchRecommend = styled.div`
+  display: flex;
+  width: 78vw;
+  margin: 1.5em 0 0 0;
 `;

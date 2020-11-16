@@ -13,7 +13,7 @@ import { MypageContainerWithRouter } from '../containers/user/MypageContainer';
 import { FooterContainerithRouter } from '../containers/nav/FooterContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
-import { MobileSearchContainerWithRouter } from '../containers/page/MobileSearchContainer';
+import { MobileSearchContainerWithRouter } from '../containers/mobile/MobileSearchContainer';
 
 import { AppProps } from '../containers/AppContainer';
 
