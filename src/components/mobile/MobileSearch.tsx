@@ -15,15 +15,14 @@ import {
 import { MobileSearchProps } from '../../containers/mobile/MobileSearchContainer';
 
 export const MobileSearch = ({
-  location,
   inputQuery,
   handleOnChange,
   handleSearch,
+  searchResults,
   pressEnter,
 }: MobileSearchProps): JSX.Element => {
   return (
     <MobileSearchContainer>
-      {console.log(location.pathname)}
       <MobileSearchInputWrap className='searchInputWrap'>
         <MobileInput
           type='text'
@@ -34,7 +33,7 @@ export const MobileSearch = ({
         ></MobileInput>
         <MobileSearchBtn onClick={handleSearch}>Biba!</MobileSearchBtn>
       </MobileSearchInputWrap>
-      <SearchTags>인기 검색어 태그</SearchTags>
+      <SearchTags>인기 검색어 태그{searchResults()}</SearchTags>
       <SearchRecommend>추천 맥주 리스트</SearchRecommend>
     </MobileSearchContainer>
   );
