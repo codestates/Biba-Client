@@ -14,7 +14,8 @@ import {
   MOBILE_SEARCH,
   MOBILE_MYBEER,
 } from '../../modules/changepage';
-import { ContentType } from '../../modules/nav';
+
+import { ContentType } from '../../modules/modal';
 import MobileMyBeer from '../../components/mobile/MobileMyBeer';
 
 export interface FloatNavProps {

@@ -8,7 +8,7 @@ import {
   SubmitBtn,
 } from '../../containers/user/MypageContainer';
 
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import {
   mainYellow,
   mainYellowOpac,

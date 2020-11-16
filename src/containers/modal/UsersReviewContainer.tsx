@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { MDUsersReview } from '../../components/modal/UsersReview';
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import { checkStarScore } from '../page/pageUtils';
 import { aReview } from '../../modules/beerdetail';
 import { ModalContentProps } from './ModalContainer';

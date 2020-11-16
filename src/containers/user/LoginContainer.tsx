@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler, SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { RouterProps } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Login } from '../../components/user/Login';
 import { RootState } from '../../modules';
 import { User, UserState, UserProfile } from '../../modules/user';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import {
   aReview,
   beerDetailInit,
@@ -59,6 +59,9 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   const handleClickHiddenMenu = (display: boolean): void => {
     dispatch({ type: 'SET_MENUDISPLAY', display: display });
   };
+  const handleBottomModal = (contentType: ContentType, display: boolean) => {
+    dispatch({ type: 'SET_BOTTOM_MODAL', contentType, display });
+  };
 
   const [inputValues, setInputValues] = useState({
     email: '',
@@ -83,6 +86,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
       .then((res) => {
         if (res.status === 200) {
           if (menuDisplay) handleClickHiddenMenu(false);
+          handleBottomModal(ContentType.Empty, false);
           const { id, nickname, email } = res.data.userData;
           const { token, profile } = res.data;
           // console.log(res.headers);
@@ -196,6 +200,7 @@ export const LoginContainer = (props: DefaultProps): JSX.Element => {
   };
   const redirectToSignup = (): void => {
     if (menuDisplay) handleClickHiddenMenu(false);
+    handleBottomModal(ContentType.Empty, false);
     closeModal();
     props.history.push('/signup');
   };

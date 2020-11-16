@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { LoginProps } from '../../containers/user/LoginContainer';
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 
 import {
   mainYellow,
@@ -101,6 +101,11 @@ const LoginArea = styled.div`
   padding: 1.8em 0 2.6em 0;
 
   // background-color: ${mainYellowOpac};
+  @media (max-width: 1024px) {
+    width: 70vw;
+    border: 0;
+    margin: 2em 0 0 0;
+  }
   @media (max-width: 768px) {
     width: 70vw;
     border: 0;

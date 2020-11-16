@@ -32,7 +32,7 @@ import {
 } from '../modal/ModalContainer';
 
 import { RootState } from '../../modules';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import { BeerDetail } from '../../components/page/BeerDetail';
 import { Bookmark, IBeerDetail, aReview } from '../../modules/beerdetail';
 import { BeerT, BEER_FAVORITE_ABC, BEER_REVIEW } from '../../modules/getbeers';
@@ -43,9 +43,12 @@ import {
 import { checkStarScore } from './pageUtils';
 
 export interface BeerDetailProps extends DefaultProps {
+  isLogin: boolean;
   beerDetail: IBeerDetail;
   compareMyBeers(): void;
   bookmark: boolean;
+  handleModal(contentType: ContentType, display: boolean): void;
+  handleBottomModal(contentType: ContentType, display: boolean): void;
   handleBookmark(): void;
   handleTag(): JSX.Element[] | boolean;
   disBasic: boolean;
@@ -91,11 +94,13 @@ const BeerDetailContainer = ({
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
-
+  const handleBottomModal = (contentType: ContentType, display: boolean) => {
+    dispatch({ type: 'SET_BOTTOM_MODAL', contentType, display });
+  };
   const compareMyBeers = (): void => {
     if (!isLogin) {
       // alert(`로그인 후 이용해주세요.`);
-      handleModal(ContentType.Login, true);
+      // handleModal(ContentType.Login, true);
       return;
     }
     axios
@@ -126,7 +131,7 @@ const BeerDetailContainer = ({
   const handleBookmark = (): void => {
     if (!isLogin) {
       // alert(`로그인 후 이용해주세요.`);
-      handleModal(ContentType.Login, true);
+      // handleModal(ContentType.Login, true);
       return;
     }
     axios
@@ -314,9 +319,12 @@ const BeerDetailContainer = ({
       match={match}
       history={history}
       location={location}
+      isLogin={isLogin}
       beerDetail={beerDetail}
       compareMyBeers={compareMyBeers}
       bookmark={bookmark}
+      handleModal={handleModal}
+      handleBottomModal={handleBottomModal}
       handleBookmark={handleBookmark}
       handleTag={handleTag}
       disBasic={disBasic}
@@ -348,6 +356,9 @@ const DetailSingleCommentGrid = styled.div`
   display: grid;
   grid-template-rows: 20% auto 20%;
   height: 180px;
+  @media (max-width: 414px) {
+    height: 170px;
+  }
 `;
 
 const DetailNoComment = styled(SingleComment)`

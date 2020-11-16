@@ -14,23 +14,6 @@ export interface SearchbarState {
   display: boolean;
 }
 
-export interface ModalContent {
-  contentType: ContentType;
-}
-export interface ModalState extends ModalContent {
-  display: boolean;
-}
-export enum ContentType {
-  Empty,
-  Login,
-  ChangeNickname,
-  MyPageAllRates,
-  MyPageAllReviews,
-  MyBeerList,
-  UsersReview,
-  DetailAllReviews,
-  RequestBeer,
-}
 export interface BtnColor {
   btn: string;
   text: string;
@@ -68,22 +51,6 @@ const searchbarInit: SearchbarState = {
 };
 export const setSearchbar = (display: boolean): SearchbarStateAction => ({
   type: SET_SEARCHBAR,
-  display,
-});
-
-interface ModalStateAction extends ModalState {
-  type: typeof SET_MODAL;
-}
-const modalInit: ModalState = {
-  contentType: ContentType.Empty,
-  display: false,
-};
-export const setModal = (
-  contentType: ContentType,
-  display: boolean,
-): ModalStateAction => ({
-  type: SET_MODAL,
-  contentType,
   display,
 });
 
@@ -186,23 +153,6 @@ export const searchbarReducer = (
     case SET_SEARCHBAR:
       return {
         ...state,
-        display: action.display,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const modalReducer = (
-  state = modalInit,
-  action: ModalStateAction,
-): ModalState => {
-  switch (action.type) {
-    case SET_MODAL:
-      return {
-        ...state,
-        contentType: action.contentType,
         display: action.display,
       };
 

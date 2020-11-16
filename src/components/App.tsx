@@ -13,6 +13,8 @@ import { MypageContainerWithRouter } from '../containers/user/MypageContainer';
 import { FooterContainerithRouter } from '../containers/nav/FooterContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
+import { MobileSearchContainerWithRouter } from '../containers/page/MobileSearchContainer';
+
 import { AppProps } from '../containers/AppContainer';
 
 export const App = ({
@@ -38,18 +40,23 @@ export const App = ({
             <Route path='/signup' component={SignupContainerWithRouter} />
             {isLogin ? (
               <Route path='/mypage' component={MypageContainerWithRouter} />
+            ) : whiteList.indexOf(location.pathname) === -1 ? (
+              <Redirect to='/' path='*' />
             ) : (
-              <Redirect exact to='/' />
+              false
             )}
           </Switch>
         </Full>
         <Half>
           <Switch>
+            <Route
+              path='/msearch'
+              component={MobileSearchContainerWithRouter}
+            />
             <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
             <Route exact path='/' component={HomeContainerWithRouter} />
           </Switch>
-          {whiteList.indexOf(location.pathname.split('/')[1]) === -1 ? (
-            // || location.pathname.split('/').length !== 2 ? ( // 최종 때는 활성화?
+          {whiteList.indexOf(location.pathname) === -1 ? (
             <Redirect to='/' path='*' />
           ) : (
             false
@@ -78,7 +85,7 @@ const Container = styled.div`
     '. Footer .'
     '. . .';
   @media (max-width: 768px) {
-    grid-template-rows: 2em auto auto auto 3em;
+    grid-template-rows: 1.5em auto auto auto 3em;
     grid-template-columns: auto 86% auto;
   }
 `;
@@ -103,6 +110,9 @@ const Main = styled.div`
   margin: 0 0 9em 0;
   @media (max-width: 768px) {
     margin: 0 0 4em 0;
+  }
+  @media (max-width: 414px) {
+    margin: 0;
   }
 `;
 

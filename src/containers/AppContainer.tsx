@@ -36,7 +36,7 @@ export const AppContainer = ({
     handleConfirmAge(false);
   };
 
-  const whiteList = ['login', 'signup', 'beer', 'mypage'];
+  const whiteList = ['/login', '/signup', '/beer', '/msearch'];
   const fullList = ['/login', '/signup', '/mypage'];
   useEffect(() => {
     fullList.indexOf(location.pathname) !== -1
@@ -44,7 +44,9 @@ export const AppContainer = ({
       : handleNavDisplay(true);
   }, [fullList, handleNavDisplay, location.pathname]);
   useEffect(() => {
-    return location.pathname === 'signup' || location.pathname === 'mypage'
+    return location.pathname === 'signup' ||
+      location.pathname === 'mypage' ||
+      location.pathname === 'msearch'
       ? undefined
       : handleConfirms();
   }, [handleConfirms, location.pathname]);

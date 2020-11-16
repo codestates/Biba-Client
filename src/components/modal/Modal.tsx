@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CgCloseO } from 'react-icons/cg';
 
 import { ModalProps } from '../../containers/modal/ModalContainer';
-import { ContentType } from '../../modules/nav';
+import { ContentType } from '../../modules/modal';
 import { mainGrey, mainGreyOpac, mainYellow } from '../nav/color';
 
 export const Modal = ({

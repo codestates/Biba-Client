@@ -22,6 +22,7 @@ import {
 } from '../../components/nav/color';
 import { Nickname, PIcon } from '../../containers/modal/ModalContainer';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
+import { ContentType } from '../../modules/modal';
 
 export const Nav = ({
   userData,
@@ -39,6 +40,8 @@ export const Nav = ({
   handleSearch,
   menuDisplay,
   handleClickHiddenMenu,
+  bottomModalDisplay,
+  handleBottomModal,
   pressEnter,
 }: NavProps): JSX.Element => {
   return (
@@ -51,6 +54,89 @@ export const Nav = ({
             onClick={handleClickLogo}
           />
         </LogoWrap>
+        <ModalMask
+          className='modalMask'
+          onClick={() => {
+            handleClickHiddenMenu(false);
+            handleBottomModal(ContentType.Empty, false);
+          }}
+          style={
+            menuDisplay || bottomModalDisplay
+              ? {
+                  opacity: 1,
+                  visibility: 'visible',
+                  transition: 'visibility 0.8s linear, opacity 0.8s linear',
+                }
+              : {
+                  opacity: 0,
+                  visibility: 'hidden',
+                  transition: 'visibility 0.8s linear, opacity 0.8s linear',
+                }
+          }
+        ></ModalMask>
+
+        <SideNav style={menuDisplay ? { right: '0' } : { right: '-100%' }}>
+          <CloseBtn onClick={() => handleClickHiddenMenu(false)} />
+          {isLogin ? (
+            <SubNavUserInfo>
+              <SubNavProfileWrap>
+                {profile === '' || profile === undefined ? (
+                  <NavPIcon2 />
+                ) : (
+                  <SubNavProfile src={profile} />
+                )}
+              </SubNavProfileWrap>
+              <InfoText>
+                <SubNickname>
+                  <BeerIcon />
+                  {userData.nickname}
+                </SubNickname>
+                <SubBtn
+                  onClick={() => {
+                    handleClickMypage();
+                    handleClickHiddenMenu(false);
+                  }}
+                >
+                  마이페이지
+                </SubBtn>
+                <SubBtn
+                  onClick={() => {
+                    handleClickLogout();
+                    handleClickHiddenMenu(false);
+                  }}
+                >
+                  로그아웃
+                </SubBtn>
+              </InfoText>
+            </SubNavUserInfo>
+          ) : (
+            <LoginContainerWithRouter />
+          )}
+          <SubFooter
+            style={menuDisplay ? { bottom: '25px' } : { bottom: '-100%' }}
+          >
+            <FooterContainerithRouter />
+          </SubFooter>
+        </SideNav>
+
+        <MobileModal
+          style={bottomModalDisplay ? { bottom: '0' } : { bottom: '-100%' }}
+        >
+          <CloseBtn
+            onClick={() => {
+              handleClickHiddenMenu(false);
+              handleBottomModal(ContentType.Empty, false);
+            }}
+          />
+          <LoginContainerWithRouter />
+          <SubFooter
+            style={
+              bottomModalDisplay ? { bottom: '25px' } : { bottom: '-100%' }
+            }
+          >
+            <FooterContainerithRouter />
+          </SubFooter>
+        </MobileModal>
 
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
@@ -102,22 +188,6 @@ export const Nav = ({
               </>
             )}
           </SearchbarArea>
-          <SearchbarArea2 className='searchbarArea2'>
-            <SearchInputWrap className='searchInputWrap'>
-              <SearchIcon
-                className='searchIcon'
-                style={{ cursor: 'default' }}
-              />
-              <Input
-                type='text'
-                placeholder='검색어를 입력해주세요.'
-                value={inputQuery.query}
-                onChange={handleOnChange}
-                onKeyPress={pressEnter}
-              ></Input>
-              <SearchBtn onClick={handleSearch}>GO</SearchBtn>
-            </SearchInputWrap>
-          </SearchbarArea2>
           <BtnArea className='btnArea'>
             <NavBtn
               onClick={() => {
@@ -144,69 +214,7 @@ export const Nav = ({
             ) : undefined}
           </BtnArea>
 
-          <MenuIconWrap>
-            <Hamberger onClick={() => handleClickHiddenMenu(!menuDisplay)} />
-          </MenuIconWrap>
-          <ModalMask
-            className='modalMask'
-            onClick={() => handleClickHiddenMenu(false)}
-            style={
-              menuDisplay
-                ? {
-                    opacity: 1,
-                    visibility: 'visible',
-                    transition: 'visibility 0.7s linear, opacity 0.7s linear',
-                  }
-                : {
-                    opacity: 0,
-                    visibility: 'hidden',
-                    transition: 'visibility 0.7s linear, opacity 0.7s linear',
-                  }
-            }
-          ></ModalMask>
-          <SideNav style={menuDisplay ? { right: '0' } : { right: '-100%' }}>
-            <CloseBtn onClick={() => handleClickHiddenMenu(false)} />
-            {isLogin ? (
-              <SideNavUserInfo>
-                <SideNavProfileWrap>
-                  {profile === '' || profile === undefined ? (
-                    <NavPIcon2 />
-                  ) : (
-                    <SideNavProfile src={profile} />
-                  )}
-                </SideNavProfileWrap>
-                <InfoText>
-                  <SideNickname>
-                    <BeerIcon />
-                    {userData.nickname}
-                  </SideNickname>
-                  <SideBtn
-                    onClick={() => {
-                      handleClickMypage();
-                      handleClickHiddenMenu(false);
-                    }}
-                  >
-                    마이페이지
-                  </SideBtn>
-                  <SideBtn
-                    onClick={() => {
-                      handleClickLogout();
-                      handleClickHiddenMenu(false);
-                    }}
-                  >
-                    로그아웃
-                  </SideBtn>
-                </InfoText>
-              </SideNavUserInfo>
-            ) : (
-              <LoginContainerWithRouter />
-            )}
-            <SideFooter
-              style={menuDisplay ? { right: '25px' } : { right: '-100%' }}
-            >
-              <FooterContainerithRouter />
-            </SideFooter>
-          </SideNav>
+          <Hamberger onClick={() => handleClickHiddenMenu(!menuDisplay)} />
         </Wrap>
       </NavBar>
     </Container>
@@ -230,6 +238,7 @@ const NavBar = styled.div`
 
   color: #fff;
   @media (max-width: 768px) {
+    justify-content: flex-end;
     padding: 0.3em 0 0 0;
   }
 `;
@@ -238,7 +247,10 @@ const Wrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 80%;
+  width: 70%;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const LogoWrap = styled.div`
   display: flex;
@@ -255,13 +267,13 @@ const LogoWrap = styled.div`
   margin: 0 0 0 1.5em;
   @media (max-width: 768px) {
     margin: 0 0 0 0.8em;
+    min-width: 55px;
+    min-height: 55px;
+  }
+  @media (max-width: 414px) {
+    margin: 0 0.5em 0 0;
     min-width: 45px;
     min-height: 45px;
-  }
-  @media (max-width: 375px) {
-    margin: 0 0 0 0.6em;
-    min-width: 30px;
-    min-height: 30px;
   }
 `;
 const Logo = styled.img`
@@ -273,15 +285,6 @@ const Logo = styled.img`
   width: 100%;
   object-fit: contain;
   // margin: 0 -0.5em 0 -0.5em;
-`;
-const SearchbarArea2 = styled.div`
-  display: none;
-
-  @media (max-width: 768px) {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
 `;
 
 const SearchbarArea = styled.div`
@@ -297,9 +300,6 @@ const SearchbarArea = styled.div`
   margin: 0 0.5em 0.1em 0;
   padding: 0.5em 0.8em 0.5em 0.8em;
   // background-color: ${mainYellowOpac};
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 
 const IconWrap = styled.div`
@@ -344,13 +344,6 @@ const SearchIcon = styled(BiSearchAlt)`
   width: 1.5em;
   height: 1.5em;
   color: #545454;
-  @media (max-width: 414px) {
-    width: 1.2em;
-    height: 1.2em;
-  }
-  @media (max-width: 375px) {
-    display: none;
-  }
 `;
 const SearchInputWrap = styled.div`
   display: flex;
@@ -381,23 +374,12 @@ const Input = styled.input`
   &:focus {
     outline: none;
   }
-  @media (max-width: 1080px) {
+  @media (max-width: 1024px) {
     width: 200px;
     height: 2em;
     min-width: 200px;
     margin: 0 0.3em 0 0.4em;
     font-size: 0.95em;
-  }
-  @media (max-width: 414px) {
-    height: 2.2em;
-    margin: 0 -2.2em 0 0.3em;
-  }
-  @media (max-width: 360px) {
-    width: 180px;
-    min-width: 180px;
-    height: 2.1em;
-    margin: 0 -2.4em 0 0.3em;
-    font-size: 0.9em;
   }
 `;
 
@@ -421,18 +403,9 @@ const SearchBtn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 1080px) {
+  @media (max-width: 1024px) {
     margin: 0 1em 0.05em 0.05em;
     padding: 0.375em 0.5em 0.3em 0.5em;
-  }
-  @media (max-width: 414px) {
-    margin: 0 0.8em 0.05em 0;
-    padding: 0.4em 0.5em 0.3em 0.5em;
-
-    font-size: 0.8em;
-  }
-  @media (max-width: 360px) {
-    padding: 0.3em 0.4em 0.2em 0.4em;
   }
 `;
 
@@ -444,7 +417,7 @@ const BtnArea = styled.div`
 
   width: auto;
   height: 3em;
-  @media (max-width: 1080px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
@@ -496,26 +469,25 @@ const SmallProfile = styled.img`
   // max-width: 100vh;
   object-fit: contain;
 `;
-const MenuIconWrap = styled.div``;
+const MenuIconWrap = styled.div`
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
 const Hamberger = styled(HiOutlineMenuAlt3)`
   display: none;
-  @media (max-width: 1080px) {
+  @media (max-width: 1024px) {
     display: flex;
     width: 1.5em;
     height: 1.5em;
     margin: 0 0.4em 0 0;
     color: ${mainYellow};
   }
-  @media (max-width: 375px) {
-    margin: 0 0.2em 0 0;
-  }
-  @media (max-width: 360px) {
-    margin: 0;
-  }
 `;
 const ModalMask = styled.div`
   display: none;
-  @media (max-width: 1080px) {
+  @media (max-width: 1024px) {
     display: block;
     position: fixed;
     z-index: 8;
@@ -540,10 +512,32 @@ const CloseBtn = styled(CgClose)`
     text-decoration: none;
   }
 `;
+
+const MobileModal = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+
+    position: fixed;
+    z-index: 10;
+    overflow-y: hidden;
+    overflow: hidden;
+    left: 0;
+    height: 90vh;
+    width: 100vw;
+
+    border-radius: 24px 24px 0 0;
+
+    background-color: white;
+    box-shadow: -5px 0 1em rgba(0, 0, 0, 0.1);
+    transition: bottom 0.8s ease-in;
+  }
+`;
 const SideNav = styled.div`
   display: none;
 
-  @media (max-width: 1080px) {
+  @media (max-width: 1024px) {
     display: block;
 
     position: fixed;
@@ -553,17 +547,14 @@ const SideNav = styled.div`
     overflow-x: hidden;
     overflow: hidden;
     height: 100vh;
-    // width: 80vw;
-    width: 320px;
+    width: 400px;
 
     background-color: white;
     box-shadow: -5px 0 1em rgba(0, 0, 0, 0.1);
-    // visibility: visible;
     transition: right 0.7s ease-in;
   }
-
-  @media (max-width: 360px) {
-    width: 280px;
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 const NavPIcon2 = styled(PIcon)`
@@ -572,7 +563,7 @@ const NavPIcon2 = styled(PIcon)`
   margin: 0 0 0.2em -0.5em;
   padding: 0;
 `;
-const SideNavUserInfo = styled.div`
+const SubNavUserInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -581,7 +572,7 @@ const SideNavUserInfo = styled.div`
 
   color: ${mainGrey};
 `;
-const SideNavProfileWrap = styled.div`
+const SubNavProfileWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -592,7 +583,7 @@ const SideNavProfileWrap = styled.div`
   border-radius: 50%;
   overflow: hidden;
 `;
-const SideNavProfile = styled.img`
+const SubNavProfile = styled.img`
   height: 150%;
   width: 150%;
   // max-height: 100vh;
@@ -605,7 +596,7 @@ const InfoText = styled.div`
 
   margin: 1em 0 0 0;
 `;
-const SideNickname = styled.div`
+const SubNickname = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -613,7 +604,7 @@ const SideNickname = styled.div`
   margin: 0 0 1em 0;
   font-size: 1.1em;
 `;
-const SideBtn = styled.button`
+const SubBtn = styled.button`
   cursor: pointer;
   border: 0px;
   border-radius: 8px;
@@ -641,12 +632,14 @@ const BeerIcon = styled(BiBeer)`
   margin: 0 0.3em 0.1em 0;
   color: ${mainYellowOpac};
 `;
-const SideFooter = styled.div`
+const SubFooter = styled.div`
+  display: none;
   position: fixed;
-  right: -100%;
-  bottom: 25px;
-  right: -100%;
-  transition: right 0.7s ease-in;
+  right: 25px;
+  transition: bottom 0.8s ease-in;
+  @media (max-width: 768px) {
+    display: block;
+  }
   @media (max-width: 360px) {
     bottom: 20px;
   }
