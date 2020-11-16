@@ -1,7 +1,7 @@
 import React from 'react';
 import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
-import './TodayCss.css';
+import '../../css/TodayCss.css';
 import TodayBeer from './TodayBeer';
 import { BeerListProps } from '../../containers/page/HomeContainer';
 
@@ -44,9 +44,6 @@ function TodayBeerList({
 
 const ContentWrap = styled.div`
   animation: fadein 3s;
-  -moz-animation: fadein 3s; /* Firefox */
-  -webkit-animation: fadein 3s; /* Safari and Chrome */
-  -o-animation: fadein 3s; /* Opera */
 
   @keyframes fadein {
     from {
@@ -56,32 +53,9 @@ const ContentWrap = styled.div`
       opacity: 1;
     }
   }
-  @-moz-keyframes fadein {
-    /* Firefox */
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @-webkit-keyframes fadein {
-    /* Safari and Chrome */
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @-o-keyframes fadein {
-    /* Opera */
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 export default TodayBeerList;

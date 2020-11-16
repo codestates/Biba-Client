@@ -13,6 +13,7 @@ function WantSomeBeer({
 }: BeerProps): JSX.Element {
   return (
     <Item
+      className='item'
       id={id}
       key={`wantsomebeer${id}`}
       onClick={(e) => {
@@ -40,6 +41,10 @@ const Item = styled.div`
   box-shadow: 3px 3px 3px rgba(238, 238, 238, 0.8);
   color: ${mainGrey};
   font-weight: 500;
+
+  @media (max-width: 360px) {
+    width: 140px;
+  }
 `;
 
 const ImageWrap = styled.div`
@@ -49,8 +54,6 @@ const ImageWrap = styled.div`
 
   height: 77%;
   width: 100%;
-
-  overflow: hidden;
 `;
 const Image = styled.img`
   display: flex;
@@ -70,6 +73,14 @@ const Name = styled.div`
   width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
+
+  @media (max-width: 375px) {
+    width: 95%;
+  }
+
+  @media (max-width: 360px) {
+    width: 92%;
+  }
 `;
 
 export default WantSomeBeer;

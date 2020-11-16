@@ -13,6 +13,7 @@ export type BeerT = {
   id: string;
   beer_name: string;
   beer_img: string;
+  mobile: string;
   rate: number;
 };
 

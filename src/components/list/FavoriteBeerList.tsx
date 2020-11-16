@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
-import './TodayCss.css';
+import '../../css/TodayCss.css';
 import { AiFillCaretDown } from 'react-icons/ai';
 
 import FavoriteBeer from './FavoriteBeer';

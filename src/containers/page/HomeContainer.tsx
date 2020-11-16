@@ -42,6 +42,13 @@ export interface BeerProps extends DetailProps {
   image: string;
   rate: number;
 }
+export interface BeerPropsM extends DetailProps {
+  id: string;
+  key: string;
+  name: string;
+  image: string;
+  rate: number;
+}
 
 export type DefaultProps = RouteComponentProps<MatchParams>;
 export interface HomeProps extends DefaultProps, DetailProps {}

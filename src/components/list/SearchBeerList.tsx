@@ -1,7 +1,7 @@
 import React from 'react';
 import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
-import './TodayCss.css';
+import '../../css/TodayCss.css';
 import { BeerListProps } from '../../containers/page/HomeContainer';
 
 import SearchBeer from './SearchBeer';
