@@ -15,9 +15,6 @@ button.rec-arrow {
     opacity: 0.5;
     box-shadow:0 0 1px 3px rgba(245, 147, 48, 0.5) !important;
 
-    @media (max-width: 768px) {
-      display: none;
-    }
   }
   
   button.rec-arrow:hover, button.rec-arrow:active, button.rec-arrow:focus {
