@@ -70,8 +70,8 @@ export const MobileSearch = ({
       {isSearchM ? (
         <Masonry
           breakpointCols={breakpointColumnsObj}
-          className='my-masonry-grid'
-          columnClassName='my-masonry-grid_column'
+          className='search-my-masonry-grid'
+          columnClassName='search-my-masonry-grid_column'
         >
           {sbList}
         </Masonry>
