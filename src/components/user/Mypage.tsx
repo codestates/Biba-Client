@@ -194,12 +194,12 @@ const MypageArea = styled.div`
     grid-template-columns: 21% auto;
   }
   @media (max-width: 425px) {
-    grid-template-rows: 6em 27em auto;
+    grid-template-rows: 7em 27em auto;
     grid-template-columns: 0vw 86vw;
     margin: 0 0 4em 0.5em;
   }
   @media (max-width: 375px) {
-    grid-template-rows: 5em 25em auto;
+    grid-template-rows: 5.5em 25em auto;
     margin: 0 0 2em 0.2em;
   }
 `;
@@ -218,9 +218,9 @@ const MLogout = styled.button`
     display: flex;
     border: 0;
     border-radius: 8px;
-    margin: 0 0 1.5em 1em;
+    margin: 0 0 1.83em 1em;
     padding: 0.525em 0.75em 0.425em 0.6em;
-    background-color: rgba(184, 184, 184);
+    background-color: rgba(220, 220, 220);
     color: white;
     font-size: 0.85em;
   }
@@ -244,7 +244,7 @@ const Title = styled.div`
   color: ${mainYellow};
   @media (max-width: 425px) {
     font-size: 1.5em;
-    margin: 0 0 0.8em 0;
+    margin: 0 0 1em 0;
   }
 `;
 

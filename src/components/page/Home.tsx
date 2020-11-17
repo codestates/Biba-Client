@@ -104,8 +104,11 @@ const Container = styled.div`
   margin: 1em auto;
   @media (max-width: 425px) {
     min-height: 0;
-    margin: 0;
+    margin: 0 0 3.5em 0;
     width: 84vw;
+  }
+  @media (max-width: 375px) {
+    margin: 0 0 2.5em 0;
   }
 `;
 
