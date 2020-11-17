@@ -28,10 +28,12 @@ export interface MypageProps {
   profile: string;
   refDisplay: boolean;
   handleModal(contentType: ContentType, display: boolean): void;
+  handleBottomModal(contentType: ContentType, display: boolean): void;
   getMyRates(): void;
   getMyReviews(): void;
   mapInputList(): JSX.Element[];
   handleClickChangeNickname(): void;
+  handleClickMobileChangeNickname(): void;
   handleUploadProfile(e: React.ChangeEvent<HTMLInputElement>): void;
   profileInput: React.RefObject<HTMLImageElement>;
   handlePostProfile(): void;
@@ -40,7 +42,6 @@ export interface MypageProps {
 }
 
 const MypageContainer = (props: RouterProps): JSX.Element => {
-  // 최상단
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
@@ -53,6 +54,12 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
+  const handleBottomModal = (
+    contentType: ContentType,
+    display: boolean,
+  ): void => {
+    dispatch({ type: 'SET_BOTTOM_MODAL', contentType, display });
+  };
   const getMyRates = (): void => {
     axios
       .post<aReview[]>(`https://beer4.xyz/comment/mylist`, {
@@ -61,7 +68,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       .then((res) => {
         const rawReviews = res.data;
         dispatch({ type: 'SET_MYREVIEWS', myReviews: rawReviews });
-        handleModal(ContentType.MyPageAllRates, true);
+        // handleModal(ContentType.MyPageAllRates, true);
       }); // [{}, {}]
   };
   const getMyReviews = (): void => {
@@ -75,12 +82,15 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
           if (ele.comment !== '') return ele;
         });
         dispatch({ type: 'SET_MYREVIEWS', myReviews: withComments });
-        handleModal(ContentType.MyPageAllReviews, true);
+        // handleModal(ContentType.MyPageAllReviews, true);
       }); // [{}, {}]
   };
 
   const handleClickChangeNickname = (): void => {
     handleModal(ContentType.ChangeNickname, true);
+  };
+  const handleClickMobileChangeNickname = (): void => {
+    handleBottomModal(ContentType.ChangeNickname, true);
   };
 
   const [inputValues, setInputValues] = useState({
@@ -307,10 +317,12 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       profile={profile}
       refDisplay={refDisplay}
       handleModal={handleModal}
+      handleBottomModal={handleBottomModal}
       getMyRates={getMyRates}
       getMyReviews={getMyReviews}
       mapInputList={mapInputList}
       handleClickChangeNickname={handleClickChangeNickname}
+      handleClickMobileChangeNickname={handleClickMobileChangeNickname}
       handleUploadProfile={handleUploadProfile}
       profileInput={profileInput}
       handlePostProfile={handlePostProfile}
@@ -326,7 +338,7 @@ export const SubmitBtnArea = styled.div`
   display: grid;
   grid-template-columns: 10em 14em;
   margin: 0.8em 0 0.5em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-columns: 8em auto;
     margin: 0.4em 0 0.5em 0;
   }

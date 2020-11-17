@@ -6,7 +6,13 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
-import { Tag, StarWrap, FStar, EStar } from '../../components/page/BeerDetail';
+import {
+  Tag,
+  StarWrap,
+  MStarWrap,
+  FStar,
+  EStar,
+} from '../../components/page/BeerDetail';
 import {
   mainYellow,
   mainYellowOpac,
@@ -64,7 +70,9 @@ export interface BeerDetailProps extends DefaultProps {
   user_star: boolean;
   mainReviewList(): JSX.Element[] | JSX.Element;
   handleClickUsersReview(): void;
+  handleClickMobileUsersReview(): void;
   handleClickAllReviews(): void;
+  handleClickMobileAllReviews(): void;
 }
 
 const BeerDetailContainer = ({
@@ -121,11 +129,11 @@ const BeerDetailContainer = ({
           });
       });
     dispatch({ type: 'SET_MYBEERTYPE', option1: true, option2: false });
-    dispatch({
-      type: 'SET_MODAL',
-      contentType: ContentType.MyBeerList,
-      display: true,
-    });
+    // dispatch({
+    //   type: 'SET_MODAL',
+    //   contentType: ContentType.MyBeerList,
+    //   display: true,
+    // });
   };
 
   const handleBookmark = (): void => {
@@ -245,9 +253,20 @@ const BeerDetailContainer = ({
     }
     handleModal(ContentType.UsersReview, true);
   };
+  const handleClickMobileUsersReview = (): void => {
+    if (!isLogin) {
+      // alert(`로그인 후 이용해주세요.`);
+      handleBottomModal(ContentType.Login, true);
+      return;
+    }
+    handleBottomModal(ContentType.UsersReview, true);
+  };
 
   const handleClickAllReviews = (): void => {
     handleModal(ContentType.DetailAllReviews, true);
+  };
+  const handleClickMobileAllReviews = (): void => {
+    handleBottomModal(ContentType.DetailAllReviews, true);
   };
 
   const handleClickTag = (e: React.MouseEvent<HTMLElement>): void => {
@@ -293,23 +312,46 @@ const BeerDetailContainer = ({
     // onclick시 ele 값 넘기는 함수
     return stars.map((ele) => {
       return (
-        <StarWrap
-          key={`star${ele[1]}`}
-          className='star'
-          id={`${ele[1]}`}
-          onClick={handleClickUsersReview}
-        >
-          <FStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
-          <EStar
-            style={
-              !ele[0]
-                ? isLogin
-                  ? { display: 'block' }
-                  : { display: 'block', color: `${lightGrey3}` }
-                : { display: 'none' }
-            }
-          />
-        </StarWrap>
+        <>
+          <StarWrap
+            key={`star${ele[1]}`}
+            className='star'
+            id={`${ele[1]}`}
+            onClick={handleClickUsersReview}
+          >
+            <FStar
+              style={ele[0] ? { display: 'block' } : { display: 'none' }}
+            />
+            <EStar
+              style={
+                !ele[0]
+                  ? isLogin
+                    ? { display: 'block' }
+                    : { display: 'block', color: `${lightGrey3}` }
+                  : { display: 'none' }
+              }
+            />
+          </StarWrap>
+          <MStarWrap
+            key={`mobileStar${ele[1]}`}
+            className='star'
+            id={`${ele[1]}`}
+            onClick={handleClickMobileUsersReview}
+          >
+            <FStar
+              style={ele[0] ? { display: 'block' } : { display: 'none' }}
+            />
+            <EStar
+              style={
+                !ele[0]
+                  ? isLogin
+                    ? { display: 'block' }
+                    : { display: 'block', color: `${lightGrey3}` }
+                  : { display: 'none' }
+              }
+            />
+          </MStarWrap>
+        </>
       );
     });
   };
@@ -340,7 +382,9 @@ const BeerDetailContainer = ({
       user_star={user_star}
       mainReviewList={mainReviewList}
       handleClickUsersReview={handleClickUsersReview}
+      handleClickMobileUsersReview={handleClickMobileUsersReview}
       handleClickAllReviews={handleClickAllReviews}
+      handleClickMobileAllReviews={handleClickMobileAllReviews}
     />
   );
 };
@@ -356,7 +400,7 @@ const DetailSingleCommentGrid = styled.div`
   display: grid;
   grid-template-rows: 20% auto 20%;
   height: 180px;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     height: 170px;
   }
 `;

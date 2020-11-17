@@ -43,7 +43,7 @@ const Item = styled.img`
     cursor: pointer;
   }
 
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     width: 140px;
     margin-left: 20px;
   }

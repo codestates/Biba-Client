@@ -37,6 +37,7 @@ export interface ModalProps {
   closeModal(): void;
   user_review: boolean;
   contentType: ContentType;
+  mobileContentType: ContentType;
   content: JSX.Element | JSX.Element[];
   mobileContent: JSX.Element | JSX.Element[];
   myReviews: MyReview[];
@@ -94,6 +95,8 @@ export const ModalContainer = (): JSX.Element => {
   };
   const closeModal = (): void => {
     handleModal(ContentType.Empty, false);
+    handleBottomModal(ContentType.Empty, false);
+    handleClickHiddenMenu(false);
   };
   const setDateForm = (input: string): string => {
     const [date, time] = input.split(' ');
@@ -297,6 +300,7 @@ export const ModalContainer = (): JSX.Element => {
       // pressEsc={pressEsc}
       user_review={user_review}
       contentType={contentType}
+      mobileContentType={mobileContentType}
       content={content(contentType)}
       mobileContent={mobileContent(contentType)}
       myReviews={myReviews}

@@ -17,14 +17,24 @@ function RequsetBeer(): JSX.Element {
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
   };
+  const handleBottomModal = (
+    contentType: ContentType,
+    display: boolean,
+  ): void => {
+    dispatch({ type: 'SET_BOTTOM_MODAL', contentType, display });
+  };
 
   const BeerRequestModal = (): void => {
     handleModal(ContentType.RequestBeer, true);
+  };
+  const BeerRequestBottomModal = (): void => {
+    handleBottomModal(ContentType.RequestBeer, true);
   };
   return (
     <Box>
       <H3>맥주를 찾을 수 없습니다</H3>
       <Button onClick={BeerRequestModal}>맥주 등록 요청</Button>
+      <MButton onClick={BeerRequestBottomModal}>맥주 등록 요청</MButton>
     </Box>
   );
 }
@@ -58,6 +68,32 @@ const Button = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 425px) {
+    display: none;
+    pointer-events: none;
+  }
+`;
+const MButton = styled.button`
+  pointer-events: none;
+  display: none;
+  border-radius: 5px;
+  border: 0;
+  padding: 0.4em 0.7em 0.35em 0.7em;
+  font-size: 1.1em;
+  font-weight: 400;
+  color: white;
+  background-color: ${mainYellow};
+  &:hover {
+    background-color: ${mainGrey};
+  }
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 425px) {
+    cursor: pointer;
+    pointer-events: auto;
+    display: inline-block;
   }
 `;
 

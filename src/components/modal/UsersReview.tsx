@@ -80,10 +80,17 @@ const RateTitle = styled.div`
   font-size: 1.1em;
 
   color: ${mainGrey};
+  @media (max-width: 425px) {
+    font-size: 1.05em;
+    margin: 0 0 0.03em 0.5em;
+  }
 `;
 const ReviewTextAreaWrap = styled.div`
   display: flex;
   width: 100%;
+  @media (max-width: 425px) {
+    flex-direction: column;
+  }
 `;
 const ReviewTextArea = styled.textarea`
   resize: none;
@@ -99,12 +106,22 @@ const ReviewTextArea = styled.textarea`
   &:focus {
     outline: none;
   }
+  @media (max-width: 425px) {
+    width: 97%;
+    align-self: center;
+  }
 `;
 const UserReviewBtnArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  @media (max-width: 425px) {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0.6em 0 0 0;
+    padding: 0 0.2em 0 0;
+  }
 `;
 
 const UserReviewBtn = styled.button`
@@ -155,5 +172,8 @@ const DeleteStarBtn = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 425px) {
+    margin: 0 0 0.08em 0.4em;
   }
 `;

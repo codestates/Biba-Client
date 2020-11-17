@@ -84,6 +84,11 @@ const MyBeerListModal = styled.div`
   justify-content: flex-start;
 
   width: 95%;
+  @media (max-width: 425px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const MyBeerListImgDiv = styled.div`
   display: flex;
@@ -97,6 +102,9 @@ const MyBeerListImgDiv = styled.div`
   overflow: hidden;
 
   margin: 0 1em 0 0;
+  @media (max-width: 425px) {
+    margin: 0.8em 0 0.6em 0;
+  }
 `;
 const MyBeerListImg = styled.img`
   display: flex;
@@ -115,6 +123,11 @@ const BLRadioWrap = styled.div`
   align-items: center;
 
   margin: 0.7em 0 0 0;
+  @media (max-width: 425px) {
+    width: 100%;
+    justify-content: space-evenly;
+    margin: 0.7em 0 0.5em 0;
+  }
 `;
 const BLRadio = styled.div`
   display: flex;

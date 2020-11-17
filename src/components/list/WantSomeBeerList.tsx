@@ -80,7 +80,7 @@ function WantSomeBeerList({
   ));
   const breakPoint = [
     { width: 768, itemsToShow: 2 },
-    { width: 414, itemsToShow: 3 },
+    { width: 425, itemsToShow: 3 },
     { width: 375, itemsToShow: 4 },
   ];
 
@@ -217,7 +217,7 @@ const Hidden = styled.div`
     font-size: 1.8em;
   }
 
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 1.6em;
   }
 

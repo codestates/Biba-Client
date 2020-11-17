@@ -6,7 +6,6 @@ import { ModalProps } from '../../containers/modal/ModalContainer';
 import { ContentType } from '../../modules/modal';
 import { mainGrey, mainGreyOpac, mainYellow } from '../nav/color';
 
-import { LoginContainerWithRouter } from '../../containers/user/LoginContainer';
 import { FooterContainerithRouter } from '../../containers/nav/FooterContainer';
 
 export const Modal = ({
@@ -14,6 +13,7 @@ export const Modal = ({
   closeModal,
   user_review,
   contentType,
+  mobileContentType,
   content,
   mobileContent,
   myReviews,
@@ -39,6 +39,27 @@ export const Modal = ({
     } else if (contentType === ContentType.DetailAllReviews) {
       return '리뷰 전체보기';
     } else if (contentType === ContentType.RequestBeer) {
+      return '맥주 등록 요청하기';
+    } else {
+      return '';
+    }
+  };
+  const mobileTitle = (): string => {
+    if (mobileContentType === ContentType.ChangeNickname) {
+      return '닉네임 변경하기';
+    } else if (mobileContentType === ContentType.MyPageAllRates) {
+      return '별점 준 맥주';
+    } else if (mobileContentType === ContentType.MyPageAllReviews) {
+      return '내가 작성한 리뷰';
+    } else if (mobileContentType === ContentType.MyBeerList) {
+      return '맥주 비교하기';
+    } else if (mobileContentType === ContentType.UsersReview && !user_review) {
+      return '별점 & 리뷰 등록하기';
+    } else if (mobileContentType === ContentType.UsersReview && user_review) {
+      return '리뷰 수정하기';
+    } else if (mobileContentType === ContentType.DetailAllReviews) {
+      return '리뷰 전체보기';
+    } else if (mobileContentType === ContentType.RequestBeer) {
       return '맥주 등록 요청하기';
     } else {
       return '';
@@ -94,11 +115,7 @@ export const Modal = ({
       >
         <MobileMask
           className='modalMask'
-          onClick={() => {
-            closeModal();
-            handleClickHiddenMenu(false);
-            handleBottomModal(ContentType.Empty, false);
-          }}
+          onClick={() => closeModal()}
           style={
             sideMenuDisplay || bottomModalDisplay
               ? {
@@ -114,20 +131,66 @@ export const Modal = ({
           }
         ></MobileMask>
         <MobileModal
-          style={bottomModalDisplay ? { bottom: '0' } : { bottom: '-100%' }}
+          style={
+            bottomModalDisplay
+              ? (mobileContentType === ContentType.DetailAllReviews &&
+                  allReviews.length !== 0) ||
+                (mobileContentType === ContentType.MyPageAllRates &&
+                  myReviews.length !== 0) ||
+                (mobileContentType === ContentType.MyPageAllReviews &&
+                  myReviews.length !== 0)
+                ? // 리뷰 전체보기(내용 있음), 내가 쓴 리뷰(내용 있음)
+                  { bottom: '0' }
+                : mobileContentType === ContentType.Login
+                ? // 로그인
+                  { bottom: '-10%' }
+                : mobileContentType === ContentType.MyBeerList
+                ? // 맥주 비교하기
+                  { bottom: '-33%' }
+                : mobileContentType === ContentType.RequestBeer
+                ? // 맥주 요청
+                  { bottom: '-40%' }
+                : mobileContentType === ContentType.ChangeNickname
+                ? // 닉네임 변경
+                  { bottom: '-60%' }
+                : // 리뷰 쓰기, 리뷰 전체보기(내용 없음), 내가 쓴 리뷰(내용 없음)
+                  { bottom: '-50%' }
+              : // hidden
+                { bottom: '-100%' }
+          }
         >
-          <CloseBtn
-            onClick={() => {
-              handleClickHiddenMenu(false);
-              handleBottomModal(ContentType.Empty, false);
-            }}
-          />
-          <ContentWrap className='mobileModalContentWrap'>
-            {mobileContent}
-          </ContentWrap>
+          {/* <MobileCloseBtn
+            className='mobileCloseBtn'
+            onClick={() => closeModal()}
+          /> */}
+          <TitleWrap className='modalTitleWrap'>
+            <Title>{mobileTitle()}</Title>
+            <MCloseBtn className='mobileCloseBtn' onClick={closeModal} />
+          </TitleWrap>
+          <MContentArea className='mobileContentArea'>
+            {console.log(allReviews.length)}
+            {(mobileContentType === ContentType.DetailAllReviews &&
+              allReviews.length !== 0) ||
+            (mobileContentType === ContentType.MyPageAllReviews &&
+              myReviews.length !== 0) ||
+            (mobileContentType === ContentType.MyPageAllRates &&
+              myReviews.length !== 0) ? (
+              <AllReviewsContent className='mobileReviewModalContent'>
+                {mobileContent}
+              </AllReviewsContent>
+            ) : (
+              <ContentWrap className='mobileModalContentWrap'>
+                {mobileContent}
+              </ContentWrap>
+            )}
+          </MContentArea>
           <SubFooter
             style={
-              bottomModalDisplay ? { bottom: '25px' } : { bottom: '-100%' }
+              mobileContentType === ContentType.Login
+                ? bottomModalDisplay
+                  ? { bottom: '25px' }
+                  : { bottom: '-100%' }
+                : { bottom: '-100%' }
             }
           >
             <FooterContainerithRouter />
@@ -265,6 +328,14 @@ const ContentArea = styled.div`
   margin: 12% auto;
   padding: 15px 15px 20px 15px;
 `;
+const MContentArea = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  max-height: 80vh;
+  overflow-y: scroll;
+`;
 const SmallContentArea = styled(ContentArea)`
   width: 560px;
   min-width: 560px;
@@ -291,7 +362,25 @@ const CloseBtn = styled(CgCloseO)`
     margin: 1em 0 0 1em;
   }
 `;
+const MCloseBtn = styled(CgCloseO)`
+  display: flex;
+  width: 1.9em;
+  height: 1.9em;
 
+  &:hover {
+    cursor: pointer;
+    color: #989898;
+    text-decoration: none;
+  }
+  color: ${mainGrey};
+  @media (max-width: 425px) {
+    display: flex;
+    width: 2.6em;
+    height: 1.6em;
+
+    padding: 0 1em 0 0;
+  }
+`;
 const TitleWrap = styled.div`
   display: flex;
   align-items: center;
@@ -299,6 +388,9 @@ const TitleWrap = styled.div`
 
   width: 100%;
   padding: 0.3em 0.5em 0.4em 0.5em;
+  @media (max-width: 425px) {
+    margin: 1.3em 0 0.4em 0.8em;
+  }
 `;
 const Title = styled.div`
   display: flex;
@@ -315,6 +407,9 @@ const ContentWrap = styled.div`
   margin: 0;
   padding: 0;
   width: 100%;
+  @media (max-width: 425px) {
+    width: 100vw;
+  }
 `;
 const AllReviewsContent = styled.div`
   display: flex;
@@ -328,6 +423,9 @@ const AllReviewsContent = styled.div`
   @media (min-width: 1720px) {
     width: 100%;
     margin: 0;
+  }
+  @media (max-width: 425px) {
+    width: 100vw;
   }
 `;
 const Content = styled.div`

@@ -97,7 +97,7 @@ const Nav = styled.div`
   @media (max-width: 768px) {
     margin: 0 0 1em 0;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 0 0 0.4em 0;
   }
 `;
@@ -111,7 +111,7 @@ const Main = styled.div`
   @media (max-width: 768px) {
     margin: 0 0 4em 0;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 0;
   }
 `;
@@ -143,7 +143,7 @@ const Float = styled.div`
     right: 0;
   }
 
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     display: block;
     position: fixed;
     height: 8vh;

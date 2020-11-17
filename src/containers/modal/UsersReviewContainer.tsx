@@ -10,7 +10,12 @@ import { checkStarScore } from '../page/pageUtils';
 import { aReview } from '../../modules/beerdetail';
 import { ModalContentProps } from './ModalContainer';
 
-import { StarWrap, FStar, EStar } from '../../components/page/BeerDetail';
+import {
+  StarWrap,
+  MStarWrap,
+  FStar,
+  EStar,
+} from '../../components/page/BeerDetail';
 
 export interface MDUsersReviewProps {
   user_review: boolean;
@@ -53,11 +58,6 @@ export const MDUsersReviewContainer = ({
   };
 
   const handleClickStar = (star: React.MouseEvent<HTMLElement>): void => {
-    if (!isLogin) {
-      // alert(`로그인 후 이용해주세요.`);
-      handleModal(ContentType.Login, true);
-      return;
-    }
     const { a, b, c, d, e } = checkStarScore(Number(star.currentTarget.id)); // 별점 dispatch 준비 함수, boolean 객체 돌려줌
     // console.log(Number(star.currentTarget.id));
     const rate = Number(star.currentTarget.id);
@@ -228,15 +228,34 @@ export const MDUsersReviewContainer = ({
     ];
     return stars.map((ele) => {
       return (
-        <StarWrap
-          key={`star${ele[1]}`}
-          className='star'
-          id={`${ele[1]}`}
-          onClick={handleClickStar}
-        >
-          <FStar style={ele[0] ? { display: 'block' } : { display: 'none' }} />
-          <EStar style={!ele[0] ? { display: 'block' } : { display: 'none' }} />
-        </StarWrap>
+        <>
+          <StarWrap
+            key={`star${ele[1]}`}
+            className='star'
+            id={`${ele[1]}`}
+            onClick={handleClickStar}
+          >
+            <FStar
+              style={ele[0] ? { display: 'block' } : { display: 'none' }}
+            />
+            <EStar
+              style={!ele[0] ? { display: 'block' } : { display: 'none' }}
+            />
+          </StarWrap>
+          <MStarWrap
+            key={`star${ele[1]}`}
+            className='star'
+            id={`${ele[1]}`}
+            onClick={handleClickStar}
+          >
+            <FStar
+              style={ele[0] ? { display: 'block' } : { display: 'none' }}
+            />
+            <EStar
+              style={!ele[0] ? { display: 'block' } : { display: 'none' }}
+            />
+          </MStarWrap>
+        </>
       );
     });
   };

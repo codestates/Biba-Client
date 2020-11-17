@@ -26,10 +26,12 @@ export const Mypage = ({
   profile,
   refDisplay,
   handleModal,
+  handleBottomModal,
   getMyRates,
   getMyReviews,
   mapInputList,
   handleClickChangeNickname,
+  handleClickMobileChangeNickname,
   handleUploadProfile,
   profileInput,
   handlePostProfile,
@@ -107,6 +109,12 @@ export const Mypage = ({
                 >
                   닉네임 변경하기
                 </ChangeBtn>
+                <MChangeBtn
+                  className='mobileNicknameChangeBtn'
+                  onClick={handleClickMobileChangeNickname}
+                >
+                  닉네임 변경하기
+                </MChangeBtn>
               </SubmitBtn>
             </NNSubmitBtnArea>
           </Detail5>
@@ -114,15 +122,42 @@ export const Mypage = ({
           <Detail6 key='pfDetail6'>
             <Subtitle6 className='userMyReviews'>별점 & 리뷰</Subtitle6>
             <ReviewBtnWrap>
-              <MyReviewsBtn className='myReviews' onClick={() => getMyRates()}>
+              <MyReviewsBtn
+                className='myRates'
+                onClick={() => {
+                  getMyRates();
+                  handleModal(ContentType.MyPageAllRates, true);
+                }}
+              >
                 별점 준 맥주
               </MyReviewsBtn>
+              <MMyReviewsBtn
+                className='mobileMyRates'
+                onClick={() => {
+                  getMyRates();
+                  handleBottomModal(ContentType.MyPageAllRates, true);
+                }}
+              >
+                별점 준 맥주
+              </MMyReviewsBtn>
               <MyReviewsBtn
                 className='myReviews'
-                onClick={() => getMyReviews()}
+                onClick={() => {
+                  getMyReviews();
+                  handleModal(ContentType.MyPageAllReviews, true);
+                }}
               >
                 리뷰 남긴 맥주
               </MyReviewsBtn>
+              <MMyReviewsBtn
+                className='mobileMyReviews'
+                onClick={() => {
+                  getMyReviews();
+                  handleBottomModal(ContentType.MyPageAllReviews, true);
+                }}
+              >
+                리뷰 남긴 맥주
+              </MMyReviewsBtn>
             </ReviewBtnWrap>
           </Detail6>
         </DetailArea>
@@ -152,7 +187,7 @@ const MypageArea = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 21% auto;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-rows: 6em 27em auto;
     grid-template-columns: 0vw 86vw;
     margin: 0 0 4em 0.5em;
@@ -177,7 +212,7 @@ const Title = styled.div`
   font-weight: 600;
   line-height: 1.3;
   color: ${mainYellow};
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 1.5em;
   }
 `;
@@ -195,7 +230,7 @@ const ProfileArea = styled.div`
   grid-template-columns: 9.5em auto;
 
   margin: 0 0 3em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-columns: 7.5em auto;
     margin: 0 0 2em 0;
   }
@@ -205,7 +240,7 @@ const ProfileTitle = styled.div`
   display: flex;
   align-self: flex-end;
   align-items: flex-end;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 0.9em;
   }
 `;
@@ -309,7 +344,7 @@ const Btn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 13px;
   }
 `;
@@ -318,7 +353,7 @@ export const Detail = styled.div`
   display: grid;
   grid-template-columns: 10em 15em;
   margin: 0 0 1em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-columns: 8em auto;
     margin: 0 0 0.5em 0;
     font-size: 0.9em;
@@ -385,7 +420,7 @@ const NNSubmitBtnArea = styled.div`
   display: grid;
   grid-template-columns: 10em 14em;
   margin: 0.4em 0 0.5em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-columns: 8em auto;
   }
 `;
@@ -415,8 +450,42 @@ export const ChangeBtn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
-    padding: 0.625em 0.7em 0.525em 0.7em;
+  @media (max-width: 425px) {
+    display: none;
+    pointer-events: none;
+  }
+`;
+export const MChangeBtn = styled.button`
+  pointer-events: none;
+  display: none;
+
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+
+  width: 9em;
+
+  border: 2px solid ${mainYellowOpac};
+  border-radius: 8px;
+
+  margin: 0;
+  padding: 0.625em 0.7em 0.525em 0.7em;
+
+  font-size: 0.9em;
+  background-color: #fff;
+  color: ${mainYellow};
+
+  &:hover {
+    background-color: ${mainYellow};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 425px) {
+    cursor: pointer;
+    pointer-events: auto;
+    display: flex;
   }
 `;
 // const ChangeNNBtn = styled(ChangeBtn)`
@@ -454,7 +523,44 @@ const MyReviewsBtn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 375px) {
-    margin: 0 0 0.3em 0;
+  @media (max-width: 425px) {
+    display: none;
+    pointer-events: none;
+  }
+`;
+const MMyReviewsBtn = styled.button`
+  pointer-events: none;
+  display: none;
+
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+
+  width: 9em;
+
+  border: 2px solid ${mainYellow};
+  border-radius: 8px;
+
+  margin: 0 0.5em 0 0;
+  padding: 0.525em 0.5em 0.425em 0.5em;
+
+  font-size: 0.9em;
+  // font-weight: 300;
+  background-color: ${mainYellow};
+  color: #fff;
+
+  &:hover {
+    border: 2px solid ${mainGrey};
+
+    background-color: ${mainGrey};
+    color: white;
+  }
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 425px) {
+    cursor: pointer;
+    pointer-events: auto;
+    display: flex;
   }
 `;

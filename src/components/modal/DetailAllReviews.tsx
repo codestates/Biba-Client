@@ -81,6 +81,13 @@ const ModalSingleCommentA = styled.div`
 
   margin: 0.5em 0.5em 1em 0.5em;
   padding: 0.6em;
+  @media (max-width: 425px) {
+    width: 90vw;
+    max-width: 90vw;
+    min-height: 130px;
+    height: 20vh;
+    margin: 0.5em auto 1em auto;
+  }
 `;
 const CommentTopA = styled.div`
   grid-row: 1 / 2;
