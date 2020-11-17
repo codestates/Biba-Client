@@ -40,7 +40,7 @@ export const FloatNavContainer = (props: DefaultProps): JSX.Element => {
   const dispatch = useDispatch();
 
   const handleNavDisplay = (display: boolean) => {
-    dispatch({ type: 'SET_NAVDISPLAY', display });
+    dispatch({ type: 'SET_NAVDISPLAY', display: display });
   };
   const handleClickTodayBeer = (): void => {
     dispatch({ type: TODAY_BEER });

@@ -15,7 +15,11 @@ import {
 } from '../../containers/modal/ModalContainer';
 import { MyReview } from '../../modules/user';
 
-import { mainYellow, mainYellowOpac } from '../../components/nav/color';
+import {
+  mainGreyOpac,
+  mainYellow,
+  mainYellowOpac,
+} from '../../components/nav/color';
 
 export const MDMyPageAllRates = ({
   myReviews,
@@ -36,13 +40,13 @@ export const MDMyPageAllRates = ({
               <BeerName className='beerName'>{ele.beer_name}</BeerName>
             </CommentTopM1>
           </MainWrap>
-          <ReviewRate>
-            <DateString>{setDateForm(ele.createdAt)}</DateString>
-            <RateWrap className='rateWrap'>
+          <MyRatesReviewRate>
+            <MyRatesDateString>{setDateForm(ele.createdAt)}</MyRatesDateString>
+            <MyRatesRateWrap className='rateWrap'>
               <URStar className='userRateStar' />
               <UserRate className='userRate'>{ele.rate}</UserRate>
-            </RateWrap>
-          </ReviewRate>
+            </MyRatesRateWrap>
+          </MyRatesReviewRate>
         </ModalSingleCommentM1>
       ))}
     </>
@@ -104,6 +108,13 @@ const ModalSingleCommentM1 = styled(SingleComment)`
 
   margin: 0.5em 0.5em 1em 0.5em;
   padding: 0.6em;
+  @media (max-width: 425px) {
+    width: 47vw;
+    height: 270px;
+    min-width: 0;
+    border: 2px solid ${mainYellowOpac};
+    margin: 0.5em auto 1em auto;
+  }
 `;
 const ModalSingleCommentM2 = styled(SingleComment)`
   width: 31%;
@@ -112,6 +123,14 @@ const ModalSingleCommentM2 = styled(SingleComment)`
 
   margin: 0.5em 0.5em 1em 0.5em;
   padding: 0.6em;
+  @media (max-width: 425px) {
+    width: 90vw;
+    max-width: 90vw;
+    min-height: 130px;
+    height: 20vh;
+    border: 2px solid ${mainYellowOpac};
+    margin: 0.5em auto 0.5em auto;
+  }
 `;
 
 const CommentTopM1 = styled.div`
@@ -144,4 +163,39 @@ const MyRatesImgDiv = styled.div`
 const MyRatesImg = styled.img`
   display: flex;
   height: 140px;
+`;
+
+const MyRatesReviewRate = styled.div`
+  grid-row: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.1em 0 0.1em;
+  @media (max-width: 425px) {
+    flex-direction: column;
+    margin: 0.2em 0 0 0;
+  }
+`;
+const MyRatesDateString = styled.div`
+  display: flex;
+
+  margin: 0.15em 0 0 0.2em;
+
+  font-size: 0.9em;
+  color: ${mainGreyOpac};
+
+  @media (max-width: 425px) {
+    font-size: 0.85em;
+    margin: 0.15em 0 0.3em 0.2em;
+  }
+`;
+const MyRatesRateWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  align-self: center;
+  margin: 0.1em 0 0 0;
+  @media (max-width: 425px) {
+    align-self: flex-end;
+  }
 `;

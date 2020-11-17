@@ -20,7 +20,7 @@ import {
 } from '../../containers/modal/ModalContainer';
 import { aReview } from '../../modules/beerdetail';
 
-import { mainYellow } from '../../components/nav/color';
+import { mainYellow, mainYellowOpac } from '../../components/nav/color';
 
 export const MDDetailAllReviews = ({
   allReviews,
@@ -86,7 +86,9 @@ const ModalSingleCommentA = styled.div`
     max-width: 90vw;
     min-height: 130px;
     height: 20vh;
-    margin: 0.5em auto 1em auto;
+    border: 2px solid ${mainYellowOpac};
+
+    margin: 0.5em auto 0.5em auto;
   }
 `;
 const CommentTopA = styled.div`

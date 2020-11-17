@@ -349,6 +349,9 @@ export const BeerName = styled.div`
   text-align: center;
   // word-wrap: break-word;
   // clear: both;
+  @media (max-width: 425px) {
+    width: 160px;
+  }
 `;
 export const UserWrap = styled.div`
   display: flex;

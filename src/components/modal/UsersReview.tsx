@@ -109,6 +109,7 @@ const ReviewTextArea = styled.textarea`
   @media (max-width: 425px) {
     width: 97%;
     align-self: center;
+    border: 2px solid ${mainYellowOpac};
   }
 `;
 const UserReviewBtnArea = styled.div`

@@ -293,11 +293,8 @@ const Outer = styled.div`
   @media (max-width: 425px) {
     width: 86vw;
     padding: 0;
-    margin: 0 0 0.8em 0;
+    margin: 0 0 2.5em 0;
     // border: 1px solid lime;
-  }
-  @media (max-width: 375px) {
-    margin: 0;
   }
 `;
 

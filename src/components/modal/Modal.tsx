@@ -203,13 +203,13 @@ export const Modal = ({
 
 const MobileContainer = styled.div`
   display: none;
-  @media (max-width: 1024px) {
+  @media (max-width: 1244px) {
     display: block;
   }
 `;
 const MobileMask = styled.div`
   display: none;
-  @media (max-width: 1024px) {
+  @media (max-width: 1244px) {
     display: block;
     position: fixed;
     z-index: 8;
@@ -426,6 +426,7 @@ const AllReviewsContent = styled.div`
   }
   @media (max-width: 425px) {
     width: 100vw;
+    padding: 0 0.3em;
   }
 `;
 const Content = styled.div`

@@ -64,10 +64,14 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
     dispatch({ type: 'TODAY_BEER' });
   };
   const handleNavDisplay = (display: boolean) => {
-    dispatch({ type: 'SET_NAVDISPLAY', display });
+    dispatch({ type: 'SET_NAVDISPLAY', display: display });
   };
   const handleBottomModal = (contentType: ContentType, display: boolean) => {
-    dispatch({ type: 'SET_BOTTOM_MODAL', contentType, display });
+    dispatch({
+      type: 'SET_BOTTOM_MODAL',
+      contentType: contentType,
+      display: display,
+    });
   };
 
   const handleClickLogo = (): void => {

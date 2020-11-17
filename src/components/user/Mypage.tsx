@@ -95,12 +95,20 @@ export const Mypage = ({
 
           <Detail1 key='pfDetail1'>
             <Subtitle className='userEmail'>이메일</Subtitle>
-            <Content>{userData.email}</Content>
+            <EmailContent>{userData.email}</EmailContent>
           </Detail1>
           {mapInputList()}
           <Detail5 key='pfDetail5'>
             <Subtitle5 className='userNickname'>닉네임</Subtitle5>
-            {userData.nickname}
+            <MNNWrap>
+              {userData.nickname}
+              <MChangeBtn
+                className='mobileNicknameChangeBtn'
+                onClick={handleClickMobileChangeNickname}
+              >
+                닉네임 변경하기
+              </MChangeBtn>
+            </MNNWrap>
             <NNSubmitBtnArea>
               <SubmitBtn>
                 <ChangeBtn
@@ -109,12 +117,6 @@ export const Mypage = ({
                 >
                   닉네임 변경하기
                 </ChangeBtn>
-                <MChangeBtn
-                  className='mobileNicknameChangeBtn'
-                  onClick={handleClickMobileChangeNickname}
-                >
-                  닉네임 변경하기
-                </MChangeBtn>
               </SubmitBtn>
             </NNSubmitBtnArea>
           </Detail5>
@@ -193,8 +195,8 @@ const MypageArea = styled.div`
     margin: 0 0 4em 0.5em;
   }
   @media (max-width: 375px) {
-    grid-template-rows: 5em 27em auto;
-    margin: 0 0 4em 0.2em;
+    grid-template-rows: 5em 25em auto;
+    margin: 0 0 2em 0.2em;
   }
 `;
 
@@ -374,10 +376,10 @@ const Subtitle5 = styled(Subtitle)`
   align-items: flex-start;
 `;
 const Subtitle6 = styled(Subtitle)`
-  @media (max-width: 375px) {
-    align-items: flex-start;
-    margin: 0.5em 0 0 0;
-  }
+  // @media (max-width: 375px) {
+  //   align-items: flex-start;
+  //   margin: 0.5em 0 0 0;
+  // }
 `;
 export const Input = styled.input`
   display: flex;
@@ -407,14 +409,19 @@ export const Content = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
+const EmailContent = styled(Content)`
+  @media (max-width: 425px) {
+    margin: 0 0 0 0.3em;
+  }
+`;
 const ReviewBtnWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  @media (max-width: 375px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  // @media (max-width: 375px) {
+  //   flex-direction: column;
+  //   align-items: flex-start;
+  // }
 `;
 const NNSubmitBtnArea = styled.div`
   display: grid;
@@ -455,6 +462,11 @@ export const ChangeBtn = styled.button`
     pointer-events: none;
   }
 `;
+const MNNWrap = styled.div`
+  @media (max-width: 425px) {
+    margin: 0 0 0 0.3em;
+  }
+`;
 export const MChangeBtn = styled.button`
   pointer-events: none;
   display: none;
@@ -475,17 +487,18 @@ export const MChangeBtn = styled.button`
   background-color: #fff;
   color: ${mainYellow};
 
-  &:hover {
-    background-color: ${mainYellow};
-    color: white;
-  }
   &:focus {
     outline: none;
   }
   @media (max-width: 425px) {
     cursor: pointer;
     pointer-events: auto;
-    display: flex;
+    display: inline-block;
+    width: 7em;
+    border: 0;
+    margin: 0 0 0 0.4em;
+    padding: 0;
+    text-decoration: underline;
   }
 `;
 // const ChangeNNBtn = styled(ChangeBtn)`
@@ -562,5 +575,6 @@ const MMyReviewsBtn = styled.button`
     cursor: pointer;
     pointer-events: auto;
     display: flex;
+    width: 7.5em;
   }
 `;
