@@ -45,7 +45,7 @@ function MobileMyBeer({
   const breakpointColumnsObj = {
     default: 2,
     768: 3,
-    414: 2,
+    425: 2,
   };
 
   return (

@@ -458,6 +458,7 @@ export const ChangeBtn = styled.button`
     outline: none;
   }
   @media (max-width: 425px) {
+<<<<<<< HEAD
     display: none;
     pointer-events: none;
   }
@@ -499,6 +500,9 @@ export const MChangeBtn = styled.button`
     margin: 0 0 0 0.4em;
     padding: 0;
     text-decoration: underline;
+=======
+    padding: 0.625em 0.7em 0.525em 0.7em;
+>>>>>>> 0ce87360dfe584080f08b38a50a5b5812c562bde
   }
 `;
 // const ChangeNNBtn = styled(ChangeBtn)`

@@ -1,17 +1,8 @@
 
-button.rec-dot {
-    display: none;
-  }
-  
-  button.rec-dot:hover, button.rec-dot:active, button.rec-dot:focus {
-    background-color: white;
-    box-shadow:0 0 1px 3px rgba(245, 147, 48, 0.5) !important;
-  }
-button.rec-arrow {
-    display: none;
-  }
-  
-  button.rec-arrow:hover, button.rec-arrow:active, button.rec-arrow:focus {
-    background-color: white;
-    box-shadow:0 0 1px 3px rgba(245, 147, 48, 0.5) !important;
+
+  @media screen and (max-width: 768px) {
+    button {
+      display: none;
+    }
+    
   }

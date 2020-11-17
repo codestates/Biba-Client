@@ -13,8 +13,6 @@ import { MypageContainerWithRouter } from '../containers/user/MypageContainer';
 import { FooterContainerithRouter } from '../containers/nav/FooterContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
-import { MobileSearchContainerWithRouter } from '../containers/mobile/MobileSearchContainer';
-
 import { AppProps } from '../containers/AppContainer';
 
 export const App = ({
@@ -49,10 +47,6 @@ export const App = ({
         </Full>
         <Half>
           <Switch>
-            <Route
-              path='/msearch'
-              component={MobileSearchContainerWithRouter}
-            />
             <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
             <Route exact path='/' component={HomeContainerWithRouter} />
           </Switch>
@@ -112,7 +106,6 @@ const Main = styled.div`
     margin: 0 0 4em 0;
   }
   @media (max-width: 425px) {
-    min-height: 0;
     margin: 0;
   }
 `;
@@ -120,7 +113,6 @@ const Main = styled.div`
 const Side = styled.div`
   grid-area: Main;
   grid-column: 1 / 2;
-
   @media (max-width: 768px) {
     display: none;
   }
@@ -128,7 +120,6 @@ const Side = styled.div`
 
 const Float = styled.div`
   display: none;
-
   @media (max-width: 768px) {
     display: block;
     position: fixed;
@@ -143,7 +134,6 @@ const Float = styled.div`
     left: 0;
     right: 0;
   }
-
   @media (max-width: 425px) {
     display: block;
     position: fixed;
@@ -164,20 +154,15 @@ const Full = styled.div`
   grid-area: Main;
   grid-column: 1 / 3;
   min-height: 640px;
-  @media (max-width: 425px) {
-    min-height: 0;
-  }
 `;
 
 const Half = styled.div`
   grid-area: Main;
   grid-column: 2 / 3;
-
   animation: fadein 3s;
   -moz-animation: fadein 3s; /* Firefox */
   -webkit-animation: fadein 3s; /* Safari and Chrome */
   -o-animation: fadein 3s; /* Opera */
-
   @keyframes fadein {
     from {
       opacity: 0;
@@ -213,14 +198,10 @@ const Half = styled.div`
       opacity: 1;
     }
   }
-
   @media (max-width: 768px) {
     grid-area: Main;
     grid-column: 1 / 3;
     margin: 0 0 4em 0;
-  }
-  @media (max-width: 425px) {
-    margin: 0 0 2em 0;
   }
 `;
 

@@ -35,10 +35,10 @@ function SearchBeerList({
     default: 5,
     1200: 4,
     1100: 3,
-    800: 2,
-    500: 1,
+    768: 3,
+    425: 2,
   };
-  // console.log(sbList);
+
   return (
     <>
       {exist ? (

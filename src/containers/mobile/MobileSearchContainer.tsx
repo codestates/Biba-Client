@@ -5,24 +5,28 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import { BeerT } from '../../modules/getbeers';
-import { DefaultProps } from '../page/HomeContainer';
+import { DefaultProps, DetailProps, HomeProps } from '../page/HomeContainer';
 
 import { MobileSearch } from '../../components/mobile/MobileSearch';
-import RequsetBeer from '../../components/list/RequestBeer';
+import { MOBILE_SEARCH } from '../../modules/changepage';
 
-export interface MobileSearchProps extends DefaultProps {
+export interface MobileSearchProps extends DefaultProps, DetailProps {
   inputQuery: {
     query: string;
   };
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   handleSearch(): void;
-  searchResults(): JSX.Element;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
-export const MobileSearchContainer = (props: DefaultProps): JSX.Element => {
+export const MobileSearchContainer = ({
+  match,
+  history,
+  location,
+  setBeerDetail,
+  setAllReviews,
+}: HomeProps): JSX.Element => {
   const [inputQuery, setInputQuery] = useState({ query: '' });
-  const searchBeers = useSelector((state: RootState) => state.searchBeer.beers);
   const dispatch = useDispatch();
   const setBeers = (beers: BeerT[]): void => {
     dispatch({ type: 'SET_BEERS', beers });
@@ -32,10 +36,14 @@ export const MobileSearchContainer = (props: DefaultProps): JSX.Element => {
     const { value } = e.target;
     setInputQuery({ ...inputQuery, query: value });
   };
+  const handleClickSearchBtn = (): void => {
+    dispatch({ type: 'PRESS_SEARCHBTN', activate: true });
+  };
   const handleSearch = (): void => {
     if (inputQuery.query.length < 2) {
       alert('2글자 이상 입력해주세요.');
     } else {
+      handleClickSearchBtn();
       axios
         .get<Array<BeerT>>(`https://beer4.xyz/search/${inputQuery.query}`)
         .then((res) => {
@@ -43,6 +51,7 @@ export const MobileSearchContainer = (props: DefaultProps): JSX.Element => {
             const beers = res.data;
             setBeers(beers);
             setInputQuery({ ...inputQuery, query: '' });
+            dispatch({ type: MOBILE_SEARCH });
           }
         })
         .catch(() => {
@@ -51,34 +60,20 @@ export const MobileSearchContainer = (props: DefaultProps): JSX.Element => {
     }
   };
 
-  // reducer 추가 - 검색 버튼 누르면 활성화 - 결과 보여주는 div 박스 or request beer 나올 수 있게 display
-  const searchResults = (): JSX.Element => {
-    return searchBeers.length !== 0 ? (
-      <>
-        {searchBeers.map((beer) => (
-          // eslint-disable-next-line react/jsx-key
-          <div>
-            <div>{beer.beer_name}</div>
-          </div>
-        ))}
-      </>
-    ) : (
-      <>{/* <RequsetBeer /> */}</>
-    );
-  };
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleSearch();
   };
   return (
     <MobileSearch
-      match={props.match}
-      history={props.history}
-      location={props.location}
+      match={match}
+      history={history}
+      location={location}
       inputQuery={inputQuery}
       handleOnChange={handleOnChange}
       handleSearch={handleSearch}
-      searchResults={searchResults}
       pressEnter={pressEnter}
+      setBeerDetail={setBeerDetail}
+      setAllReviews={setAllReviews}
     />
   );
 };

@@ -42,20 +42,13 @@ const Item = styled.img`
     transform: scale(1.1);
     cursor: pointer;
   }
-
   @media (max-width: 425px) {
-    width: 140px;
+    width: 160px;
     margin-left: 20px;
   }
-
   @media (max-width: 375px) {
     width: 140px;
     margin-left: 10px;
-  }
-
-  @media (max-width: 360px) {
-    width: 120px;
-    margin-left: 20px;
   }
 `;
 
