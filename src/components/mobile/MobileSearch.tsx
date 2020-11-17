@@ -13,14 +13,48 @@ import {
 } from '../nav/color';
 
 import { MobileSearchProps } from '../../containers/mobile/MobileSearchContainer';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../modules';
+import SearchBeer from '../../components/list/SearchBeer';
+import RequsetBeer from '../../components/list/RequestBeer';
+import Masonry from 'react-masonry-css';
+import '../../css/MobileSearchCss.css';
 
 export const MobileSearch = ({
   inputQuery,
   handleOnChange,
   handleSearch,
-  searchResults,
   pressEnter,
+  setBeerDetail,
+  setAllReviews,
 }: MobileSearchProps): JSX.Element => {
+  const isSearchM = useSelector(
+    (state: RootState) => state.changePage.isSearchM,
+  );
+  const searchBeers = useSelector((state: RootState) => state.searchBeer.beers);
+  const breakpointColumnsObj = {
+    default: 2,
+    768: 3,
+    425: 2,
+  };
+  let sbList;
+  let exist = false;
+  if (searchBeers.length !== 0) {
+    exist = true;
+    sbList = searchBeers.map((beer) => (
+      <SearchBeer
+        id={beer.id}
+        key={beer.id}
+        name={beer.beer_name}
+        image={beer.beer_img}
+        rate={beer.rate}
+        setBeerDetail={setBeerDetail}
+        setAllReviews={setAllReviews}
+      />
+    ));
+  } else {
+    sbList = <RequsetBeer />;
+  }
   return (
     <MobileSearchContainer>
       <MobileSearchInputWrap className='searchInputWrap'>
@@ -33,8 +67,20 @@ export const MobileSearch = ({
         ></MobileInput>
         <MobileSearchBtn onClick={handleSearch}>Biba!</MobileSearchBtn>
       </MobileSearchInputWrap>
-      <SearchTags>인기 검색어 태그{searchResults()}</SearchTags>
-      <SearchRecommend>추천 맥주 리스트</SearchRecommend>
+      {isSearchM ? (
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className='my-masonry-grid'
+          columnClassName='my-masonry-grid_column'
+        >
+          {sbList}
+        </Masonry>
+      ) : (
+        <>
+          <SearchTags>인기 검색어 태그</SearchTags>
+          <SearchRecommend>추천 맥주 리스트</SearchRecommend>
+        </>
+      )}
     </MobileSearchContainer>
   );
 };
@@ -42,7 +88,15 @@ export const MobileSearch = ({
 const MobileSearchContainer = styled.div`
   display: none;
 
-  @media (max-width: 414px) {
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2em 0 0 0;
+  }
+
+  @media (max-width: 425px) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,7 +125,7 @@ const MobileInput = styled.input`
   &:focus {
     outline: none;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 360px) {
     width: 65vw;
   }
 `;

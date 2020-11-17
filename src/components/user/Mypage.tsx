@@ -152,7 +152,7 @@ const MypageArea = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 21% auto;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-rows: 6em 27em auto;
     grid-template-columns: 0vw 86vw;
     margin: 0 0 4em 0.5em;
@@ -177,7 +177,7 @@ const Title = styled.div`
   font-weight: 600;
   line-height: 1.3;
   color: ${mainYellow};
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 1.5em;
   }
 `;
@@ -195,7 +195,7 @@ const ProfileArea = styled.div`
   grid-template-columns: 9.5em auto;
 
   margin: 0 0 3em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-columns: 7.5em auto;
     margin: 0 0 2em 0;
   }
@@ -205,7 +205,7 @@ const ProfileTitle = styled.div`
   display: flex;
   align-self: flex-end;
   align-items: flex-end;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 0.9em;
   }
 `;
@@ -309,7 +309,7 @@ const Btn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 13px;
   }
 `;
@@ -318,7 +318,7 @@ export const Detail = styled.div`
   display: grid;
   grid-template-columns: 10em 15em;
   margin: 0 0 1em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-columns: 8em auto;
     margin: 0 0 0.5em 0;
     font-size: 0.9em;
@@ -385,7 +385,7 @@ const NNSubmitBtnArea = styled.div`
   display: grid;
   grid-template-columns: 10em 14em;
   margin: 0.4em 0 0.5em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     grid-template-columns: 8em auto;
   }
 `;
@@ -415,7 +415,7 @@ export const ChangeBtn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     padding: 0.625em 0.7em 0.525em 0.7em;
   }
 `;

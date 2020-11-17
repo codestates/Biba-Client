@@ -280,7 +280,7 @@ const Outer = styled.div`
   width: 100%;
 
   padding: 0 0 0 1vw;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     width: 86vw;
     padding: 0;
     margin: 0 0 0.8em 0;
@@ -297,7 +297,7 @@ const Container = styled.div`
   grid-template-columns: 2vw auto 2vw 350px 3em;
 
   min-height: 32em;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     width: 86vw;
     display: flex;
     flex-direction: column;
@@ -344,7 +344,7 @@ const ImgDiv = styled.div`
     min-width: 400px;
     min-height: 400px;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     min-width: 86vw;
     min-height: 86vw;
     margin: 1.5em 0 2.5em 0;
@@ -363,7 +363,7 @@ const Img = styled.img`
   border-radius: 8px;
 
   padding: 2em 0 2em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     padding: 1em 0 1em 0;
   }
 `;
@@ -418,7 +418,7 @@ const FavToggle = styled.div`
   justify-content: flex-end;
 
   margin: 0 0 0.2em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     padding: 0 0.5em 0 0;
   }
 `;
@@ -441,7 +441,7 @@ const Fav = styled.input`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     pointer-events: none;
     z-index: -100;
   }
@@ -467,7 +467,7 @@ const FavLB = styled.label`
     transition: all 0.4s ease;
     border-radius: 100px;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     pointer-events: none;
     display: none;
   }
@@ -488,7 +488,7 @@ const MFav = styled.input`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     pointer-events: auto;
   }
 `;
@@ -513,7 +513,7 @@ const MFavLB = styled.label`
     transition: all 0.4s ease;
     border-radius: 100px;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     pointer-events: auto;
     display: flex;
   }
@@ -525,7 +525,7 @@ const TagWrap = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin: 1em 0 0 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 1em 0 1.6em 0;
   }
 `;
@@ -557,7 +557,7 @@ const ChartWrap = styled.div`
   align-items: center;
   justify-content: center;
   margin: 1.2em 0 1.2em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 1.2em 0 2em 0;
   }
 `;
@@ -585,7 +585,7 @@ const CompareBtn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     pointer-events: none;
     display: none;
   }
@@ -609,7 +609,7 @@ const MCompareBtn = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     pointer-events: auto;
     display: flex;
     margin: 0.7em 0 1em 0.5em;
@@ -619,7 +619,7 @@ const MCompareBtn = styled.button`
 const InfoBody = styled.div`
   display: flex;
   padding: 0 0 0 0.3em;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     justify-content: center;
     padding: 0;
     margin: 0 0 0.2em 0;
@@ -630,7 +630,7 @@ const TabDetail = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 95%;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     width: 97%;
   }
 `;
@@ -640,7 +640,7 @@ const TabWrap = styled.div`
   height: 2em;
 `;
 const Divider = styled.p`
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 1.2em;
   }
 `;
@@ -663,7 +663,7 @@ const Tab = styled.div`
     font-weight: 400;
     background: ${btnOff};
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     padding: 1.1em 0.7em 0.85em 0.7em;
     font-size: 1em;
   }
@@ -678,7 +678,7 @@ const InfoDetailWrap = styled.div`
   min-height: 10em;
   border-radius: 0 8px 8px 8px;
   background-color: ${lightGrey2};
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     min-height: 10.5em;
   }
 `;
@@ -688,7 +688,7 @@ const InfoDetail1 = styled.div`
   width: 100%;
   font-size: 0.95em;
   line-height: 1.5;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 1.05em;
   }
 `;
@@ -698,7 +698,7 @@ const InfoDetail2 = styled.div`
   width: 100%;
   font-size: 0.95em;
   line-height: 1.5;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 1.05em;
   }
 `;
@@ -708,7 +708,7 @@ const InfoDetail3 = styled.div`
   width: 100%;
   padding: 0.9em 0 0 0.7em;
   font-size: 0.95em;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 1.05em;
   }
 `;
@@ -752,7 +752,7 @@ const RatingArea = styled.div`
   display: flex;
   align-items: center;
   margin: 0 0 0.6em 0.5em;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 0 0 0.8em 0.2em;
   }
 `;
@@ -799,7 +799,7 @@ const List = styled.div`
   // max-width: 800px;
   width: 100%;
   margin: 0 0 1.2em 0;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 0 0.5em 1.2em 0.5em;
     overflow-x: scroll;
   }
@@ -822,14 +822,14 @@ const WriteComment = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     display: none;
     pointer-events: none;
   }
 `;
 const MBtnWrap = styled.div`
   display: none;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     display: flex;
     align-self: flex-end;
   }
@@ -850,7 +850,7 @@ const MWriteComment = styled.button`
   &:focus {
     outline: none;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     cursor: pointer;
     pointer-events: auto;
     display: flex;

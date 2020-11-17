@@ -45,7 +45,7 @@ function MobileMyBeer({
   const breakpointColumnsObj = {
     default: 2,
     768: 3,
-    414: 2,
+    425: 2,
   };
 
   return (
@@ -113,7 +113,7 @@ const MyBeerNav = styled.div`
 const Btn = styled.div`
   padding: 20px;
 
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     padding: 10px;
   }
 `;
@@ -123,7 +123,7 @@ const ActiveBtn = styled.div`
   color: ${mainYellow2};
   transition: 2s;
 
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     padding: 10px;
   }
 `;

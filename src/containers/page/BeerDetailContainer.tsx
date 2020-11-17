@@ -356,7 +356,7 @@ const DetailSingleCommentGrid = styled.div`
   display: grid;
   grid-template-rows: 20% auto 20%;
   height: 180px;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     height: 170px;
   }
 `;

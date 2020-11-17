@@ -13,8 +13,6 @@ import { MypageContainerWithRouter } from '../containers/user/MypageContainer';
 import { FooterContainerithRouter } from '../containers/nav/FooterContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
 
-import { MobileSearchContainerWithRouter } from '../containers/mobile/MobileSearchContainer';
-
 import { AppProps } from '../containers/AppContainer';
 
 export const App = ({
@@ -49,10 +47,6 @@ export const App = ({
         </Full>
         <Half>
           <Switch>
-            <Route
-              path='/msearch'
-              component={MobileSearchContainerWithRouter}
-            />
             <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
             <Route exact path='/' component={HomeContainerWithRouter} />
           </Switch>
@@ -97,7 +91,7 @@ const Nav = styled.div`
   @media (max-width: 768px) {
     margin: 0 0 1em 0;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 0 0 0.4em 0;
   }
 `;
@@ -111,7 +105,7 @@ const Main = styled.div`
   @media (max-width: 768px) {
     margin: 0 0 4em 0;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 0;
   }
 `;
@@ -143,7 +137,7 @@ const Float = styled.div`
     right: 0;
   }
 
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     display: block;
     position: fixed;
     height: 8vh;

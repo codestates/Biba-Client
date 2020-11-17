@@ -11,6 +11,7 @@ import { ReviewListContainerWithRouter } from '../../containers/list/ReviewListC
 import { HomeProps } from '../../containers/page/HomeContainer';
 import { SearchBeerListContainerWithRouter } from '../../containers/list/SearchBeerListContainer';
 import { MobileMyBeerContainerWithRouter } from '../../containers/mobile/MobileMyBeerContainer';
+import { MobileSearchContainerWithRouter } from '../../containers/mobile/MobileSearchContainer';
 
 function Home({
   match,
@@ -77,6 +78,14 @@ function Home({
       )}
       {isMyBeer ? (
         <MobileMyBeerContainerWithRouter
+          setBeerDetail={setBeerDetail}
+          setAllReviews={setAllReviews}
+        />
+      ) : (
+        false
+      )}
+      {isSearchM ? (
+        <MobileSearchContainerWithRouter
           setBeerDetail={setBeerDetail}
           setAllReviews={setAllReviews}
         />

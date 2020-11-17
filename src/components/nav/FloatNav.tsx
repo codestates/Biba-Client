@@ -40,7 +40,7 @@ function FloatNav({
       <NavBtn
         onClick={() => {
           handleClickMobileSearch();
-          // redirectHome();
+          redirectHome();
         }}
       >
         {isSearchM ? <SearchActive /> : <RiSearch2Line />}

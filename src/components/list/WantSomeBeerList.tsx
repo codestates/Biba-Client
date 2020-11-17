@@ -217,7 +217,7 @@ const Hidden = styled.div`
     font-size: 1.8em;
   }
 
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     font-size: 1.6em;
   }
 
