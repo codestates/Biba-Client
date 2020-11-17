@@ -10,15 +10,17 @@ import { RiSearch2Line } from 'react-icons/ri';
 function FloatNav({
   isLogin,
   handleClickTodayBeer,
-  handleClickWantSomeBeer,
-  handleClickFavorite,
-  handleClickReview,
+  handleClickMobileSearch,
+  // handleClickWantSomeBeer,
+  // handleClickFavorite,
+  // handleClickReview,
   handleClickMypage,
   handleClickMyBeer,
   display,
   redirectHome,
   redirectLogin,
   handleClickGuest,
+  handleClickMobileGuest,
 }: FloatNavProps): JSX.Element {
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
   const isWant = useSelector((state: RootState) => state.changePage.isWant);
@@ -39,8 +41,9 @@ function FloatNav({
       </NavBtn>
       <NavBtn
         onClick={() => {
-          redirectHome();
-          handleClickWantSomeBeer();
+          handleClickMobileSearch();
+          // redirectHome();
+          // handleClickWantSomeBeer();
         }}
       >
         {isWant ? <SearchActive /> : <RiSearch2Line />}
@@ -68,14 +71,14 @@ function FloatNav({
         <>
           <NavBtn
             onClick={() => {
-              handleClickGuest();
+              handleClickMobileGuest();
             }}
           >
             <AiOutlineInbox />
           </NavBtn>
           <NavBtn
             onClick={() => {
-              handleClickGuest();
+              handleClickMobileGuest();
             }}
           >
             <CgProfile />

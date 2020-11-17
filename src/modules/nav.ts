@@ -1,7 +1,6 @@
 import { BeerT, BeerI } from './getbeers';
 
 const SET_SEARCHBAR = 'SET_SEARCHBAR' as const;
-const SET_MODAL = 'SET_MODAL' as const;
 const SET_BEERS = 'SET_BEERS' as const;
 const SET_NAVDISPLAY = 'SET_NAVDISPLAY' as const;
 const SET_REQUESTTYPE = 'SET_REQUESTTYPE' as const;
