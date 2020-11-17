@@ -26,7 +26,6 @@ function ReviewListContainer({
     axios
       .post<BeerT[]>(`https://beer4.xyz/comment/mylist`, { token: token })
       .then((res) => {
-        // console.log(res.data);
         setReviewBeers(res.data);
       });
   }, []);
