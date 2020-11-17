@@ -11,19 +11,17 @@ function FloatNav({
   isLogin,
   handleClickTodayBeer,
   handleClickMobileSearch,
-  // handleClickWantSomeBeer,
-  // handleClickFavorite,
-  // handleClickReview,
   handleClickMypage,
   handleClickMyBeer,
   display,
   redirectHome,
-  redirectLogin,
   handleClickGuest,
   handleClickMobileGuest,
 }: FloatNavProps): JSX.Element {
   const isToday = useSelector((state: RootState) => state.changePage.isToday);
-  const isWant = useSelector((state: RootState) => state.changePage.isWant);
+  const isSearchM = useSelector(
+    (state: RootState) => state.changePage.isSearchM,
+  );
   const isMyBeer = useSelector(
     (state: RootState) => state.changePage.isMybeerM,
   );
@@ -43,10 +41,9 @@ function FloatNav({
         onClick={() => {
           handleClickMobileSearch();
           // redirectHome();
-          // handleClickWantSomeBeer();
         }}
       >
-        {isWant ? <SearchActive /> : <RiSearch2Line />}
+        {isSearchM ? <SearchActive /> : <RiSearch2Line />}
       </NavBtn>
       {isLogin ? (
         <>
