@@ -13,7 +13,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        include: path.join(__dirname, 'src/components'),
+        include: path.join(__dirname, 'src/css'),
         exclude: /node_modules/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },

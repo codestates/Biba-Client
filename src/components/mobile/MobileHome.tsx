@@ -88,7 +88,7 @@ function MobileHome({
   ));
   const breakPoints = [
     { width: 768, itemsToShow: 2 },
-    { width: 414, itemsToShow: 3 },
+    { width: 425, itemsToShow: 3 },
     { width: 375, itemsToShow: 3 },
   ];
   return (

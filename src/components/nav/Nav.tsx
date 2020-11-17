@@ -270,7 +270,7 @@ const LogoWrap = styled.div`
     min-width: 55px;
     min-height: 55px;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 0 0.5em 0 0;
     min-width: 45px;
     min-height: 45px;

@@ -47,7 +47,6 @@ export const FloatNavContainer = (props: DefaultProps): JSX.Element => {
   };
   const handleClickMobileSearch = (): void => {
     dispatch({ type: MOBILE_SEARCH });
-    props.history.push('/msearch');
   };
   // const handleClickWantSomeBeer = (): void => {
   //   dispatch({ type: WANTSOME_BEER });
