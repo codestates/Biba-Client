@@ -6,14 +6,22 @@ import { ModalProps } from '../../containers/modal/ModalContainer';
 import { ContentType } from '../../modules/modal';
 import { mainGrey, mainGreyOpac, mainYellow } from '../nav/color';
 
+import { LoginContainerWithRouter } from '../../containers/user/LoginContainer';
+import { FooterContainerithRouter } from '../../containers/nav/FooterContainer';
+
 export const Modal = ({
-  display,
+  modalDisplay,
   closeModal,
   user_review,
   contentType,
   content,
+  mobileContent,
   myReviews,
   allReviews,
+  sideMenuDisplay,
+  bottomModalDisplay,
+  handleClickHiddenMenu,
+  handleBottomModal,
 }: ModalProps): JSX.Element => {
   const title = (): string => {
     if (contentType === ContentType.ChangeNickname) {
@@ -41,7 +49,7 @@ export const Modal = ({
     <>
       <Container
         className='modalContainer'
-        style={display ? { display: 'block' } : undefined}
+        style={modalDisplay ? { display: 'block' } : undefined}
       >
         <ModalMask className='modalMask' onClick={closeModal}></ModalMask>
         {contentType === ContentType.Login ||
@@ -79,9 +87,110 @@ export const Modal = ({
           </ContentArea>
         )}
       </Container>
+
+      <MobileContainer
+        className='mobileModalContainer'
+        style={bottomModalDisplay ? { display: 'block' } : undefined}
+      >
+        <MobileMask
+          className='modalMask'
+          onClick={() => {
+            closeModal();
+            handleClickHiddenMenu(false);
+            handleBottomModal(ContentType.Empty, false);
+          }}
+          style={
+            sideMenuDisplay || bottomModalDisplay
+              ? {
+                  opacity: 1,
+                  visibility: 'visible',
+                  transition: 'visibility 0.8s linear, opacity 0.8s linear',
+                }
+              : {
+                  opacity: 0,
+                  visibility: 'hidden',
+                  transition: 'visibility 0.8s linear, opacity 0.8s linear',
+                }
+          }
+        ></MobileMask>
+        <MobileModal
+          style={bottomModalDisplay ? { bottom: '0' } : { bottom: '-100%' }}
+        >
+          <CloseBtn
+            onClick={() => {
+              handleClickHiddenMenu(false);
+              handleBottomModal(ContentType.Empty, false);
+            }}
+          />
+          <ContentWrap className='mobileModalContentWrap'>
+            {mobileContent}
+          </ContentWrap>
+          <SubFooter
+            style={
+              bottomModalDisplay ? { bottom: '25px' } : { bottom: '-100%' }
+            }
+          >
+            <FooterContainerithRouter />
+          </SubFooter>
+        </MobileModal>
+      </MobileContainer>
     </>
   );
 };
+
+const MobileContainer = styled.div`
+  display: none;
+  @media (max-width: 1024px) {
+    display: block;
+  }
+`;
+const MobileMask = styled.div`
+  display: none;
+  @media (max-width: 1024px) {
+    display: block;
+    position: fixed;
+    z-index: 8;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: ${mainGrey};
+  }
+`;
+const MobileModal = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+
+    position: fixed;
+    z-index: 10;
+    overflow-y: hidden;
+    overflow: hidden;
+    left: 0;
+    height: 90vh;
+    width: 100vw;
+
+    border-radius: 24px 24px 0 0;
+
+    background-color: white;
+    box-shadow: -5px 0 1em rgba(0, 0, 0, 0.1);
+    transition: bottom 0.8s ease-in;
+  }
+`;
+const SubFooter = styled.div`
+  display: none;
+  position: fixed;
+  right: 25px;
+  transition: bottom 0.8s ease-in;
+  @media (max-width: 768px) {
+    display: block;
+  }
+  @media (max-width: 360px) {
+    bottom: 20px;
+  }
+`;
 
 const Container = styled.div`
   display: none;
@@ -133,7 +242,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const ModalMask = styled.div`
   position: fixed;
   top: 0;
@@ -142,7 +250,6 @@ const ModalMask = styled.div`
   left: 0;
   background-color: rgba(0, 0, 0, 0);
 `;
-
 const ContentArea = styled.div`
   position: relative; /* 넣어줘야 mask에 포함되지 않음 */
   display: flex;
@@ -158,29 +265,11 @@ const ContentArea = styled.div`
   margin: 12% auto;
   padding: 15px 15px 20px 15px;
 `;
-
 const SmallContentArea = styled(ContentArea)`
   width: 560px;
   min-width: 560px;
   max-width: 560px;
   overflow-y: auto;
-`;
-
-const TitleWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
-  padding: 0.3em 0.5em 0.4em 0.5em;
-`;
-
-const Title = styled.div`
-  display: flex;
-  font-size: 1.2em;
-  font-weight: 600;
-
-  color: ${mainYellow};
 `;
 
 const CloseBtn = styled(CgCloseO)`
@@ -194,6 +283,29 @@ const CloseBtn = styled(CgCloseO)`
     text-decoration: none;
   }
   color: ${mainGrey};
+  @media (max-width: 425px) {
+    display: flex;
+    width: 1.6em;
+    height: 1.6em;
+
+    margin: 1em 0 0 1em;
+  }
+`;
+
+const TitleWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 0.3em 0.5em 0.4em 0.5em;
+`;
+const Title = styled.div`
+  display: flex;
+  font-size: 1.2em;
+  font-weight: 600;
+
+  color: ${mainYellow};
 `;
 
 const ContentWrap = styled.div`
@@ -204,7 +316,6 @@ const ContentWrap = styled.div`
   padding: 0;
   width: 100%;
 `;
-
 const AllReviewsContent = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -219,7 +330,6 @@ const AllReviewsContent = styled.div`
     margin: 0;
   }
 `;
-
 const Content = styled.div`
   display: flex;
   flex-wrap: wrap;

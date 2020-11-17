@@ -34,7 +34,7 @@ export interface NavProps {
   searchbarDisplay: boolean;
   handleClickIcon(display: boolean): void;
   handleSearch(): void;
-  menuDisplay: boolean;
+  sideMenuDisplay: boolean;
   handleClickHiddenMenu(display: boolean): void;
   bottomModalDisplay: boolean;
   handleBottomModal(contentType: ContentType, display: boolean): void;
@@ -46,12 +46,15 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
     (state: RootState) => state.login,
   );
   const { profile } = useSelector((state: RootState) => state.profile);
-  const menuDisplay = useSelector(
+  const sideMenuDisplay = useSelector(
     (state: RootState) => state.menuDisplay.display,
   );
   const searchbarDisplay = useSelector(
     (state: RootState) => state.searchbar.display,
   );
+  const handleClickHiddenMenu = (display: boolean): void => {
+    dispatch({ type: 'SET_MENUDISPLAY', display: display });
+  };
   const bottomModalDisplay = useSelector(
     (state: RootState) => state.bottomModal.display,
   );
@@ -178,10 +181,6 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
       dispatch({ type: 'SET_VISITCOUNT', count: currentCount });
     });
   };
-  const handleClickHiddenMenu = (display: boolean): void => {
-    dispatch({ type: 'SET_MENUDISPLAY', display: display });
-  };
-
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleSearch();
   };
@@ -209,7 +208,7 @@ export const NavContainer = (props: DefaultProps): JSX.Element => {
         searchbarDisplay={searchbarDisplay}
         handleClickIcon={handleClickIcon}
         handleSearch={handleSearch}
-        menuDisplay={menuDisplay}
+        sideMenuDisplay={sideMenuDisplay}
         handleClickHiddenMenu={handleClickHiddenMenu}
         bottomModalDisplay={bottomModalDisplay}
         handleBottomModal={handleBottomModal}

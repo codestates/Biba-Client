@@ -33,13 +33,18 @@ import {
 import { MyReview, User } from '../../modules/user';
 
 export interface ModalProps {
-  display: boolean;
+  modalDisplay: boolean;
   closeModal(): void;
   user_review: boolean;
   contentType: ContentType;
   content: JSX.Element | JSX.Element[];
+  mobileContent: JSX.Element | JSX.Element[];
   myReviews: MyReview[];
   allReviews: aReview[];
+  sideMenuDisplay: boolean;
+  bottomModalDisplay: boolean;
+  handleClickHiddenMenu(display: boolean): void;
+  handleBottomModal(contentType: ContentType, display: boolean): void;
 }
 
 export interface ModalContentProps {
@@ -57,9 +62,6 @@ export const ModalContainer = (): JSX.Element => {
   // modal이 필요한 각 페이지에서 상황에 맞게 dispatch
   // 1. modal display -> true, false 지정
   // 2. 어떤 콘텐츠가 나와야하는지에 따라 ContentType 지정
-  const { contentType, display } = useSelector(
-    (state: RootState) => state.modal,
-  );
   const { userData, isLogin, token } = useSelector(
     (state: RootState) => state.login,
   );
@@ -68,10 +70,27 @@ export const ModalContainer = (): JSX.Element => {
     (state: RootState) => state.userReview,
   );
   const { allReviews } = useSelector((state: RootState) => state.allReviews);
+  const { contentType } = useSelector((state: RootState) => state.modal);
+  const mobileContentType = useSelector(
+    (state: RootState) => state.bottomModal.contentType,
+  );
+  const modalDisplay = useSelector((state: RootState) => state.modal.display);
+  const sideMenuDisplay = useSelector(
+    (state: RootState) => state.menuDisplay.display,
+  );
+  const bottomModalDisplay = useSelector(
+    (state: RootState) => state.bottomModal.display,
+  );
 
   const dispatch = useDispatch();
   const handleModal = (contentType: ContentType, display: boolean): void => {
     dispatch({ type: 'SET_MODAL', contentType, display });
+  };
+  const handleClickHiddenMenu = (display: boolean): void => {
+    dispatch({ type: 'SET_MENUDISPLAY', display: display });
+  };
+  const handleBottomModal = (contentType: ContentType, display: boolean) => {
+    dispatch({ type: 'SET_BOTTOM_MODAL', contentType, display });
   };
   const closeModal = (): void => {
     handleModal(ContentType.Empty, false);
@@ -88,7 +107,11 @@ export const ModalContainer = (): JSX.Element => {
       return <></>;
     }
     if (contentType === ContentType.Login) {
-      return <LoginContainerWithRouter />;
+      return (
+        <>
+          <LoginContainerWithRouter />
+        </>
+      );
     }
     if (contentType === ContentType.ChangeNickname) {
       return (
@@ -173,16 +196,115 @@ export const ModalContainer = (): JSX.Element => {
     return <div></div>;
   };
 
+  const mobileContent = (contentType: ContentType): JSX.Element => {
+    if (mobileContentType === ContentType.Empty) {
+      return <></>;
+    }
+    if (mobileContentType === ContentType.Login) {
+      return (
+        <>
+          <LoginContainerWithRouter />
+        </>
+      );
+    }
+    if (mobileContentType === ContentType.ChangeNickname) {
+      return (
+        <MDChangeNicknameContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
+        />
+      );
+    }
+    if (mobileContentType === ContentType.MyPageAllRates) {
+      return (
+        <MDMyPageAllRatesContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
+          setDateForm={setDateForm}
+        />
+      );
+    }
+    if (mobileContentType === ContentType.MyPageAllReviews) {
+      return (
+        <MDMyPageAllReviewsContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
+          setDateForm={setDateForm}
+        />
+      );
+    }
+    if (mobileContentType === ContentType.MyBeerList) {
+      return (
+        <MDMyBeerListContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
+        />
+      );
+    }
+    if (mobileContentType === ContentType.UsersReview) {
+      return (
+        <MDUsersReviewContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
+        />
+      );
+    }
+    if (mobileContentType === ContentType.DetailAllReviews) {
+      return (
+        <MDDetailAllReviewsContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
+          setDateForm={setDateForm}
+        />
+      );
+    }
+    if (mobileContentType === ContentType.RequestBeer) {
+      return (
+        <MDRequestBeerContainer
+          userData={userData}
+          isLogin={isLogin}
+          token={token}
+          handleModal={handleModal}
+          closeModal={closeModal}
+        />
+      );
+    }
+    return <div></div>;
+  };
+
   return (
     <Modal
-      display={display}
+      modalDisplay={modalDisplay}
       closeModal={closeModal}
       // pressEsc={pressEsc}
       user_review={user_review}
       contentType={contentType}
       content={content(contentType)}
+      mobileContent={mobileContent(contentType)}
       myReviews={myReviews}
       allReviews={allReviews}
+      sideMenuDisplay={sideMenuDisplay}
+      bottomModalDisplay={bottomModalDisplay}
+      handleClickHiddenMenu={handleClickHiddenMenu}
+      handleBottomModal={handleBottomModal}
     />
   );
 };
@@ -202,7 +324,7 @@ export const SingleComment = styled.div`
 
   margin: 0.5em 0.4em 1em 0.4em;
   padding: 0.6em;
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     height: 185px;
   }
 `;

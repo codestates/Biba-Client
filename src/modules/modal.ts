@@ -58,7 +58,7 @@ export const setBottomModal = (
 export const modalReducer = (
   state = modalInit,
   action: ModalStateAction,
-): BottomModalState => {
+): ModalState => {
   switch (action.type) {
     case SET_MODAL:
       return {

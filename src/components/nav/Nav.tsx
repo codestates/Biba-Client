@@ -38,7 +38,7 @@ export const Nav = ({
   searchbarDisplay,
   handleClickIcon,
   handleSearch,
-  menuDisplay,
+  sideMenuDisplay,
   handleClickHiddenMenu,
   bottomModalDisplay,
   handleBottomModal,
@@ -54,28 +54,8 @@ export const Nav = ({
             onClick={handleClickLogo}
           />
         </LogoWrap>
-        <ModalMask
-          className='modalMask'
-          onClick={() => {
-            handleClickHiddenMenu(false);
-            handleBottomModal(ContentType.Empty, false);
-          }}
-          style={
-            menuDisplay || bottomModalDisplay
-              ? {
-                  opacity: 1,
-                  visibility: 'visible',
-                  transition: 'visibility 0.8s linear, opacity 0.8s linear',
-                }
-              : {
-                  opacity: 0,
-                  visibility: 'hidden',
-                  transition: 'visibility 0.8s linear, opacity 0.8s linear',
-                }
-          }
-        ></ModalMask>
 
-        <SideNav style={menuDisplay ? { right: '0' } : { right: '-100%' }}>
+        <SideNav style={sideMenuDisplay ? { right: '0' } : { right: '-100%' }}>
           <CloseBtn onClick={() => handleClickHiddenMenu(false)} />
           {isLogin ? (
             <SubNavUserInfo>
@@ -112,31 +92,12 @@ export const Nav = ({
           ) : (
             <LoginContainerWithRouter />
           )}
-          <SubFooter
-            style={menuDisplay ? { bottom: '25px' } : { bottom: '-100%' }}
+          <SideFooter
+            style={sideMenuDisplay ? { bottom: '25px' } : { bottom: '-100%' }}
           >
             <FooterContainerithRouter />
-          </SubFooter>
+          </SideFooter>
         </SideNav>
-
-        <MobileModal
-          style={bottomModalDisplay ? { bottom: '0' } : { bottom: '-100%' }}
-        >
-          <CloseBtn
-            onClick={() => {
-              handleClickHiddenMenu(false);
-              handleBottomModal(ContentType.Empty, false);
-            }}
-          />
-          <LoginContainerWithRouter />
-          <SubFooter
-            style={
-              bottomModalDisplay ? { bottom: '25px' } : { bottom: '-100%' }
-            }
-          >
-            <FooterContainerithRouter />
-          </SubFooter>
-        </MobileModal>
 
         <Wrap className='searchbarWrap'>
           <SearchbarArea className='searchbarArea'>
@@ -214,7 +175,7 @@ export const Nav = ({
             ) : undefined}
           </BtnArea>
 
-          <Hamberger onClick={() => handleClickHiddenMenu(!menuDisplay)} />
+          <Hamberger onClick={() => handleClickHiddenMenu(!sideMenuDisplay)} />
         </Wrap>
       </NavBar>
     </Container>
@@ -270,7 +231,7 @@ const LogoWrap = styled.div`
     min-width: 55px;
     min-height: 55px;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 425px) {
     margin: 0 0.5em 0 0;
     min-width: 45px;
     min-height: 45px;
@@ -477,19 +438,6 @@ const Hamberger = styled(HiOutlineMenuAlt3)`
     color: ${mainYellow};
   }
 `;
-const ModalMask = styled.div`
-  display: none;
-  @media (max-width: 1244px) {
-    display: block;
-    position: fixed;
-    z-index: 8;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-`;
 const CloseBtn = styled(CgClose)`
   display: flex;
   width: 1.6em;
@@ -502,28 +450,6 @@ const CloseBtn = styled(CgClose)`
     cursor: pointer;
     color: #989898;
     text-decoration: none;
-  }
-`;
-
-const MobileModal = styled.div`
-  display: none;
-
-  @media (max-width: 768px) {
-    display: block;
-
-    position: fixed;
-    z-index: 10;
-    overflow-y: hidden;
-    overflow: hidden;
-    left: 0;
-    height: 90vh;
-    width: 100vw;
-
-    border-radius: 24px 24px 0 0;
-
-    background-color: white;
-    box-shadow: -5px 0 1em rgba(0, 0, 0, 0.1);
-    transition: bottom 0.8s ease-in;
   }
 `;
 const SideNav = styled.div`
@@ -624,7 +550,7 @@ const BeerIcon = styled(BiBeer)`
   margin: 0 0.3em 0.1em 0;
   color: ${mainYellowOpac};
 `;
-const SubFooter = styled.div`
+const SideFooter = styled.div`
   display: none;
   position: fixed;
   right: 25px;
