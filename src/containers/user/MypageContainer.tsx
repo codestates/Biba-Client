@@ -18,7 +18,7 @@ import {
   ChangeBtn,
 } from '../../components/user/Mypage';
 import { nicknameCheck, passwordCheck, passwordMatch } from './userUtils';
-
+import { compareBeerInit } from '../../modules/beerdetail';
 export interface IProfile extends HTMLDivElement {
   src: string | ArrayBuffer | null;
 }
@@ -39,6 +39,7 @@ export interface MypageProps {
   handlePostProfile(): void;
   handleChangeProfile(): void;
   handleDeleteProfile(): void;
+  handleClickLogout(): void;
 }
 
 const MypageContainer = (props: RouterProps): JSX.Element => {
@@ -272,6 +273,37 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       });
     // store에서 profile 이미지 삭제
   };
+  const handleClickLogout = (): void => {
+    axios
+      .get(`https://beer4.xyz/users/logout`, { withCredentials: true })
+      .then((res) => {
+        // console.log(res);
+        if (res.status === 200) {
+          dispatch({ type: 'DELETE_PROFILE' });
+          dispatch({ type: 'SET_LOGOUTSTATE' });
+          dispatch({
+            type: 'SET_INFOSTATUS',
+            tabBasic: true,
+            tabStory: false,
+            tabMore: false,
+          });
+          dispatch({
+            type: 'SET_INFODISPLAY',
+            disBasic: true,
+            disStory: true,
+            disMore: true,
+          });
+          dispatch({ type: 'SET_SELECTEDBEER', id: -1 });
+          dispatch({
+            type: 'SET_COMPAREBEER',
+            compareBeer: compareBeerInit.compareBeer,
+          });
+          dispatch({ type: 'TODAY_BEER' });
+          dispatch({ type: 'SET_NAVDISPLAY', display: true });
+          props.history.push('/');
+        }
+      });
+  };
 
   const inputList: string[][] = [
     ['currentPassword', '현재 비밀번호', '사용 중인 비밀번호를 입력하세요.'],
@@ -328,6 +360,7 @@ const MypageContainer = (props: RouterProps): JSX.Element => {
       handlePostProfile={handlePostProfile}
       handleChangeProfile={handleChangeProfile}
       handleDeleteProfile={handleDeleteProfile}
+      handleClickLogout={handleClickLogout}
     />
   );
 };

@@ -293,8 +293,10 @@ const Outer = styled.div`
   @media (max-width: 425px) {
     width: 86vw;
     padding: 0;
-    margin: 0 0 2.5em 0;
-    // border: 1px solid lime;
+    margin: 0 0 4.5em 0;
+  }
+  @media (max-width: 375px) {
+    margin: 0 0 4em 0;
   }
 `;
 
@@ -821,7 +823,7 @@ const List = styled.div`
   width: 100%;
   margin: 0 0 1.2em 0;
   @media (max-width: 425px) {
-    margin: 0 0.5em 1.2em 0.5em;
+    margin: 0 0 1em 0;
     overflow-x: scroll;
   }
 `;
@@ -853,6 +855,7 @@ const MBtnWrap = styled.div`
   @media (max-width: 425px) {
     display: flex;
     align-self: flex-end;
+    margin: 0 0.4em 0 0;
   }
 `;
 const MWriteComment = styled.button`
@@ -875,7 +878,7 @@ const MWriteComment = styled.button`
     cursor: pointer;
     pointer-events: auto;
     display: flex;
-    margin: 0 0.5em 0 0;
+    margin: 0 0 0 0.5em;
     padding: 0.4em 0.6em 0.35em 0.6em;
   }
 `;
@@ -922,7 +925,7 @@ const MCommentAll = styled.button`
     cursor: pointer;
     pointer-events: auto;
     display: flex;
-    margin: 0 0.5em 0 0;
+    margin: 0 0 0 0.5em;
     padding: 0.4em 0.6em 0.35em 0.6em;
   }
 `;

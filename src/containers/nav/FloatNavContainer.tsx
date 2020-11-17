@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { DefaultProps } from '../page/HomeContainer';
+import axios from 'axios';
 
+import { DefaultProps } from '../page/HomeContainer';
 import { RootState } from '../../modules';
 import FloatNav from '../../components/nav/FloatNav';
 import {
@@ -14,6 +15,7 @@ import {
   MOBILE_SEARCH,
   MOBILE_MYBEER,
 } from '../../modules/changepage';
+import { SearchPageInfo } from '../../modules/mobileSearch';
 
 import { ContentType } from '../../modules/modal';
 import MobileMyBeer from '../../components/mobile/MobileMyBeer';
@@ -46,6 +48,18 @@ export const FloatNavContainer = (props: DefaultProps): JSX.Element => {
     dispatch({ type: TODAY_BEER });
   };
   const handleClickMobileSearch = (): void => {
+    axios
+      .get<SearchPageInfo>(`https://beer4.xyz/mobile/search`)
+      .then((res) => {
+        const { recommend, tags } = res.data;
+        dispatch({
+          type: 'SET_SEARCHPAGEINFO',
+          recommend: recommend,
+          tags: tags,
+        });
+      })
+      .catch((err) => console.log(err));
+
     dispatch({ type: 'PRESS_SEARCHBTN', activate: false });
     dispatch({ type: MOBILE_SEARCH });
   };

@@ -107,6 +107,7 @@ const Main = styled.div`
   }
   @media (max-width: 425px) {
     margin: 0;
+    min-height: 0;
   }
 `;
 
@@ -154,6 +155,9 @@ const Full = styled.div`
   grid-area: Main;
   grid-column: 1 / 3;
   min-height: 640px;
+  @media (max-width: 425px) {
+    min-height: 0;
+  }
 `;
 
 const Half = styled.div`
@@ -202,6 +206,9 @@ const Half = styled.div`
     grid-area: Main;
     grid-column: 1 / 3;
     margin: 0 0 4em 0;
+  }
+  @media (max-width: 425px) {
+    margin: 0;
   }
 `;
 

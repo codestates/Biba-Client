@@ -1,13 +1,24 @@
 const PRESS_SEARCHBTN = 'PRESS_SEARCHBTN' as const;
+const SET_SEARCHPAGEINFO = 'SET_SEARCHPAGEINFO' as const;
 
 interface SearchBtnState {
   activate: boolean;
+}
+interface RecommendBeer {
+  id: number;
+  beer_name: string;
+  beer_img: string;
+  rate: number;
+}
+export interface SearchPageInfo {
+  recommend: RecommendBeer[];
+  tags: string[];
 }
 
 interface SearchBtnStateAction extends SearchBtnState {
   type: typeof PRESS_SEARCHBTN;
 }
-const SearchBtnInit: SearchBtnState = {
+const searchBtnInit: SearchBtnState = {
   activate: false,
 };
 export const pressSearchBtn = (activate: boolean): SearchBtnStateAction => ({
@@ -15,8 +26,24 @@ export const pressSearchBtn = (activate: boolean): SearchBtnStateAction => ({
   activate,
 });
 
+interface SearchPageInfoAction extends SearchPageInfo {
+  type: typeof SET_SEARCHPAGEINFO;
+}
+const searchPageInfoInit: SearchPageInfo = {
+  recommend: [],
+  tags: [],
+};
+export const setSearchPageInfo = ({
+  recommend,
+  tags,
+}: SearchPageInfo): SearchPageInfoAction => ({
+  type: SET_SEARCHPAGEINFO,
+  recommend,
+  tags,
+});
+
 export const searchBtnReducer = (
-  state = SearchBtnInit,
+  state = searchBtnInit,
   action: SearchBtnStateAction,
 ): SearchBtnState => {
   switch (action.type) {
@@ -24,6 +51,22 @@ export const searchBtnReducer = (
       return {
         ...state,
         activate: action.activate,
+      };
+
+    default:
+      return state;
+  }
+};
+export const searchPageInfoReducer = (
+  state = searchPageInfoInit,
+  action: SearchPageInfoAction,
+): SearchPageInfo => {
+  switch (action.type) {
+    case SET_SEARCHPAGEINFO:
+      return {
+        ...state,
+        recommend: action.recommend,
+        tags: action.tags,
       };
 
     default:

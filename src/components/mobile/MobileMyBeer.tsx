@@ -103,6 +103,12 @@ function MobileMyBeer({
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  @media (max-width: 425px) {
+    margin: 0 0 3.5em 0;
+  }
+  @media (max-width: 375px) {
+    margin: 0 0 3em 0;
+  }
 `;
 
 const MyBeerNav = styled.div`

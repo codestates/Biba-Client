@@ -38,7 +38,7 @@ function SearchBeer({
       <Bottom>
         {stars.map((index) => (
           // <FStar key={stars[index]} />
-          <FStar key={`star${stars.indexOf(index)}`} />
+          <SBFStar key={`star${stars.indexOf(index)}`} />
         ))}
       </Bottom>
     </BeerImage>
@@ -70,6 +70,10 @@ const BeerImage = styled.div`
   }
   color: ${mainGrey};
   font-weight: 500;
+  @media (max-width: 425px) {
+    justify-content: flex-start;
+    padding: 0;
+  }
 `;
 
 const ImageWrap = styled.div`
@@ -82,31 +86,51 @@ const ImageWrap = styled.div`
     transform: translateY(-30px);
   }
   padding: 0.6em 0 0 0;
+  @media (max-width: 425px) {
+    height: 70%;
+    padding: 0;
+  }
 `;
 const Image = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85%;
+  height: 100%;
   padding: 0.3em 0 0.1em 0;
+  @media (max-width: 425px) {
+    height: 100%;
+  }
 `;
 const Middle = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
+  @media (max-width: 425px) {
+    margin: 0.5em 0 0 0;
+  }
 `;
-const Bottom = styled.div`
-  height: 1.2em;
-  min-height: 1.2em;
-  margin: 0.2em 0 0 0;
-`;
-
 const Text = styled.div`
   overflow-wrap: break-word;
   word-wrap: break-word;
   z-index: -1;
   font-size: 14px;
+`;
+
+const Bottom = styled.div`
+  height: 1.2em;
+  min-height: 1.2em;
+  margin: 0.2em 0 0 0;
+  @media (max-width: 425px) {
+    min-height: 1.5em;
+    margin: 0.05em 0 0.1em 0;
+  }
+`;
+const SBFStar = styled(FStar)`
+  @media (max-width: 425px) {
+    width: 1.2em;
+    height: 1.2em;
+  }
 `;
 
 export default SearchBeer;

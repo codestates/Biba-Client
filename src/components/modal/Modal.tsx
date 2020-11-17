@@ -139,17 +139,17 @@ export const Modal = ({
                   myReviews.length !== 0) ||
                 (mobileContentType === ContentType.MyPageAllReviews &&
                   myReviews.length !== 0)
-                ? // 리뷰 전체보기(내용 있음), 내가 쓴 리뷰(내용 있음)
+                ? // 리뷰 전체보기, 내가 쓴 리뷰
                   { bottom: '0' }
                 : mobileContentType === ContentType.Login
                 ? // 로그인
-                  { bottom: '-10%' }
+                  { bottom: '-5%' }
                 : mobileContentType === ContentType.MyBeerList
                 ? // 맥주 비교하기
                   { bottom: '-33%' }
                 : mobileContentType === ContentType.RequestBeer
                 ? // 맥주 요청
-                  { bottom: '-40%' }
+                  { bottom: '-44%' }
                 : mobileContentType === ContentType.ChangeNickname
                 ? // 닉네임 변경
                   { bottom: '-60%' }
@@ -168,7 +168,6 @@ export const Modal = ({
             <MCloseBtn className='mobileCloseBtn' onClick={closeModal} />
           </TitleWrap>
           <MContentArea className='mobileContentArea'>
-            {console.log(allReviews.length)}
             {(mobileContentType === ContentType.DetailAllReviews &&
               allReviews.length !== 0) ||
             (mobileContentType === ContentType.MyPageAllReviews &&

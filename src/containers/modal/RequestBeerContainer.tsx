@@ -22,6 +22,7 @@ export interface MDRequestBeerProps {
   handleRadioSelect1(): void;
   handleRadioSelect2(): void;
   handleClickSubmitRequest(): void;
+  bottomModal: boolean;
 }
 
 export const MDRequestBeerContainer = ({
@@ -45,6 +46,9 @@ export const MDRequestBeerContainer = ({
 
   const { request1, request2 } = useSelector(
     (state: RootState) => state.beerRequest,
+  );
+  const bottomModal = useSelector(
+    (state: RootState) => state.bottomModal.display,
   );
   const dispatch = useDispatch();
 
@@ -71,6 +75,7 @@ export const MDRequestBeerContainer = ({
             if (res.status === 201) {
               setInputValues({ ...inputValues, beerName: '', beerRequest: '' });
               alert(`맥주 추천이 완료되었습니다. Biba!`);
+              handleRadioSelect1();
               return closeModal();
             } else {
               alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
@@ -92,6 +97,7 @@ export const MDRequestBeerContainer = ({
             if (res.status === 201) {
               setInputValues({ ...inputValues, beerName: '', beerRequest: '' });
               alert(`맥주 요청이 완료되었습니다. Biba!`);
+              handleRadioSelect1();
               return closeModal();
             } else {
               alert(`오류가 발생했습니다. 잠시 후에 다시 시도해주세요.`);
@@ -119,6 +125,7 @@ export const MDRequestBeerContainer = ({
       handleRadioSelect1={handleRadioSelect1}
       handleRadioSelect2={handleRadioSelect2}
       handleClickSubmitRequest={handleClickSubmitRequest}
+      bottomModal={bottomModal}
     />
   );
 };

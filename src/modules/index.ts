@@ -40,7 +40,7 @@ import {
   infoStatusReducer,
   starStatusReducer,
 } from './beerdetail';
-import { searchBtnReducer } from './mobileSearch';
+import { searchBtnReducer, searchPageInfoReducer } from './mobileSearch';
 
 export const rootReducer = combineReducers({
   login: loginReducer,
@@ -76,6 +76,7 @@ export const rootReducer = combineReducers({
   infoStatus: infoStatusReducer,
   starStatus: starStatusReducer,
   mobileSearchBtn: searchBtnReducer,
+  searchPageInfo: searchPageInfoReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

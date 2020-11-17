@@ -37,17 +37,21 @@ export const Mypage = ({
   handlePostProfile,
   handleChangeProfile,
   handleDeleteProfile,
+  handleClickLogout,
 }: MypageProps): JSX.Element => {
   const dispatch = useDispatch();
 
   return (
     <Container>
       <MypageArea className='mypageArea'>
-        <Title className='mypageTitle'>
-          Biba!
-          <br />
-          My page
-        </Title>
+        <MTitleWrap>
+          <Title className='mypageTitle'>
+            Biba!
+            <br />
+            My page
+          </Title>
+          <MLogout onClick={handleClickLogout}>로그아웃</MLogout>
+        </MTitleWrap>
         <DetailArea className='detailArea'>
           <ProfileArea className='profileArea' key='pfDetail0'>
             <ProfileTitle className='profileTitle'>
@@ -199,7 +203,31 @@ const MypageArea = styled.div`
     margin: 0 0 2em 0.2em;
   }
 `;
-
+const MTitleWrap = styled.div`
+  display: none;
+  @media (max-width: 425px) {
+    display: flex;
+    width: 50vw;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+`;
+const MLogout = styled.button`
+  display: none;
+  @media (max-width: 425px) {
+    display: flex;
+    border: 0;
+    border-radius: 8px;
+    margin: 0 0 1.5em 1em;
+    padding: 0.525em 0.75em 0.425em 0.6em;
+    background-color: rgba(184, 184, 184);
+    color: white;
+    font-size: 0.85em;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
 const Title = styled.div`
   grid-row: 1 / 2;
   grid-column: 2 / 3;
@@ -216,6 +244,7 @@ const Title = styled.div`
   color: ${mainYellow};
   @media (max-width: 425px) {
     font-size: 1.5em;
+    margin: 0 0 0.8em 0;
   }
 `;
 
@@ -458,7 +487,6 @@ export const ChangeBtn = styled.button`
     outline: none;
   }
   @media (max-width: 425px) {
-<<<<<<< HEAD
     display: none;
     pointer-events: none;
   }
@@ -500,9 +528,6 @@ export const MChangeBtn = styled.button`
     margin: 0 0 0 0.4em;
     padding: 0;
     text-decoration: underline;
-=======
-    padding: 0.625em 0.7em 0.525em 0.7em;
->>>>>>> 0ce87360dfe584080f08b38a50a5b5812c562bde
   }
 `;
 // const ChangeNNBtn = styled(ChangeBtn)`

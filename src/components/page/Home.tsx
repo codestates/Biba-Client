@@ -102,6 +102,11 @@ const Container = styled.div`
   max-width: 1050px;
   min-height: 650px;
   margin: 1em auto;
+  @media (max-width: 425px) {
+    min-height: 0;
+    margin: 0;
+    width: 84vw;
+  }
 `;
 
 export default Home;

@@ -45,7 +45,7 @@ export const Signup = ({
             </CheckAgeText>
           </CheckAgeArea>
           <SignupBtn className='signupBtn' onClick={handleClickSignup}>
-            Biba! 회원가입
+            회원가입
           </SignupBtn>
         </InputArea>
         {/* <BtnArea className='btnArea'>
@@ -84,7 +84,19 @@ const SignupArea = styled.div`
   margin: 1.5em 0 4em 0;
   padding: 1.8em 0 2.3em 0;
 
-  // background-color: ${mainYellowOpac};
+  @media (max-width: 768px) {
+    border: 0px;
+  }
+  @media (max-width: 425px) {
+    width: auto;
+    margin: 0;
+  }
+  @media (max-width: 375px) {
+    height: 440px;
+  }
+  @media (max-width: 375px) {
+    height: 400px;
+  }
 `;
 
 const Title = styled.div`
@@ -95,6 +107,9 @@ const Title = styled.div`
   margin: 0.5em 0 0.5em 0;
   font-size: 1.7em;
   font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 1.5em;
+  }
 `;
 
 const InputArea = styled.div`
@@ -125,6 +140,10 @@ export const Input = styled.input`
   background-color: ${lightGrey2};
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    width: 14em;
+    margin: 0 0.6em 0.5em 0.6em;
   }
 `;
 
@@ -178,6 +197,10 @@ const CheckAgeText = styled.p`
 
   margin: 0.1em 0 0 0.35em;
   padding: 0;
+  @media (max-width: 768px) {
+    font-size: 0.95em;
+    margin: 0.05em 0 0 0.35em;
+  }
 `;
 
 const SignupBtn = styled.button`
@@ -205,6 +228,13 @@ const SignupBtn = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    background-color: white;
+    border: 2px solid ${mainYellowOpac};
+    padding: 0.55em 0.6em 0.5em 0.6em;
+    color: ${mainYellow};
+    font-weight: 500;
   }
 `;
 

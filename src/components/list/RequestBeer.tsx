@@ -25,9 +25,11 @@ function RequsetBeer(): JSX.Element {
   };
 
   const BeerRequestModal = (): void => {
+    dispatch({ type: 'SET_REQUESTTYPE', request1: true, request2: false });
     handleModal(ContentType.RequestBeer, true);
   };
   const BeerRequestBottomModal = (): void => {
+    dispatch({ type: 'SET_REQUESTTYPE', request1: true, request2: false });
     handleBottomModal(ContentType.RequestBeer, true);
   };
   return (
@@ -47,12 +49,20 @@ const Box = styled.div`
   text-align: center;
   color: ${mainGrey};
   font-weight: 500;
+  @media (max-width: 425px) {
+    width: 76vw;
+    margin: 3em 0 0 0;
+  }
 `;
 
 const H3 = styled.div`
   font-size: 2em;
   margin-top: 1em;
   margin-bottom: 1em;
+  @media (max-width: 425px) {
+    font-size: 1.2em;
+    margin-top: 2.1em;
+  }
 `;
 
 const Button = styled.button`
@@ -94,6 +104,7 @@ const MButton = styled.button`
     cursor: pointer;
     pointer-events: auto;
     display: inline-block;
+    font-size: 1em;
   }
 `;
 

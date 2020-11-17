@@ -21,6 +21,7 @@ export const MDRequestBeer = ({
   handleRadioSelect1,
   handleRadioSelect2,
   handleClickSubmitRequest,
+  bottomModal,
 }: MDRequestBeerProps): JSX.Element => {
   return (
     <RequestBeerModal className='requestBeerModal'>
@@ -68,7 +69,7 @@ export const MDRequestBeer = ({
           defaultValue={inputValues.beerRequest}
           onChange={handleRequestOnChange}
           maxLength={100}
-          rows={4}
+          rows={bottomModal ? 5 : 4}
           placeholder='내용을 작성해주세요.'
           wrap='hard'
         />
@@ -89,6 +90,7 @@ const RequestBeerModal = styled.div`
 
 const RadioArea = styled.div`
   display: flex;
+  margin: 0 0 0.1em 0;
 `;
 
 const RadioWrap = styled.div`
@@ -97,6 +99,9 @@ const RadioWrap = styled.div`
   justify-content: flex-start;
 
   margin: 0 1em 0 0;
+  @media (max-width: 425px) {
+    margin: 0.2em 1em 0 0;
+  }
 `;
 
 const RequestTitleArea = styled.div`
@@ -129,6 +134,9 @@ const RequestTitle = styled.input`
   &:focus {
     outline: none;
   }
+  @media (max-width: 425px) {
+    border: 2px solid ${mainYellowOpac};
+  }
 `;
 
 const RequestBodyArea = styled.div`
@@ -149,6 +157,9 @@ const RequestBody = styled.textarea`
 
   &:focus {
     outline: none;
+  }
+  @media (max-width: 425px) {
+    border: 2px solid ${mainYellowOpac};
   }
 `;
 
@@ -172,5 +183,9 @@ const RequestSubmitBtn = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 425px) {
+    margin: 0.55em 0.9em 0 0;
+    padding: 0.45em 0.7em 0.4em 0.7em;
   }
 `;

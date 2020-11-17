@@ -16,6 +16,7 @@ export interface MobileSearchProps extends DefaultProps, DetailProps {
   };
   handleOnChange(e: React.ChangeEvent<HTMLInputElement>): void;
   handleSearch(): void;
+  handleClickTag(e: React.MouseEvent<HTMLElement>): void;
   pressEnter(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
@@ -59,6 +60,19 @@ export const MobileSearchContainer = ({
         });
     }
   };
+  const handleClickTag = (e: React.MouseEvent<HTMLElement>): void => {
+    axios
+      .post(`https://beer4.xyz/search/tag`, {
+        tag: e.currentTarget.id,
+      })
+      .then((res) => {
+        const beers = res.data;
+        dispatch({ type: 'SET_BEERS', beers: beers });
+        dispatch({ type: 'SEARCH_BEER' });
+        dispatch({ type: 'SET_NAVDISPLAY', display: true });
+        history.push('/');
+      });
+  };
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleSearch();
@@ -71,6 +85,7 @@ export const MobileSearchContainer = ({
       inputQuery={inputQuery}
       handleOnChange={handleOnChange}
       handleSearch={handleSearch}
+      handleClickTag={handleClickTag}
       pressEnter={pressEnter}
       setBeerDetail={setBeerDetail}
       setAllReviews={setAllReviews}
