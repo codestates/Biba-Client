@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true
+    "noEmit": false
   },
   "exclude": [
     "node_modules",
