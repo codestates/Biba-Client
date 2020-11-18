@@ -19,7 +19,7 @@ export const Footer = ({ count }: FooterProps): JSX.Element => {
       <FooterArea>
         <About>
           <AboutText>
-            Biba <Beer /> What are you drinking?
+            Biba v1.0 <Beer /> What are you drinking?
           </AboutText>
           <AboutText>
             - Jimyeong Song, Yeon Yoon, Jiwook Kim, Jaehyun Min
@@ -88,14 +88,14 @@ const AboutText2 = styled(AboutText)`
 const Beer = styled(BiBeer)`
   width: 1.3em;
   height: 1.3em;
-  margin: 0em 0.2em 0 0;
+  margin: -0.3em 0.2em 0 0;
   color: ${mainYellowOpac};
 `;
 
 const CopyRight = styled(FaCopyright)`
   width: 1.3em;
   height: 1.3em;
-  margin: 0em 0.2em 0 0;
+  margin: -0.3em 0.2em 0 0;
   color: ${mainYellowOpac};
 `;
 

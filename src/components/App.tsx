@@ -12,6 +12,7 @@ import { SignupContainerWithRouter } from '../containers/user/SignupContainer';
 import { MypageContainerWithRouter } from '../containers/user/MypageContainer';
 import { FooterContainerithRouter } from '../containers/nav/FooterContainer';
 import { BeerDetailWithRouter } from '../containers/page/BeerDetailContainer';
+import ScrollToTop from '../components/page/ScrollToTop';
 
 import { AppProps } from '../containers/AppContainer';
 
@@ -24,45 +25,47 @@ export const App = ({
 }: AppProps): JSX.Element => {
   return (
     <Container className='appContainer'>
-      <Nav>
-        <Route component={NavContainerWithRouter} />
-        <Route component={ModalContainerWithRouter} />
-      </Nav>
-      <Main className='main'>
-        <Side>
-          <Route component={BeerListNavContainerWithRouter} />
-        </Side>
-        <Full>
-          <Switch>
-            <Route path='/login' component={LoginContainerWithRouter} />
-            <Route path='/signup' component={SignupContainerWithRouter} />
-            {isLogin ? (
-              <Route path='/mypage' component={MypageContainerWithRouter} />
-            ) : whiteList.indexOf(location.pathname) === -1 ? (
+      <ScrollToTop>
+        <Nav>
+          <Route component={NavContainerWithRouter} />
+          <Route component={ModalContainerWithRouter} />
+        </Nav>
+        <Main className='main'>
+          <Side>
+            <Route component={BeerListNavContainerWithRouter} />
+          </Side>
+          <Full>
+            <Switch>
+              <Route path='/login' component={LoginContainerWithRouter} />
+              <Route path='/signup' component={SignupContainerWithRouter} />
+              {isLogin ? (
+                <Route path='/mypage' component={MypageContainerWithRouter} />
+              ) : whiteList.indexOf(location.pathname) === -1 ? (
+                <Redirect to='/' path='*' />
+              ) : (
+                false
+              )}
+            </Switch>
+          </Full>
+          <Half>
+            <Switch>
+              <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
+              <Route exact path='/' component={HomeContainerWithRouter} />
+            </Switch>
+            {whiteList.indexOf(location.pathname) === -1 ? (
               <Redirect to='/' path='*' />
             ) : (
               false
             )}
-          </Switch>
-        </Full>
-        <Half>
-          <Switch>
-            <Route path='/beer/:beerId' component={BeerDetailWithRouter} />
-            <Route exact path='/' component={HomeContainerWithRouter} />
-          </Switch>
-          {whiteList.indexOf(location.pathname) === -1 ? (
-            <Redirect to='/' path='*' />
-          ) : (
-            false
-          )}
-        </Half>
-        <Float>
-          <Route component={FloatNavContainerWithRouter} />
-        </Float>
-      </Main>
-      <Footer>
-        <Route component={FooterContainerithRouter} />
-      </Footer>
+          </Half>
+          <Float>
+            <Route component={FloatNavContainerWithRouter} />
+          </Float>
+        </Main>
+        <Footer>
+          <Route component={FooterContainerithRouter} />
+        </Footer>
+      </ScrollToTop>
     </Container>
   );
 };
