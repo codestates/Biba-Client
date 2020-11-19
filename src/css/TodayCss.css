@@ -3,10 +3,11 @@
     display: -ms-flexbox; /* Not needed if autoprefixing */
     display: flex;
     width: auto;
+    
   }
   .my-masonry-grid_column {
     background-clip: padding-box;
-    padding-left: 100px;
+    padding-left: 20px;
   }
    
   @media (max-width: 768px) {
