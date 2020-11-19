@@ -14,7 +14,7 @@ function LoadingAnimation(): JSX.Element {
     },
   };
 
-  const { promiseInProgress } = usePromiseTracker({ delay: 500 });
+  const { promiseInProgress } = usePromiseTracker({ delay: 1000 });
 
   return (
     <>
