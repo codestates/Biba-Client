@@ -86,16 +86,16 @@ const AboutText2 = styled(AboutText)`
   }
 `;
 const Beer = styled(BiBeer)`
-  width: 1.3em;
-  height: 1.3em;
-  margin: -0.3em 0.2em 0 0;
+  width: 1.2em;
+  height: 1.2em;
+  margin: 0 0.2em 0 0;
   color: ${mainYellowOpac};
 `;
 
 const CopyRight = styled(FaCopyright)`
   width: 1.3em;
   height: 1.3em;
-  margin: -0.3em 0.2em 0 0;
+  margin: -0.05em 0.2em 0 0;
   color: ${mainYellowOpac};
 `;
 

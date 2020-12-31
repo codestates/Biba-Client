@@ -156,7 +156,7 @@ export const Modal = ({
                 : // 리뷰 쓰기, 리뷰 전체보기(내용 없음), 내가 쓴 리뷰(내용 없음)
                   { bottom: '-50%' }
               : // hidden
-                { bottom: '-100%' }
+                { bottom: '-120%' }
           }
         >
           {/* <MobileCloseBtn
@@ -188,8 +188,8 @@ export const Modal = ({
               mobileContentType === ContentType.Login
                 ? bottomModalDisplay
                   ? { bottom: '25px' }
-                  : { bottom: '-100%' }
-                : { bottom: '-100%' }
+                  : { bottom: '-120%' }
+                : { bottom: '-120%' }
             }
           >
             <FooterContainerithRouter />
@@ -241,19 +241,6 @@ const MobileModal = styled.div`
     transition: bottom 0.8s ease-in;
   }
 `;
-const SubFooter = styled.div`
-  display: none;
-  position: fixed;
-  right: 25px;
-  transition: bottom 0.8s ease-in;
-  @media (max-width: 768px) {
-    display: block;
-  }
-  @media (max-width: 360px) {
-    bottom: 20px;
-  }
-`;
-
 const Container = styled.div`
   display: none;
   position: fixed;
@@ -432,4 +419,17 @@ const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+`;
+
+const SubFooter = styled.div`
+  display: none;
+  position: fixed;
+  right: 25px;
+  transition: bottom 0.8s ease-in;
+  @media (max-width: 768px) {
+    display: block;
+  }
+  @media (max-width: 360px) {
+    bottom: 20px;
+  }
 `;

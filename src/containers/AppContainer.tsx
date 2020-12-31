@@ -36,7 +36,7 @@ export const AppContainer = ({
     handleConfirmAge(false);
   };
 
-  const whiteList = ['/login', '/signup', '/beer', '/msearch'];
+  const whiteList = ['/login', '/signup', '/beer'];
   const fullList = ['/login', '/signup', '/mypage'];
   useEffect(() => {
     fullList.indexOf(location.pathname) !== -1

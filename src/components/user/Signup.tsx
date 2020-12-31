@@ -167,6 +167,10 @@ export const CheckBtn = styled.button`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;
 
 const CheckAgeArea = styled.div`
