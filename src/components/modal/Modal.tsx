@@ -156,7 +156,7 @@ export const Modal = ({
                 : // 리뷰 쓰기, 리뷰 전체보기(내용 없음), 내가 쓴 리뷰(내용 없음)
                   { bottom: '-50%' }
               : // hidden
-                { bottom: '-120%' }
+                { bottom: '-150%' }
           }
         >
           {/* <MobileCloseBtn
@@ -188,8 +188,8 @@ export const Modal = ({
               mobileContentType === ContentType.Login
                 ? bottomModalDisplay
                   ? { bottom: '25px' }
-                  : { bottom: '-120%' }
-                : { bottom: '-120%' }
+                  : { bottom: '-150%' }
+                : { bottom: '-150%' }
             }
           >
             <FooterContainerithRouter />

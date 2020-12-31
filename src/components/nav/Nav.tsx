@@ -93,7 +93,7 @@ export const Nav = ({
             <LoginContainerWithRouter />
           )}
           <SideFooter
-            style={sideMenuDisplay ? { bottom: '25px' } : { bottom: '-120%' }}
+            style={sideMenuDisplay ? { bottom: '25px' } : { bottom: '-150%' }}
           >
             <FooterContainerithRouter />
           </SideFooter>

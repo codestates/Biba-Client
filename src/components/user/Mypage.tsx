@@ -375,6 +375,9 @@ const Btn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
   @media (max-width: 425px) {
     font-size: 13px;
   }
@@ -486,6 +489,9 @@ export const ChangeBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
   @media (max-width: 425px) {
     display: none;
     pointer-events: none;
@@ -564,6 +570,9 @@ const MyReviewsBtn = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    display: flex;
   }
   @media (max-width: 425px) {
     display: none;

@@ -594,6 +594,9 @@ const CompareBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
   @media (max-width: 425px) {
     pointer-events: none;
     display: none;
@@ -845,6 +848,9 @@ const WriteComment = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
   @media (max-width: 425px) {
     display: none;
     pointer-events: none;
@@ -899,6 +905,9 @@ const CommentAll = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    display: flex;
   }
   @media (max-width: 425px) {
     display: none;

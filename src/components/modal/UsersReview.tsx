@@ -147,6 +147,9 @@ const UserReviewBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;
 
 const DeleteStarBtn = styled.button`
@@ -173,6 +176,9 @@ const DeleteStarBtn = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    display: flex;
   }
   @media (max-width: 425px) {
     margin: 0 0 0.08em 0.4em;
