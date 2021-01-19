@@ -118,6 +118,10 @@ const InputArea = styled.div`
   flex-direction: column;
 
   margin: 0.8em 0 0.5em 0;
+
+  @media (max-width: 768px) {
+    width: auto;
+  }
 `;
 
 export const InputWithCheck = styled.div`
@@ -166,6 +170,10 @@ export const CheckBtn = styled.button`
   }
   &:focus {
     outline: none;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
   }
 `;
 
@@ -230,6 +238,7 @@ const SignupBtn = styled.button`
     outline: none;
   }
   @media (max-width: 768px) {
+    display: flex;
     background-color: white;
     border: 2px solid ${mainYellowOpac};
     padding: 0.55em 0.6em 0.5em 0.6em;

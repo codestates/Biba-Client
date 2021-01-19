@@ -193,6 +193,7 @@ const SmallBtn = styled.button`
     outline: none;
   }
   @media (max-width: 768px) {
+    display: flex;
     width: 6em;
     margin: 0.4em 0 0 0;
   }

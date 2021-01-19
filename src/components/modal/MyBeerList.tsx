@@ -193,4 +193,7 @@ const CompareBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;

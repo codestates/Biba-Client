@@ -180,6 +180,9 @@ const MobileSearchBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;
 const SearchInfoTitle = styled.div`
   margin: 0 0 0.4em;

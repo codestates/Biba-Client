@@ -84,6 +84,9 @@ const NNCheckBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;
 
 const NicknameSubmitBtn = styled.button`
@@ -115,6 +118,9 @@ const NicknameSubmitBtn = styled.button`
   }
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    display: flex;
   }
   @media (max-width: 425px) {
     font-size: 0.9em;

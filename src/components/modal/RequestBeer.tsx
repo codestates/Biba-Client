@@ -184,6 +184,9 @@ const RequestSubmitBtn = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
   @media (max-width: 425px) {
     margin: 0.55em 0.9em 0 0;
     padding: 0.45em 0.7em 0.4em 0.7em;

@@ -79,6 +79,9 @@ const Button = styled.button`
   &:focus {
     outline: none;
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
   @media (max-width: 425px) {
     display: none;
     pointer-events: none;
