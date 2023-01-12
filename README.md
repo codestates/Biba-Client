@@ -18,6 +18,5 @@ What are you drinking? Biba!
 맛있게 마셨던 맥주, 마셔보고 싶은 맥주 모두 보관함에 저장하고 기록할 수 있습니다. 
 
 여러분의 경험을 공유해 주세요.
-<br/><br/>
 
-### [BIBA! 바로가기](https://biba.website)
+
